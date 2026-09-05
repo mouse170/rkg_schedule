@@ -143,7 +143,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     dataConnecting: '班表即時同步中...',
     googleSheetLink: 'Google 試算表班表',
     officialRosterLink: 'Rakuten Girls 官方名冊',
-    officialIgLink: '球團官方 IG',
+    officialIgLink: 'Rakuten Girls 官方IG',
 
     igBannerTitle: 'Rakuten Girls 官方 Instagram 目錄',
     igBannerBadge: '官方社群名錄 • 隨時追蹤女孩動態',
