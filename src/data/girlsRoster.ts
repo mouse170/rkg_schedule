@@ -139,11 +139,11 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "instagramHandle": "lyud_fly"
   },
   {
-    "id": "471",
+    "id": "435",
     "number": "22",
     "name": "河智媛",
-    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_22_0_pY3x.jpg",
-    "localPhoto": "photos/girl_471.jpg",
+    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_22_0_h07s.jpg",
+    "localPhoto": "photos/girl_435.jpg",
     "instagram": "https://www.instagram.com/hajiwon.22/",
     "instagramHandle": "hajiwon.22"
   },
@@ -220,11 +220,11 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "instagramHandle": "daiying0"
   },
   {
-    "id": "427",
+    "id": "436",
     "number": "67",
     "name": "崔荷潾",
-    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_67_0_B2b7.jpg",
-    "localPhoto": "photos/girl_427.jpg",
+    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_67_0_SZR6.jpg",
+    "localPhoto": "photos/girl_436.jpg",
     "instagram": "https://www.instagram.com/chihchih67.__/",
     "instagramHandle": "chihchih67.__"
   },
