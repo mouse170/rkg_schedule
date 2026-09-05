@@ -380,8 +380,17 @@ const MainApp: React.FC = () => {
 
     const activeSections = sectionMeta.filter(s => s.girls.length > 0);
 
-    // 區域排序依據：最愛數量多的在最上面，數量相同時東優先
+    // 區域排序依據：
+    // 1. 有上班之應援區域 (EAST, WEST, SPECIAL) 永遠優先於未排班／休假 (OFF_DUTY)
+    // 2. 最愛數量多的在最上面
+    // 3. 最愛數量相同時東區優先 (EAST > WEST > SPECIAL)
     activeSections.sort((a, b) => {
+      const aIsOff = a.key === 'OFF_DUTY';
+      const bIsOff = b.key === 'OFF_DUTY';
+      if (aIsOff !== bIsOff) {
+        return aIsOff ? 1 : -1;
+      }
+
       if (b.favCount !== a.favCount) {
         return b.favCount - a.favCount;
       }
