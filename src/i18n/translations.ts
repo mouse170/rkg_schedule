@@ -138,8 +138,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copyAccount: '帳號',
     copied: '已複製',
     koreanCheerleader: '韓援',
-    copyKoreanName: '複製韓文名',
-    copiedKoreanName: '已複製韓文名',
+    copyKoreanName: '韓文名',
+    copiedKoreanName: '已複製',
 
     areaAll: '全部女孩',
     areaEast: '一壘東區',
@@ -233,8 +233,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copyAccount: 'ID',
     copied: 'コピー済',
     koreanCheerleader: '韓国応援',
-    copyKoreanName: 'ハングル名をコピー',
-    copiedKoreanName: 'ハングル名をコピーしました',
+    copyKoreanName: 'ハングル名',
+    copiedKoreanName: 'コピー済',
 
     areaAll: '全メンバー',
     areaEast: '1塁側 東エリア',
@@ -328,8 +328,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copyAccount: 'ID',
     copied: '복사됨',
     koreanCheerleader: '한국 치어',
-    copyKoreanName: '한글 이름 복사',
-    copiedKoreanName: '한글 이름이 복사되었습니다',
+    copyKoreanName: '한글 이름',
+    copiedKoreanName: '복사됨',
 
     areaAll: '전체 멤버',
     areaEast: '1루 동구역',

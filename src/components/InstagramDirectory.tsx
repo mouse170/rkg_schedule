@@ -312,7 +312,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                 {girl.koreanName && (
                   <button
                     onClick={(e) => handleCopy(e, girl.koreanName!, `korean_${girl.id}`)}
-                    className={`w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-[11px] font-bold border transition active:scale-95 ${
+                    className={`w-full inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-bold border transition active:scale-95 whitespace-nowrap overflow-hidden ${
                       isCopiedKorean
                         ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
                         : 'bg-gradient-to-r from-purple-50 to-pink-50/60 dark:from-oled-surface dark:to-oled-elevated hover:from-purple-100 hover:to-pink-100 dark:hover:from-oled-elevated dark:hover:to-pink-950/40 text-purple-800 dark:text-purple-300 border-purple-200/80 dark:border-purple-800/60 shadow-sm'
@@ -321,13 +321,13 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                   >
                     {isCopiedKorean ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>{t.copiedKoreanName}（{girl.koreanName}）</span>
+                        <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                        <span className="truncate">{t.copiedKoreanName} {girl.koreanName}</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                        <span>{t.copyKoreanName}（{girl.koreanName}）</span>
+                        <Copy className="w-3 h-3 text-purple-600 dark:text-purple-400 shrink-0" />
+                        <span className="truncate">{t.copyKoreanName} {girl.koreanName}</span>
                       </>
                     )}
                   </button>

@@ -140,7 +140,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 transition active:scale-95 shadow-sm"
                       title={`${t.copyKoreanName}：${girl.koreanName}`}
                     >
-                      <span>{t.copyKoreanName}（{girl.koreanName}）</span>
+                      <span>{t.copyKoreanName} {girl.koreanName}</span>
                     </button>
                   )}
                 </div>
