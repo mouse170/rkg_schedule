@@ -53,14 +53,14 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
 
       {/* Drawer Container */}
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between border-l border-pink-100 overflow-y-auto">
+        <div className="w-screen max-w-md bg-white dark:bg-oled-bg shadow-2xl flex flex-col justify-between border-l border-pink-100 dark:border-oled-border overflow-y-auto">
           {/* 1. Header with Close and Favorite */}
-          <div className="sticky top-0 z-20 glass-nav px-5 py-3.5 border-b border-pink-100 flex items-center justify-between">
+          <div className="sticky top-0 z-20 glass-nav px-5 py-3.5 border-b border-pink-100 dark:border-oled-border flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rkg-crimson text-white">
                 #{girl.number}
               </span>
-              <h2 className="text-lg font-extrabold text-gray-900">
+              <h2 className="text-lg font-extrabold text-gray-900 dark:text-white">
                 {girl.name} 個人出勤檔案
               </h2>
             </div>
@@ -68,14 +68,14 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onToggleFavorite(girl.name)}
-                className="p-2 rounded-full hover:bg-pink-50 transition text-gray-400 hover:text-rose-500"
+                className="p-2 rounded-full hover:bg-pink-50 dark:hover:bg-oled-surface transition text-gray-400 dark:text-gray-500 hover:text-rose-500"
                 title={isFavorite ? '取消最愛' : '加入最愛'}
               >
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
               </button>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-oled-surface text-gray-500 dark:text-gray-400 transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -85,8 +85,8 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
           {/* 2. Main Content */}
           <div className="p-6 space-y-6 flex-1">
             {/* Profile Hero Card */}
-            <div className="flex items-center gap-4 bg-gradient-to-r from-pink-50/80 via-rose-50/50 to-pink-50/80 p-4 rounded-3xl border border-pink-100/90 shadow-sm">
-              <div className="w-24 h-28 rounded-2xl overflow-hidden shadow-card-soft bg-white border border-pink-100 flex-shrink-0">
+            <div className="flex items-center gap-4 bg-gradient-to-r from-pink-50/80 via-rose-50/50 to-pink-50/80 dark:from-oled-card dark:via-oled-surface dark:to-oled-card p-4 rounded-3xl border border-pink-100/90 dark:border-oled-border shadow-sm">
+              <div className="w-24 h-28 rounded-2xl overflow-hidden shadow-card-soft dark:shadow-card-oled bg-white dark:bg-oled-surface border border-pink-100 dark:border-oled-border flex-shrink-0">
                 <img
                   src={girl.localPhoto}
                   alt={girl.name}
@@ -98,14 +98,14 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-xl font-black text-gray-900">{girl.name}</h3>
+                  <h3 className="text-xl font-black text-gray-900 dark:text-white">{girl.name}</h3>
                   {girl.role && (
                     <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-500 text-white">
                       {girl.role}
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 mb-3">樂天桃猿棒球隊專屬啦啦隊</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">樂天桃猿棒球隊專屬啦啦隊</p>
 
                 {girl.instagram ? (
                   <a
@@ -126,11 +126,11 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
             {/* Schedule Section */}
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-rkg-pink-deep" />
+                <h4 className="text-sm font-extrabold text-gray-900 dark:text-white flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-rkg-pink-deep dark:text-rkg-pink" />
                   <span>排班紀錄與應援站位</span>
                 </h4>
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-100 text-rkg-pink-deep">
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300">
                   本期出勤 {duties.length} 場
                 </span>
               </div>
@@ -140,16 +140,16 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                   {duties.map((duty, idx) => (
                     <div
                       key={idx}
-                      className="bg-white rounded-2xl p-4 border border-pink-100 shadow-card-soft"
+                      className="bg-white dark:bg-oled-card rounded-2xl p-4 border border-pink-100 dark:border-oled-border shadow-card-soft dark:shadow-card-oled"
                     >
-                      <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-gray-100">
+                      <div className="flex items-center justify-between mb-2.5 pb-2 border-b border-gray-100 dark:border-oled-border">
                         <div className="flex items-center gap-2">
                           <span className="w-2.5 h-2.5 rounded-full bg-rkg-pink" />
-                          <span className="font-extrabold text-gray-900 text-sm">
+                          <span className="font-extrabold text-gray-900 dark:text-white text-sm">
                             {duty.date} 主場賽事
                           </span>
                         </div>
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-pink-50 text-rkg-crimson border border-pink-200">
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-pink-50 dark:bg-pink-950/60 text-rkg-crimson dark:text-pink-300 border border-pink-200 dark:border-pink-800/60">
                           主要站位：{duty.primaryArea}
                         </span>
                       </div>
@@ -158,26 +158,26 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       <div className="grid grid-cols-3 gap-2 text-center">
                         {duty.innings.map((inn, iIdx) => {
                           const loc = inn.location;
-                          let style = 'bg-purple-50/70 border-purple-200 text-purple-900';
+                          let style = 'bg-purple-50/70 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60 text-purple-900 dark:text-purple-300';
                           if (loc === '東R' || loc.includes('東R')) {
-                            style = 'bg-cyan-50 border-cyan-300 text-cyan-950 font-black';
+                            style = 'bg-cyan-50 dark:bg-cyan-950/60 border-cyan-300 dark:border-cyan-800 text-cyan-950 dark:text-cyan-300 font-black';
                           } else if (loc === '西R' || loc.includes('西R')) {
-                            style = 'bg-teal-50 border-teal-300 text-teal-950 font-black';
+                            style = 'bg-teal-50 dark:bg-teal-950/60 border-teal-300 dark:border-teal-800 text-teal-950 dark:text-teal-300 font-black';
                           } else if (loc.includes('大樂')) {
-                            style = 'bg-amber-50 border-amber-300 text-amber-950 font-black';
+                            style = 'bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-300 font-black';
                           } else if (loc.includes('專區')) {
-                            style = 'bg-fuchsia-50 border-fuchsia-300 text-fuchsia-950 font-black';
+                            style = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 border-fuchsia-300 dark:border-fuchsia-800 text-fuchsia-950 dark:text-fuchsia-300 font-black';
                           } else if (loc.includes('東')) {
-                            style = 'bg-blue-50/70 border-blue-200 text-blue-900';
+                            style = 'bg-blue-50/70 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800/60 text-blue-900 dark:text-blue-300';
                           } else if (loc.includes('西')) {
-                            style = 'bg-emerald-50/70 border-emerald-200 text-emerald-900';
+                            style = 'bg-emerald-50/70 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-300';
                           }
                           return (
                             <div
                               key={iIdx}
                               className={`p-2 rounded-xl border ${style}`}
                             >
-                              <div className="text-[11px] text-gray-500 font-medium">
+                              <div className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">
                                 {inn.period}
                               </div>
                               <div className="font-black text-sm mt-0.5 flex items-center justify-center gap-0.5">
@@ -192,16 +192,16 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                   ))}
                 </div>
               ) : (
-                <div className="p-8 text-center bg-pink-50/50 rounded-2xl border border-dashed border-pink-200">
-                  <p className="text-sm font-semibold text-gray-600">目前此月份試算表尚未排班</p>
+                <div className="p-8 text-center bg-pink-50/50 dark:bg-oled-surface rounded-2xl border border-dashed border-pink-200 dark:border-oled-border">
+                  <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">目前此月份試算表尚未排班</p>
                   <p className="text-xs text-gray-400 mt-1">若球團更新排班，點擊上方「同步最新班表」即可取得</p>
                 </div>
               )}
             </div>
 
             {/* Stadium Tip Box */}
-            <div className="bg-gradient-to-br from-gray-50 to-pink-50/40 p-4 rounded-2xl border border-pink-100/80 text-xs text-gray-600 space-y-1.5">
-              <div className="font-bold text-gray-800 flex items-center gap-1">
+            <div className="bg-gradient-to-br from-gray-50 to-pink-50/40 dark:from-oled-surface dark:to-oled-card p-4 rounded-2xl border border-pink-100/80 dark:border-oled-border text-xs text-gray-600 dark:text-gray-300 space-y-1.5">
+              <div className="font-bold text-gray-800 dark:text-white flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-rkg-pink" />
                 <span>球迷應援小知識</span>
               </div>
@@ -212,7 +212,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
           </div>
 
           {/* 3. Footer Action */}
-          <div className="sticky bottom-0 bg-white border-t border-pink-100 p-4">
+          <div className="sticky bottom-0 bg-white dark:bg-oled-surface border-t border-pink-100 dark:border-oled-border p-4">
             <button
               onClick={handleShare}
               className="w-full py-2.5 rounded-xl font-bold text-sm bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson hover:from-rkg-pink hover:to-rkg-pink-deep text-white shadow-pink-glow flex items-center justify-center gap-2 transition active:scale-95"
