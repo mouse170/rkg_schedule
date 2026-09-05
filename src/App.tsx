@@ -1,18 +1,26 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, lazy, Suspense } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
 import { FilterBar, AreaFilterType } from './components/FilterBar';
 import { GirlCard } from './components/GirlCard';
-import { GirlDetailDrawer } from './components/GirlDetailDrawer';
-import { StadiumGuideModal } from './components/StadiumGuideModal';
-import { InstagramDirectory } from './components/InstagramDirectory';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Language } from './i18n/translations';
-import { Heart, Sparkles, AlertCircle, Globe } from 'lucide-react';
+import { Heart, Sparkles, AlertCircle, Globe, Loader2 } from 'lucide-react';
+
+// Code Splitting via React.lazy for Non-initial View Components
+const InstagramDirectory = lazy(() =>
+  import('./components/InstagramDirectory').then(module => ({ default: module.InstagramDirectory }))
+);
+const GirlDetailDrawer = lazy(() =>
+  import('./components/GirlDetailDrawer').then(module => ({ default: module.GirlDetailDrawer }))
+);
+const StadiumGuideModal = lazy(() =>
+  import('./components/StadiumGuideModal').then(module => ({ default: module.StadiumGuideModal }))
+);
 
 const MainApp: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -497,7 +505,7 @@ const MainApp: React.FC = () => {
                       {/* Cards Grid or Section Empty Notice */}
                       {sec.girls.length > 0 ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
-                          {sec.girls.map((girl) => {
+                          {sec.girls.map((girl, idx) => {
                             const duties = schedule.girlsScheduleMap[girl.name] || [];
                             const isFav = favorites.includes(girl.name);
                             return (
@@ -509,6 +517,7 @@ const MainApp: React.FC = () => {
                                 isFavorite={isFav}
                                 onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
                                 onClick={(g) => setSelectedGirl(g)}
+                                priority={idx < 8}
                               />
                             );
                           })}
@@ -546,12 +555,21 @@ const MainApp: React.FC = () => {
               )}
             </>
           ) : (
-            /* Instagram Directory View */
-            <InstagramDirectory
-              onSelectGirl={(g) => setSelectedGirl(g)}
-              favorites={favorites}
-              onToggleFavorite={toggleFavorite}
-            />
+            /* Instagram Directory View with Suspense */
+            <Suspense
+              fallback={
+                <div className="flex flex-col items-center justify-center py-20 text-gray-400 dark:text-gray-500 gap-3">
+                  <Loader2 className="w-8 h-8 animate-spin text-rkg-pink-deep dark:text-pink-400" />
+                  <span className="text-xs font-medium">載入中...</span>
+                </div>
+              }
+            >
+              <InstagramDirectory
+                onSelectGirl={(g) => setSelectedGirl(g)}
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+              />
+            </Suspense>
           )}
         </main>
 
@@ -582,9 +600,9 @@ const MainApp: React.FC = () => {
             </div>
 
             {/* Links */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-gray-600 dark:text-gray-300">
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
               <a
-                href="https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/edit?usp=sharing"
+                href="https://docs.google.com/spreadsheets/d/1w6j9q349x-5bK2K2v1e_0U6T20vB_o_8-pY5c7rQ4oM/htmlview"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-rkg-pink-deep dark:hover:text-pink-400 transition"
@@ -623,22 +641,28 @@ const MainApp: React.FC = () => {
           </div>
         </footer>
 
-        {/* 5. Detail Drawer */}
-        {selectedGirl && (
-          <GirlDetailDrawer
-            girl={selectedGirl}
-            duties={schedule.girlsScheduleMap[selectedGirl.name] || []}
-            isFavorite={favorites.includes(selectedGirl.name)}
-            onToggleFavorite={(name) => toggleFavorite(null, name)}
-            onClose={() => setSelectedGirl(null)}
-          />
-        )}
+        {/* 5. Detail Drawer with Suspense */}
+        <Suspense fallback={null}>
+          {selectedGirl && (
+            <GirlDetailDrawer
+              girl={selectedGirl}
+              duties={schedule.girlsScheduleMap[selectedGirl.name] || []}
+              isFavorite={favorites.includes(selectedGirl.name)}
+              onToggleFavorite={(name) => toggleFavorite(null, name)}
+              onClose={() => setSelectedGirl(null)}
+            />
+          )}
+        </Suspense>
 
-        {/* 6. Stadium Guide Modal */}
-        <StadiumGuideModal
-          isOpen={isStadiumGuideOpen}
-          onClose={() => setIsStadiumGuideOpen(false)}
-        />
+        {/* 6. Stadium Guide Modal with Suspense */}
+        <Suspense fallback={null}>
+          {isStadiumGuideOpen && (
+            <StadiumGuideModal
+              isOpen={isStadiumGuideOpen}
+              onClose={() => setIsStadiumGuideOpen(false)}
+            />
+          )}
+        </Suspense>
       </div>
   );
 };

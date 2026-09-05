@@ -25,6 +25,19 @@
   animation: heartPulse 0.3s ease-in-out;
 }
 
+/* GPU-accelerated Nationality Badge subtle shimmer & hover */
+@keyframes badgeGradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-badge-flow {
+  background-size: 200% 200%;
+  animation: badgeGradientFlow 4s ease infinite;
+  will-change: background-position;
+}
+
 /* Glassmorphism */
 .glass-nav {
   background: rgba(255, 255, 255, 0.88);

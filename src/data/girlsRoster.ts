@@ -7,7 +7,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "琳妲",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_00_0_KWuR.jpg",
-    "localPhoto": "photos/girl_94.jpg",
+    "localPhoto": "./photos/girl_94.webp",
     "instagram": "https://www.instagram.com/linda831212/",
     "instagramHandle": "linda831212"
   },
@@ -17,7 +17,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "穆又甯",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_3_0_5aXk.jpg",
-    "localPhoto": "photos/girl_465.jpg",
+    "localPhoto": "./photos/girl_465.webp",
     "instagram": "https://www.instagram.com/chloe_320/",
     "instagramHandle": "chloe_320"
   },
@@ -27,7 +27,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "宋宋",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_6_0_uSXK.jpg",
-    "localPhoto": "photos/girl_253.jpg",
+    "localPhoto": "./photos/girl_253.webp",
     "instagram": "https://www.instagram.com/song_.x/",
     "instagramHandle": "song_.x"
   },
@@ -37,7 +37,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "筠熹",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_7_0_sDFm.jpg",
-    "localPhoto": "photos/girl_99.jpg",
+    "localPhoto": "./photos/girl_99.webp",
     "instagram": "https://www.instagram.com/yuhi_0927/",
     "instagramHandle": "yuhi_0927"
   },
@@ -47,7 +47,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "貝佳頤",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_8_0_Gsr4.jpg",
-    "localPhoto": "photos/girl_423.jpg",
+    "localPhoto": "./photos/girl_423.webp",
     "instagram": "https://www.instagram.com/llxyblair/",
     "instagramHandle": "llxyblair"
   },
@@ -58,7 +58,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nationality": "JP",
     "nativeName": "Kaho",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_9_0_8vIz.jpg",
-    "localPhoto": "photos/girl_428.jpg",
+    "localPhoto": "./photos/girl_428.webp",
     "instagram": "https://www.instagram.com/kaho_jia1_fan1/",
     "instagramHandle": "kaho_jia1_fan1"
   },
@@ -68,7 +68,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "卉妮",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_10_0_9v9x.jpg",
-    "localPhoto": "photos/girl_83.jpg",
+    "localPhoto": "./photos/girl_83.webp",
     "instagram": "https://www.instagram.com/ninidaniel/",
     "instagramHandle": "ninidaniel"
   },
@@ -78,7 +78,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "穎樂",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_12_0_soBn.jpg",
-    "localPhoto": "photos/girl_422.jpg",
+    "localPhoto": "./photos/girl_422.webp",
     "instagram": "https://www.instagram.com/ninalin1231/",
     "instagramHandle": "ninalin1231"
   },
@@ -88,7 +88,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "孟潔",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_15_0_CJox.jpg",
-    "localPhoto": "photos/girl_91.jpg",
+    "localPhoto": "./photos/girl_91.webp",
     "instagram": "https://www.instagram.com/mengj215/",
     "instagramHandle": "mengj215"
   },
@@ -98,7 +98,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "笑笑",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_17_0_Bao5.jpg",
-    "localPhoto": "photos/girl_430.jpg",
+    "localPhoto": "./photos/girl_430.webp",
     "instagram": "https://www.instagram.com/yuyu__liu/",
     "instagramHandle": "yuyu__liu"
   },
@@ -108,7 +108,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "熊霓",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_18_0_Y5uJ.jpg",
-    "localPhoto": "photos/girl_200.jpg",
+    "localPhoto": "./photos/girl_200.webp",
     "instagram": "https://www.instagram.com/michelle02_14/",
     "instagramHandle": "michelle02_14"
   },
@@ -118,7 +118,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "Kira",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_19_0_z4V7.jpg",
-    "localPhoto": "photos/girl_339.jpg",
+    "localPhoto": "./photos/girl_339.webp",
     "instagram": "https://www.instagram.com/iamkira_yt/",
     "instagramHandle": "iamkira_yt"
   },
@@ -128,7 +128,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "Mika",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_20_0_Jt5O.jpg",
-    "localPhoto": "photos/girl_385.jpg",
+    "localPhoto": "./photos/girl_385.webp",
     "instagram": "https://www.instagram.com/lyud_fly/",
     "instagramHandle": "lyud_fly"
   },
@@ -140,7 +140,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nativeName": "하지원",
     "koreanName": "하지원",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_22_0_h07s.jpg",
-    "localPhoto": "photos/girl_435.jpg",
+    "localPhoto": "./photos/girl_435.webp",
     "instagram": "https://www.instagram.com/hajiwon.22/",
     "instagramHandle": "hajiwon.22"
   },
@@ -152,7 +152,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nativeName": "염세빈",
     "koreanName": "염세빈",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_24_0_Jz87.jpg",
-    "localPhoto": "photos/girl_432.jpg",
+    "localPhoto": "./photos/girl_432.webp",
     "instagram": "https://www.instagram.com/beena._s2/",
     "instagramHandle": "beena._s2"
   },
@@ -164,7 +164,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nativeName": "우수한",
     "koreanName": "우수한",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_25_0_K8iX.jpg",
-    "localPhoto": "photos/girl_433.jpg",
+    "localPhoto": "./photos/girl_433.webp",
     "instagram": "https://www.instagram.com/s2uhan/",
     "instagramHandle": "s2uhan"
   },
@@ -176,7 +176,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nativeName": "고가빈",
     "koreanName": "고가빈",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_26_0_q5kP.jpg",
-    "localPhoto": "photos/girl_466.jpg",
+    "localPhoto": "./photos/girl_466.webp",
     "instagram": "https://www.instagram.com/0_gwlny/",
     "instagramHandle": "0_gwlny"
   },
@@ -186,7 +186,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "若潼",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_27_0_kZ92.jpg",
-    "localPhoto": "photos/girl_84.jpg",
+    "localPhoto": "./photos/girl_84.webp",
     "instagram": "https://www.instagram.com/tanyalee_0927/",
     "instagramHandle": "tanyalee_0927"
   },
@@ -196,7 +196,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "言梓璇",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_33_0_qO74.jpg",
-    "localPhoto": "photos/girl_464.jpg",
+    "localPhoto": "./photos/girl_464.webp",
     "instagram": "https://www.instagram.com/nikkiyzxx/",
     "instagramHandle": "nikkiyzxx"
   },
@@ -208,7 +208,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "nativeName": "김가은",
     "koreanName": "김가은",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_34_0_k6kX.jpg",
-    "localPhoto": "photos/girl_467.jpg",
+    "localPhoto": "./photos/girl_467.webp",
     "instagram": "https://www.instagram.com/rkouee/",
     "instagramHandle": "rkouee"
   },
@@ -218,7 +218,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "禹菡",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_36_0_C453.jpg",
-    "localPhoto": "photos/girl_331.jpg",
+    "localPhoto": "./photos/girl_331.webp",
     "instagram": "https://www.instagram.com/0707yuhan/",
     "instagramHandle": "0707yuhan"
   },
@@ -228,7 +228,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "岱縈",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_66_0_l4G8.jpg",
-    "localPhoto": "photos/girl_244.jpg",
+    "localPhoto": "./photos/girl_244.webp",
     "instagram": "https://www.instagram.com/daiying0/",
     "instagramHandle": "daiying0"
   },
@@ -238,7 +238,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "崔荷潾",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_67_0_SZR6.jpg",
-    "localPhoto": "photos/girl_436.jpg",
+    "localPhoto": "./photos/girl_436.webp",
     "instagram": "https://www.instagram.com/chihchih67.__/",
     "instagramHandle": "chihchih67.__"
   },
@@ -248,7 +248,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "曲曲",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_77_0_m4S2.jpg",
-    "localPhoto": "photos/girl_256.jpg",
+    "localPhoto": "./photos/girl_256.webp",
     "instagram": "https://www.instagram.com/chuyi_77/",
     "instagramHandle": "chuyi_77"
   },
@@ -258,7 +258,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "彭彭",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_87_0_M6O9.jpg",
-    "localPhoto": "photos/girl_431.jpg",
+    "localPhoto": "./photos/girl_431.webp",
     "instagram": "https://www.instagram.com/ujou.chi/",
     "instagramHandle": "ujou.chi"
   },
@@ -268,7 +268,7 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "沈珈妤",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_88_0_Qk2a.jpg",
-    "localPhoto": "photos/girl_425.jpg",
+    "localPhoto": "./photos/girl_425.webp",
     "instagram": "https://www.instagram.com/kaii_0421/",
     "instagramHandle": "kaii_0421"
   },
@@ -278,9 +278,65 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "name": "溫妮",
     "nationality": "TW",
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_97_0_h6fO.jpg",
-    "localPhoto": "photos/girl_335.jpg",
+    "localPhoto": "./photos/girl_335.webp",
     "instagram": "https://www.instagram.com/weni_1107/",
     "instagramHandle": "weni_1107"
+  }
+,
+  {
+    "id": "kr_22",
+    "number": "22",
+    "name": "河智媛",
+    "nationality": "KR",
+    "nativeName": "하지원",
+    "photo": "https://www.instagram.com/jiwon_ha22/",
+    "localPhoto": "./photos/girl_kr_hajiwon.webp",
+    "instagram": "https://www.instagram.com/jiwon_ha22/",
+    "instagramHandle": "jiwon_ha22"
+  },
+  {
+    "id": "kr_24",
+    "number": "24",
+    "name": "廉世彬",
+    "nationality": "KR",
+    "nativeName": "염세빈",
+    "photo": "https://www.instagram.com/sebin_0609/",
+    "localPhoto": "./photos/girl_kr_sebin.webp",
+    "instagram": "https://www.instagram.com/sebin_0609/",
+    "instagramHandle": "sebin_0609"
+  },
+  {
+    "id": "kr_25",
+    "number": "25",
+    "name": "禹洙漢",
+    "nationality": "KR",
+    "nativeName": "우수한",
+    "photo": "https://www.instagram.com/woosuhan/",
+    "localPhoto": "./photos/girl_kr_woosuhan.webp",
+    "instagram": "https://www.instagram.com/woosuhan/",
+    "instagramHandle": "woosuhan"
+  },
+  {
+    "id": "kr_gabin",
+    "number": "96",
+    "name": "高佳彬",
+    "nationality": "KR",
+    "nativeName": "고가빈",
+    "photo": "https://www.instagram.com/gabin_0/",
+    "localPhoto": "./photos/girl_kr_gabin.webp",
+    "instagram": "https://www.instagram.com/gabin_0/",
+    "instagramHandle": "gabin_0"
+  },
+  {
+    "id": "kr_gaeun",
+    "number": "98",
+    "name": "金佳垠",
+    "nationality": "KR",
+    "nativeName": "김가은",
+    "photo": "https://www.instagram.com/gaeun_0/",
+    "localPhoto": "./photos/girl_kr_gaeun.webp",
+    "instagram": "https://www.instagram.com/gaeun_0/",
+    "instagramHandle": "gaeun_0"
   }
 ];
 
@@ -290,6 +346,13 @@ export function findGirlByName(name: string): GirlProfile | undefined {
   // exact match
   let found = OFFICIAL_GIRLS.find(g => g.name === trimmed);
   if (found) return found;
+
+  // Korean name aliases
+  if (trimmed === '하지원') return OFFICIAL_GIRLS.find(g => g.name === '河智媛');
+  if (trimmed === '염세빈' || trimmed === '염세彬') return OFFICIAL_GIRLS.find(g => g.name === '廉世彬');
+  if (trimmed === '우수한') return OFFICIAL_GIRLS.find(g => g.name === '禹洙漢');
+  if (trimmed === '고가빈') return OFFICIAL_GIRLS.find(g => g.name === '高佳彬');
+  if (trimmed === '김가은') return OFFICIAL_GIRLS.find(g => g.name === '金佳垠');
 
   // alias handling
   if (trimmed === '珈妤') {

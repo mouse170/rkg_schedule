@@ -10,6 +10,7 @@ interface GirlCardProps {
   isFavorite: boolean;
   onToggleFavorite: (e: React.MouseEvent, girlName: string) => void;
   onClick: (girl: GirlProfile) => void;
+  priority?: boolean;
 }
 
 export const GirlCard: React.FC<GirlCardProps> = ({
@@ -18,7 +19,8 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   selectedDate,
   isFavorite,
   onToggleFavorite,
-  onClick
+  onClick,
+  priority = false
 }) => {
   const { t } = useLanguage();
   // Duty on selected date (if a date is chosen)
@@ -54,10 +56,17 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           <img
             src={girl.localPhoto}
             alt={girl.name}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
+            decoding={priority ? 'sync' : 'async'}
             onError={(e) => {
-              // Fallback to official web photo if local file is missing
               const target = e.target as HTMLImageElement;
+              // Fallback 1: Try local JPG if WebP fails
+              if (target.src.endsWith('.webp')) {
+                target.src = target.src.replace('.webp', '.jpg');
+                return;
+              }
+              // Fallback 2: Fallback to official web photo CDN
               if (target.src !== girl.photo) {
                 target.src = girl.photo;
               }

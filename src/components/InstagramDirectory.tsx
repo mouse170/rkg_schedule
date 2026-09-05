@@ -170,13 +170,14 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
 
       {/* 4. Girls IG Vertical Cards Grid (Stitch Idol Bloom Style) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3.5 sm:gap-4">
-        {filteredGirls.map((girl) => {
+        {filteredGirls.map((girl, index) => {
           const isCopiedHandle = copiedKey === `handle_${girl.id}`;
           const isCopiedNative = copiedKey === `native_${girl.id}`;
           const isFav = favorites.includes(girl.name);
           const isKorean = girl.nationality === 'KR';
           const isJapanese = girl.nationality === 'JP';
           const isTaiwan = !girl.nationality || girl.nationality === 'TW';
+          const isPriority = index < 8;
 
           return (
             <div
@@ -205,9 +206,15 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                   <img
                     src={girl.localPhoto}
                     alt={girl.name}
-                    loading="lazy"
+                    loading={isPriority ? 'eager' : 'lazy'}
+                    fetchPriority={isPriority ? 'high' : 'auto'}
+                    decoding={isPriority ? 'sync' : 'async'}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
+                      if (target.src.endsWith('.webp')) {
+                        target.src = target.src.replace('.webp', '.jpg');
+                        return;
+                      }
                       if (target.src !== girl.photo) {
                         target.src = girl.photo;
                       }
@@ -221,23 +228,23 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                     <span>{girl.number}</span>
                   </div>
 
-                  {/* 1. 台籍成員標籤：湛藍/青海漸層 (不同於 IG 粉紫，體現青天白日之清爽湛藍風格) */}
+                  {/* 1. 台籍成員標籤：湛藍/青海漸層 (GPU 輕量微動態) */}
                   {isTaiwan && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeTaiwan}
                     </div>
                   )}
 
-                  {/* 2. 韓籍外援標籤：太極紅藍雙色漸層 (寶石深藍至緋紅赤色，獨立於 IG 粉紫) */}
+                  {/* 2. 韓籍外援標籤：太極紅白藍漸層 (GPU 輕量微動態) */}
                   {isKorean && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-700 to-rose-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-600 to-rose-600 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeKorean}
                     </div>
                   )}
 
-                  {/* 3. 日籍外援標籤：日之丸烈焰赤紅漸層 (朱紅至赤紅寶石，獨立於 IG 粉紫) */}
+                  {/* 3. 日籍外援標籤：日之丸烈焰赤紅漸層 (GPU 輕量微動態) */}
                   {isJapanese && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 to-rose-700 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-red-700 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeJapanese}
                     </div>
                   )}
