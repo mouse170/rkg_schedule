@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Rounded Background Badge -->
+  <rect width="100" height="100" rx="26" fill="url(#rkgGradient)" />
+  <defs>
+    <linearGradient id="rkgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#890022" />
+      <stop offset="100%" stop-color="#FF69B4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Mascot Pure Line Art: Yuan-Qi Monkey (猿氣小子) -->
+  <g stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Left Ear -->
+    <path d="M 28 54 C 20 54 18 43 25 39 C 27 38 29 40 30 43" />
+    <path d="M 24 47 C 22 47 22 43 25 42" stroke-width="3" />
+
+    <!-- Right Ear -->
+    <path d="M 72 54 C 80 54 82 43 75 39 C 73 38 71 40 70 43" />
+    <path d="M 76 47 C 78 47 78 43 75 42" stroke-width="3" />
+
+    <!-- Head Outline / Chin -->
+    <path d="M 30 45 C 30 68 38 77 50 77 C 62 77 70 68 70 45" />
+
+    <!-- Cap Visor / Brim -->
+    <path d="M 26 38 C 36 29 64 29 74 38 C 66 41 34 41 26 38 Z" fill="#FFFFFF" fill-opacity="0.15" />
+
+    <!-- Cap Dome -->
+    <path d="M 32 32 C 36 19 64 19 68 32" />
+    <!-- Cap Top Button -->
+    <circle cx="50" cy="20.5" r="2.5" fill="#FFFFFF" stroke="none" />
+    <!-- Cap Seam Lines -->
+    <path d="M 50 22 L 50 32" stroke-width="3" />
+
+    <!-- Heart-shaped Face Mask Contour -->
+    <path d="M 35 48 C 35 42 42 42 50 47 C 58 42 65 42 65 48 C 65 65 58 70 50 70 C 42 70 35 65 35 48 Z" stroke-width="3.5" />
+
+    <!-- Happy Eyes (Arch) -->
+    <path d="M 40 50 C 42 46 46 46 48 50" stroke-width="4" />
+    <path d="M 52 50 C 54 46 58 46 60 50" stroke-width="4" />
+
+    <!-- Nose Dots -->
+    <ellipse cx="48" cy="55" rx="1" ry="1.2" fill="#FFFFFF" stroke="none" />
+    <ellipse cx="52" cy="55" rx="1" ry="1.2" fill="#FFFFFF" stroke="none" />
+
+    <!-- Cheerful Open Smile -->
+    <path d="M 41 58 C 45 66 55 66 59 58 Z" fill="#FFFFFF" fill-opacity="0.2" stroke-width="3.5" />
+    <!-- Tongue / Inner Smile Curve -->
+    <path d="M 45 62 C 48 65 52 65 55 62" stroke-width="2.5" />
+  </g>
+</svg>

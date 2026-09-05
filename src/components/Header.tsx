@@ -30,8 +30,50 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
         {/* Brand & Title */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-shrink">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-rkg-crimson to-rkg-pink-deep p-0.5 shadow-pink-glow flex items-center justify-center text-white font-black text-xs sm:text-sm tracking-wider flex-shrink-0">
-            RKG
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-rkg-crimson to-rkg-pink-deep p-1 shadow-pink-glow flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform" title="樂天女孩班表 • 猿氣小子">
+            <svg
+              viewBox="0 0 100 100"
+              className="w-full h-full text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {/* Left Ear */}
+              <path d="M 28 54 C 20 54 18 43 25 39 C 27 38 29 40 30 43" />
+              <path d="M 24 47 C 22 47 22 43 25 42" strokeWidth="3" />
+
+              {/* Right Ear */}
+              <path d="M 72 54 C 80 54 82 43 75 39 C 73 38 71 40 70 43" />
+              <path d="M 76 47 C 78 47 78 43 75 42" strokeWidth="3" />
+
+              {/* Head Outline */}
+              <path d="M 30 45 C 30 68 38 77 50 77 C 62 77 70 68 70 45" />
+
+              {/* Cap Visor / Brim */}
+              <path d="M 26 38 C 36 29 64 29 74 38 C 66 41 34 41 26 38 Z" fill="currentColor" fillOpacity="0.2" />
+
+              {/* Cap Dome */}
+              <path d="M 32 32 C 36 19 64 19 68 32" />
+              <circle cx="50" cy="20.5" r="2.5" fill="currentColor" stroke="none" />
+              <path d="M 50 22 L 50 32" strokeWidth="3" />
+
+              {/* Face Mask Outline */}
+              <path d="M 35 48 C 35 42 42 42 50 47 C 58 42 65 42 65 48 C 65 65 58 70 50 70 C 42 70 35 65 35 48 Z" strokeWidth="4" />
+
+              {/* Smiling Eyes */}
+              <path d="M 40 50 C 42 46 46 46 48 50" strokeWidth="4.5" />
+              <path d="M 52 50 C 54 46 58 46 60 50" strokeWidth="4.5" />
+
+              {/* Nose Dots */}
+              <circle cx="48" cy="55" r="1.2" fill="currentColor" stroke="none" />
+              <circle cx="52" cy="55" r="1.2" fill="currentColor" stroke="none" />
+
+              {/* Cheerful Open Smile */}
+              <path d="M 41 58 C 45 66 55 66 59 58 Z" fill="currentColor" fillOpacity="0.25" strokeWidth="4" />
+              <path d="M 45 62 C 48 65 52 65 55 62" strokeWidth="2.5" />
+            </svg>
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-nowrap">
