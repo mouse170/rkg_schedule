@@ -10,7 +10,7 @@ import { StadiumGuideModal } from './components/StadiumGuideModal';
 import { InstagramDirectory } from './components/InstagramDirectory';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
-import { GirlProfile, ScheduleDataset, DailyDuty } from './types/schedule';
+import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Language } from './i18n/translations';
 import { Heart, Sparkles, AlertCircle, Globe } from 'lucide-react';
 
@@ -91,14 +91,7 @@ const MainApp: React.FC = () => {
       );
     }
 
-    // Helper for special weekend zones
-    const isSpecialStation = (d: DailyDuty) => {
-      const specialKeys = ['大樂', '東R', '西R', '專區'];
-      return specialKeys.includes(d.primaryArea) ||
-        d.innings.some(inn => specialKeys.some(k => inn.location.includes(k)));
-    };
-
-    // 2. Area & Duty filter
+    // 2. Period & Duty filter
     if (areaFilter === 'FAVORITES') {
       list = list.filter(g => favorites.includes(g.name));
     } else if (areaFilter === 'ON_DUTY') {
@@ -109,32 +102,35 @@ const MainApp: React.FC = () => {
         }
         return duties.length > 0;
       });
-    } else if (areaFilter === 'EAST') {
+    } else if (areaFilter === 'PERIOD_13') {
+      // 1-3 局有排定站位之女孩
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
-          return d && (d.primaryArea === '東區' || d.innings.some(inn => inn.location.includes('東') && !inn.location.includes('東R')));
+          return d && d.innings.some(inn => inn.period.includes('1-3') && inn.location.trim().length > 0);
         }
-        return duties.some(d => d.primaryArea === '東區' || d.innings.some(inn => inn.location.includes('東') && !inn.location.includes('東R')));
+        return duties.some(d => d.innings.some(inn => inn.period.includes('1-3') && inn.location.trim().length > 0));
       });
-    } else if (areaFilter === 'WEST') {
+    } else if (areaFilter === 'PERIOD_78') {
+      // 7-8 局有排定站位之女孩
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
-          return d && (d.primaryArea === '西區' || d.innings.some(inn => inn.location.includes('西') && !inn.location.includes('西R')));
+          return d && d.innings.some(inn => inn.period.includes('7-8') && inn.location.trim().length > 0);
         }
-        return duties.some(d => d.primaryArea === '西區' || d.innings.some(inn => inn.location.includes('西') && !inn.location.includes('西R')));
+        return duties.some(d => d.innings.some(inn => inn.period.includes('7-8') && inn.location.trim().length > 0));
       });
-    } else if (areaFilter === 'SPECIAL_ZONES') {
+    } else if (areaFilter === 'PERIOD_MID') {
+      // 中場表演有排定之女孩
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
-          return d && isSpecialStation(d);
+          return d && d.innings.some(inn => inn.period.includes('中場') && inn.location.trim().length > 0);
         }
-        return duties.some(isSpecialStation);
+        return duties.some(d => d.innings.some(inn => inn.period.includes('中場') && inn.location.trim().length > 0));
       });
     }
 

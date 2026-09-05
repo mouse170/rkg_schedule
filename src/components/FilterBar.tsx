@@ -2,7 +2,13 @@ import React from 'react';
 import { Search, Calendar, Heart, Compass, X, Sparkles } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
-export type AreaFilterType = 'ALL' | 'ON_DUTY' | 'EAST' | 'WEST' | 'SPECIAL_ZONES' | 'FAVORITES';
+export type AreaFilterType =
+  | 'ALL'
+  | 'ON_DUTY'
+  | 'PERIOD_13'
+  | 'PERIOD_78'
+  | 'PERIOD_MID'
+  | 'FAVORITES';
 
 interface FilterBarProps {
   dates: string[];
@@ -43,20 +49,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${
             selectedDate === ''
               ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow'
-              : 'bg-pink-50/70 dark:bg-oled-surface text-gray-700 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated border border-pink-200/60 dark:border-oled-border'
+              : 'bg-pink-50 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated'
           }`}
         >
-          全部場次總覽
+          {t.areaAll}
         </button>
 
         {dates.map((d) => (
           <button
             key={d}
             onClick={() => onSelectDate(d)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1 ${
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1.5 ${
               selectedDate === d
                 ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow'
-                : 'bg-white dark:bg-oled-surface text-gray-700 dark:text-gray-300 hover:bg-pink-50 dark:hover:bg-oled-elevated border border-pink-200 dark:border-oled-border shadow-sm'
+                : 'bg-pink-50 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated'
             }`}
           >
             <span>{d}</span>
@@ -91,8 +97,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           )}
         </div>
 
-        {/* Quick Filter Pills */}
+        {/* Quick Filter Pills (依時段與局數區分) */}
         <div className="flex flex-wrap items-center gap-1.5">
+          {/* 全部女孩 */}
           <button
             onClick={() => onAreaFilterChange('ALL')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
@@ -104,6 +111,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {t.areaAll} ({totalCount})
           </button>
 
+          {/* 今日有班 */}
           <button
             onClick={() => onAreaFilterChange('ON_DUTY')}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 ${
@@ -115,43 +123,46 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <span>{selectedDate ? `${selectedDate} ${t.areaOnDuty}` : t.areaOnDuty}</span>
           </button>
 
+          {/* 1-3 局站位 */}
           <button
-            onClick={() => onAreaFilterChange('EAST')}
+            onClick={() => onAreaFilterChange('PERIOD_13')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
-              areaFilter === 'EAST'
-                ? 'bg-blue-600 text-white shadow-sm'
+              areaFilter === 'PERIOD_13'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
                 : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800/60'
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>{t.areaEast}</span>
+            <span>{t.filterPeriod13}</span>
           </button>
 
+          {/* 7-8 局站位 */}
           <button
-            onClick={() => onAreaFilterChange('WEST')}
+            onClick={() => onAreaFilterChange('PERIOD_78')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
-              areaFilter === 'WEST'
-                ? 'bg-emerald-600 text-white shadow-sm'
+              areaFilter === 'PERIOD_78'
+                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm'
                 : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60'
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>{t.areaWest}</span>
+            <span>{t.filterPeriod78}</span>
           </button>
 
+          {/* 中場表演 */}
           <button
-            onClick={() => onAreaFilterChange('SPECIAL_ZONES')}
+            onClick={() => onAreaFilterChange('PERIOD_MID')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
-              areaFilter === 'SPECIAL_ZONES'
-                ? 'bg-amber-600 text-white shadow-sm'
+              areaFilter === 'PERIOD_MID'
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm'
                 : 'bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800/60'
             }`}
-            title="包含大樂區、東R舞台、西R舞台、專區等假日特別席位"
           >
             <Sparkles className="w-3 h-3 text-amber-500" />
-            <span>{t.areaSpecial}</span>
+            <span>{t.filterPeriodMid}</span>
           </button>
 
+          {/* 最愛 */}
           <button
             onClick={() => onAreaFilterChange('FAVORITES')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${

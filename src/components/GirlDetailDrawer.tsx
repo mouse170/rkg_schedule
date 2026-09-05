@@ -107,13 +107,18 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       {girl.nativeName || girl.koreanName}
                     </span>
                   )}
+                  {(!girl.nationality || girl.nationality === 'TW') && (
+                    <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-sm">
+                      {t.badgeTaiwan}
+                    </span>
+                  )}
                   {girl.nationality === 'KR' && (
-                    <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-sm">
+                    <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-700 to-rose-600 text-white shadow-sm">
                       {t.badgeKorean}
                     </span>
                   )}
                   {girl.nationality === 'JP' && (
-                    <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-rose-500 to-orange-400 text-white shadow-sm">
+                    <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 to-rose-700 text-white shadow-sm">
                       {t.badgeJapanese}
                     </span>
                   )}

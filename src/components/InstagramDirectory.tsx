@@ -228,6 +228,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
           const isFav = favorites.includes(girl.name);
           const isKorean = girl.nationality === 'KR';
           const isJapanese = girl.nationality === 'JP';
+          const isTaiwan = !girl.nationality || girl.nationality === 'TW';
 
           return (
             <div
@@ -272,23 +273,30 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                     <span>{girl.number}</span>
                   </div>
 
-                  {/* 韓籍外援：僅保留二字標籤「韓援」 */}
+                  {/* 1. 台籍成員標籤：湛藍/青海漸層 (不同於 IG 粉紫，體現青天白日之清爽湛藍風格) */}
+                  {isTaiwan && (
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                      {t.badgeTaiwan}
+                    </div>
+                  )}
+
+                  {/* 2. 韓籍外援標籤：太極紅藍雙色漸層 (寶石深藍至緋紅赤色，獨立於 IG 粉紫) */}
                   {isKorean && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-700 to-rose-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
                       {t.badgeKorean}
                     </div>
                   )}
 
-                  {/* 日籍外援：僅保留二字標籤「日籍」 */}
+                  {/* 3. 日籍外援標籤：日之丸烈焰赤紅漸層 (朱紅至赤紅寶石，獨立於 IG 粉紫) */}
                   {isJapanese && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-500 to-orange-400 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 to-rose-700 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider">
                       {t.badgeJapanese}
                     </div>
                   )}
 
                   {/* 球團職務標籤 (如總監、隊長等) */}
                   {girl.role && (
-                    <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded-md bg-amber-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-black shadow-sm">
+                    <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-amber-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-black shadow-sm">
                       {girl.role}
                     </div>
                   )}

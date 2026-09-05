@@ -52,6 +52,9 @@ export interface Translations {
   areaWest: string;
   areaSpecial: string;
   areaOnDuty: string;
+  filterPeriod13: string;
+  filterPeriod78: string;
+  filterPeriodMid: string;
   searchSchedulePlaceholder: string;
   filterCountSummary: string;
   noMatchTitle: string;
@@ -160,6 +163,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     areaWest: '三壘西區',
     areaSpecial: '假日／專區',
     areaOnDuty: '今日有班',
+    filterPeriod13: '1-3 局站位',
+    filterPeriod78: '7-8 局站位',
+    filterPeriodMid: '中場表演',
     searchSchedulePlaceholder: '搜尋女孩姓名或背號...',
     filterCountSummary: '顯示結果：{count} 位女孩',
     noMatchTitle: '找不到符合條件的女孩',
@@ -262,6 +268,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     areaWest: '3塁側 西エリア',
     areaSpecial: '休日／特別席',
     areaOnDuty: '本日出勤',
+    filterPeriod13: '1-3回の位置',
+    filterPeriod78: '7-8回の位置',
+    filterPeriodMid: 'イニング間',
     searchSchedulePlaceholder: '名前または背番号で検索...',
     filterCountSummary: '表示結果：{count} 名のガールズ',
     noMatchTitle: '該当するメンバーが見つかりません',
@@ -364,6 +373,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     areaWest: '3루 서구역',
     areaSpecial: '주말／특별구역',
     areaOnDuty: '오늘 출근',
+    filterPeriod13: '1-3회 위치',
+    filterPeriod78: '7-8회 위치',
+    filterPeriodMid: '중간 공연',
     searchSchedulePlaceholder: '이름 또는 등번호로 검색...',
     filterCountSummary: '검색 결과: {count}명의 걸스',
     noMatchTitle: '해당 조건에 맞는 멤버가 없습니다',
