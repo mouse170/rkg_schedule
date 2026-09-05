@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, Calendar, Heart, Compass, X, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export type AreaFilterType = 'ALL' | 'ON_DUTY' | 'EAST' | 'WEST' | 'SPECIAL_ZONES' | 'FAVORITES';
 
@@ -26,13 +27,15 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   totalCount,
   favoritesCount
 }) => {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-white/90 dark:bg-oled-card/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-card-soft dark:shadow-card-oled border border-pink-100/80 dark:border-oled-border mb-4 sm:mb-6 transition">
       {/* 1. Date Selector Tabs */}
       <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2.5 sm:pb-3 mb-2.5 sm:mb-3 border-b border-pink-100/60 dark:border-oled-border no-scrollbar">
         <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 dark:text-gray-400 whitespace-nowrap pl-1 pr-2">
           <Calendar className="w-3.5 h-3.5 text-rkg-pink-deep dark:text-rkg-pink" />
-          <span>場次日期：</span>
+          <span>{t.tabSchedule}：</span>
         </div>
 
         <button
@@ -75,7 +78,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="搜尋女孩姓名、背號（例如：筠熹、15、00）..."
+            placeholder={t.searchSchedulePlaceholder}
             className="w-full pl-9 pr-9 py-2 bg-pink-50/40 dark:bg-oled-surface hover:bg-pink-50/80 dark:hover:bg-oled-elevated focus:bg-white dark:focus:bg-oled-surface text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 rounded-xl border border-pink-200/80 dark:border-oled-border focus:border-rkg-pink focus:outline-none focus:ring-2 focus:ring-pink-200 dark:focus:ring-pink-900 transition"
           />
           {searchQuery && (
@@ -98,7 +101,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 : 'bg-gray-100 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-oled-elevated'
             }`}
           >
-            全部 ({totalCount})
+            {t.areaAll} ({totalCount})
           </button>
 
           <button
@@ -109,7 +112,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 : 'bg-pink-50 dark:bg-pink-950/40 text-rkg-pink-deep dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/60 border border-pink-200 dark:border-pink-800/60'
             }`}
           >
-            <span>{selectedDate ? `${selectedDate} 有上班` : '有出勤'}</span>
+            <span>{selectedDate ? `${selectedDate} ${t.areaOnDuty}` : t.areaOnDuty}</span>
           </button>
 
           <button
@@ -121,7 +124,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>東區</span>
+            <span>{t.areaEast}</span>
           </button>
 
           <button
@@ -133,7 +136,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>西區</span>
+            <span>{t.areaWest}</span>
           </button>
 
           <button
@@ -146,7 +149,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             title="包含大樂區、東R舞台、西R舞台、專區等假日特別席位"
           >
             <Sparkles className="w-3 h-3 text-amber-500" />
-            <span>大樂/R舞台/專區</span>
+            <span>{t.areaSpecial}</span>
           </button>
 
           <button
@@ -158,7 +161,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Heart className={`w-3 h-3 ${favoritesCount > 0 ? 'fill-rose-500' : ''}`} />
-            <span>最愛 ({favoritesCount})</span>
+            <span>{t.filterFavorites} ({favoritesCount})</span>
           </button>
         </div>
       </div>

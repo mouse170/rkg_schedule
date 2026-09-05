@@ -2,6 +2,7 @@ import React from 'react';
 import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle, Calendar, Sun, Moon } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   activeTab: 'SCHEDULE' | 'INSTAGRAM';
@@ -23,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenStadiumGuide
 }) => {
   const { resolvedTheme, toggleTheme } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-30 glass-nav border-b border-pink-100/90 dark:border-oled-border shadow-sm transition-colors duration-300">
@@ -78,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="min-w-0">
             <div className="flex items-center gap-1.5 flex-nowrap">
               <h1 className="font-extrabold text-sm sm:text-base md:text-lg text-gray-900 dark:text-white tracking-tight whitespace-nowrap flex items-center gap-1">
-                <span>樂天女孩班表</span>
+                <span>{t.appTitle}</span>
                 <Sparkles className="w-3.5 h-3.5 text-rkg-pink fill-rkg-pink animate-pulse hidden sm:inline" />
               </h1>
               <span className="text-[10px] font-black px-1.5 py-0.2 rounded-full bg-pink-100 dark:bg-pink-950/60 text-rkg-crimson dark:text-rkg-pink border border-pink-200/80 dark:border-pink-800/60 whitespace-nowrap flex-shrink-0">
@@ -86,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({
               </span>
             </div>
             <p className="text-[11px] text-gray-400 dark:text-gray-400 font-medium truncate hidden md:block">
-              Rakuten Girls Live Schedule • 成員 IG 目錄與即時應援席位
+              {t.appSubtitle}
             </p>
           </div>
         </div>
@@ -104,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               <InstagramIcon className="w-3.5 h-3.5" />
-              <span>成員 IG</span>
+              <span>{t.tabInstagram}</span>
             </button>
 
             <button
@@ -116,7 +118,7 @@ export const Header: React.FC<HeaderProps> = ({
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>即時班表</span>
+              <span>{t.tabSchedule}</span>
             </button>
           </div>
 
@@ -124,8 +126,8 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={toggleTheme}
             className="p-1.5 sm:p-2 rounded-xl bg-white dark:bg-oled-surface border border-pink-200 dark:border-oled-border text-gray-600 dark:text-amber-400 hover:bg-pink-50 dark:hover:bg-oled-card transition shadow-sm active:scale-95"
-            title={resolvedTheme === 'dark' ? '切換為淺色模式' : '切換為 OLED 深色模式'}
-            aria-label="切換深淺色主題"
+            title={t.themeToggle}
+            aria-label={t.themeToggle}
           >
             {resolvedTheme === 'dark' ? (
               <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" />
@@ -140,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-oled-surface hover:bg-pink-50 dark:hover:bg-oled-card text-gray-700 dark:text-gray-200 border border-pink-200 dark:border-oled-border shadow-sm transition active:scale-95 whitespace-nowrap"
           >
             <Map className="w-3.5 h-3.5 text-rkg-crimson dark:text-rkg-pink" />
-            <span>球場席位</span>
+            <span>{t.stadiumGuideBtn}</span>
           </button>
 
           {/* Sync Button */}
@@ -152,11 +154,11 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-pink-100 dark:bg-oled-surface text-pink-400 cursor-not-allowed'
                 : 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson hover:from-rkg-pink hover:to-rkg-pink-deep text-white shadow-pink-glow'
             }`}
-            title="從 Google 試算表同步最新排班"
+            title={t.refreshBtn}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">
-              {isLoading ? '同步中...' : '同步最新'}
+              {isLoading ? '...' : t.refreshBtn}
             </span>
           </button>
         </div>

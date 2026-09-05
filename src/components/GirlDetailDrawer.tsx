@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { X, Heart, ExternalLink, Calendar, MapPin, Share2, Check, Sparkles } from 'lucide-react';
+import { X, Heart, ExternalLink, Calendar, MapPin, Share2, Check, Sparkles, Globe } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
+import { useLanguage } from '../context/LanguageContext';
+import { Language } from '../i18n/translations';
 
 interface GirlDetailDrawerProps {
   girl: GirlProfile | null;
@@ -18,6 +20,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
   onClose
 }) => {
   const [copied, setCopied] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   // Close on ESC key
   useEffect(() => {
@@ -32,14 +35,14 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
 
   const handleShare = () => {
     const dutySummary = duties.length > 0
-      ? duties.map(d => `${d.date}: ${d.innings.map(i => `${i.period}${i.location}`).join(', ')}`).join('\n')
-      : '目前暫無排班';
-    const text = `【樂天女孩 Rakuten Girls】#${girl.number} ${girl.name} 上班班表：\n${dutySummary}\n\n查看完整即時班表：${window.location.href}`;
+      ? duties.map(d => `${d.date}: ${d.innings.map(i => `${i.period}(${i.location})`).join(' ')}`).join('\n')
+      : '近期尚無排班紀錄';
+    const shareText = `【Rakuten Girls 樂天女孩班表】\n女孩：#${girl.number} ${girl.name}\n${girl.instagram ? `IG: ${girl.instagram}\n` : ''}\n【近期排班】\n${dutySummary}\n\n掌握更多女孩班表：https://mouse170.github.io/rkg_schedule/`;
 
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(shareText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), 2500);
     }
   };
 
@@ -48,24 +51,24 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity animate-fadeIn"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
       />
 
       {/* Drawer Container */}
-      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white dark:bg-oled-bg shadow-2xl flex flex-col justify-between border-l border-pink-100 dark:border-oled-border overflow-y-auto">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+        <div className="w-screen max-w-md bg-white dark:bg-oled-bg shadow-2xl flex flex-col h-full border-l border-pink-100 dark:border-oled-border">
           {/* 1. Header with Close and Favorite */}
-          <div className="sticky top-0 z-20 glass-nav px-5 py-3.5 border-b border-pink-100 dark:border-oled-border flex items-center justify-between">
+          <div className="p-4 border-b border-pink-100 dark:border-oled-border flex items-center justify-between bg-white dark:bg-oled-surface">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rkg-crimson text-white">
+              <span className="px-2 py-0.5 rounded-full bg-rkg-crimson text-white text-xs font-black shadow-sm">
                 #{girl.number}
               </span>
-              <h2 className="text-lg font-extrabold text-gray-900 dark:text-white">
-                {girl.name} 個人出勤檔案
+              <h2 className="font-extrabold text-base text-gray-900 dark:text-white">
+                {girl.name} {t.profileArchive}
               </h2>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <button
                 onClick={() => onToggleFavorite(girl.name)}
                 className="p-2 rounded-full hover:bg-pink-50 dark:hover:bg-oled-surface transition text-gray-400 dark:text-gray-500 hover:text-rose-500"
@@ -83,7 +86,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
           </div>
 
           {/* 2. Main Content */}
-          <div className="p-6 space-y-6 flex-1">
+          <div className="p-6 space-y-6 flex-1 overflow-y-auto">
             {/* Profile Hero Card */}
             <div className="flex items-center gap-4 bg-gradient-to-r from-pink-50/80 via-rose-50/50 to-pink-50/80 dark:from-oled-card dark:via-oled-surface dark:to-oled-card p-4 rounded-3xl border border-pink-100/90 dark:border-oled-border shadow-sm">
               <div className="w-24 h-28 rounded-2xl overflow-hidden shadow-card-soft dark:shadow-card-oled bg-white dark:bg-oled-surface border border-pink-100 dark:border-oled-border flex-shrink-0">
@@ -110,7 +113,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2.5">樂天桃猿棒球隊專屬啦啦隊</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2.5">{t.teamAffiliation}</p>
 
                 <div className="flex flex-wrap items-center gap-1.5">
                   {girl.instagram ? (
@@ -135,9 +138,9 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                         }
                       }}
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 transition active:scale-95 shadow-sm"
-                      title={`複製韓文名字：${girl.koreanName}`}
+                      title={`${t.copyKoreanName}：${girl.koreanName}`}
                     >
-                      <span>複製韓文名（{girl.koreanName}）</span>
+                      <span>{t.copyKoreanName}（{girl.koreanName}）</span>
                     </button>
                   )}
                 </div>
@@ -149,10 +152,10 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-sm font-extrabold text-gray-900 dark:text-white flex items-center gap-1.5">
                   <Calendar className="w-4 h-4 text-rkg-pink-deep dark:text-rkg-pink" />
-                  <span>排班紀錄與應援站位</span>
+                  <span>{t.dutyHistory}</span>
                 </h4>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300">
-                  本期出勤 {duties.length} 場
+                  {t.dutyCount.replace('{count}', String(duties.length))}
                 </span>
               </div>
 
@@ -167,7 +170,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                         <div className="flex items-center gap-2">
                           <span className="w-2.5 h-2.5 rounded-full bg-rkg-pink" />
                           <span className="font-extrabold text-gray-900 dark:text-white text-sm">
-                            {duty.date} 主場賽事
+                            {duty.date} {t.gameEvent}
                           </span>
                         </div>
                       </div>
@@ -212,7 +215,6 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               ) : (
                 <div className="p-8 text-center bg-pink-50/50 dark:bg-oled-surface rounded-2xl border border-dashed border-pink-200 dark:border-oled-border">
                   <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">目前此月份試算表尚未排班</p>
-                  <p className="text-xs text-gray-400 mt-1">若球團更新排班，點擊上方「同步最新班表」即可取得</p>
                 </div>
               )}
             </div>
@@ -221,11 +223,34 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
             <div className="bg-gradient-to-br from-gray-50 to-pink-50/40 dark:from-oled-surface dark:to-oled-card p-4 rounded-2xl border border-pink-100/80 dark:border-oled-border text-xs text-gray-600 dark:text-gray-300 space-y-1.5">
               <div className="font-bold text-gray-800 dark:text-white flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-rkg-pink" />
-                <span>球迷應援小知識</span>
+                <span>{t.fanKnowledgeTitle}</span>
               </div>
-              <p>• <strong>東區</strong>：內野一壘側應援舞台（東下 D-F 區）。</p>
-              <p>• <strong>西區</strong>：內野三壘側應援舞台（西下 D-F 區）。</p>
-              <p>• 第 5 局下中場舞表演(以官方公告為主)。</p>
+              <p>• <strong>{t.zoneEast}</strong>：{t.fanKnowledgeEast}</p>
+              <p>• <strong>{t.zoneWest}</strong>：{t.fanKnowledgeWest}</p>
+              <p>• {t.fanKnowledgeMid}</p>
+            </div>
+
+            {/* Language Switcher Section in Drawer */}
+            <div className="pt-2 border-t border-pink-100/70 dark:border-oled-border flex items-center justify-between text-xs">
+              <span className="text-gray-500 dark:text-gray-400 font-semibold flex items-center gap-1">
+                <Globe className="w-3.5 h-3.5" />
+                <span>{t.switchLanguage}</span>
+              </span>
+              <div className="flex items-center gap-1 bg-pink-50/80 dark:bg-oled-surface p-1 rounded-xl border border-pink-100 dark:border-oled-border">
+                {(['zh-TW', 'ja', 'ko'] as Language[]).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setLanguage(lang)}
+                    className={`px-2 py-0.5 rounded-lg font-bold text-[11px] transition ${
+                      language === lang
+                        ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                  >
+                    {lang === 'zh-TW' ? '繁中' : lang === 'ja' ? '日本語' : '한국어'}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -238,12 +263,12 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               {copied ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>已複製班表資訊！</span>
+                  <span>{t.copiedSchedule}</span>
                 </>
               ) : (
                 <>
                   <Share2 className="w-4 h-4" />
-                  <span>分享 {girl.name} 的班表資訊</span>
+                  <span>{t.shareSchedule.replace('{name}', girl.name)}</span>
                 </>
               )}
             </button>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, ExternalLink, Sparkles, MapPin } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
+import { useLanguage } from '../context/LanguageContext';
 
 interface GirlCardProps {
   girl: GirlProfile;
@@ -19,6 +20,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   onToggleFavorite,
   onClick
 }) => {
+  const { t } = useLanguage();
   // Duty on selected date (if a date is chosen)
   const currentDuty = selectedDate
     ? duties.find(d => d.date === selectedDate)
@@ -81,11 +83,11 @@ export const GirlCard: React.FC<GirlCardProps> = ({
             {isOnDuty ? (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
                 <Sparkles className="w-2.5 h-2.5" />
-                <span>{selectedDate ? `${selectedDate} 上班` : `已排 ${duties.length} 場`}</span>
+                <span>{selectedDate ? `${selectedDate} ${t.onDuty}` : `${t.dutyCount.replace('{count}', String(duties.length))}`}</span>
               </span>
             ) : (
               <span className="px-2 py-0.5 rounded-full bg-gray-600/70 backdrop-blur-sm text-gray-200 text-[9px] sm:text-[10px] font-medium">
-                休假
+                {t.offDuty}
               </span>
             )}
           </div>
@@ -153,7 +155,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
       {/* Card Action Hint */}
       <div className="mt-2.5 sm:mt-3 pt-2 text-center border-t border-pink-50/80 dark:border-oled-border">
         <span className="text-[11px] text-rkg-pink-deep dark:text-rkg-pink font-semibold group-hover:underline">
-          查看完整班表 →
+          {t.viewSchedule}
         </span>
       </div>
     </div>

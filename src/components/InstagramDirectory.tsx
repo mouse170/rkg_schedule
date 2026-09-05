@@ -3,6 +3,7 @@ import { ExternalLink, Copy, Check, Search, Heart } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { OFFICIAL_GIRLS } from '../data/girlsRoster';
 import { GirlProfile } from '../types/schedule';
+import { useLanguage } from '../context/LanguageContext';
 
 interface InstagramDirectoryProps {
   onSelectGirl: (girl: GirlProfile) => void;
@@ -15,6 +16,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
   favorites,
   onToggleFavorite
 }) => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'KOREAN' | 'LOCAL' | 'FAVORITES'>('ALL');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -77,13 +79,13 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
         <div className="relative z-10 max-w-xl">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 sm:mb-3">
             <InstagramIcon className="w-3.5 h-3.5" />
-            <span>Rakuten Girls 官方社群目錄</span>
+            <span>{t.igBannerBadge}</span>
           </span>
           <h2 className="text-xl sm:text-3xl font-black tracking-tight mb-1.5 sm:mb-2">
-            樂天女孩全體成員 IG 目錄
+            {t.igBannerTitle}
           </h2>
           <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed font-normal">
-            收錄樂天桃猿啦啦隊全體 27 位現役成員之官方 Instagram 帳號。直立卡片一鍵快速開啟與複製帳號，點擊肖像即可查看上班班表！
+            {t.igBannerDesc}
           </p>
         </div>
         <div className="absolute -right-8 -bottom-8 w-60 h-60 rounded-full bg-white/10 blur-2xl pointer-events-none" />
@@ -101,11 +103,11 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                 Rakuten Girls 官方 Instagram
               </h3>
               <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 flex-shrink-0">
-                球團官方
+                @rakutengirls
               </span>
             </div>
             <p className="text-xs text-gray-500 dark:text-gray-400 font-medium truncate">
-              @rakutengirls • 掌握最新應援活動與賽事公告
+              @rakutengirls • {t.officialRosterLink}
             </p>
           </div>
         </div>
@@ -116,7 +118,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl text-xs font-bold shadow-sm transition active:scale-95 whitespace-nowrap"
         >
-          <span>追蹤球團官方 IG</span>
+          <span>{t.followTeamIg}</span>
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
@@ -130,7 +132,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="搜尋姓名、背號或 IG 帳號..."
+            placeholder={t.searchPlaceholder}
             className="w-full pl-9 pr-4 py-2 bg-pink-50/40 dark:bg-oled-surface hover:bg-pink-50/80 dark:hover:bg-oled-elevated focus:bg-white dark:focus:bg-oled-surface text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 rounded-xl border border-pink-200/80 dark:border-oled-border focus:border-rkg-pink focus:outline-none focus:ring-2 focus:ring-pink-200 dark:focus:ring-pink-900 transition"
           />
         </div>
@@ -145,7 +147,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                 : 'bg-gray-100 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-oled-elevated'
             }`}
           >
-            全部 ({OFFICIAL_GIRLS.length})
+            {t.filterAll} ({OFFICIAL_GIRLS.length})
           </button>
           <button
             onClick={() => setRoleFilter('KOREAN')}
@@ -155,7 +157,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                 : 'bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60'
             }`}
           >
-            韓籍外援 (5)
+            {t.filterKorean} (5)
           </button>
           <button
             onClick={() => setRoleFilter('LOCAL')}
@@ -165,7 +167,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                 : 'bg-pink-50 dark:bg-pink-950/40 text-rkg-pink-deep dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/60 border border-pink-200 dark:border-pink-800/60'
             }`}
           >
-            本隊成員 ({OFFICIAL_GIRLS.length - 5})
+            {t.filterLocal} ({OFFICIAL_GIRLS.length - 5})
           </button>
           <button
             onClick={() => setRoleFilter('FAVORITES')}
@@ -176,7 +178,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
             }`}
           >
             <Heart className={`w-3 h-3 ${favorites.length > 0 ? 'fill-rose-500' : ''}`} />
-            <span>最愛 ({favorites.length})</span>
+            <span>{t.filterFavorites} ({favorites.length})</span>
           </button>
         </div>
       </div>
@@ -235,7 +237,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                   {/* Korean or Role Badge */}
                   {isKorean && (
                     <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-extrabold shadow-sm flex items-center gap-1">
-                      <span>韓援</span>
+                      <span>{t.koreanCheerleader}</span>
                       <span className="opacity-90 font-medium">| {girl.koreanName}</span>
                     </div>
                   )}
@@ -274,9 +276,9 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
                       className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-bold bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm transition active:scale-95"
-                      title="開啟官方 IG 頁面"
+                      title={t.openIg}
                     >
-                      <span>開啟 IG</span>
+                      <span>{t.openIg}</span>
                       <ExternalLink className="w-2.5 h-2.5" />
                     </a>
                   )}
@@ -289,17 +291,17 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                           ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
                           : 'bg-pink-50/70 dark:bg-oled-surface hover:bg-pink-100 dark:hover:bg-oled-elevated text-gray-600 dark:text-gray-300 border-pink-100 dark:border-oled-border'
                       }`}
-                      title="複製 IG 帳號"
+                      title={t.copyAccount}
                     >
                       {isCopiedHandle ? (
                         <>
                           <Check className="w-3 h-3 text-emerald-500" />
-                          <span className="text-[10px]">已複製</span>
+                          <span className="text-[10px]">{t.copied}</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-3 h-3" />
-                          <span className="text-[10px] hidden sm:inline">帳號</span>
+                          <span className="text-[10px] hidden sm:inline">{t.copyAccount}</span>
                         </>
                       )}
                     </button>
@@ -315,17 +317,17 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                         ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
                         : 'bg-gradient-to-r from-purple-50 to-pink-50/60 dark:from-oled-surface dark:to-oled-elevated hover:from-purple-100 hover:to-pink-100 dark:hover:from-oled-elevated dark:hover:to-pink-950/40 text-purple-800 dark:text-purple-300 border-purple-200/80 dark:border-purple-800/60 shadow-sm'
                     }`}
-                    title={`複製韓文名字：${girl.koreanName}`}
+                    title={`${t.copyKoreanName}：${girl.koreanName}`}
                   >
                     {isCopiedKorean ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-500" />
-                        <span>已複製韓文名（{girl.koreanName}）</span>
+                        <span>{t.copiedKoreanName}（{girl.koreanName}）</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3 h-3 text-purple-600 dark:text-purple-400" />
-                        <span>複製韓文名（{girl.koreanName}）</span>
+                        <span>{t.copyKoreanName}（{girl.koreanName}）</span>
                       </>
                     )}
                   </button>
