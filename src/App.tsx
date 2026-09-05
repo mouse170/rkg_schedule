@@ -240,6 +240,7 @@ const MainApp: React.FC = () => {
       badgeStyle: string;
       girls: GirlProfile[];
       favCount: number;
+      emptyNotice?: string;
     }> = [
       {
         key: 'EAST',
@@ -267,7 +268,8 @@ const MainApp: React.FC = () => {
         title: t.groupTitleMid,
         badgeStyle: 'from-fuchsia-500 to-pink-500 text-white shadow-sm',
         girls: groups.MID,
-        favCount: countFavs(groups.MID)
+        favCount: countFavs(groups.MID),
+        emptyNotice: t.noMidPerformance
       },
       {
         key: 'OFF_DUTY',
@@ -278,8 +280,11 @@ const MainApp: React.FC = () => {
       }
     ];
 
-    // 僅保留有女孩的群組
-    const activeSections = sectionMeta.filter(s => s.girls.length > 0);
+    // 如果使用者特別篩選「中場表演」，即使該日無人表演也保留區塊以顯示提示訊息
+    const activeSections = sectionMeta.filter(s => {
+      if (areaFilter === 'PERIOD_MID' && s.key === 'MID') return true;
+      return s.girls.length > 0;
+    });
 
     // 區域排序依據：最愛數量多的在最上面，數量相同時東優先 (basePriority 越小越前)
     activeSections.sort((a, b) => {
@@ -384,33 +389,43 @@ const MainApp: React.FC = () => {
                         )}
                       </div>
 
-                      {/* Cards Grid */}
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
-                        {sec.girls.map((girl) => {
-                          const duties = schedule.girlsScheduleMap[girl.name] || [];
-                          const isFav = favorites.includes(girl.name);
-                          return (
-                            <GirlCard
-                              key={girl.id}
-                              girl={girl}
-                              duties={duties}
-                              selectedDate={selectedDate}
-                              isFavorite={isFav}
-                              onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
-                              onClick={(g) => setSelectedGirl(g)}
-                            />
-                          );
-                        })}
-                      </div>
+                      {/* Cards Grid or Section Empty Notice */}
+                      {sec.girls.length > 0 ? (
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
+                          {sec.girls.map((girl) => {
+                            const duties = schedule.girlsScheduleMap[girl.name] || [];
+                            const isFav = favorites.includes(girl.name);
+                            return (
+                              <GirlCard
+                                key={girl.id}
+                                girl={girl}
+                                duties={duties}
+                                selectedDate={selectedDate}
+                                isFavorite={isFav}
+                                onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
+                                onClick={(g) => setSelectedGirl(g)}
+                              />
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <div className="p-6 text-center bg-pink-50/50 dark:bg-oled-surface rounded-2xl border border-dashed border-pink-200 dark:border-oled-border">
+                          <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">
+                            {sec.emptyNotice || t.noMatchTitle}
+                          </p>
+                        </div>
+                      )}
                     </section>
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-16 bg-white/80 dark:bg-oled-surface rounded-3xl border border-dashed border-pink-200 dark:border-oled-border p-8 shadow-sm">
                   <AlertCircle className="w-10 h-10 text-pink-300 dark:text-pink-500 mx-auto mb-3" />
-                  <h4 className="text-base font-bold text-gray-700 dark:text-gray-200 mb-1">{t.noMatchTitle}</h4>
+                  <h4 className="text-base font-bold text-gray-700 dark:text-gray-200 mb-1">
+                    {areaFilter === 'PERIOD_MID' ? t.noMidPerformance : t.noMatchTitle}
+                  </h4>
                   <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-                    {t.noMatchDesc}
+                    {areaFilter === 'PERIOD_MID' ? '' : t.noMatchDesc}
                   </p>
                   <button
                     onClick={() => {

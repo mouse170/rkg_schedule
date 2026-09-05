@@ -60,6 +60,7 @@ export interface Translations {
   groupTitleSpecial: string;
   groupTitleMid: string;
   groupTitleOffDuty: string;
+  noMidPerformance: string;
   searchSchedulePlaceholder: string;
   filterCountSummary: string;
   noMatchTitle: string;
@@ -142,7 +143,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     igBannerTitle: 'Rakuten Girls 官方 Instagram 目錄',
     igBannerBadge: '官方社群名錄 • 隨時追蹤女孩動態',
-    igBannerDesc: '收錄全體樂天女孩的官方 Instagram 帳號與最新出勤肖像，點擊可直接前往個人頁面或一鍵複製帳號關注。',
+    igBannerDesc: '收錄樂天女孩的Instagram 帳號，點擊可直接前往個人頁面或一鍵複製帳號標記限時動態。',
     followTeamIg: '追蹤球團官方 IG',
     searchPlaceholder: '搜尋姓名、背號或 IG 帳號...',
     filterAll: '全部',
@@ -176,6 +177,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleSpecial: '假日與專區站位 (大樂／R舞台)',
     groupTitleMid: '中場表演女孩',
     groupTitleOffDuty: '未排班／休假女孩',
+    noMidPerformance: '當日無中場表演，實際以官方公告為主。',
     searchSchedulePlaceholder: '搜尋女孩姓名或背號...',
     filterCountSummary: '顯示結果：{count} 位女孩',
     noMatchTitle: '找不到符合條件的女孩',
@@ -252,7 +254,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     igBannerTitle: 'Rakuten Girls 公式 Instagram 名鑑',
     igBannerBadge: '公式SNS名鑑 • メンバーの最新動向をチェック',
-    igBannerDesc: '楽天ガールズ全メンバーの公式 Instagram アカウントと最新プロフィール写真を掲載。タップで個人ページへ直接アクセス、またはアカウントIDを1タップでコピーできます。',
+    igBannerDesc: '楽天ガールズのInstagramアカウントを掲載。タップで個人ページへ直接アクセス、またはアカウントIDを1タップでコピーしてストーリーにタグ付けできます。',
     followTeamIg: '球団公式 IG をフォロー',
     searchPlaceholder: '名前、背番号、または IG アカウントで検索...',
     filterAll: 'すべて',
@@ -286,6 +288,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleSpecial: '休日・特別エリア (大楽／Rステージ)',
     groupTitleMid: 'イニング間パフォーマンス',
     groupTitleOffDuty: '本日未シフト／休日メンバー',
+    noMidPerformance: '当日はイニング間パフォーマンスがございません。詳細は公式発表をご確認ください。',
     searchSchedulePlaceholder: '名前または背番号で検索...',
     filterCountSummary: '表示結果：{count} 名のガールズ',
     noMatchTitle: '該当するメンバーが見つかりません',
@@ -362,7 +365,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     igBannerTitle: 'Rakuten Girls 공식 Instagram 디렉토리',
     igBannerBadge: '공식 SNS 명단 • 멤버들의 최신 소식을 확인하세요',
-    igBannerDesc: '라쿠텐 걸스 전 멤버의 공식 인스타그램 계정과 최신 프로필 사진을 제공합니다. 탭하여 개인 페이지로 이동하거나 원클릭으로 계정 ID를 복사할 수 있습니다.',
+    igBannerDesc: '라쿠텐 걸스의 인스타그램 계정을 제공합니다. 탭하여 개인 페이지로 이동하거나 원클릭으로 계정 ID를 복사하여 스토리에 태그할 수 있습니다.',
     followTeamIg: '구단 공식 IG 팔로우',
     searchPlaceholder: '이름, 등번호 또는 IG 계정 검색...',
     filterAll: '전체',
@@ -396,6 +399,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleSpecial: '주말 및 특별구역 (다러／R무대)',
     groupTitleMid: '중간 공연 걸스',
     groupTitleOffDuty: '미출근／휴무 걸스',
+    noMidPerformance: '당일 중간 공연이 없으며, 실제 일정은 구단 공식 공지를 기준으로 합니다.',
     searchSchedulePlaceholder: '이름 또는 등번호로 검색...',
     filterCountSummary: '검색 결과: {count}명의 걸스',
     noMatchTitle: '해당 조건에 맞는 멤버가 없습니다',
