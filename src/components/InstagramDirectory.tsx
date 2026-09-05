@@ -10,7 +10,7 @@ interface InstagramDirectoryProps {
 
 export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelectGirl }) => {
   const [search, setSearch] = useState('');
-  const [roleFilter, setRoleFilter] = useState<'ALL' | 'DIRECTOR' | 'KOREAN' | 'MEMBERS'>('ALL');
+  const [roleFilter, setRoleFilter] = useState<'ALL' | 'KOREAN' | 'LOCAL'>('ALL');
   const [copiedHandle, setCopiedHandle] = useState<string | null>(null);
 
   const handleCopy = (e: React.MouseEvent, handle: string) => {
@@ -33,14 +33,12 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelect
       if (!matchSearch) return false;
 
       // 2. Role filter
-      if (roleFilter === 'DIRECTOR') {
-        return girl.role && girl.role.includes('總監');
-      }
+      const isKorean = ['河智媛', '廉世彬', '禹洙漢', '高佳彬', '金佳垠'].includes(girl.name);
       if (roleFilter === 'KOREAN') {
-        return ['河智媛', '廉世彬', '禹洙漢', '高佳彬', '金佳垠'].includes(girl.name);
+        return isKorean;
       }
-      if (roleFilter === 'MEMBERS') {
-        return !girl.role || !girl.role.includes('總監');
+      if (roleFilter === 'LOCAL') {
+        return !isKorean;
       }
       return true;
     });
@@ -134,24 +132,14 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelect
             韓籍外援 (5)
           </button>
           <button
-            onClick={() => setRoleFilter('DIRECTOR')}
+            onClick={() => setRoleFilter('LOCAL')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
-              roleFilter === 'DIRECTOR'
-                ? 'bg-amber-600 text-white shadow-sm'
-                : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
-            }`}
-          >
-            總監組 (2)
-          </button>
-          <button
-            onClick={() => setRoleFilter('MEMBERS')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
-              roleFilter === 'MEMBERS'
+              roleFilter === 'LOCAL'
                 ? 'bg-rkg-pink-deep text-white shadow-sm'
                 : 'bg-pink-50 text-rkg-pink-deep hover:bg-pink-100 border border-pink-200'
             }`}
           >
-            應援成員 (27)
+            本隊成員 ({OFFICIAL_GIRLS.length - 5})
           </button>
         </div>
       </div>

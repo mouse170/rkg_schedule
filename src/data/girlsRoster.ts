@@ -2,26 +2,6 @@ import { GirlProfile } from '../types/schedule';
 
 export const OFFICIAL_GIRLS: GirlProfile[] = [
   {
-    "id": "420",
-    "number": "10",
-    "name": "筱晴",
-    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_10_0_1eRH.png",
-    "localPhoto": "photos/girl_420.png",
-    "instagram": "https://www.instagram.com/sunnie_cat0111/",
-    "instagramHandle": "sunnie_cat0111",
-    "role": "舞蹈總監"
-  },
-  {
-    "id": "421",
-    "number": "10",
-    "name": "曉帆",
-    "photo": "https://storage.googleapis.com/hhg-images/players/16/list_10_0_AhQw.png",
-    "localPhoto": "photos/girl_421.png",
-    "instagram": "https://www.instagram.com/xiaofan1121/",
-    "instagramHandle": "xiaofan1121",
-    "role": "副舞蹈總監"
-  },
-  {
     "id": "94",
     "number": "00",
     "name": "琳妲",
