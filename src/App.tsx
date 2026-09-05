@@ -157,8 +157,8 @@ const MainApp: React.FC = () => {
     return list;
   }, [searchQuery, areaFilter, selectedDate, favorites, schedule]);
 
-  // Grouping helper function to determine a girl's station area for the active context
-  const getGirlStationGroup = (girl: GirlProfile): 'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY' => {
+  // Grouping helper function to determine a girl's station area for non-mid contexts
+  const getGirlStationGroup = (girl: GirlProfile): 'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY' => {
     const duties = schedule.girlsScheduleMap[girl.name] || [];
     const duty = selectedDate ? duties.find(d => d.date === selectedDate) : duties[0];
     if (!duty || duty.innings.length === 0) return 'OFF_DUTY';
@@ -169,16 +169,11 @@ const MainApp: React.FC = () => {
       targetInning = duty.innings.find(i => i.period.includes('1-3')) || targetInning;
     } else if (areaFilter === 'PERIOD_78') {
       targetInning = duty.innings.find(i => i.period.includes('7-8')) || targetInning;
-    } else if (areaFilter === 'PERIOD_MID') {
-      targetInning = duty.innings.find(i => i.period.includes('中場')) || targetInning;
     }
 
     const loc = targetInning.location || '';
     if (loc.includes('東R') || loc.includes('西R') || loc.includes('大樂') || loc.includes('專區')) {
       return 'SPECIAL';
-    }
-    if (loc.includes('中場') || targetInning.period.includes('中場')) {
-      return 'MID';
     }
     if (loc.includes('東')) {
       return 'EAST';
@@ -189,18 +184,147 @@ const MainApp: React.FC = () => {
     return 'SPECIAL';
   };
 
-  // 4. Grouped & sorted girls according to user criteria:
-  // - 分區分組 (東區、西區、假日專區、中場表演、休假未排班)
-  // - 最愛數量多的區域在最上方，相同數量時東區優先
-  // - 每組內最愛成員置頂，再依背號排序
-  const groupedSections = useMemo(() => {
-    if (filteredGirls.length === 0) return [];
+  interface GroupSection {
+    key: string;
+    title: string;
+    badgeStyle: string;
+    girls: GirlProfile[];
+    favCount: number;
+    date?: string;
+    emptyNotice?: string;
+  }
 
-    const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY', GirlProfile[]> = {
+  // 4. Grouped & sorted girls according to user criteria:
+  // - 中場表演篩選時：
+  //   * 若為全部日期：依排定日期分別分區（東區前、西區前），標註是哪一天的中場舞表演
+  //   * 若為特定日期：依當天中場表演分區（東區前、西區前）呈現；若無中場則提示當日無中場表演
+  //   * 最愛數量多的在最上方，相同數量時東區優先，每組內最愛置頂後依背號排序
+  // - 其他時段篩選時：
+  //   * 依東區、西區、假日專區、未排班分區呈現，最愛多的在上，東優先，組內最愛置頂
+  const groupedSections = useMemo((): GroupSection[] => {
+    if (filteredGirls.length === 0 && areaFilter !== 'PERIOD_MID') return [];
+
+    const countFavs = (list: GirlProfile[]) => list.filter(g => favorites.includes(g.name)).length;
+    const sortGirlsInGroup = (list: GirlProfile[]) => {
+      list.sort((a, b) => {
+        const aFav = favorites.includes(a.name) ? 1 : 0;
+        const bFav = favorites.includes(b.name) ? 1 : 0;
+        if (aFav !== bFav) return bFav - aFav;
+        const numA = parseInt(a.number, 10) || 999;
+        const numB = parseInt(b.number, 10) || 999;
+        return numA - numB;
+      });
+    };
+
+    // A. 中場表演專屬分組邏輯 (PERIOD_MID)
+    if (areaFilter === 'PERIOD_MID') {
+      const targetDates = selectedDate ? [selectedDate] : schedule.dates;
+      const midSections: GroupSection[] = [];
+
+      targetDates.forEach(date => {
+        const eastGirls: GirlProfile[] = [];
+        const westGirls: GirlProfile[] = [];
+        const stageGirls: GirlProfile[] = [];
+
+        filteredGirls.forEach(girl => {
+          const duties = schedule.girlsScheduleMap[girl.name] || [];
+          const duty = duties.find(d => d.date === date);
+          if (!duty) return;
+
+          const midInning = duty.innings.find(i => i.period.includes('中場') && i.location.trim().length > 0);
+          if (!midInning) return;
+
+          const loc = midInning.location;
+          if (loc.includes('東R') || loc.includes('西R') || loc.includes('舞台') || loc.includes('專區')) {
+            stageGirls.push(girl);
+          } else if (loc.includes('東')) {
+            eastGirls.push(girl);
+          } else if (loc.includes('西')) {
+            westGirls.push(girl);
+          } else {
+            stageGirls.push(girl);
+          }
+        });
+
+        sortGirlsInGroup(eastGirls);
+        sortGirlsInGroup(westGirls);
+        sortGirlsInGroup(stageGirls);
+
+        // 當日中場表演 (東區前)
+        if (eastGirls.length > 0) {
+          midSections.push({
+            key: `MID_${date}_EAST`,
+            title: `${date} ${t.groupTitleMidEast}`,
+            badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
+            girls: eastGirls,
+            favCount: countFavs(eastGirls),
+            date
+          });
+        }
+
+        // 當日中場表演 (西區前)
+        if (westGirls.length > 0) {
+          midSections.push({
+            key: `MID_${date}_WEST`,
+            title: `${date} ${t.groupTitleMidWest}`,
+            badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
+            girls: westGirls,
+            favCount: countFavs(westGirls),
+            date
+          });
+        }
+
+        // 當日中場表演 (應援舞台/專區)
+        if (stageGirls.length > 0) {
+          midSections.push({
+            key: `MID_${date}_STAGE`,
+            title: `${date} ${t.groupTitleMidStage}`,
+            badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+            girls: stageGirls,
+            favCount: countFavs(stageGirls),
+            date
+          });
+        }
+      });
+
+      // 如果選定特定日期，但當日無中場表演 (例如 9/2)
+      if (midSections.length === 0 && selectedDate) {
+        midSections.push({
+          key: `MID_${selectedDate}_EMPTY`,
+          title: `${selectedDate} ${t.groupTitleMid}`,
+          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          girls: [],
+          favCount: 0,
+          date: selectedDate,
+          emptyNotice: t.noMidPerformance
+        });
+      }
+
+      // 中場分區排序：最愛數量多的在最上面，相同數量時東區優先
+      midSections.sort((a, b) => {
+        if (b.favCount !== a.favCount) {
+          return b.favCount - a.favCount;
+        }
+        const getZonePriority = (k: string) => {
+          if (k.endsWith('_EAST')) return 0;
+          if (k.endsWith('_WEST')) return 1;
+          if (k.endsWith('_STAGE')) return 2;
+          return 3;
+        };
+        const zoneDiff = getZonePriority(a.key) - getZonePriority(b.key);
+        if (zoneDiff !== 0) return zoneDiff;
+
+        return (a.date || '').localeCompare(b.date || '');
+      });
+
+      return midSections;
+    }
+
+    // B. 一般時段與站位分組邏輯 (ALL, ON_DUTY, PERIOD_13, PERIOD_78, FAVORITES)
+    const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
       EAST: [],
       WEST: [],
       SPECIAL: [],
-      MID: [],
       OFF_DUTY: []
     };
 
@@ -209,39 +333,21 @@ const MainApp: React.FC = () => {
       groups[gType].push(girl);
     });
 
-    // 每組內部排序：最愛女孩優先，再依背號大小
+    // 每組內部排序：最愛優先，再依背號大小
     Object.keys(groups).forEach(k => {
       const key = k as keyof typeof groups;
-      groups[key].sort((a, b) => {
-        const aFav = favorites.includes(a.name) ? 1 : 0;
-        const bFav = favorites.includes(b.name) ? 1 : 0;
-        if (aFav !== bFav) return bFav - aFav;
-        const numA = parseInt(a.number, 10) || 999;
-        const numB = parseInt(b.number, 10) || 999;
-        return numA - numB;
-      });
+      sortGirlsInGroup(groups[key]);
     });
 
-    // 計算各分組最愛總數
-    const countFavs = (list: GirlProfile[]) => list.filter(g => favorites.includes(g.name)).length;
-
-    // 預設區域排序權重 (相同最愛數時，東優先：EAST 0, WEST 1, SPECIAL 2, MID 3, OFF_DUTY 4)
-    const basePriority: Record<'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY', number> = {
+    // 預設區域排序權重 (相同最愛數時，東優先：EAST 0, WEST 1, SPECIAL 2, OFF_DUTY 3)
+    const basePriority: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', number> = {
       EAST: 0,
       WEST: 1,
       SPECIAL: 2,
-      MID: 3,
-      OFF_DUTY: 4
+      OFF_DUTY: 3
     };
 
-    const sectionMeta: Array<{
-      key: 'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY';
-      title: string;
-      badgeStyle: string;
-      girls: GirlProfile[];
-      favCount: number;
-      emptyNotice?: string;
-    }> = [
+    const sectionMeta: GroupSection[] = [
       {
         key: 'EAST',
         title: t.groupTitleEast,
@@ -264,14 +370,6 @@ const MainApp: React.FC = () => {
         favCount: countFavs(groups.SPECIAL)
       },
       {
-        key: 'MID',
-        title: t.groupTitleMid,
-        badgeStyle: 'from-fuchsia-500 to-pink-500 text-white shadow-sm',
-        girls: groups.MID,
-        favCount: countFavs(groups.MID),
-        emptyNotice: t.noMidPerformance
-      },
-      {
         key: 'OFF_DUTY',
         title: t.groupTitleOffDuty,
         badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
@@ -280,22 +378,18 @@ const MainApp: React.FC = () => {
       }
     ];
 
-    // 如果使用者特別篩選「中場表演」，即使該日無人表演也保留區塊以顯示提示訊息
-    const activeSections = sectionMeta.filter(s => {
-      if (areaFilter === 'PERIOD_MID' && s.key === 'MID') return true;
-      return s.girls.length > 0;
-    });
+    const activeSections = sectionMeta.filter(s => s.girls.length > 0);
 
-    // 區域排序依據：最愛數量多的在最上面，數量相同時東優先 (basePriority 越小越前)
+    // 區域排序依據：最愛數量多的在最上面，數量相同時東優先
     activeSections.sort((a, b) => {
       if (b.favCount !== a.favCount) {
         return b.favCount - a.favCount;
       }
-      return basePriority[a.key] - basePriority[b.key];
+      return (basePriority[a.key as keyof typeof basePriority] ?? 99) - (basePriority[b.key as keyof typeof basePriority] ?? 99);
     });
 
     return activeSections;
-  }, [filteredGirls, favorites, selectedDate, areaFilter, t]);
+  }, [filteredGirls, favorites, selectedDate, areaFilter, schedule, t]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#FFF8F8] via-[#FFF0F5]/40 to-[#FFF8F8] dark:from-black dark:via-black dark:to-black text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -400,7 +494,7 @@ const MainApp: React.FC = () => {
                                 key={girl.id}
                                 girl={girl}
                                 duties={duties}
-                                selectedDate={selectedDate}
+                                selectedDate={sec.date || selectedDate}
                                 isFavorite={isFav}
                                 onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
                                 onClick={(g) => setSelectedGirl(g)}

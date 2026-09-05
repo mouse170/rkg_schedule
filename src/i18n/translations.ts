@@ -59,6 +59,9 @@ export interface Translations {
   groupTitleWest: string;
   groupTitleSpecial: string;
   groupTitleMid: string;
+  groupTitleMidEast: string;
+  groupTitleMidWest: string;
+  groupTitleMidStage: string;
   groupTitleOffDuty: string;
   noMidPerformance: string;
   searchSchedulePlaceholder: string;
@@ -176,6 +179,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleWest: '三壘西區站位',
     groupTitleSpecial: '假日與專區站位 (大樂／R舞台)',
     groupTitleMid: '中場表演女孩',
+    groupTitleMidEast: '中場表演 (東區前)',
+    groupTitleMidWest: '中場表演 (西區前)',
+    groupTitleMidStage: '中場舞應援舞台表演',
     groupTitleOffDuty: '未排班／休假女孩',
     noMidPerformance: '當日無中場表演，實際以官方公告為主。',
     searchSchedulePlaceholder: '搜尋女孩姓名或背號...',
@@ -287,6 +293,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleWest: '3塁側 西エリア立ち位置',
     groupTitleSpecial: '休日・特別エリア (大楽／Rステージ)',
     groupTitleMid: 'イニング間パフォーマンス',
+    groupTitleMidEast: 'イニング間パフォーマンス (東エリア前)',
+    groupTitleMidWest: 'イニング間パフォーマンス (西エリア前)',
+    groupTitleMidStage: 'イニング間応援ステージパフォーマンス',
     groupTitleOffDuty: '本日未シフト／休日メンバー',
     noMidPerformance: '当日はイニング間パフォーマンスがございません。詳細は公式発表をご確認ください。',
     searchSchedulePlaceholder: '名前または背番号で検索...',
@@ -398,6 +407,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleWest: '3루 서구역 응원 위치',
     groupTitleSpecial: '주말 및 특별구역 (다러／R무대)',
     groupTitleMid: '중간 공연 걸스',
+    groupTitleMidEast: '중간 공연 (동구역 앞)',
+    groupTitleMidWest: '중간 공연 (서구역 앞)',
+    groupTitleMidStage: '중간 댄스 무대 공연',
     groupTitleOffDuty: '미출근／휴무 걸스',
     noMidPerformance: '당일 중간 공연이 없으며, 실제 일정은 구단 공식 공지를 기준으로 합니다.',
     searchSchedulePlaceholder: '이름 또는 등번호로 검색...',
