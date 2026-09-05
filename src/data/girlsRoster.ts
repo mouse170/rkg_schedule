@@ -282,62 +282,6 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "instagram": "https://www.instagram.com/weni_1107/",
     "instagramHandle": "weni_1107"
   }
-,
-  {
-    "id": "kr_22",
-    "number": "22",
-    "name": "河智媛",
-    "nationality": "KR",
-    "nativeName": "하지원",
-    "photo": "https://www.instagram.com/jiwon_ha22/",
-    "localPhoto": "./photos/girl_kr_hajiwon.webp",
-    "instagram": "https://www.instagram.com/jiwon_ha22/",
-    "instagramHandle": "jiwon_ha22"
-  },
-  {
-    "id": "kr_24",
-    "number": "24",
-    "name": "廉世彬",
-    "nationality": "KR",
-    "nativeName": "염세빈",
-    "photo": "https://www.instagram.com/sebin_0609/",
-    "localPhoto": "./photos/girl_kr_sebin.webp",
-    "instagram": "https://www.instagram.com/sebin_0609/",
-    "instagramHandle": "sebin_0609"
-  },
-  {
-    "id": "kr_25",
-    "number": "25",
-    "name": "禹洙漢",
-    "nationality": "KR",
-    "nativeName": "우수한",
-    "photo": "https://www.instagram.com/woosuhan/",
-    "localPhoto": "./photos/girl_kr_woosuhan.webp",
-    "instagram": "https://www.instagram.com/woosuhan/",
-    "instagramHandle": "woosuhan"
-  },
-  {
-    "id": "kr_gabin",
-    "number": "96",
-    "name": "高佳彬",
-    "nationality": "KR",
-    "nativeName": "고가빈",
-    "photo": "https://www.instagram.com/gabin_0/",
-    "localPhoto": "./photos/girl_kr_gabin.webp",
-    "instagram": "https://www.instagram.com/gabin_0/",
-    "instagramHandle": "gabin_0"
-  },
-  {
-    "id": "kr_gaeun",
-    "number": "98",
-    "name": "金佳垠",
-    "nationality": "KR",
-    "nativeName": "김가은",
-    "photo": "https://www.instagram.com/gaeun_0/",
-    "localPhoto": "./photos/girl_kr_gaeun.webp",
-    "instagram": "https://www.instagram.com/gaeun_0/",
-    "instagramHandle": "gaeun_0"
-  }
 ];
 
 // Helper to find girl by name or alias
@@ -346,13 +290,6 @@ export function findGirlByName(name: string): GirlProfile | undefined {
   // exact match
   let found = OFFICIAL_GIRLS.find(g => g.name === trimmed);
   if (found) return found;
-
-  // Korean name aliases
-  if (trimmed === '하지원') return OFFICIAL_GIRLS.find(g => g.name === '河智媛');
-  if (trimmed === '염세빈' || trimmed === '염세彬') return OFFICIAL_GIRLS.find(g => g.name === '廉世彬');
-  if (trimmed === '우수한') return OFFICIAL_GIRLS.find(g => g.name === '禹洙漢');
-  if (trimmed === '고가빈') return OFFICIAL_GIRLS.find(g => g.name === '高佳彬');
-  if (trimmed === '김가은') return OFFICIAL_GIRLS.find(g => g.name === '金佳垠');
 
   // alias handling
   if (trimmed === '珈妤') {
