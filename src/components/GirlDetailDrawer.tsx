@@ -97,10 +97,10 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <div className="flex items-baseline gap-2 mb-1 flex-wrap">
                   <h3 className="text-xl font-black text-gray-900 dark:text-white">{girl.name}</h3>
                   {girl.koreanName && (
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm">
+                    <span className="text-sm font-bold text-pink-600 dark:text-pink-400">
                       {girl.koreanName}
                     </span>
                   )}
