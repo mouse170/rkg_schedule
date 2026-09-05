@@ -149,9 +149,6 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                             {duty.date} 主場賽事
                           </span>
                         </div>
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-pink-50 dark:bg-pink-950/60 text-rkg-crimson dark:text-pink-300 border border-pink-200 dark:border-pink-800/60">
-                          主要站位：{duty.primaryArea}
-                        </span>
                       </div>
 
                       {/* Inning Breakdown Table */}
