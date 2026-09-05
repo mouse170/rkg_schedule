@@ -55,6 +55,11 @@ export interface Translations {
   filterPeriod13: string;
   filterPeriod78: string;
   filterPeriodMid: string;
+  groupTitleEast: string;
+  groupTitleWest: string;
+  groupTitleSpecial: string;
+  groupTitleMid: string;
+  groupTitleOffDuty: string;
   searchSchedulePlaceholder: string;
   filterCountSummary: string;
   noMatchTitle: string;
@@ -166,6 +171,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3 局站位',
     filterPeriod78: '7-8 局站位',
     filterPeriodMid: '中場表演',
+    groupTitleEast: '一壘東區站位',
+    groupTitleWest: '三壘西區站位',
+    groupTitleSpecial: '假日與專區站位 (大樂／R舞台)',
+    groupTitleMid: '中場表演女孩',
+    groupTitleOffDuty: '未排班／休假女孩',
     searchSchedulePlaceholder: '搜尋女孩姓名或背號...',
     filterCountSummary: '顯示結果：{count} 位女孩',
     noMatchTitle: '找不到符合條件的女孩',
@@ -271,6 +281,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3回の位置',
     filterPeriod78: '7-8回の位置',
     filterPeriodMid: 'イニング間',
+    groupTitleEast: '1塁側 東エリア立ち位置',
+    groupTitleWest: '3塁側 西エリア立ち位置',
+    groupTitleSpecial: '休日・特別エリア (大楽／Rステージ)',
+    groupTitleMid: 'イニング間パフォーマンス',
+    groupTitleOffDuty: '本日未シフト／休日メンバー',
     searchSchedulePlaceholder: '名前または背番号で検索...',
     filterCountSummary: '表示結果：{count} 名のガールズ',
     noMatchTitle: '該当するメンバーが見つかりません',
@@ -376,6 +391,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3회 위치',
     filterPeriod78: '7-8회 위치',
     filterPeriodMid: '중간 공연',
+    groupTitleEast: '1루 동구역 응원 위치',
+    groupTitleWest: '3루 서구역 응원 위치',
+    groupTitleSpecial: '주말 및 특별구역 (다러／R무대)',
+    groupTitleMid: '중간 공연 걸스',
+    groupTitleOffDuty: '미출근／휴무 걸스',
     searchSchedulePlaceholder: '이름 또는 등번호로 검색...',
     filterCountSummary: '검색 결과: {count}명의 걸스',
     noMatchTitle: '해당 조건에 맞는 멤버가 없습니다',

@@ -157,6 +157,141 @@ const MainApp: React.FC = () => {
     return list;
   }, [searchQuery, areaFilter, selectedDate, favorites, schedule]);
 
+  // Grouping helper function to determine a girl's station area for the active context
+  const getGirlStationGroup = (girl: GirlProfile): 'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY' => {
+    const duties = schedule.girlsScheduleMap[girl.name] || [];
+    const duty = selectedDate ? duties.find(d => d.date === selectedDate) : duties[0];
+    if (!duty || duty.innings.length === 0) return 'OFF_DUTY';
+
+    // 依篩選時段或當日首要時段取得站位
+    let targetInning = duty.innings[0];
+    if (areaFilter === 'PERIOD_13') {
+      targetInning = duty.innings.find(i => i.period.includes('1-3')) || targetInning;
+    } else if (areaFilter === 'PERIOD_78') {
+      targetInning = duty.innings.find(i => i.period.includes('7-8')) || targetInning;
+    } else if (areaFilter === 'PERIOD_MID') {
+      targetInning = duty.innings.find(i => i.period.includes('中場')) || targetInning;
+    }
+
+    const loc = targetInning.location || '';
+    if (loc.includes('東R') || loc.includes('西R') || loc.includes('大樂') || loc.includes('專區')) {
+      return 'SPECIAL';
+    }
+    if (loc.includes('中場') || targetInning.period.includes('中場')) {
+      return 'MID';
+    }
+    if (loc.includes('東')) {
+      return 'EAST';
+    }
+    if (loc.includes('西')) {
+      return 'WEST';
+    }
+    return 'SPECIAL';
+  };
+
+  // 4. Grouped & sorted girls according to user criteria:
+  // - 分區分組 (東區、西區、假日專區、中場表演、休假未排班)
+  // - 最愛數量多的區域在最上方，相同數量時東區優先
+  // - 每組內最愛成員置頂，再依背號排序
+  const groupedSections = useMemo(() => {
+    if (filteredGirls.length === 0) return [];
+
+    const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY', GirlProfile[]> = {
+      EAST: [],
+      WEST: [],
+      SPECIAL: [],
+      MID: [],
+      OFF_DUTY: []
+    };
+
+    filteredGirls.forEach(girl => {
+      const gType = getGirlStationGroup(girl);
+      groups[gType].push(girl);
+    });
+
+    // 每組內部排序：最愛女孩優先，再依背號大小
+    Object.keys(groups).forEach(k => {
+      const key = k as keyof typeof groups;
+      groups[key].sort((a, b) => {
+        const aFav = favorites.includes(a.name) ? 1 : 0;
+        const bFav = favorites.includes(b.name) ? 1 : 0;
+        if (aFav !== bFav) return bFav - aFav;
+        const numA = parseInt(a.number, 10) || 999;
+        const numB = parseInt(b.number, 10) || 999;
+        return numA - numB;
+      });
+    });
+
+    // 計算各分組最愛總數
+    const countFavs = (list: GirlProfile[]) => list.filter(g => favorites.includes(g.name)).length;
+
+    // 預設區域排序權重 (相同最愛數時，東優先：EAST 0, WEST 1, SPECIAL 2, MID 3, OFF_DUTY 4)
+    const basePriority: Record<'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY', number> = {
+      EAST: 0,
+      WEST: 1,
+      SPECIAL: 2,
+      MID: 3,
+      OFF_DUTY: 4
+    };
+
+    const sectionMeta: Array<{
+      key: 'EAST' | 'WEST' | 'SPECIAL' | 'MID' | 'OFF_DUTY';
+      title: string;
+      badgeStyle: string;
+      girls: GirlProfile[];
+      favCount: number;
+    }> = [
+      {
+        key: 'EAST',
+        title: t.groupTitleEast,
+        badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
+        girls: groups.EAST,
+        favCount: countFavs(groups.EAST)
+      },
+      {
+        key: 'WEST',
+        title: t.groupTitleWest,
+        badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
+        girls: groups.WEST,
+        favCount: countFavs(groups.WEST)
+      },
+      {
+        key: 'SPECIAL',
+        title: t.groupTitleSpecial,
+        badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+        girls: groups.SPECIAL,
+        favCount: countFavs(groups.SPECIAL)
+      },
+      {
+        key: 'MID',
+        title: t.groupTitleMid,
+        badgeStyle: 'from-fuchsia-500 to-pink-500 text-white shadow-sm',
+        girls: groups.MID,
+        favCount: countFavs(groups.MID)
+      },
+      {
+        key: 'OFF_DUTY',
+        title: t.groupTitleOffDuty,
+        badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+        girls: groups.OFF_DUTY,
+        favCount: countFavs(groups.OFF_DUTY)
+      }
+    ];
+
+    // 僅保留有女孩的群組
+    const activeSections = sectionMeta.filter(s => s.girls.length > 0);
+
+    // 區域排序依據：最愛數量多的在最上面，數量相同時東優先 (basePriority 越小越前)
+    activeSections.sort((a, b) => {
+      if (b.favCount !== a.favCount) {
+        return b.favCount - a.favCount;
+      }
+      return basePriority[a.key] - basePriority[b.key];
+    });
+
+    return activeSections;
+  }, [filteredGirls, favorites, selectedDate, areaFilter, t]);
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#FFF8F8] via-[#FFF0F5]/40 to-[#FFF8F8] dark:from-black dark:via-black dark:to-black text-gray-900 dark:text-gray-100 transition-colors duration-200">
         {/* 1. Header */}
@@ -225,24 +360,50 @@ const MainApp: React.FC = () => {
                 )}
               </div>
 
-              {/* Member Cards Grid */}
-              {filteredGirls.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
-                  {filteredGirls.map((girl) => {
-                    const duties = schedule.girlsScheduleMap[girl.name] || [];
-                    const isFav = favorites.includes(girl.name);
-                    return (
-                      <GirlCard
-                        key={girl.id}
-                        girl={girl}
-                        duties={duties}
-                        selectedDate={selectedDate}
-                        isFavorite={isFav}
-                        onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
-                        onClick={(g) => setSelectedGirl(g)}
-                      />
-                    );
-                  })}
+              {/* Grouped Member Cards by Station Area */}
+              {groupedSections.length > 0 ? (
+                <div className="space-y-8">
+                  {groupedSections.map((sec) => (
+                    <section key={sec.key} className="space-y-3.5">
+                      {/* Section Header */}
+                      <div className="flex items-center justify-between px-1 border-b border-pink-100/70 dark:border-oled-border pb-2">
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-black bg-gradient-to-r ${sec.badgeStyle}`}>
+                            {sec.title}
+                          </span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">
+                            {sec.girls.length} 位
+                          </span>
+                        </div>
+
+                        {sec.favCount > 0 && (
+                          <div className="flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full border border-rose-200/80 dark:border-rose-800/60">
+                            <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
+                            <span>{sec.favCount} 位最愛</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Cards Grid */}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
+                        {sec.girls.map((girl) => {
+                          const duties = schedule.girlsScheduleMap[girl.name] || [];
+                          const isFav = favorites.includes(girl.name);
+                          return (
+                            <GirlCard
+                              key={girl.id}
+                              girl={girl}
+                              duties={duties}
+                              selectedDate={selectedDate}
+                              isFavorite={isFav}
+                              onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
+                              onClick={(g) => setSelectedGirl(g)}
+                            />
+                          );
+                        })}
+                      </div>
+                    </section>
+                  ))}
                 </div>
               ) : (
                 <div className="text-center py-16 bg-white/80 dark:bg-oled-surface rounded-3xl border border-dashed border-pink-200 dark:border-oled-border p-8 shadow-sm">
