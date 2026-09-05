@@ -207,7 +207,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               </div>
               <p>• <strong>東區</strong>：內野一壘側應援舞台（東下 A-G 區）。</p>
               <p>• <strong>西區</strong>：內野三壘側應援舞台（西下 A-G 區）。</p>
-              <p>• 啦啦隊女孩通常於第 4 局中場或 7 局進行換側或全場環形應援。</p>
+              <p>• 啦啦隊女孩通常於第 5 局中場或 7 局進行換側應援。</p>
             </div>
           </div>
 
