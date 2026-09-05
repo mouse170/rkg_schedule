@@ -202,9 +202,9 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                 <Sparkles className="w-3.5 h-3.5 text-rkg-pink" />
                 <span>球迷應援小知識</span>
               </div>
-              <p>• <strong>東區</strong>：內野一壘側應援舞台（東下 A-G 區）。</p>
-              <p>• <strong>西區</strong>：內野三壘側應援舞台（西下 A-G 區）。</p>
-              <p>• 啦啦隊女孩通常於第 5 局中場或 7 局進行換側應援。</p>
+              <p>• <strong>東區</strong>：內野一壘側應援舞台（東下 D-F 區）。</p>
+              <p>• <strong>西區</strong>：內野三壘側應援舞台（西下 D-F 區）。</p>
+              <p>• 第 5 局下中場舞表演(以官方公告為主)。</p>
             </div>
           </div>
 

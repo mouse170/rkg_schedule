@@ -57,7 +57,7 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
                     <span>西區應援席</span>
                   </div>
                   <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">三壘側看台</div>
-                  <div className="text-[10px] text-emerald-600 dark:text-emerald-500 mt-1">內野西下 A ~ G 區</div>
+                  <div className="text-[10px] text-emerald-600 dark:text-emerald-500 mt-1">內野西下 D ~ F 區</div>
                 </div>
 
                 {/* East Wing */}
@@ -67,7 +67,7 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
                     <span>東區應援席</span>
                   </div>
                   <div className="text-[11px] text-blue-700 dark:text-blue-400 font-semibold">一壘側看台</div>
-                  <div className="text-[10px] text-blue-600 dark:text-blue-500 mt-1">內野東下 A ~ G 區</div>
+                  <div className="text-[10px] text-blue-600 dark:text-blue-500 mt-1">內野東下 D ~ F 區</div>
                 </div>
               </div>
 
@@ -87,11 +87,11 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
           <div className="space-y-2.5 text-xs text-gray-600 dark:text-gray-300 mb-6">
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
-              <span><strong>局數輪替原則</strong>：女孩通常在 1-3 局站一側，中場（第 4 局結束或第 5 局）於本壘前表演，7-8 局進行換側應援。</span>
+              <span><strong>局數輪替原則</strong>：女孩通常在 1-3 局站一側，中場（第 5 局下）於應援舞台D、E區中間前表演，7-8 局進行換側應援。</span>
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-              <span><strong>東R / 西R 舞台</strong>：假日或特定主題日延伸至內野走道的 R 舞台，拉近與球迷互動距離。</span>
+              <span><strong>東R / 西R 舞台</strong>：假日或特定主題日在內野走道的 R 舞台，拉近與球迷互動距離。</span>
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
