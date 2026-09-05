@@ -91,7 +91,11 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
             </div>
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-              <span><strong>主場優勢氛圍</strong>：樂天桃猿為「全猿主場」，一壘側（東區）與三壘側（西區）皆有樂天女孩輪流帶動跳。</span>
+              <span><strong>東R / 西R 舞台</strong>：假日或特定主題日延伸至內野走道的 R 舞台，拉近與球迷互動距離。</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+              <span><strong>大樂區 / 特別專區</strong>：假日安排於大樂放鬆席或主題企劃專區進行互動式定點應援。</span>
             </div>
           </div>
 

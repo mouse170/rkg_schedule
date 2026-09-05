@@ -132,6 +132,10 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       const innings: InningAssignment[] = [];
       let eastCount = 0;
       let westCount = 0;
+      let eastRCount = 0;
+      let westRCount = 0;
+      let daleCount = 0;
+      let specialCount = 0;
 
       for (const inningCol of table.inningCols) {
         const val = (row[inningCol.colIndex] || '').trim();
@@ -140,15 +144,27 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
             period: inningCol.period,
             location: val
           });
-          if (val.includes('東')) eastCount++;
-          if (val.includes('西')) westCount++;
+          if (val === '東R' || val.includes('東R')) eastRCount++;
+          else if (val === '西R' || val.includes('西R')) westRCount++;
+          else if (val.includes('大樂')) daleCount++;
+          else if (val.includes('專區')) specialCount++;
+          else if (val.includes('東')) eastCount++;
+          else if (val.includes('西')) westCount++;
         }
       }
 
       if (innings.length === 0) continue;
 
       let primaryArea: DailyDuty['primaryArea'] = '其他';
-      if (eastCount > westCount) {
+      if (daleCount > 0 && daleCount >= eastCount && daleCount >= westCount) {
+        primaryArea = '大樂';
+      } else if (eastRCount > 0 && eastRCount >= eastCount) {
+        primaryArea = '東R';
+      } else if (westRCount > 0 && westRCount >= westCount) {
+        primaryArea = '西R';
+      } else if (specialCount > 0) {
+        primaryArea = '專區';
+      } else if (eastCount > westCount) {
         primaryArea = '東區';
       } else if (westCount > eastCount) {
         primaryArea = '西區';

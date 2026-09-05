@@ -1,14 +1,16 @@
 import React from 'react';
-import { Search, Calendar, Heart, Compass, X } from 'lucide-react';
+import { Search, Calendar, Heart, Compass, X, Sparkles } from 'lucide-react';
+
+export type AreaFilterType = 'ALL' | 'ON_DUTY' | 'EAST' | 'WEST' | 'SPECIAL_ZONES' | 'FAVORITES';
 
 interface FilterBarProps {
   dates: string[];
-  selectedDate: string; // empty string means "全部日期"
+  selectedDate: string;
   onSelectDate: (date: string) => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
-  areaFilter: 'ALL' | 'ON_DUTY' | 'EAST' | 'WEST' | 'FAVORITES';
-  onAreaFilterChange: (filter: 'ALL' | 'ON_DUTY' | 'EAST' | 'WEST' | 'FAVORITES') => void;
+  areaFilter: AreaFilterType;
+  onAreaFilterChange: (filter: AreaFilterType) => void;
   totalCount: number;
   favoritesCount: number;
 }
@@ -119,7 +121,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>東區 (一壘)</span>
+            <span>東區</span>
           </button>
 
           <button
@@ -131,7 +133,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>西區 (三壘)</span>
+            <span>西區</span>
+          </button>
+
+          <button
+            onClick={() => onAreaFilterChange('SPECIAL_ZONES')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
+              areaFilter === 'SPECIAL_ZONES'
+                ? 'bg-amber-600 text-white shadow-sm'
+                : 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200'
+            }`}
+            title="包含大樂區、東R舞台、西R舞台、專區等假日特別席位"
+          >
+            <Sparkles className="w-3 h-3 text-amber-500" />
+            <span>大樂/R舞台/專區</span>
           </button>
 
           <button

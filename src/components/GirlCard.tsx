@@ -116,18 +116,25 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {currentDuty && currentDuty.innings.length > 0 ? (
             <div className="mt-2 pt-2 border-t border-pink-50 flex flex-wrap gap-1">
               {currentDuty.innings.map((inn, idx) => {
-                const isEast = inn.location.includes('東');
-                const isWest = inn.location.includes('西');
+                const loc = inn.location;
+                let badgeStyle = 'bg-purple-50 text-purple-700 border border-purple-200/60';
+                if (loc === '東R' || loc.includes('東R')) {
+                  badgeStyle = 'bg-cyan-50 text-cyan-800 border border-cyan-300 font-black';
+                } else if (loc === '西R' || loc.includes('西R')) {
+                  badgeStyle = 'bg-teal-50 text-teal-800 border border-teal-300 font-black';
+                } else if (loc.includes('大樂')) {
+                  badgeStyle = 'bg-amber-50 text-amber-900 border border-amber-300 font-black';
+                } else if (loc.includes('專區')) {
+                  badgeStyle = 'bg-fuchsia-50 text-fuchsia-800 border border-fuchsia-300 font-black';
+                } else if (loc.includes('東')) {
+                  badgeStyle = 'bg-blue-50 text-blue-700 border border-blue-200/60';
+                } else if (loc.includes('西')) {
+                  badgeStyle = 'bg-emerald-50 text-emerald-700 border border-emerald-200/60';
+                }
                 return (
                   <span
                     key={idx}
-                    className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                      isEast
-                        ? 'bg-blue-50 text-blue-700 border border-blue-200/60'
-                        : isWest
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200/60'
-                        : 'bg-purple-50 text-purple-700 border border-purple-200/60'
-                    }`}
+                    className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeStyle}`}
                   >
                     <MapPin className="w-2.5 h-2.5 opacity-70" />
                     <span>{inn.period}:{inn.location}</span>

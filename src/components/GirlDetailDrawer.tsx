@@ -157,18 +157,25 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       {/* Inning Breakdown Table */}
                       <div className="grid grid-cols-3 gap-2 text-center">
                         {duty.innings.map((inn, iIdx) => {
-                          const isEast = inn.location.includes('東');
-                          const isWest = inn.location.includes('西');
+                          const loc = inn.location;
+                          let style = 'bg-purple-50/70 border-purple-200 text-purple-900';
+                          if (loc === '東R' || loc.includes('東R')) {
+                            style = 'bg-cyan-50 border-cyan-300 text-cyan-950 font-black';
+                          } else if (loc === '西R' || loc.includes('西R')) {
+                            style = 'bg-teal-50 border-teal-300 text-teal-950 font-black';
+                          } else if (loc.includes('大樂')) {
+                            style = 'bg-amber-50 border-amber-300 text-amber-950 font-black';
+                          } else if (loc.includes('專區')) {
+                            style = 'bg-fuchsia-50 border-fuchsia-300 text-fuchsia-950 font-black';
+                          } else if (loc.includes('東')) {
+                            style = 'bg-blue-50/70 border-blue-200 text-blue-900';
+                          } else if (loc.includes('西')) {
+                            style = 'bg-emerald-50/70 border-emerald-200 text-emerald-900';
+                          }
                           return (
                             <div
                               key={iIdx}
-                              className={`p-2 rounded-xl border ${
-                                isEast
-                                  ? 'bg-blue-50/70 border-blue-200 text-blue-900'
-                                  : isWest
-                                  ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
-                                  : 'bg-purple-50/70 border-purple-200 text-purple-900'
-                              }`}
+                              className={`p-2 rounded-xl border ${style}`}
                             >
                               <div className="text-[11px] text-gray-500 font-medium">
                                 {inn.period}

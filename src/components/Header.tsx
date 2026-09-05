@@ -1,7 +1,9 @@
-import React from 'react';
-import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle } from 'lucide-react';
+import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle, Calendar } from 'lucide-react';
+import { InstagramIcon } from './InstagramIcon';
 
 interface HeaderProps {
+  activeTab: 'SCHEDULE' | 'INSTAGRAM';
+  onTabChange: (tab: 'SCHEDULE' | 'INSTAGRAM') => void;
   lastUpdated: string;
   isLive: boolean;
   isLoading: boolean;
@@ -10,6 +12,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
+  activeTab,
+  onTabChange,
   lastUpdated,
   isLive,
   isLoading,
@@ -30,25 +34,53 @@ export const Header: React.FC<HeaderProps> = ({
                 <span>樂天女孩上班班表</span>
                 <Sparkles className="w-4 h-4 text-rkg-pink fill-rkg-pink animate-pulse" />
               </h1>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-pink-100 text-rkg-pink-deep border border-pink-200">
-                2024-2025
+              {/* Year Badge updated to 2026 */}
+              <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-pink-100 text-rkg-crimson border border-pink-200">
+                2026
               </span>
             </div>
             <p className="text-xs text-gray-500 font-medium">
-              Rakuten Girls Live Schedule • 即時場次與東／西區應援站位
+              Rakuten Girls Live Schedule • 即時場次與東／西區／假日特別席位站位
             </p>
           </div>
         </div>
 
+        {/* View Mode Navigation Tabs */}
+        <div className="flex items-center gap-1.5 bg-pink-50/80 p-1 rounded-2xl border border-pink-200/60">
+          <button
+            onClick={() => onTabChange('SCHEDULE')}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+              activeTab === 'SCHEDULE'
+                ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-sm'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-white/60'
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            <span>即時班表</span>
+          </button>
+
+          <button
+            onClick={() => onTabChange('INSTAGRAM')}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+              activeTab === 'INSTAGRAM'
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm'
+                : 'text-gray-600 hover:text-purple-900 hover:bg-white/60'
+            }`}
+          >
+            <InstagramIcon className="w-3.5 h-3.5" />
+            <span>成員 IG</span>
+          </button>
+        </div>
+
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2">
           {/* Stadium Guide Button */}
           <button
             onClick={onOpenStadiumGuide}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white hover:bg-pink-50 text-gray-700 border border-pink-200 shadow-sm transition active:scale-95"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white hover:bg-pink-50 text-gray-700 border border-pink-200 shadow-sm transition active:scale-95"
           >
             <Map className="w-3.5 h-3.5 text-rkg-crimson" />
-            <span>球場席位導覽</span>
+            <span>球場席位</span>
           </button>
 
           {/* Sync Status Badge & Refresh Button */}
@@ -63,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
             title="從 Google 試算表拉取最新排班"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
-            <span className="hidden xs:inline">
+            <span className="hidden sm:inline">
               {isLoading ? '同步中...' : '同步最新班表'}
             </span>
           </button>
@@ -91,10 +123,10 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={onOpenStadiumGuide}
-            className="sm:hidden text-rkg-crimson font-semibold hover:underline flex items-center gap-1"
+            className="md:hidden text-rkg-crimson font-semibold hover:underline flex items-center gap-1"
           >
             <Map className="w-3 h-3" />
-            <span>球場導覽</span>
+            <span>球場席位說明</span>
           </button>
         </div>
       </div>
