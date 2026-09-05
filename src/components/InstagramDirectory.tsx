@@ -47,38 +47,38 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelect
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* 1. Header Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-600 via-pink-600 to-rkg-crimson p-6 sm:p-8 text-white shadow-elevated">
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-purple-600 via-pink-600 to-rkg-crimson p-4 sm:p-7 text-white shadow-elevated">
         <div className="relative z-10 max-w-xl">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold mb-3">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 sm:mb-3">
             <InstagramIcon className="w-3.5 h-3.5" />
             <span>Rakuten Girls 官方社群名錄</span>
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">
+          <h2 className="text-xl sm:text-3xl font-black tracking-tight mb-1.5 sm:mb-2">
             樂天女孩全體成員 IG 專區
           </h2>
           <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed font-normal">
-            收錄樂天桃猿啦啦隊全體 29 位現役成員之官方 Instagram 帳號。點擊卡片可直接跳轉追蹤或複製帳號！
+            收錄樂天桃猿啦啦隊全體 27 位現役成員之官方 Instagram 帳號。點擊卡片可直接跳轉追蹤或複製帳號！
           </p>
         </div>
         <div className="absolute -right-8 -bottom-8 w-60 h-60 rounded-full bg-white/10 blur-2xl pointer-events-none" />
       </div>
 
       {/* 2. Official Team Account Card */}
-      <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 border border-purple-200/80 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+      <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 border border-purple-200/80 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 p-0.5 shadow-md flex items-center justify-center text-white">
-            <InstagramIcon className="w-6 h-6" />
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 p-0.5 shadow-md flex items-center justify-center text-white flex-shrink-0">
+            <InstagramIcon className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <h3 className="font-extrabold text-gray-900 text-sm sm:text-base">
+              <h3 className="font-extrabold text-gray-900 text-sm sm:text-base truncate">
                 Rakuten Girls 官方 Instagram
               </h3>
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+              <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-purple-100 text-purple-700 flex-shrink-0">
                 球團官方
               </span>
             </div>
-            <p className="text-xs text-gray-500 font-medium">
+            <p className="text-xs text-gray-500 font-medium truncate">
               @rakutengirls • 掌握最新應援活動與賽事公告
             </p>
           </div>
@@ -88,7 +88,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelect
           href="https://www.instagram.com/rakutengirls/"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl text-xs font-bold shadow-sm transition active:scale-95 whitespace-nowrap"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl text-xs font-bold shadow-sm transition active:scale-95 whitespace-nowrap"
         >
           <span>追蹤球團官方 IG</span>
           <ExternalLink className="w-3.5 h-3.5" />
@@ -96,7 +96,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({ onSelect
       </div>
 
       {/* 3. Search & Filter Controls */}
-      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-card-soft border border-pink-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-card-soft border border-pink-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         {/* Search */}
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />

@@ -27,9 +27,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   favoritesCount
 }) => {
   return (
-    <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-card-soft border border-pink-100/80 mb-6 transition">
+    <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-card-soft border border-pink-100/80 mb-4 sm:mb-6 transition">
       {/* 1. Date Selector Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-3 border-b border-pink-100/60 no-scrollbar">
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2.5 sm:pb-3 mb-2.5 sm:mb-3 border-b border-pink-100/60 no-scrollbar">
         <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 whitespace-nowrap pl-1 pr-2">
           <Calendar className="w-3.5 h-3.5 text-rkg-pink-deep" />
           <span>場次日期：</span>

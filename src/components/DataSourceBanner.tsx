@@ -5,24 +5,27 @@ export const DataSourceBanner: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-gradient-to-r from-pink-50 via-rose-50 to-pink-50 border-y border-pink-100/80 px-4 py-2.5 text-xs text-gray-700">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-        <div className="flex items-center gap-2 font-medium">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-rkg-crimson font-bold">資料來源公告</span>
-          <span className="text-gray-500">本站班表與女孩資料均即時串接球團與公開試算表</span>
+    <div className="bg-gradient-to-r from-pink-50 via-rose-50 to-pink-50 border-y border-pink-100/80 px-3 sm:px-4 py-2 text-xs text-gray-700">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+        <div className="flex items-center justify-between font-medium">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="flex h-2 w-2 relative flex-shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="text-rkg-crimson font-bold whitespace-nowrap flex-shrink-0">資料來源</span>
+            <span className="text-gray-500 truncate text-[11px] sm:text-xs">即時串接球團與 Google 公開試算表</span>
+          </div>
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            className="sm:hidden text-rkg-pink-deep flex items-center gap-0.5 ml-1 font-semibold"
+            className="sm:hidden text-rkg-pink-deep flex items-center gap-0.5 ml-2 font-bold text-[11px] whitespace-nowrap px-2 py-0.5 rounded-lg bg-white/80 border border-pink-200"
           >
+            <span>{isOpen ? '收合連結' : '展開連結'}</span>
             {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
         </div>
 
-        <div className={`flex flex-wrap items-center gap-3 sm:flex ${isOpen ? 'flex mt-1' : 'hidden'}`}>
+        <div className={`flex flex-wrap items-center gap-2 sm:gap-3 sm:flex ${isOpen ? 'flex pt-1 border-t sm:border-t-0 border-pink-100' : 'hidden'}`}>
           <a
             href="https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/edit?usp=sharing"
             target="_blank"

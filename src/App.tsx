@@ -174,21 +174,21 @@ export const App: React.FC = () => {
       <DataSourceBanner />
 
       {/* 3. Main Content Container */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {activeTab === 'SCHEDULE' ? (
           <>
             {/* Banner Card */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink p-6 sm:p-8 text-white mb-6 shadow-elevated">
+            <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink p-4 sm:p-7 text-white mb-4 sm:mb-6 shadow-elevated">
               <div className="relative z-10 max-w-xl">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold mb-3">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 sm:mb-3">
                   <Sparkles className="w-3.5 h-3.5 text-amber-300" />
                   <span>2026 全猿主場 • 應援指南</span>
                 </span>
-                <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">
+                <h2 className="text-xl sm:text-3xl font-black tracking-tight mb-1.5 sm:mb-2">
                   Rakuten Girls 樂天女孩 2026 班表
                 </h2>
                 <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed font-normal">
-                  掌握女孩每場賽事的 1-3 局、中場表演與 7-8 局應援站位（一壘東區／三壘西區／假日大樂／R 舞台專區）。點擊卡片可查看個別出勤月曆與 Instagram！
+                  掌握女孩每場賽事的 1-3 局、中場表演與 7-8 局應援站位（一壘東區／三壘西區／假日大樂／R 舞台專區）。點擊卡片可查看個別出勤與 Instagram！
                 </p>
               </div>
               <div className="absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
