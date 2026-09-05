@@ -295,7 +295,7 @@ export const App: React.FC = () => {
                 rel="noopener noreferrer"
                 className="hover:text-rkg-pink-deep dark:hover:text-pink-400 transition"
               >
-                樂天桃猿棒球隊官方網站
+                Rakuten Girls 官方名冊
               </a>
               <span>•</span>
               <a

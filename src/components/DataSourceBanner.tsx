@@ -46,7 +46,7 @@ export const DataSourceBanner: React.FC = () => {
             title="前往樂天桃猿官方網站"
           >
             <Info className="w-3 h-3 text-rkg-crimson dark:text-rkg-pink" />
-            <span>樂天官網女孩名冊</span>
+            <span>Rakuten Girls 官方名冊</span>
             <ExternalLink className="w-2.5 h-2.5 opacity-60" />
           </a>
 
