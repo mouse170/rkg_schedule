@@ -328,7 +328,46 @@ const MainApp: React.FC = () => {
       return midSections;
     }
 
-    // B. 一般時段與站位分組邏輯 (ALL, ON_DUTY, PERIOD_13, PERIOD_78, FAVORITES)
+    // B. 最愛篩選且全部天數時之專屬分組 (FAVORITES + ALL DATES)
+    if (areaFilter === 'FAVORITES' && !selectedDate) {
+      const onDutyFavs: GirlProfile[] = [];
+      const offDutyFavs: GirlProfile[] = [];
+
+      filteredGirls.forEach(girl => {
+        const duties = schedule.girlsScheduleMap[girl.name] || [];
+        if (duties.length > 0) {
+          onDutyFavs.push(girl);
+        } else {
+          offDutyFavs.push(girl);
+        }
+      });
+
+      sortGirlsInGroup(onDutyFavs);
+      sortGirlsInGroup(offDutyFavs);
+
+      const favSections: GroupSection[] = [];
+      if (onDutyFavs.length > 0) {
+        favSections.push({
+          key: 'FAV_ON_DUTY',
+          title: t.groupTitleFavOnDuty,
+          badgeStyle: 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-sm',
+          girls: onDutyFavs,
+          favCount: onDutyFavs.length
+        });
+      }
+      if (offDutyFavs.length > 0) {
+        favSections.push({
+          key: 'FAV_OFF_DUTY',
+          title: t.groupTitleFavOffDuty,
+          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          girls: offDutyFavs,
+          favCount: offDutyFavs.length
+        });
+      }
+      return favSections;
+    }
+
+    // C. 一般時段與站位分組邏輯 (ALL, ON_DUTY, PERIOD_13, PERIOD_78, FAVORITES w/ date)
     const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
       EAST: [],
       WEST: [],

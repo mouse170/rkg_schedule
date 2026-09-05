@@ -63,6 +63,8 @@ export interface Translations {
   groupTitleMidWest: string;
   groupTitleMidStage: string;
   groupTitleOffDuty: string;
+  groupTitleFavOnDuty: string;
+  groupTitleFavOffDuty: string;
   noMidPerformance: string;
   searchSchedulePlaceholder: string;
   filterCountSummary: string;
@@ -184,6 +186,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidWest: '中場表演 (西區前)',
     groupTitleMidStage: '中場舞應援舞台表演',
     groupTitleOffDuty: '未排班／休假女孩',
+    groupTitleFavOnDuty: '本期有排班最愛女孩',
+    groupTitleFavOffDuty: '本期未排班最愛女孩',
     noMidPerformance: '當日無中場表演，實際以官方公告為主。',
     searchSchedulePlaceholder: '搜尋女孩姓名或背號...',
     filterCountSummary: '顯示結果：{count} 位女孩',
@@ -299,6 +303,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidWest: 'イニング間パフォーマンス (西エリア前)',
     groupTitleMidStage: 'イニング間応援ステージパフォーマンス',
     groupTitleOffDuty: '本日未シフト／休日メンバー',
+    groupTitleFavOnDuty: '今期シフトありお気に入りメンバー',
+    groupTitleFavOffDuty: '今期シフトなしお気に入りメンバー',
     noMidPerformance: '当日はイニング間パフォーマンスがございません。詳細は公式発表をご確認ください。',
     searchSchedulePlaceholder: '名前または背番号で検索...',
     filterCountSummary: '表示結果：{count} 名のガールズ',
@@ -414,6 +420,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidWest: '중간 공연 (서구역 앞)',
     groupTitleMidStage: '중간 댄스 무대 공연',
     groupTitleOffDuty: '미출근／휴무 걸스',
+    groupTitleFavOnDuty: '이번 시즌 출근 일정 있는 최애 걸스',
+    groupTitleFavOffDuty: '이번 시즌 일정 없는 최애 걸스',
     noMidPerformance: '당일 중간 공연이 없으며, 실제 일정은 구단 공식 공지를 기준으로 합니다.',
     searchSchedulePlaceholder: '이름 또는 등번호로 검색...',
     filterCountSummary: '검색 결과: {count}명의 걸스',
