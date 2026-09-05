@@ -111,6 +111,7 @@ export interface Translations {
   profileArchive: string;
   teamAffiliation: string;
   dutyHistory: string;
+  noDutyNotice: string;
   fanKnowledgeTitle: string;
   fanKnowledgeEast: string;
   fanKnowledgeWest: string;
@@ -228,6 +229,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     profileArchive: '個人出勤檔案',
     teamAffiliation: '樂天桃猿棒球隊專屬啦啦隊',
     dutyHistory: '排班紀錄與應援站位',
+    noDutyNotice: '目前此月份試算表尚未有站位資訊。',
     fanKnowledgeTitle: '球迷應援小知識',
     fanKnowledgeEast: '內野一壘側應援舞台（東下 D-F 區）。',
     fanKnowledgeWest: '內野三壘側應援舞台（西下 D-F 區）。',
@@ -342,6 +344,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     profileArchive: '個人出勤プロフィール',
     teamAffiliation: '楽天モンキーズ公式チアリーダー',
     dutyHistory: 'シフト記録＆応援立ち位置',
+    noDutyNotice: '現在この月のスプレッドシートには立ち位置情報がありません。',
     fanKnowledgeTitle: '応援のワンポイント豆知識',
     fanKnowledgeEast: '内野1塁側応援ステージ（東下 D-F エリア）。',
     fanKnowledgeWest: '内野3塁側応援ステージ（西下 D-F エリア）。',
@@ -456,6 +459,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     profileArchive: '개인 출근 프로필',
     teamAffiliation: '라쿠텐 몽키스 공식 치어리더',
     dutyHistory: '근무 일정 및 응원 위치',
+    noDutyNotice: '현재 이번 달 스프레드시트에 응원 위치 정보가 아직 없습니다.',
     fanKnowledgeTitle: '팬을 위한 응원 꿀팁',
     fanKnowledgeEast: '내야 1루 측 응원 무대 (동하 D-F 구역).',
     fanKnowledgeWest: '내야 3루 측 응원 무대 (서하 D-F 구역).',

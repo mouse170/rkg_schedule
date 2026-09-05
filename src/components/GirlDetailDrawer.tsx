@@ -243,7 +243,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                 </div>
               ) : (
                 <div className="p-8 text-center bg-pink-50/50 dark:bg-oled-surface rounded-2xl border border-dashed border-pink-200 dark:border-oled-border">
-                  <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">目前此月份試算表尚未排班</p>
+                  <p className="text-sm font-semibold text-gray-600 dark:text-gray-300">{t.noDutyNotice}</p>
                 </div>
               )}
             </div>
