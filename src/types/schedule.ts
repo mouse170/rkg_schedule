@@ -2,6 +2,7 @@ export interface GirlProfile {
   id: string;
   number: string;
   name: string;
+  koreanName?: string;
   photo: string;
   localPhoto: string;
   instagram: string | null;

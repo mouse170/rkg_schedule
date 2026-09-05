@@ -97,29 +97,50 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <h3 className="text-xl font-black text-gray-900 dark:text-white">{girl.name}</h3>
+                  {girl.koreanName && (
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm">
+                      {girl.koreanName}
+                    </span>
+                  )}
                   {girl.role && (
                     <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-500 text-white">
                       {girl.role}
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">樂天桃猿棒球隊專屬啦啦隊</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2.5">樂天桃猿棒球隊專屬啦啦隊</p>
 
-                {girl.instagram ? (
-                  <a
-                    href={girl.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full text-xs font-bold shadow-sm transition active:scale-95"
-                  >
-                    <span>@{girl.instagramHandle}</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ) : (
-                  <span className="text-xs text-gray-400">暫無官方 IG</span>
-                )}
+                <div className="flex flex-wrap items-center gap-1.5">
+                  {girl.instagram ? (
+                    <a
+                      href={girl.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full text-xs font-bold shadow-sm transition active:scale-95"
+                    >
+                      <span>@{girl.instagramHandle}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ) : (
+                    <span className="text-xs text-gray-400">暫無官方 IG</span>
+                  )}
+
+                  {girl.koreanName && (
+                    <button
+                      onClick={() => {
+                        if (navigator.clipboard) {
+                          navigator.clipboard.writeText(girl.koreanName!);
+                        }
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 transition active:scale-95 shadow-sm"
+                      title={`複製韓文名字：${girl.koreanName}`}
+                    >
+                      <span>複製韓文名（{girl.koreanName}）</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 

@@ -17,14 +17,14 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
 }) => {
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'KOREAN' | 'LOCAL' | 'FAVORITES'>('ALL');
-  const [copiedHandle, setCopiedHandle] = useState<string | null>(null);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  const handleCopy = (e: React.MouseEvent, handle: string) => {
+  const handleCopy = (e: React.MouseEvent, text: string, key: string) => {
     e.stopPropagation();
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(`@${handle}`);
-      setCopiedHandle(handle);
-      setTimeout(() => setCopiedHandle(null), 2000);
+      navigator.clipboard.writeText(text);
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2000);
     }
   };
 
@@ -36,13 +36,14 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
       // 1. Search
       const matchSearch =
         girl.name.toLowerCase().includes(search.toLowerCase()) ||
+        (girl.koreanName && girl.koreanName.toLowerCase().includes(search.toLowerCase())) ||
         girl.number.includes(search) ||
         (girl.instagramHandle && girl.instagramHandle.toLowerCase().includes(search.toLowerCase()));
 
       if (!matchSearch) return false;
 
       // 2. Role / Category filter
-      const isKorean = ['河智媛', '廉世彬', '禹洙漢', '高佳彬', '金佳垠'].includes(girl.name);
+      const isKorean = Boolean(girl.koreanName);
       if (roleFilter === 'KOREAN') {
         return isKorean;
       }
@@ -183,9 +184,10 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
       {/* 4. Girls IG Vertical Cards Grid (Stitch Idol Bloom Style) */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3.5 sm:gap-4">
         {filteredGirls.map((girl) => {
-          const isCopied = copiedHandle === girl.instagramHandle;
+          const isCopiedHandle = copiedKey === `handle_${girl.id}`;
+          const isCopiedKorean = copiedKey === `korean_${girl.id}`;
           const isFav = favorites.includes(girl.name);
-          const isKorean = ['河智媛', '廉世彬', '禹洙漢', '高佳彬', '金佳垠'].includes(girl.name);
+          const isKorean = Boolean(girl.koreanName);
 
           return (
             <div
@@ -232,8 +234,9 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
 
                   {/* Korean or Role Badge */}
                   {isKorean && (
-                    <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded-md bg-purple-600/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-black shadow-sm">
-                      韓援
+                    <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-extrabold shadow-sm flex items-center gap-1">
+                      <span>韓援</span>
+                      <span className="opacity-90 font-medium">| {girl.koreanName}</span>
                     </div>
                   )}
                   {girl.role && (
@@ -245,41 +248,85 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
 
                 {/* Member Info */}
                 <div className="px-0.5">
-                  <h4 className="font-extrabold text-sm sm:text-base text-gray-900 dark:text-white group-hover:text-rkg-pink-deep dark:group-hover:text-rkg-pink transition truncate">
-                    {girl.name}
-                  </h4>
+                  <div className="flex items-baseline gap-1.5 truncate">
+                    <h4 className="font-extrabold text-sm sm:text-base text-gray-900 dark:text-white group-hover:text-rkg-pink-deep dark:group-hover:text-rkg-pink transition">
+                      {girl.name}
+                    </h4>
+                    {girl.koreanName && (
+                      <span className="text-xs font-bold text-pink-600 dark:text-pink-400">
+                        {girl.koreanName}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-[11px] sm:text-xs font-semibold text-purple-700 dark:text-purple-300 truncate mt-0.5">
                     @{girl.instagramHandle}
                   </p>
                 </div>
               </div>
 
-              {/* Action Buttons: Open IG & Copy Account */}
-              <div className="mt-3 pt-2.5 border-t border-pink-50 dark:border-oled-border flex items-center gap-1.5">
-                {girl.instagram && (
-                  <a
-                    href={girl.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-bold bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm transition active:scale-95"
-                    title="開啟官方 IG 頁面"
-                  >
-                    <span>開啟 IG</span>
-                    <ExternalLink className="w-2.5 h-2.5" />
-                  </a>
-                )}
+              {/* Action Buttons: Open IG & Copy Buttons */}
+              <div className="mt-3 pt-2.5 border-t border-pink-50 dark:border-oled-border space-y-1.5">
+                <div className="flex items-center gap-1.5">
+                  {girl.instagram && (
+                    <a
+                      href={girl.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex-1 inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-bold bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm transition active:scale-95"
+                      title="開啟官方 IG 頁面"
+                    >
+                      <span>開啟 IG</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
+                    </a>
+                  )}
 
-                {girl.instagramHandle && (
+                  {girl.instagramHandle && (
+                    <button
+                      onClick={(e) => handleCopy(e, `@${girl.instagramHandle}`, `handle_${girl.id}`)}
+                      className={`inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[11px] font-bold border transition ${
+                        isCopiedHandle
+                          ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-pink-50/70 dark:bg-oled-surface hover:bg-pink-100 dark:hover:bg-oled-elevated text-gray-600 dark:text-gray-300 border-pink-100 dark:border-oled-border'
+                      }`}
+                      title="複製 IG 帳號"
+                    >
+                      {isCopiedHandle ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-500" />
+                          <span className="text-[10px]">已複製</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          <span className="text-[10px] hidden sm:inline">帳號</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
+
+                {/* Dedicated Korean Name Copy Button (Only for Korean members) */}
+                {girl.koreanName && (
                   <button
-                    onClick={(e) => handleCopy(e, girl.instagramHandle!)}
-                    className="inline-flex items-center justify-center p-1.5 rounded-xl text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-pink-50/70 dark:bg-oled-surface hover:bg-pink-100 dark:hover:bg-oled-elevated border border-pink-100 dark:border-oled-border transition"
-                    title="複製 IG 帳號"
+                    onClick={(e) => handleCopy(e, girl.koreanName!, `korean_${girl.id}`)}
+                    className={`w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-[11px] font-bold border transition active:scale-95 ${
+                      isCopiedKorean
+                        ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
+                        : 'bg-gradient-to-r from-purple-50 to-pink-50/60 dark:from-oled-surface dark:to-oled-elevated hover:from-purple-100 hover:to-pink-100 dark:hover:from-oled-elevated dark:hover:to-pink-950/40 text-purple-800 dark:text-purple-300 border-purple-200/80 dark:border-purple-800/60 shadow-sm'
+                    }`}
+                    title={`複製韓文名字：${girl.koreanName}`}
                   >
-                    {isCopied ? (
-                      <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    {isCopiedKorean ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-500" />
+                        <span>已複製韓文名（{girl.koreanName}）</span>
+                      </>
                     ) : (
-                      <Copy className="w-3.5 h-3.5" />
+                      <>
+                        <Copy className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                        <span>複製韓文名（{girl.koreanName}）</span>
+                      </>
                     )}
                   </button>
                 )}
