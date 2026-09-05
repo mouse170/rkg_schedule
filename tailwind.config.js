@@ -33,6 +33,8 @@ export default {
       boxShadow: {
         'pink-glow': '0 10px 25px -5px rgba(255, 105, 180, 0.2), 0 8px 10px -6px rgba(255, 105, 180, 0.15)',
         'pink-glow-oled': '0 0 20px rgba(255, 105, 180, 0.35)',
+        'purple-glow': '0 10px 25px -5px rgba(139, 92, 246, 0.3), 0 8px 10px -6px rgba(139, 92, 246, 0.2)',
+        'purple-glow-oled': '0 0 20px rgba(139, 92, 246, 0.45)',
         'card-soft': '0 4px 20px -2px rgba(172, 36, 113, 0.08)',
         'card-oled': '0 4px 20px -2px rgba(0, 0, 0, 0.7)',
         'elevated': '0 20px 30px -10px rgba(137, 0, 34, 0.12)'

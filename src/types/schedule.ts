@@ -2,6 +2,8 @@ export interface GirlProfile {
   id: string;
   number: string;
   name: string;
+  nationality?: 'TW' | 'KR' | 'JP';
+  nativeName?: string;
   koreanName?: string;
   photo: string;
   localPhoto: string;

@@ -29,6 +29,8 @@ export interface Translations {
   followTeamIg: string;
   searchPlaceholder: string;
   filterAll: string;
+  filterTaiwan: string;
+  filterForeign: string;
   filterKorean: string;
   filterLocal: string;
   filterFavorites: string;
@@ -36,8 +38,13 @@ export interface Translations {
   copyAccount: string;
   copied: string;
   koreanCheerleader: string;
+  badgeKorean: string;
+  badgeJapanese: string;
+  badgeTaiwan: string;
   copyKoreanName: string;
   copiedKoreanName: string;
+  copyJapaneseName: string;
+  copiedJapaneseName: string;
 
   // FilterBar & Areas
   areaAll: string;
@@ -131,15 +138,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     followTeamIg: '追蹤球團官方 IG',
     searchPlaceholder: '搜尋姓名、背號或 IG 帳號...',
     filterAll: '全部',
-    filterKorean: '韓籍外援',
-    filterLocal: '本隊成員',
+    filterTaiwan: '台籍',
+    filterForeign: '外援',
+    filterKorean: '外援',
+    filterLocal: '台籍',
     filterFavorites: '最愛',
     openIg: '開啟 IG',
     copyAccount: '帳號',
     copied: '已複製',
     koreanCheerleader: '韓援',
+    badgeKorean: '韓援',
+    badgeJapanese: '日籍',
+    badgeTaiwan: '台籍',
     copyKoreanName: '韓文名',
     copiedKoreanName: '已複製',
+    copyJapaneseName: '日文名',
+    copiedJapaneseName: '已複製',
 
     areaAll: '全部女孩',
     areaEast: '一壘東區',
@@ -226,15 +240,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     followTeamIg: '球団公式 IG をフォロー',
     searchPlaceholder: '名前、背番号、または IG アカウントで検索...',
     filterAll: 'すべて',
-    filterKorean: '韓国人メンバー',
+    filterTaiwan: '台湾',
+    filterForeign: '外援',
+    filterKorean: '外国人メンバー',
     filterLocal: '台湾メンバー',
     filterFavorites: 'お気に入り',
     openIg: 'IG を開く',
     copyAccount: 'ID',
     copied: 'コピー済',
     koreanCheerleader: '韓国応援',
+    badgeKorean: '韓援',
+    badgeJapanese: '日籍',
+    badgeTaiwan: '台籍',
     copyKoreanName: 'ハングル名',
     copiedKoreanName: 'コピー済',
+    copyJapaneseName: '日本名',
+    copiedJapaneseName: 'コピー済',
 
     areaAll: '全メンバー',
     areaEast: '1塁側 東エリア',
@@ -321,15 +342,22 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     followTeamIg: '구단 공식 IG 팔로우',
     searchPlaceholder: '이름, 등번호 또는 IG 계정 검색...',
     filterAll: '전체',
-    filterKorean: '한국인 멤버',
+    filterTaiwan: '대만',
+    filterForeign: '외국인',
+    filterKorean: '외국인 멤버',
     filterLocal: '대만 멤버',
     filterFavorites: '즐겨찾기',
     openIg: 'IG 열기',
     copyAccount: 'ID',
     copied: '복사됨',
     koreanCheerleader: '한국 치어',
+    badgeKorean: '韓援',
+    badgeJapanese: '日籍',
+    badgeTaiwan: '台籍',
     copyKoreanName: '한글 이름',
     copiedKoreanName: '복사됨',
+    copyJapaneseName: '일본 이름',
+    copiedJapaneseName: '복사됨',
 
     areaAll: '전체 멤버',
     areaEast: '1루 동구역',

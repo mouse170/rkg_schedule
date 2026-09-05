@@ -102,9 +102,19 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline gap-2 mb-1 flex-wrap">
                   <h3 className="text-xl font-black text-gray-900 dark:text-white">{girl.name}</h3>
-                  {girl.koreanName && (
+                  {(girl.nativeName || girl.koreanName) && (
                     <span className="text-sm font-bold text-pink-600 dark:text-pink-400">
-                      {girl.koreanName}
+                      {girl.nativeName || girl.koreanName}
+                    </span>
+                  )}
+                  {girl.nationality === 'KR' && (
+                    <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-sm">
+                      {t.badgeKorean}
+                    </span>
+                  )}
+                  {girl.nationality === 'JP' && (
+                    <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-rose-500 to-orange-400 text-white shadow-sm">
+                      {t.badgeJapanese}
                     </span>
                   )}
                   {girl.role && (
@@ -130,7 +140,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                     <span className="text-xs text-gray-400">暫無官方 IG</span>
                   )}
 
-                  {girl.koreanName && (
+                  {girl.nationality === 'KR' && girl.koreanName && (
                     <button
                       onClick={() => {
                         if (navigator.clipboard) {
@@ -141,6 +151,20 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       title={`${t.copyKoreanName}：${girl.koreanName}`}
                     >
                       <span>{t.copyKoreanName} {girl.koreanName}</span>
+                    </button>
+                  )}
+
+                  {girl.nationality === 'JP' && girl.nativeName && (
+                    <button
+                      onClick={() => {
+                        if (navigator.clipboard) {
+                          navigator.clipboard.writeText(girl.nativeName!);
+                        }
+                      }}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/60 transition active:scale-95 shadow-sm"
+                      title={`${t.copyJapaneseName}：${girl.nativeName}`}
+                    >
+                      <span>{t.copyJapaneseName} {girl.nativeName}</span>
                     </button>
                   )}
                 </div>
