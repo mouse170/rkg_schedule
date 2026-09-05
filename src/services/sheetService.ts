@@ -3,8 +3,10 @@ import { ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule'
 
 export const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
 
-interface ColumnBlock {
+interface TableBlock {
   date: string;
+  startCol: number;
+  endCol: number;
   numberCol: number;
   nameCol: number;
   inningCols: { colIndex: number; period: string }[];
@@ -24,77 +26,80 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
     };
   }
 
-  // 1. Find the date header row (row containing dates like 9/2, 9/3, etc.)
-  let dateRowIndex = -1;
+  // 1. Locate the header row containing '背號' and '女孩' (or '姓名')
+  let headerRowIndex = -1;
   for (let i = 0; i < Math.min(rows.length, 15); i++) {
     const row = rows[i];
-    if (row.some(cell => /\b\d{1,2}\/\d{1,2}\b/.test(cell.trim()))) {
-      dateRowIndex = i;
+    if (row.some(c => c.includes('背號')) && row.some(c => c.includes('女孩') || c.includes('姓名'))) {
+      headerRowIndex = i;
       break;
     }
   }
 
-  if (dateRowIndex === -1) {
-    // Default to row 0 if no explicit date pattern found
-    dateRowIndex = 0;
+  if (headerRowIndex === -1) {
+    console.warn('Could not find header row with 背號 and 女孩');
+    headerRowIndex = 1;
   }
 
-  const dateRow = rows[dateRowIndex];
-  const headerRow = rows[dateRowIndex + 1] || [];
+  const headerRow = rows[headerRowIndex];
+  const dateRow = rows[headerRowIndex - 1] || [];
 
-  // 2. Identify all date column blocks
-  const blocks: ColumnBlock[] = [];
-  let currentDate = '';
-  let currentBlockStart = -1;
-
-  for (let c = 0; c < dateRow.length; c++) {
-    const cell = dateRow[c].trim();
-    const dateMatch = cell.match(/\b(\d{1,2}\/\d{1,2})\b/);
-    if (dateMatch) {
-      if (currentDate && currentBlockStart !== -1) {
-        // finish previous block
-        blocks.push(buildBlock(currentDate, currentBlockStart, c, headerRow));
-      }
-      currentDate = dateMatch[1];
-      currentBlockStart = c;
+  // 2. Locate each game table by finding '背號' occurrences in the header row
+  const tableStarts: number[] = [];
+  for (let c = 0; c < headerRow.length; c++) {
+    if (headerRow[c].trim() === '背號') {
+      tableStarts.push(c);
     }
   }
 
-  if (currentDate && currentBlockStart !== -1) {
-    blocks.push(buildBlock(currentDate, currentBlockStart, dateRow.length, headerRow));
-  }
+  const tables: TableBlock[] = [];
+  for (let t = 0; t < tableStarts.length; t++) {
+    const start = tableStarts[t];
+    const end = (t + 1 < tableStarts.length) ? tableStarts[t + 1] : headerRow.length;
 
-  // Helper to build a column block
-  function buildBlock(date: string, startCol: number, endCol: number, headers: string[]): ColumnBlock {
-    let numberCol = -1;
+    // Search for match date in the date row within or adjacent to this block's columns
+    let date = '';
+    for (let c = start; c < end; c++) {
+      const match = (dateRow[c] || '').trim().match(/(\d{1,2}\/\d{1,2})/);
+      if (match) {
+        date = match[1];
+        break;
+      }
+    }
+
+    // Fallback if date cell wasn't directly within range
+    if (!date) {
+      date = `第 ${t + 1} 場`;
+    }
+
+    let numberCol = start;
     let nameCol = -1;
     const inningCols: { colIndex: number; period: string }[] = [];
 
-    for (let col = startCol; col < endCol; col++) {
-      const header = (headers[col] || '').trim();
-      if (header.includes('背號')) {
-        numberCol = col;
-      } else if (header.includes('女孩') || header.includes('姓名')) {
-        nameCol = col;
-      } else if (header.length > 0 && !header.includes('分隔線')) {
-        inningCols.push({ colIndex: col, period: header });
+    for (let c = start; c < end; c++) {
+      const h = (headerRow[c] || '').trim();
+      if (h === '女孩' || h === '姓名') {
+        nameCol = c;
+      } else if (h && h !== '背號' && !h.includes('分隔線')) {
+        inningCols.push({ colIndex: c, period: h });
       }
     }
 
-    // fallback heuristics if header didn't explicitly say "背號" or "女孩"
     if (nameCol === -1) {
-      // Typically the second column in the block
-      nameCol = startCol + 1 < endCol ? startCol + 1 : startCol;
-    }
-    if (numberCol === -1 && nameCol > startCol) {
-      numberCol = startCol;
+      nameCol = start + 1;
     }
 
-    return { date, numberCol, nameCol, inningCols };
+    tables.push({
+      date,
+      startCol: start,
+      endCol: end,
+      numberCol,
+      nameCol,
+      inningCols
+    });
   }
 
-  // 3. Parse duty rows for each block
-  const dates: string[] = blocks.map(b => b.date);
+  const dates = tables.map(t => t.date);
   const girlsScheduleMap: Record<string, DailyDuty[]> = {};
   const dailyRosterMap: Record<string, DailyDuty[]> = {};
 
@@ -102,30 +107,33 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
     dailyRosterMap[d] = [];
   });
 
-  const startDataRow = dateRowIndex + 2;
+  const summaryKeywords = ['東', '西', '東R', '西R', '大樂', '女孩', '姓名', '小計', '合計'];
 
-  for (let r = startDataRow; r < rows.length; r++) {
-    const row = rows[r];
-    if (!row || row.length === 0) continue;
+  // 3. Parse duty rows for each table
+  for (const table of tables) {
+    for (let r = headerRowIndex + 1; r < rows.length; r++) {
+      const row = rows[r];
+      if (!row || row.length === 0) continue;
 
-    for (const block of blocks) {
-      const rawName = (row[block.nameCol] || '').trim();
-      const rawNumber = block.numberCol !== -1 ? (row[block.numberCol] || '').trim() : '';
+      const rawName = (row[table.nameCol] || '').trim();
+      const rawNumber = (row[table.numberCol] || '').trim();
 
-      // Skip empty or summary rows (e.g., total counts, "東", "西", "大樂", etc.)
-      if (!rawName || rawName === '女孩' || rawName === '東' || rawName === '西' || rawName === '東R' || rawName === '西R' || rawName === '大樂') {
+      // Skip summary, footer, or separator rows
+      if (
+        !rawName ||
+        summaryKeywords.includes(rawName) ||
+        rawName.includes('分隔線') ||
+        !isNaN(Number(rawName))
+      ) {
         continue;
       }
-      if (!isNaN(Number(rawName))) {
-        continue; // numbers only indicate count
-      }
 
-      // Collect inning positions
+      // Collect inning assignments
       const innings: InningAssignment[] = [];
       let eastCount = 0;
       let westCount = 0;
 
-      for (const inningCol of block.inningCols) {
+      for (const inningCol of table.inningCols) {
         const val = (row[inningCol.colIndex] || '').trim();
         if (val) {
           innings.push({
@@ -137,6 +145,8 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
         }
       }
 
+      if (innings.length === 0) continue;
+
       let primaryArea: DailyDuty['primaryArea'] = '其他';
       if (eastCount > westCount) {
         primaryArea = '東區';
@@ -147,7 +157,7 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       }
 
       const duty: DailyDuty = {
-        date: block.date,
+        date: table.date,
         girlName: rawName,
         number: rawNumber,
         innings,
@@ -155,18 +165,14 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       };
 
       // Add to daily roster
-      if (!dailyRosterMap[block.date]) {
-        dailyRosterMap[block.date] = [];
-      }
-      dailyRosterMap[block.date].push(duty);
+      dailyRosterMap[table.date].push(duty);
 
-      // Normalize name for key (e.g. 珈妤 -> 沈珈妤)
+      // Normalize name for key (e.g. 珈妤 -> 沈珈妤, 琳妲 -> 琳妲)
       const keyName = rawName === '珈妤' ? '沈珈妤' : rawName;
       if (!girlsScheduleMap[keyName]) {
         girlsScheduleMap[keyName] = [];
       }
-      // avoid duplicates
-      if (!girlsScheduleMap[keyName].some(d => d.date === block.date)) {
+      if (!girlsScheduleMap[keyName].some(d => d.date === table.date)) {
         girlsScheduleMap[keyName].push(duty);
       }
     }
@@ -181,7 +187,7 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
   };
 }
 
-// Initial fallback CSV data from snapshot
+// Fallback CSV snapshot
 const FALLBACK_CSV = `,,9/2,,,,,9/3,,
 背號,女孩,1-3,7-8,,背號,女孩,1-3,中場,7-8
 3,穆又甯,西,東,我  叫  分  隔  線,3,穆又甯,東,西,西
