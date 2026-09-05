@@ -411,22 +411,24 @@ const MainApp: React.FC = () => {
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {activeTab === 'SCHEDULE' ? (
             <>
-              {/* Banner Card */}
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink p-4 sm:p-7 text-white mb-4 sm:mb-6 shadow-elevated">
-                <div className="relative z-10 max-w-xl">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 sm:mb-3">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                    <span>{t.bannerBadge}</span>
-                  </span>
-                  <h2 className="text-xl sm:text-3xl font-black tracking-tight mb-1.5 sm:mb-2">
-                    {t.bannerTitle}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed font-normal">
+              {/* Banner Card (Compact) */}
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-3 px-4 sm:py-3.5 sm:px-5 text-white mb-3 sm:mb-4 shadow-sm">
+                <div className="relative z-10">
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
+                      <Sparkles className="w-3 h-3 text-amber-300" />
+                      <span>{t.bannerBadge}</span>
+                    </span>
+                    <h2 className="text-sm sm:text-base font-black tracking-tight">
+                      {t.bannerTitle}
+                    </h2>
+                  </div>
+                  <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
                     {t.bannerDesc}
                   </p>
                 </div>
-                <div className="absolute -right-10 -bottom-10 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
-                <div className="absolute right-20 -top-10 w-40 h-40 rounded-full bg-pink-300/20 blur-xl pointer-events-none" />
+                <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
+                <div className="absolute right-16 -top-8 w-32 h-32 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
               </div>
 
               {/* Filter Controls */}

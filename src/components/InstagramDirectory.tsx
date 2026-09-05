@@ -81,79 +81,27 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
   }, [search, roleFilter, favorites]);
 
   return (
-    <div className="space-y-4 sm:space-y-6 animate-fadeIn">
-      {/* 1. Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-purple-600 via-pink-600 to-rkg-crimson p-4 sm:p-7 text-white shadow-elevated">
-        <div className="relative z-10 max-w-xl">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 sm:py-1 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 sm:mb-3">
-            <InstagramIcon className="w-3.5 h-3.5" />
-            <span>{t.igBannerBadge}</span>
-          </span>
-          <h2 className="text-xl sm:text-3xl font-black tracking-tight mb-1.5 sm:mb-2">
-            {t.igBannerTitle}
-          </h2>
-          <p className="text-xs sm:text-sm text-pink-100/90 leading-relaxed font-normal">
+    <div className="space-y-3 sm:space-y-4 animate-fadeIn">
+      {/* 1. Header Banner (Compact) */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-purple-600 via-pink-600 to-rkg-crimson py-3 px-4 sm:py-3.5 sm:px-5 text-white shadow-sm">
+        <div className="relative z-10">
+          <div className="flex flex-wrap items-center gap-2 mb-1">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
+              <InstagramIcon className="w-3 h-3" />
+              <span>{t.igBannerBadge}</span>
+            </span>
+            <h2 className="text-sm sm:text-base font-black tracking-tight">
+              {t.igBannerTitle}
+            </h2>
+          </div>
+          <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
             {t.igBannerDesc}
           </p>
         </div>
-        <div className="absolute -right-8 -bottom-8 w-60 h-60 rounded-full bg-white/10 blur-2xl pointer-events-none" />
+        <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/10 blur-xl pointer-events-none" />
       </div>
 
-      {/* 2. Official Team Account Card */}
-      <div className="bg-gradient-to-r from-purple-50 via-pink-50 to-rose-50 dark:from-oled-surface dark:via-oled-card dark:to-oled-surface border border-purple-200/80 dark:border-oled-border rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 p-0.5 shadow-md flex items-center justify-center text-white flex-shrink-0">
-            <InstagramIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <h3 className="font-extrabold text-sm sm:text-base text-gray-900 dark:text-white">
-                Rakuten Girls 官方 Instagram
-              </h3>
-              <span className="px-2 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/60 text-rkg-pink-deep dark:text-pink-300 text-[10px] font-extrabold border border-pink-200 dark:border-pink-800/60">
-                Official
-              </span>
-            </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-              @rakuten_girls • 樂天桃猿棒球隊專屬啦啦隊
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <a
-            href="https://www.instagram.com/rakutengirls/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-sm transition active:scale-95"
-          >
-            <span>{t.followTeamIg}</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
-          <button
-            onClick={(e) => handleCopy(e, '@rakuten_girls', 'official_ig')}
-            className={`inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-xs font-bold border transition active:scale-95 ${
-              copiedKey === 'official_ig'
-                ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700 text-emerald-600 dark:text-emerald-400'
-                : 'bg-white dark:bg-oled-surface hover:bg-gray-50 dark:hover:bg-oled-elevated text-gray-700 dark:text-gray-200 border-gray-200 dark:border-oled-border'
-            }`}
-            title="複製球團 IG 帳號"
-          >
-            {copiedKey === 'official_ig' ? (
-              <>
-                <Check className="w-3.5 h-3.5 text-emerald-500" />
-                <span>{t.copied}</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-3.5 h-3.5" />
-                <span>{t.copyAccount}</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* 3. Search & Filter Bar (Stitch Idol Bloom Style) */}
+      {/* 2. Search & Filter Bar (Stitch Idol Bloom Style) */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
         {/* Search */}
         <div className="relative flex-1">
