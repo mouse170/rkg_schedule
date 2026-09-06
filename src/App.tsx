@@ -211,6 +211,13 @@ const MainApp: React.FC = () => {
         const aFav = favorites.includes(a.name) ? 1 : 0;
         const bFav = favorites.includes(b.name) ? 1 : 0;
         if (aFav !== bFav) return bFav - aFav;
+
+        const aDuties = schedule.girlsScheduleMap[a.name] || [];
+        const bDuties = schedule.girlsScheduleMap[b.name] || [];
+        const aOnDuty = selectedDate ? aDuties.some(d => d.date === selectedDate) : aDuties.length > 0;
+        const bOnDuty = selectedDate ? bDuties.some(d => d.date === selectedDate) : bDuties.length > 0;
+        if (aOnDuty !== bOnDuty) return (bOnDuty ? 1 : 0) - (aOnDuty ? 1 : 0);
+
         const numA = parseInt(a.number, 10) || 999;
         const numB = parseInt(b.number, 10) || 999;
         return numA - numB;
