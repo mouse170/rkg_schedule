@@ -164,14 +164,22 @@ export const GirlCard: React.FC<GirlCardProps> = ({
               </p>
             )
           ) : (
-            /* 全部天數模式：依日期列出所有排班站位，包含中場舞 */
+            /* 全部天數模式：結構化日期清單，確保小手機雙欄下排版垂直對齊不錯亂 */
             duties.length > 0 ? (
               <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border space-y-1.5">
                 {duties.map((duty, dIdx) => (
-                  <div key={dIdx} className="flex flex-wrap items-center gap-1 text-[10px]">
-                    <span className="px-1.5 py-0.5 rounded bg-pink-100/90 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-extrabold text-[9px] sm:text-[10px] whitespace-nowrap">
-                      {duty.date}
-                    </span>
+                  <div
+                    key={dIdx}
+                    className="p-1 sm:p-1.5 rounded-xl bg-pink-50/50 dark:bg-oled-surface border border-pink-100/60 dark:border-oled-border"
+                  >
+                    {/* 日期標頭 */}
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-black text-[9px] sm:text-[10px]">
+                        <span>{duty.date}</span>
+                      </span>
+                    </div>
+
+                    {/* 該日局數膠囊 */}
                     <div className="flex flex-wrap items-center gap-1">
                       {duty.innings.map((inn, iIdx) => {
                         const loc = inn.location;
@@ -195,7 +203,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                         return (
                           <span
                             key={iIdx}
-                            className={`inline-flex items-center gap-0.5 px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}`}
+                            className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}`}
                           >
                             <span>{inn.period}:{inn.location}</span>
                           </span>
