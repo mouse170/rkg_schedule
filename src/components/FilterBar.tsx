@@ -4,7 +4,6 @@ import { useLanguage } from '../context/LanguageContext';
 
 export type AreaFilterType =
   | 'ALL'
-  | 'ON_DUTY'
   | 'PERIOD_13'
   | 'PERIOD_78'
   | 'PERIOD_MID'
@@ -111,38 +110,26 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {t.areaAll} ({totalCount})
           </button>
 
-          {/* 今日有班 */}
-          <button
-            onClick={() => onAreaFilterChange('ON_DUTY')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 ${
-              areaFilter === 'ON_DUTY'
-                ? 'bg-rkg-pink-deep text-white shadow-pink-glow'
-                : 'bg-pink-50 dark:bg-pink-950/40 text-rkg-pink-deep dark:text-pink-300 hover:bg-pink-100 dark:hover:bg-pink-900/60 border border-pink-200 dark:border-pink-800/60'
-            }`}
-          >
-            <span>{selectedDate ? `${selectedDate} ${t.areaOnDuty}` : t.areaOnDuty}</span>
-          </button>
-
-          {/* 1-3 局站位 */}
+          {/* 1-3 局站位 (採用中性專業天青石灰藍，避免佔用東區一壘深藍) */}
           <button
             onClick={() => onAreaFilterChange('PERIOD_13')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
               areaFilter === 'PERIOD_13'
-                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
-                : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/60 border border-blue-200 dark:border-blue-800/60'
+                ? 'bg-gradient-to-r from-sky-600 to-slate-700 text-white shadow-sm'
+                : 'bg-sky-50 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 border border-sky-200 dark:border-sky-800/60'
             }`}
           >
             <Compass className="w-3 h-3" />
             <span>{t.filterPeriod13}</span>
           </button>
 
-          {/* 7-8 局站位 */}
+          {/* 7-8 局站位 (採用紫羅蘭色，避免佔用西區三壘草綠) */}
           <button
             onClick={() => onAreaFilterChange('PERIOD_78')}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition flex items-center gap-1 ${
               areaFilter === 'PERIOD_78'
-                ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm'
-                : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm'
+                : 'bg-purple-50 dark:bg-purple-950/40 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60'
             }`}
           >
             <Compass className="w-3 h-3" />

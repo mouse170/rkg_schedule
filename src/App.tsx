@@ -102,14 +102,6 @@ const MainApp: React.FC = () => {
     // 2. Period & Duty filter
     if (areaFilter === 'FAVORITES') {
       list = list.filter(g => favorites.includes(g.name));
-    } else if (areaFilter === 'ON_DUTY') {
-      list = list.filter(g => {
-        const duties = schedule.girlsScheduleMap[g.name] || [];
-        if (selectedDate) {
-          return duties.some(d => d.date === selectedDate);
-        }
-        return duties.length > 0;
-      });
     } else if (areaFilter === 'PERIOD_13') {
       // 1-3 局有排定站位之女孩
       list = list.filter(g => {
@@ -200,6 +192,7 @@ const MainApp: React.FC = () => {
     favCount: number;
     date?: string;
     emptyNotice?: string;
+    hideHeader?: boolean;
   }
 
   // 4. Grouped & sorted girls according to user criteria:
@@ -367,7 +360,23 @@ const MainApp: React.FC = () => {
       return favSections;
     }
 
-    // C. 一般時段與站位分組邏輯 (ALL, ON_DUTY, PERIOD_13, PERIOD_78, FAVORITES w/ date)
+    // C. 全部女孩且全部日期時：隱藏分區標題，直接以完整網格平鋪所有女孩站位資訊
+    if (areaFilter === 'ALL' && !selectedDate) {
+      const allGirls = [...filteredGirls];
+      sortGirlsInGroup(allGirls);
+      return [
+        {
+          key: 'ALL_FLAT',
+          title: t.areaAll,
+          badgeStyle: 'from-gray-800 to-gray-900 text-white',
+          girls: allGirls,
+          favCount: countFavs(allGirls),
+          hideHeader: true
+        }
+      ];
+    }
+
+    // D. 一般時段與站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date, ALL w/ date)
     const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
       EAST: [],
       WEST: [],
@@ -522,24 +531,26 @@ const MainApp: React.FC = () => {
                 <div className="space-y-8">
                   {groupedSections.map((sec) => (
                     <section key={sec.key} className="space-y-3.5">
-                      {/* Section Header */}
-                      <div className="flex items-center justify-between px-1 border-b border-pink-100/70 dark:border-oled-border pb-2">
-                        <div className="flex items-center gap-2">
-                          <span className={`px-2.5 py-1 rounded-full text-xs font-black bg-gradient-to-r ${sec.badgeStyle}`}>
-                            {sec.title}
-                          </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">
-                            {sec.girls.length} 位
-                          </span>
-                        </div>
-
-                        {sec.favCount > 0 && (
-                          <div className="flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full border border-rose-200/80 dark:border-rose-800/60">
-                            <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
-                            <span>{sec.favCount} 位最愛</span>
+                      {/* Section Header (若 hideHeader 為 true 則不渲染) */}
+                      {!sec.hideHeader && (
+                        <div className="flex items-center justify-between px-1 border-b border-pink-100/70 dark:border-oled-border pb-2">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2.5 py-1 rounded-full text-xs font-black bg-gradient-to-r ${sec.badgeStyle}`}>
+                              {sec.title}
+                            </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">
+                              {sec.girls.length} 位
+                            </span>
                           </div>
-                        )}
-                      </div>
+
+                          {sec.favCount > 0 && (
+                            <div className="flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full border border-rose-200/80 dark:border-rose-800/60">
+                              <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
+                              <span>{sec.favCount} 位最愛</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
                       {/* Cards Grid or Section Empty Notice */}
                       {sec.girls.length > 0 ? (
