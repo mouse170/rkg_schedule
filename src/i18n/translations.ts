@@ -88,6 +88,7 @@ export interface Translations {
   gameEvent: string;
   onDuty: string;
   offDuty: string;
+  locationTBD: string;
   viewSchedule: string;
 
   // Stadium Guide Modal
@@ -211,6 +212,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: '主場賽事',
     onDuty: '上班',
     offDuty: '休假',
+    locationTBD: '站位待公布',
     viewSchedule: '查看完整班表 →',
 
     guideModalTitle: '樂天桃園棒球場 • 啦啦隊應援席位導覽',
@@ -329,6 +331,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: 'ホームゲーム',
     onDuty: '出勤',
     offDuty: '休日',
+    locationTBD: '立ち位置確認中',
     viewSchedule: '詳細スケジュールを見る →',
 
     guideModalTitle: '楽天桃園野球場 • チア応援シートガイド',
@@ -447,6 +450,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: '홈경기',
     onDuty: '출근',
     offDuty: '휴무',
+    locationTBD: '위치 공지 예정',
     viewSchedule: '상세 일정 보기 →',
 
     guideModalTitle: '라쿠텐 타오위안 야구장 • 치어리더 응원석 안내',

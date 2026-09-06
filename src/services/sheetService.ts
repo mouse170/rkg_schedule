@@ -1,7 +1,9 @@
 import Papa from 'papaparse';
 import { ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 
-export const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
+export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
+export const SHEET_GIDS = ['1468073228', '1259873345'];
+export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${SHEET_GIDS[0]}`;
 
 interface TableBlock {
   date: string;
@@ -153,8 +155,6 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
         }
       }
 
-      if (innings.length === 0) continue;
-
       let primaryArea: DailyDuty['primaryArea'] = '其他';
       if (daleCount > 0 && daleCount >= eastCount && daleCount >= westCount) {
         primaryArea = '大樂';
@@ -225,16 +225,55 @@ const FALLBACK_CSV = `,,9/2,,,,,9/3,,
 
 export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
   try {
-    const response = await fetch(`${SHEET_CSV_URL}&t=${Date.now()}`, {
-      cache: 'no-store'
+    const timestamp = Date.now();
+    // 平行抓取所有 GID 頁籤之 CSV
+    const fetchPromises = SHEET_GIDS.map(async (gid) => {
+      const url = `${SHEET_CSV_BASE_URL}&gid=${gid}&t=${timestamp}`;
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} on gid ${gid}: ${response.statusText}`);
+      }
+      const csvText = await response.text();
+      return parseSheetCsv(csvText);
     });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    const csvText = await response.text();
-    const dataset = parseSheetCsv(csvText);
-    dataset.isLive = true;
-    return dataset;
+
+    const datasets = await Promise.all(fetchPromises);
+
+    // 合併多頁籤之 dates、dailyRosterMap 與 girlsScheduleMap
+    const combinedDates: string[] = [];
+    const combinedDailyRosterMap: Record<string, DailyDuty[]> = {};
+    const combinedGirlsScheduleMap: Record<string, DailyDuty[]> = {};
+
+    datasets.forEach((ds) => {
+      // 1. 合併 dates（依出現順序去重）
+      ds.dates.forEach((d) => {
+        if (!combinedDates.includes(d)) {
+          combinedDates.push(d);
+        }
+        // 2. 合併 dailyRosterMap
+        combinedDailyRosterMap[d] = ds.dailyRosterMap[d] || [];
+      });
+
+      // 3. 合併 girlsScheduleMap
+      Object.entries(ds.girlsScheduleMap).forEach(([name, duties]) => {
+        if (!combinedGirlsScheduleMap[name]) {
+          combinedGirlsScheduleMap[name] = [];
+        }
+        duties.forEach((duty) => {
+          if (!combinedGirlsScheduleMap[name].some((existing) => existing.date === duty.date)) {
+            combinedGirlsScheduleMap[name].push(duty);
+          }
+        });
+      });
+    });
+
+    return {
+      dates: combinedDates,
+      girlsScheduleMap: combinedGirlsScheduleMap,
+      dailyRosterMap: combinedDailyRosterMap,
+      lastUpdated: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      isLive: true
+    };
   } catch (err) {
     console.warn('Failed to fetch live sheet, using snapshot fallback:', err);
     const fallback = parseSheetCsv(FALLBACK_CSV);

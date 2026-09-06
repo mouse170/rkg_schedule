@@ -126,38 +126,47 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {/* Cheering Inning Pills */}
           {selectedDate ? (
             /* 單一指定日期模式 */
-            currentDuty && currentDuty.innings.length > 0 ? (
-              <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border flex flex-wrap gap-1">
-                {currentDuty.innings.map((inn, idx) => {
-                  const loc = inn.location;
-                  const isMid = inn.period.includes('中場');
-                  let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
-                  if (isMid) {
-                    badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
-                  } else if (loc === '東R' || loc.includes('東R')) {
-                    badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';
-                  } else if (loc === '西R' || loc.includes('西R')) {
-                    badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
-                  } else if (loc.includes('大樂')) {
-                    badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
-                  } else if (loc.includes('專區')) {
-                    badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
-                  } else if (loc.includes('東')) {
-                    badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
-                  } else if (loc.includes('西')) {
-                    badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
-                  }
-                  return (
-                    <span
-                      key={idx}
-                      className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeStyle}`}
-                    >
-                      <MapPin className="w-2.5 h-2.5 opacity-70" />
-                      <span>{inn.period}:{inn.location}</span>
-                    </span>
-                  );
-                })}
-              </div>
+            currentDuty ? (
+              currentDuty.innings.length > 0 ? (
+                <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border flex flex-wrap gap-1">
+                  {currentDuty.innings.map((inn, idx) => {
+                    const loc = inn.location;
+                    const isMid = inn.period.includes('中場');
+                    let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
+                    if (isMid) {
+                      badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                    } else if (loc === '東R' || loc.includes('東R')) {
+                      badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';
+                    } else if (loc === '西R' || loc.includes('西R')) {
+                      badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
+                    } else if (loc.includes('大樂')) {
+                      badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                    } else if (loc.includes('專區')) {
+                      badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
+                    } else if (loc.includes('東')) {
+                      badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
+                    } else if (loc.includes('西')) {
+                      badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
+                    }
+                    return (
+                      <span
+                        key={idx}
+                        className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeStyle}`}
+                      >
+                        <MapPin className="w-2.5 h-2.5 opacity-70" />
+                        <span>{inn.period}:{inn.location}</span>
+                      </span>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border">
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-pink-50 dark:bg-pink-950/50 text-rkg-pink-deep dark:text-pink-300 border border-pink-200/70 dark:border-pink-800/60">
+                    <MapPin className="w-2.5 h-2.5 opacity-60" />
+                    <span>{t.locationTBD}</span>
+                  </span>
+                </div>
+              )
             ) : (
               <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-2 pt-2 border-t border-pink-50 dark:border-oled-border">
                 此場次無應援任務
@@ -180,36 +189,42 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     </div>
 
                     {/* 該日局數膠囊 */}
-                    <div className="flex flex-wrap items-center gap-1">
-                      {duty.innings.map((inn, iIdx) => {
-                        const loc = inn.location;
-                        const isMid = inn.period.includes('中場');
-                        let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
-                        if (isMid) {
-                          badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
-                        } else if (loc === '東R' || loc.includes('東R')) {
-                          badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';
-                        } else if (loc === '西R' || loc.includes('西R')) {
-                          badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
-                        } else if (loc.includes('大樂')) {
-                          badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
-                        } else if (loc.includes('專區')) {
-                          badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
-                        } else if (loc.includes('東')) {
-                          badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
-                        } else if (loc.includes('西')) {
-                          badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
-                        }
-                        return (
-                          <span
-                            key={iIdx}
-                            className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}`}
-                          >
-                            <span>{inn.period}:{inn.location}</span>
-                          </span>
-                        );
-                      })}
-                    </div>
+                    {duty.innings.length > 0 ? (
+                      <div className="flex flex-wrap items-center gap-1">
+                        {duty.innings.map((inn, iIdx) => {
+                          const loc = inn.location;
+                          const isMid = inn.period.includes('中場');
+                          let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
+                          if (isMid) {
+                            badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                          } else if (loc === '東R' || loc.includes('東R')) {
+                            badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';
+                          } else if (loc === '西R' || loc.includes('西R')) {
+                            badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
+                          } else if (loc.includes('大樂')) {
+                            badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                          } else if (loc.includes('專區')) {
+                            badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
+                          } else if (loc.includes('東')) {
+                            badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
+                          } else if (loc.includes('西')) {
+                            badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
+                          }
+                          return (
+                            <span
+                              key={iIdx}
+                              className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}`}
+                            >
+                              <span>{inn.period}:{inn.location}</span>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-pink-500 dark:text-pink-400">
+                        <span>{t.locationTBD}</span>
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
