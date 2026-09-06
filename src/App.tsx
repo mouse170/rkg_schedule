@@ -383,7 +383,49 @@ const MainApp: React.FC = () => {
       ];
     }
 
-    // D. 一般時段與站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date, ALL w/ date)
+    // D. 全部女孩且選定特定日期時：因局數會換側應援，依「今日上班女孩」與「未排班／休假女孩」劃分分組
+    if (areaFilter === 'ALL' && selectedDate) {
+      const onDutyGirls: GirlProfile[] = [];
+      const offDutyGirls: GirlProfile[] = [];
+
+      filteredGirls.forEach(girl => {
+        const duties = schedule.girlsScheduleMap[girl.name] || [];
+        const isDuty = duties.some(d => d.date === selectedDate);
+        if (isDuty) {
+          onDutyGirls.push(girl);
+        } else {
+          offDutyGirls.push(girl);
+        }
+      });
+
+      sortGirlsInGroup(onDutyGirls);
+      sortGirlsInGroup(offDutyGirls);
+
+      const daySections: GroupSection[] = [];
+      if (onDutyGirls.length > 0) {
+        daySections.push({
+          key: `DAY_${selectedDate}_ON_DUTY`,
+          title: `${selectedDate} ${t.groupTitleOnDutySection}`,
+          badgeStyle: 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm',
+          girls: onDutyGirls,
+          favCount: countFavs(onDutyGirls),
+          date: selectedDate
+        });
+      }
+      if (offDutyGirls.length > 0) {
+        daySections.push({
+          key: `DAY_${selectedDate}_OFF_DUTY`,
+          title: t.groupTitleOffDuty,
+          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          girls: offDutyGirls,
+          favCount: countFavs(offDutyGirls),
+          date: selectedDate
+        });
+      }
+      return daySections;
+    }
+
+    // E. 指定時段站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date)
     const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
       EAST: [],
       WEST: [],
