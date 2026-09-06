@@ -3,10 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
   body {
     font-family: 'Plus Jakarta Sans', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
     background-color: #fff8f8;
     color: #211a1d;
+    overflow-x: hidden;
   }
   .dark body {
     background-color: #000000;
@@ -25,17 +30,17 @@
   animation: heartPulse 0.3s ease-in-out;
 }
 
-/* GPU-accelerated Nationality Badge subtle shimmer & hover */
-@keyframes badgeGradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* High-performance Card Container Containment */
+.girl-card-item {
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 320px 420px;
 }
 
-.animate-badge-flow {
-  background-size: 200% 200%;
-  animation: badgeGradientFlow 4s ease infinite;
-  will-change: background-position;
+/* GPU Hardware Acceleration for Sticky Header */
+.gpu-layer {
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Glassmorphism */

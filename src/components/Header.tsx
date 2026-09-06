@@ -27,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { t } = useLanguage();
 
   return (
-    <header className="sticky top-0 z-30 glass-nav border-b border-pink-100/90 dark:border-oled-border shadow-sm transition-colors duration-300">
+    <header className="sticky top-0 z-30 glass-nav gpu-layer border-b border-pink-100/90 dark:border-oled-border shadow-sm transition-colors duration-300">
       {/* Main App Navigation Bar */}
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
         {/* Brand & Title */}

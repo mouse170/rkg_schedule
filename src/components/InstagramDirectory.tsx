@@ -183,12 +183,12 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
             <div
               key={girl.id}
               onClick={() => onSelectGirl(girl)}
-              className="group relative bg-white dark:bg-oled-card rounded-3xl p-3 sm:p-3.5 shadow-card-soft dark:shadow-card-oled hover:shadow-pink-glow dark:hover:shadow-pink-glow-oled border border-pink-100/90 dark:border-oled-border hover:border-rkg-pink/50 dark:hover:border-rkg-pink transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden active:scale-[0.98]"
+              className="girl-card-item group relative bg-white dark:bg-oled-card rounded-3xl p-3 sm:p-3.5 shadow-card-soft dark:shadow-card-oled hover:shadow-pink-glow dark:hover:shadow-pink-glow-oled border border-pink-100/90 dark:border-oled-border hover:border-rkg-pink/50 dark:hover:border-rkg-pink transition-colors duration-200 cursor-pointer flex flex-col justify-between overflow-hidden active:scale-[0.98]"
             >
               {/* Favorite Heart Button */}
               <button
                 onClick={(e) => onToggleFavorite(e, girl.name)}
-                className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/90 dark:bg-oled-surface/90 backdrop-blur-sm shadow-sm hover:scale-110 active:scale-95 transition"
+                className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/95 dark:bg-oled-surface/95 shadow-sm hover:scale-110 active:scale-95 transition-transform"
                 title={isFav ? '取消最愛' : '加入最愛'}
               >
                 <Heart
@@ -208,7 +208,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                     alt={girl.name}
                     loading={isPriority ? 'eager' : 'lazy'}
                     fetchPriority={isPriority ? 'high' : 'auto'}
-                    decoding={isPriority ? 'sync' : 'async'}
+                    decoding="async"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       if (target.src.endsWith('.webp')) {
@@ -219,39 +219,39 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                         target.src = girl.photo;
                       }
                     }}
-                    className="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                   />
 
                   {/* Jersey Number Badge */}
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-rkg-crimson/95 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black tracking-wider shadow-sm flex items-center gap-0.5">
+                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-rkg-crimson/95 text-white text-[10px] sm:text-[11px] font-black tracking-wider shadow-sm flex items-center gap-0.5">
                     <span>#</span>
                     <span>{girl.number}</span>
                   </div>
 
-                  {/* 1. 台籍成員標籤：湛藍/青海漸層 (GPU 輕量微動態) */}
+                  {/* 1. 台籍成員標籤：湛藍/青海漸層 */}
                   {isTaiwan && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 hover:scale-105 transition-transform duration-200 text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeTaiwan}
                     </div>
                   )}
 
-                  {/* 2. 韓籍外援標籤：太極紅白藍漸層 (GPU 輕量微動態) */}
+                  {/* 2. 韓籍外援標籤：太極紅白藍漸層 */}
                   {isKorean && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-600 to-rose-600 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-700 via-purple-600 to-rose-600 hover:scale-105 transition-transform duration-200 text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeKorean}
                     </div>
                   )}
 
-                  {/* 3. 日籍外援標籤：日之丸烈焰赤紅漸層 (GPU 輕量微動態) */}
+                  {/* 3. 日籍外援標籤：日之丸烈焰赤紅漸層 */}
                   {isJapanese && (
-                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-red-700 animate-badge-flow hover:scale-105 transition-transform duration-200 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
+                    <div className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-red-600 via-rose-500 to-red-700 hover:scale-105 transition-transform duration-200 text-white text-[10px] sm:text-[11px] font-black shadow-md tracking-wider cursor-default">
                       {t.badgeJapanese}
                     </div>
                   )}
 
                   {/* 球團職務標籤 (如總監、隊長等) */}
                   {girl.role && (
-                    <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-amber-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-black shadow-sm">
+                    <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded-md bg-amber-500/95 text-white text-[9px] sm:text-[10px] font-black shadow-sm">
                       {girl.role}
                     </div>
                   )}

@@ -33,12 +33,12 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   return (
     <div
       onClick={() => onClick(girl)}
-      className="group relative bg-white dark:bg-oled-card rounded-3xl p-3 sm:p-3.5 shadow-card-soft dark:shadow-card-oled hover:shadow-pink-glow dark:hover:shadow-pink-glow-oled border border-pink-100/90 dark:border-oled-border hover:border-rkg-pink/50 dark:hover:border-rkg-pink transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden active:scale-[0.98]"
+      className="girl-card-item group relative bg-white dark:bg-oled-card rounded-3xl p-3 sm:p-3.5 shadow-card-soft dark:shadow-card-oled hover:shadow-pink-glow dark:hover:shadow-pink-glow-oled border border-pink-100/90 dark:border-oled-border hover:border-rkg-pink/50 dark:hover:border-rkg-pink transition-colors duration-200 cursor-pointer flex flex-col justify-between overflow-hidden active:scale-[0.98]"
     >
       {/* Favorite Heart Button */}
       <button
         onClick={(e) => onToggleFavorite(e, girl.name)}
-        className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/90 dark:bg-oled-surface/90 backdrop-blur-sm shadow-sm hover:scale-110 active:scale-95 transition"
+        className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/95 dark:bg-oled-surface/95 shadow-sm hover:scale-110 active:scale-95 transition-transform"
         title={isFavorite ? '取消最愛' : '加入最愛'}
       >
         <Heart
@@ -58,7 +58,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
             alt={girl.name}
             loading={priority ? 'eager' : 'lazy'}
             fetchPriority={priority ? 'high' : 'auto'}
-            decoding={priority ? 'sync' : 'async'}
+            decoding="async"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               // Fallback 1: Try local JPG if WebP fails
@@ -71,11 +71,11 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                 target.src = girl.photo;
               }
             }}
-            className="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500"
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
           />
 
           {/* Jersey Number Badge */}
-          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-rkg-crimson/95 backdrop-blur-sm text-white text-[10px] sm:text-[11px] font-black tracking-wider shadow-sm flex items-center gap-0.5">
+          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-rkg-crimson/95 text-white text-[10px] sm:text-[11px] font-black tracking-wider shadow-sm flex items-center gap-0.5">
             <span>#</span>
             <span>{girl.number}</span>
           </div>
@@ -90,12 +90,12 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {/* Duty Status Ribbon */}
           <div className="absolute bottom-2 right-2">
             {isOnDuty ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/90 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/95 text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
                 <Sparkles className="w-2.5 h-2.5" />
                 <span>{selectedDate ? `${selectedDate} ${t.onDuty}` : `${t.dutyCount.replace('{count}', String(duties.length))}`}</span>
               </span>
             ) : (
-              <span className="px-2 py-0.5 rounded-full bg-gray-600/70 backdrop-blur-sm text-gray-200 text-[9px] sm:text-[10px] font-medium">
+              <span className="px-2 py-0.5 rounded-full bg-gray-700/90 text-gray-200 text-[9px] sm:text-[10px] font-medium shadow-sm">
                 {t.offDuty}
               </span>
             )}
