@@ -291,6 +291,10 @@ export function findGirlByName(name: string): GirlProfile | undefined {
   let found = OFFICIAL_GIRLS.find(g => g.name === trimmed);
   if (found) return found;
 
+  // case-insensitive match (for English names like KIRA -> Kira, MIKA -> Mika)
+  found = OFFICIAL_GIRLS.find(g => g.name.toLowerCase() === trimmed.toLowerCase());
+  if (found) return found;
+
   // alias handling
   if (trimmed === '珈妤') {
     return OFFICIAL_GIRLS.find(g => g.name === '沈珈妤');
@@ -303,5 +307,8 @@ export function findGirlByName(name: string): GirlProfile | undefined {
   }
 
   // partial match
-  return OFFICIAL_GIRLS.find(g => g.name.includes(trimmed) || trimmed.includes(g.name));
+  return OFFICIAL_GIRLS.find(g =>
+    g.name.toLowerCase().includes(trimmed.toLowerCase()) ||
+    trimmed.toLowerCase().includes(g.name.toLowerCase())
+  );
 }

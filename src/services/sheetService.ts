@@ -1,5 +1,6 @@
 import Papa from 'papaparse';
 import { ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
+import { findGirlByName } from '../data/girlsRoster';
 
 export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
 export const SHEET_GIDS = ['1468073228', '1259873345'];
@@ -172,10 +173,15 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
         primaryArea = '全區';
       }
 
+      // Resolve official girl profile to normalize name and number (e.g. KIRA -> Kira, MIKA -> Mika, 珈妤 -> 沈珈妤)
+      const officialGirl = findGirlByName(rawName);
+      const canonicalName = officialGirl ? officialGirl.name : (rawName === '珈妤' ? '沈珈妤' : rawName);
+      const canonicalNumber = officialGirl ? officialGirl.number : rawNumber;
+
       const duty: DailyDuty = {
         date: table.date,
-        girlName: rawName,
-        number: rawNumber,
+        girlName: canonicalName,
+        number: canonicalNumber,
         innings,
         primaryArea
       };
@@ -183,13 +189,12 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       // Add to daily roster
       dailyRosterMap[table.date].push(duty);
 
-      // Normalize name for key (e.g. 珈妤 -> 沈珈妤, 琳妲 -> 琳妲)
-      const keyName = rawName === '珈妤' ? '沈珈妤' : rawName;
-      if (!girlsScheduleMap[keyName]) {
-        girlsScheduleMap[keyName] = [];
+      // Key into girlsScheduleMap using canonical name
+      if (!girlsScheduleMap[canonicalName]) {
+        girlsScheduleMap[canonicalName] = [];
       }
-      if (!girlsScheduleMap[keyName].some(d => d.date === table.date)) {
-        girlsScheduleMap[keyName].push(duty);
+      if (!girlsScheduleMap[canonicalName].some(d => d.date === table.date)) {
+        girlsScheduleMap[canonicalName].push(duty);
       }
     }
   }
