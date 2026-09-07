@@ -27,7 +27,7 @@
    - 支援最愛女孩本機收藏（LocalStorage），最愛清單內自動維持「有班成員優先置頂」邏輯。
    - 支援依姓名背號搜尋、東區/西區/專區/全天數篩選、局數快速切換。
 8. **社群預覽與隱私無 Cookie 流量分析**：
-   - 整合符合 Threads、Facebook、X (Twitter) 規範之 1200x630 Open Graph 大圖卡片。
+   - 整合符合 LINE、Threads、Telegram、Facebook、X (Twitter) 規範之 1200x630 Open Graph 高相容性大圖卡片（中心安全區設計，兼顧橫幅大卡與 1:1 正方形縮圖）。
    - 整合極輕量、無 Cookie 之 Cloudflare Web Analytics 流量分析。
 9. **GitHub Actions 自動化 CI/CD**：
    - push 至 `main` 分支自動觸發建置並部署至 GitHub Pages。
