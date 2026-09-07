@@ -96,7 +96,7 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
               <span><strong>{t.rStageRuleTitle}</strong>：{t.rStageRuleContent}</span>
             </div>
             <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5" />
               <span><strong>{t.daLeRuleTitle}</strong>：{t.daLeRuleContent}</span>
             </div>
           </div>

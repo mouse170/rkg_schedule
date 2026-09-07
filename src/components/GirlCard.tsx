@@ -144,7 +144,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     } else if (loc === '西R' || loc.includes('西R')) {
                       badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
                     } else if (loc.includes('大樂')) {
-                      badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                      badgeStyle = 'bg-violet-100 dark:bg-violet-950/80 text-violet-900 dark:text-violet-200 border border-violet-300 dark:border-violet-700 font-black shadow-sm';
                     } else if (loc.includes('專區')) {
                       badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
                     } else if (loc.includes('東')) {
@@ -206,7 +206,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                           } else if (loc === '西R' || loc.includes('西R')) {
                             badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
                           } else if (loc.includes('大樂')) {
-                            badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
+                            badgeStyle = 'bg-violet-100 dark:bg-violet-950/80 text-violet-900 dark:text-violet-200 border border-violet-300 dark:border-violet-700 font-black shadow-sm';
                           } else if (loc.includes('專區')) {
                             badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
                           } else if (loc.includes('東')) {

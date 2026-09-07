@@ -216,7 +216,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                             } else if (loc === '西R' || loc.includes('西R')) {
                               style = 'bg-teal-50 dark:bg-teal-950/60 border-teal-300 dark:border-teal-800 text-teal-950 dark:text-teal-300 font-black';
                             } else if (loc.includes('大樂')) {
-                              style = 'bg-amber-50 dark:bg-amber-950/60 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-300 font-black';
+                              style = 'bg-violet-100 dark:bg-violet-950/80 border-violet-300 dark:border-violet-700 text-violet-950 dark:text-violet-200 font-black shadow-sm';
                             } else if (loc.includes('專區')) {
                               style = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 border-fuchsia-300 dark:border-fuchsia-800 text-fuchsia-950 dark:text-fuchsia-300 font-black';
                             } else if (loc.includes('東')) {
