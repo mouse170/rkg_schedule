@@ -30,6 +30,42 @@
   animation: heartPulse 0.3s ease-in-out;
 }
 
+/* Stitch 特殊專區同時段同台配對流光動畫 (方案 A) */
+@keyframes pairedShimmer {
+  0%, 100% {
+    box-shadow: 0 0 16px rgba(255, 105, 180, 0.45), 0 0 8px rgba(212, 175, 55, 0.35);
+    border-color: rgba(255, 105, 180, 0.85);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(255, 20, 147, 0.65), 0 0 14px rgba(212, 175, 55, 0.65);
+    border-color: rgba(212, 175, 55, 0.95);
+  }
+}
+
+.animate-paired-shimmer {
+  animation: pairedShimmer 2.2s ease-in-out infinite;
+}
+
+@keyframes partnerHighlight {
+  0%, 100% { transform: scale(1.02); }
+  50% { transform: scale(1.04); }
+}
+
+.animate-partner-highlight {
+  animation: partnerHighlight 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-paired-shimmer {
+    animation: none;
+    box-shadow: 0 0 12px rgba(255, 105, 180, 0.4);
+    border-color: rgba(255, 105, 180, 0.8);
+  }
+  .animate-partner-highlight {
+    animation: none;
+  }
+}
+
 /* High-performance Card Container Containment */
 .girl-card-item {
   contain: layout style paint;

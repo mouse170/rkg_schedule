@@ -5,7 +5,7 @@ import { Language } from './i18n/translations';
 import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
 import { FilterBar, AreaFilterType } from './components/FilterBar';
-import { GirlCard } from './components/GirlCard';
+import { GirlCard, PairedInfo } from './components/GirlCard';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
@@ -39,6 +39,7 @@ const MainApp: React.FC = () => {
   const [areaFilter, setAreaFilter] = useState<AreaFilterType>('ALL');
   const [selectedGirl, setSelectedGirl] = useState<GirlProfile | null>(null);
   const [isStadiumGuideOpen, setIsStadiumGuideOpen] = useState<boolean>(false);
+  const [hoveredGirl, setHoveredGirl] = useState<string | null>(null);
 
   // Favorites stored in LocalStorage
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -227,6 +228,76 @@ const MainApp: React.FC = () => {
 
     return list;
   }, [searchQuery, areaFilter, selectedDate, favorites, schedule]);
+
+  // 方案 A：最愛女孩於「東R、西R、大樂區」且「同時段（同日期 + 同局數）」之配對計算
+  const pairedMatchesMap = useMemo((): Record<string, PairedInfo> => {
+    // 必須有選定日期且最愛數量至少 2 位才可能觸發同台配對
+    if (!selectedDate || favorites.length < 2) return {};
+
+    // 關鍵特殊站位白名單
+    const isSpecialZone = (loc: string) => {
+      const trimmed = loc.trim();
+      return trimmed === '東R' || trimmed === '西R' || trimmed.includes('東R') || trimmed.includes('西R') || trimmed.includes('大樂');
+    };
+
+    const getNormalizedZoneName = (loc: string) => {
+      const trimmed = loc.trim();
+      if (trimmed === '東R' || trimmed.includes('東R')) return '東R';
+      if (trimmed === '西R' || trimmed.includes('西R')) return '西R';
+      if (trimmed.includes('大樂')) return '大樂';
+      return trimmed;
+    };
+
+    // key: `${period}__${normalizedLocation}` -> string[] (girl names)
+    const slotMap: Record<string, { period: string; location: string; girls: string[] }> = {};
+
+    favorites.forEach(favName => {
+      const duties = schedule.girlsScheduleMap[favName] || [];
+      const duty = duties.find(d => d.date === selectedDate);
+      if (!duty) return;
+
+      duty.innings.forEach(inn => {
+        if (!inn.location || !isSpecialZone(inn.location)) return;
+
+        // 若有套用時段篩選，僅在符合時段時採計
+        if (areaFilter === 'PERIOD_13' && !inn.period.includes('1-3')) return;
+        if (areaFilter === 'PERIOD_78' && !inn.period.includes('7-8')) return;
+        if (areaFilter === 'PERIOD_MID' && !inn.period.includes('中場')) return;
+
+        const normLoc = getNormalizedZoneName(inn.location);
+        const slotKey = `${inn.period}__${normLoc}`;
+
+        if (!slotMap[slotKey]) {
+          slotMap[slotKey] = {
+            period: inn.period,
+            location: normLoc,
+            girls: []
+          };
+        }
+        if (!slotMap[slotKey].girls.includes(favName)) {
+          slotMap[slotKey].girls.push(favName);
+        }
+      });
+    });
+
+    const result: Record<string, PairedInfo> = {};
+
+    Object.values(slotMap).forEach(slot => {
+      if (slot.girls.length >= 2) {
+        slot.girls.forEach(girlName => {
+          const partners = slot.girls.filter(name => name !== girlName);
+          result[girlName] = {
+            isPaired: true,
+            location: slot.location,
+            period: slot.period,
+            partnerNames: partners
+          };
+        });
+      }
+    });
+
+    return result;
+  }, [selectedDate, favorites, schedule, areaFilter]);
 
   // Grouping helper function to determine a girl's station area for non-mid contexts
   const getGirlStationGroup = (girl: GirlProfile): 'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY' => {
@@ -725,6 +796,12 @@ const MainApp: React.FC = () => {
                           {sec.girls.map((girl, idx) => {
                             const duties = schedule.girlsScheduleMap[girl.name] || [];
                             const isFav = favorites.includes(girl.name);
+                            const paired = pairedMatchesMap[girl.name];
+                            const isPartnerHovered = Boolean(
+                              hoveredGirl &&
+                              paired &&
+                              paired.partnerNames.includes(hoveredGirl)
+                            );
                             return (
                               <GirlCard
                                 key={girl.id}
@@ -735,6 +812,9 @@ const MainApp: React.FC = () => {
                                 onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
                                 onClick={(g) => setSelectedGirl(g)}
                                 priority={idx < 8}
+                                pairedInfo={paired}
+                                isPartnerHovered={isPartnerHovered}
+                                onHover={(name) => setHoveredGirl(name)}
                               />
                             );
                           })}

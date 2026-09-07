@@ -133,6 +133,10 @@ export interface Translations {
   shareTextNoDuty: string;
   shareTextLearnMore: string;
 
+  // Paired Stage Animation
+  pairedStageBadge: string;
+  pairedPartnerHint: string;
+
   // Language Switcher & Footer
   switchLanguage: string;
   vibeCodingNotice: string;
@@ -265,6 +269,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextNoDuty: '近期尚無排班紀錄',
     shareTextLearnMore: '掌握更多女孩班表：',
 
+    pairedStageBadge: '✨ {location} 同台配對',
+    pairedPartnerHint: '與最愛 {partner} 同時段應援',
+
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
     disclaimerCopyright: '本專案由粉絲應援所建立，所有肖像與商標權屬樂天桃猿棒球隊與 Rakuten 所有。班表資料即時連線公開 Google Sheet。'
@@ -391,8 +398,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextTitle: '【楽天ガールズ 応援スケジュール】',
     shareTextGirl: 'メンバー：',
     shareTextSchedule: '【直近のシフト】',
-    shareTextNoDuty: '直近のシフト予定はありません',
+    shareTextNoDuty: '直近のシフト情報はありません',
     shareTextLearnMore: 'より詳細なスケジュールはこちら：',
+
+    pairedStageBadge: '✨ {location} 同時出演ペア',
+    pairedPartnerHint: 'お気に入り {partner} と同じ回に応援',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -522,6 +532,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextSchedule: '【최근 응원 일정】',
     shareTextNoDuty: '최근 예정된 출근 일정이 없습니다',
     shareTextLearnMore: '더 많은 멤버 일정 확인하기: ',
+
+    pairedStageBadge: '✨ {location} 동시간 무대 매칭',
+    pairedPartnerHint: '최애 {partner}와 같은 시간대 응원',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

@@ -4,6 +4,13 @@ import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo, translateLocation, isPastDate } from '../utils/dateUtils';
 
+export interface PairedInfo {
+  isPaired: boolean;
+  location: string;
+  period: string;
+  partnerNames: string[];
+}
+
 interface GirlCardProps {
   girl: GirlProfile;
   duties: DailyDuty[];
@@ -12,6 +19,9 @@ interface GirlCardProps {
   onToggleFavorite: (e: React.MouseEvent, girlName: string) => void;
   onClick: (girl: GirlProfile) => void;
   priority?: boolean;
+  pairedInfo?: PairedInfo;
+  isPartnerHovered?: boolean;
+  onHover?: (girlName: string | null) => void;
 }
 
 export const GirlCard: React.FC<GirlCardProps> = ({
@@ -21,7 +31,10 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   isFavorite,
   onToggleFavorite,
   onClick,
-  priority = false
+  priority = false,
+  pairedInfo,
+  isPartnerHovered = false,
+  onHover
 }) => {
   const { language, t } = useLanguage();
   // 過濾掉已過去的歷史日期
@@ -39,17 +52,41 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   const dateRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
   const isTodayDuty = isOnDuty && dateRelInfo?.isToday;
 
+  const isPaired = pairedInfo?.isPaired;
+
+  // 動態邊框與光暈樣式（方案 A）
+  let cardBorderGlowClass = 'border-pink-100/90 dark:border-oled-border shadow-card-soft dark:shadow-card-oled hover:border-pink-300 dark:hover:border-pink-700';
+  if (isPaired) {
+    cardBorderGlowClass = 'animate-paired-shimmer border-pink-400 dark:border-pink-500 ring-2 ring-pink-400/60 dark:ring-pink-500/50';
+  }
+  if (isPartnerHovered) {
+    cardBorderGlowClass = 'ring-2 ring-amber-400 shadow-purple-glow animate-partner-highlight border-amber-300';
+  }
+
   return (
     <div
       onClick={() => onClick(girl)}
-      className="group relative flex flex-col justify-between bg-white dark:bg-oled-card rounded-2xl p-2.5 sm:p-3 border border-pink-100/90 dark:border-oled-border shadow-card-soft dark:shadow-card-oled hover:shadow-card-hover hover:-translate-y-0.5 hover:border-pink-300 dark:hover:border-pink-700 transition duration-300 cursor-pointer overflow-hidden card-render-layer"
+      onMouseEnter={() => onHover && onHover(girl.name)}
+      onMouseLeave={() => onHover && onHover(null)}
+      className={`group relative flex flex-col justify-between bg-white dark:bg-oled-card rounded-2xl p-2.5 sm:p-3 border hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 cursor-pointer overflow-hidden card-render-layer ${cardBorderGlowClass}`}
     >
       <div>
-        {/* Top Header: Number & Favorite Button */}
+        {/* Top Header: Number, Paired Badge & Favorite Button */}
         <div className="flex items-center justify-between mb-1.5 px-0.5">
-          <span className="font-extrabold text-xs text-pink-600 dark:text-pink-400">
-            #{girl.number}
-          </span>
+          <div className="flex items-center gap-1 min-w-0">
+            <span className="font-extrabold text-xs text-pink-600 dark:text-pink-400">
+              #{girl.number}
+            </span>
+            {isPaired && (
+              <span
+                className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-amber-400 text-white text-[9px] font-black shadow-sm animate-pulse whitespace-nowrap cursor-help"
+                title={`${t.pairedPartnerHint.replace('{partner}', pairedInfo.partnerNames.join('、'))} (${pairedInfo.period} ${translateLocation(pairedInfo.location, language)})`}
+              >
+                <span>✨</span>
+                <span>{pairedInfo.period} {translateLocation(pairedInfo.location, language)}</span>
+              </span>
+            )}
+          </div>
           <button
             onClick={(e) => onToggleFavorite(e, girl.name)}
             className="p-1 rounded-full text-gray-300 dark:text-gray-600 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition active:scale-90"
