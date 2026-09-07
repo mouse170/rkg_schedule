@@ -88,6 +88,7 @@ export interface Translations {
   gameEvent: string;
   onDuty: string;
   offDuty: string;
+  onDutyToday: string;
   locationTBD: string;
   viewSchedule: string;
   todayScheduleBannerTitle: string;
@@ -126,6 +127,11 @@ export interface Translations {
   fanKnowledgeMid: string;
   shareSchedule: string;
   copiedSchedule: string;
+  shareTextTitle: string;
+  shareTextGirl: string;
+  shareTextSchedule: string;
+  shareTextNoDuty: string;
+  shareTextLearnMore: string;
 
   // Language Switcher & Footer
   switchLanguage: string;
@@ -216,6 +222,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: '主場賽事',
     onDuty: '上班',
     offDuty: '休假',
+    onDutyToday: '今日上班',
     locationTBD: '站位待公布',
     viewSchedule: '查看完整班表 →',
     todayScheduleBannerTitle: '今日全猿主場 • 樂天女孩即時應援班表',
@@ -252,6 +259,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     fanKnowledgeMid: '第 5 局下中場舞表演(以官方公告為主)。',
     shareSchedule: '分享 {name} 的班表資訊',
     copiedSchedule: '已複製班表資訊！',
+    shareTextTitle: '【Rakuten Girls 樂天女孩班表】',
+    shareTextGirl: '女孩：',
+    shareTextSchedule: '【近期排班】',
+    shareTextNoDuty: '近期尚無排班紀錄',
+    shareTextLearnMore: '掌握更多女孩班表：',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -339,6 +351,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: 'ホームゲーム',
     onDuty: '出勤',
     offDuty: '休日',
+    onDutyToday: '本日出勤',
     locationTBD: '立ち位置確認中',
     viewSchedule: '詳細スケジュールを見る →',
     todayScheduleBannerTitle: '本日のホームゲーム • 楽天ガールズリアルタイム応援シフト',
@@ -375,6 +388,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     fanKnowledgeMid: '5回裏終了時のイニング間ダンスパフォーマンス（公式発表に準じます）。',
     shareSchedule: '{name} のスケジュールを共有',
     copiedSchedule: 'スケジュール情報をコピーしました！',
+    shareTextTitle: '【楽天ガールズ 応援スケジュール】',
+    shareTextGirl: 'メンバー：',
+    shareTextSchedule: '【直近のシフト】',
+    shareTextNoDuty: '直近のシフト予定はありません',
+    shareTextLearnMore: 'より詳細なスケジュールはこちら：',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -462,6 +480,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     gameEvent: '홈경기',
     onDuty: '출근',
     offDuty: '휴무',
+    onDutyToday: '오늘 출근',
     locationTBD: '위치 공지 예정',
     viewSchedule: '상세 일정 보기 →',
     todayScheduleBannerTitle: '오늘의 홈경기 • 라쿠텐 걸스 실시간 응원 일정',
@@ -498,6 +517,11 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     fanKnowledgeMid: '5회말 클리닝 타임 댄스 공연(구단 공식 공지 기준).',
     shareSchedule: '{name}의 일정 정보 공유',
     copiedSchedule: '일정 정보가 복사되었습니다!',
+    shareTextTitle: '【라쿠텐 걸스 응원 일정표】',
+    shareTextGirl: '멤버: ',
+    shareTextSchedule: '【최근 응원 일정】',
+    shareTextNoDuty: '최근 예정된 출근 일정이 없습니다',
+    shareTextLearnMore: '더 많은 멤버 일정 확인하기: ',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

@@ -173,3 +173,34 @@ export function getRelativeDateInfo(
     pillSubtitle
   };
 }
+
+/**
+ * 將試算表中之站位關鍵字（東、西、東R、西R、大樂、專區）依當前語言翻譯
+ */
+export function translateLocation(rawLocation: string, lang: Language): string {
+  if (!rawLocation) return '';
+  const trimmed = rawLocation.trim();
+
+  if (lang === 'ja') {
+    if (trimmed === '東') return '東';
+    if (trimmed === '西') return '西';
+    if (trimmed === '東R') return '東R';
+    if (trimmed === '西R') return '西R';
+    if (trimmed.includes('大樂') || trimmed.includes('大楽')) return '大楽';
+    if (trimmed.includes('專區') || trimmed.includes('特区')) return '特区';
+    return trimmed;
+  }
+
+  if (lang === 'ko') {
+    if (trimmed === '東') return '동';
+    if (trimmed === '西') return '서';
+    if (trimmed === '東R') return '동R';
+    if (trimmed === '西R') return '서R';
+    if (trimmed.includes('大樂') || trimmed.includes('다러')) return '다러';
+    if (trimmed.includes('專區') || trimmed.includes('특구')) return '특구';
+    return trimmed;
+  }
+
+  // zh-TW
+  return trimmed;
+}

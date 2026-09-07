@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, ExternalLink, Sparkles, MapPin, Flame } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
-import { getRelativeDateInfo } from '../utils/dateUtils';
+import { getRelativeDateInfo, translateLocation } from '../utils/dateUtils';
 
 interface GirlCardProps {
   girl: GirlProfile;
@@ -39,56 +39,47 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   return (
     <div
       onClick={() => onClick(girl)}
-      className="girl-card-item group relative bg-white dark:bg-oled-card rounded-3xl p-3 sm:p-3.5 shadow-card-soft dark:shadow-card-oled hover:shadow-pink-glow dark:hover:shadow-pink-glow-oled border border-pink-100/90 dark:border-oled-border hover:border-rkg-pink/50 dark:hover:border-rkg-pink transition-colors duration-200 cursor-pointer flex flex-col justify-between overflow-hidden active:scale-[0.98]"
+      className="group relative flex flex-col justify-between bg-white dark:bg-oled-card rounded-2xl p-2.5 sm:p-3 border border-pink-100/90 dark:border-oled-border shadow-card-soft dark:shadow-card-oled hover:shadow-card-hover hover:-translate-y-0.5 hover:border-pink-300 dark:hover:border-pink-700 transition duration-300 cursor-pointer overflow-hidden card-render-layer"
     >
-      {/* Favorite Heart Button */}
-      <button
-        onClick={(e) => onToggleFavorite(e, girl.name)}
-        className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/95 dark:bg-oled-surface/95 shadow-sm hover:scale-110 active:scale-95 transition-transform"
-        title={isFavorite ? '取消最愛' : '加入最愛'}
-      >
-        <Heart
-          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition ${
-            isFavorite
-              ? 'fill-rose-500 text-rose-500 animate-heart-pulse'
-              : 'text-gray-300 dark:text-gray-600 hover:text-rose-400'
-          }`}
-        />
-      </button>
-
-      {/* Portrait & Badges */}
       <div>
-        <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-gradient-to-b from-pink-50 to-pink-100/50 dark:from-oled-surface dark:to-oled-card mb-2.5 sm:mb-3">
+        {/* Top Header: Number & Favorite Button */}
+        <div className="flex items-center justify-between mb-1.5 px-0.5">
+          <span className="font-extrabold text-xs text-pink-600 dark:text-pink-400">
+            #{girl.number}
+          </span>
+          <button
+            onClick={(e) => onToggleFavorite(e, girl.name)}
+            className="p-1 rounded-full text-gray-300 dark:text-gray-600 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition active:scale-90"
+            title={isFavorite ? '取消最愛' : '加入最愛'}
+          >
+            <Heart
+              className={`w-4 h-4 transition ${
+                isFavorite
+                  ? 'fill-rose-500 text-rose-500 scale-110'
+                  : 'stroke-[2.2]'
+              }`}
+            />
+          </button>
+        </div>
+
+        {/* Member Photo */}
+        <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-gray-100 dark:bg-oled-surface mb-2 border border-pink-50 dark:border-oled-border">
           <img
             src={girl.localPhoto}
             alt={girl.name}
             loading={priority ? 'eager' : 'lazy'}
-            fetchPriority={priority ? 'high' : 'auto'}
             decoding="async"
+            fetchPriority={priority ? 'high' : 'auto'}
             onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              // Fallback 1: Try local JPG if WebP fails
-              if (target.src.endsWith('.webp')) {
-                target.src = target.src.replace('.webp', '.jpg');
-                return;
-              }
-              // Fallback 2: Fallback to official web photo CDN
-              if (target.src !== girl.photo) {
-                target.src = girl.photo;
-              }
+              // Fallback to official remote URL if local photo fails
+              (e.target as HTMLImageElement).src = girl.photo;
             }}
-            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition duration-300"
           />
 
-          {/* Jersey Number Badge */}
-          <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-rkg-crimson/95 text-white text-[10px] sm:text-[11px] font-black tracking-wider shadow-sm flex items-center gap-0.5">
-            <span>#</span>
-            <span>{girl.number}</span>
-          </div>
-
-          {/* Role Tag (if director, etc.) */}
+          {/* Role Badge (Captain / Vice Captain) */}
           {girl.role && (
-            <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
+            <div className="absolute bottom-2 left-2 px-1.5 py-0.5 rounded-md bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] sm:text-[10px] font-bold shadow-sm whitespace-nowrap">
               {girl.role}
             </div>
           )}
@@ -97,18 +88,18 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           <div className="absolute bottom-2 right-2">
             {isOnDuty ? (
               isTodayDuty ? (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-white/50 animate-pulse">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-white/50 animate-pulse whitespace-nowrap">
                   <Flame className="w-2.5 h-2.5 text-amber-300" />
-                  <span>今日上班</span>
+                  <span>{t.onDutyToday}</span>
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/95 text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/95 text-white text-[9px] sm:text-[10px] font-bold shadow-sm whitespace-nowrap">
                   <Sparkles className="w-2.5 h-2.5" />
                   <span>{selectedDate ? `${selectedDate} ${t.onDuty}` : `${t.dutyCount.replace('{count}', String(duties.length))}`}</span>
                 </span>
               )
             ) : (
-              <span className="px-2 py-0.5 rounded-full bg-gray-700/90 text-gray-200 text-[9px] sm:text-[10px] font-medium shadow-sm">
+              <span className="px-2 py-0.5 rounded-full bg-gray-700/90 text-gray-200 text-[9px] sm:text-[10px] font-medium shadow-sm whitespace-nowrap">
                 {t.offDuty}
               </span>
             )}
@@ -164,25 +155,25 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     return (
                       <span
                         key={idx}
-                        className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold ${badgeStyle}`}
+                        className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle}`}
                       >
-                        <MapPin className="w-2.5 h-2.5 opacity-70" />
-                        <span>{inn.period}:{inn.location}</span>
+                        <MapPin className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
+                        <span>{inn.period}:{translateLocation(inn.location, language)}</span>
                       </span>
                     );
                   })}
                 </div>
               ) : (
                 <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border">
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-pink-50 dark:bg-pink-950/50 text-rkg-pink-deep dark:text-pink-300 border border-pink-200/70 dark:border-pink-800/60">
-                    <MapPin className="w-2.5 h-2.5 opacity-60" />
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-pink-50 dark:bg-pink-950/50 text-rkg-pink-deep dark:text-pink-300 border border-pink-200/70 dark:border-pink-800/60 whitespace-nowrap">
+                    <MapPin className="w-2.5 h-2.5 opacity-60 flex-shrink-0" />
                     <span>{t.locationTBD}</span>
                   </span>
                 </div>
               )
             ) : (
               <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-2 pt-2 border-t border-pink-50 dark:border-oled-border">
-                此場次無應援任務
+                {t.noDutyNotice}
               </p>
             )
           ) : (
@@ -196,7 +187,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                   >
                     {/* 日期標頭 */}
                     <div className="flex items-center justify-between mb-1">
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-black text-[9px] sm:text-[10px]">
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-md bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-black text-[9px] sm:text-[10px] whitespace-nowrap">
                         <span>{duty.date}</span>
                       </span>
                     </div>
@@ -226,15 +217,15 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                           return (
                             <span
                               key={iIdx}
-                              className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${badgeStyle}`}
+                              className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle}`}
                             >
-                              <span>{inn.period}:{inn.location}</span>
+                              <span>{inn.period}:{translateLocation(inn.location, language)}</span>
                             </span>
                           );
                         })}
                       </div>
                     ) : (
-                      <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-pink-500 dark:text-pink-400">
+                      <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-pink-500 dark:text-pink-400 whitespace-nowrap">
                         <span>{t.locationTBD}</span>
                       </span>
                     )}

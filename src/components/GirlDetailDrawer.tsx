@@ -3,6 +3,7 @@ import { X, Heart, ExternalLink, Calendar, MapPin, Share2, Check, Sparkles, Glob
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
 import { Language } from '../i18n/translations';
+import { translateLocation } from '../utils/dateUtils';
 
 interface GirlDetailDrawerProps {
   girl: GirlProfile | null;
@@ -35,9 +36,9 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
 
   const handleShare = () => {
     const dutySummary = duties.length > 0
-      ? duties.map(d => `${d.date}: ${d.innings.map(i => `${i.period}(${i.location})`).join(' ')}`).join('\n')
-      : '近期尚無排班紀錄';
-    const shareText = `【Rakuten Girls 樂天女孩班表】\n女孩：#${girl.number} ${girl.name}\n${girl.instagram ? `IG: ${girl.instagram}\n` : ''}\n【近期排班】\n${dutySummary}\n\n掌握更多女孩班表：https://mouse170.github.io/rkg_schedule/`;
+      ? duties.map(d => `${d.date}: ${d.innings.map(i => `${i.period}(${translateLocation(i.location, language)})`).join(' ')}`).join('\n')
+      : t.shareTextNoDuty;
+    const shareText = `${t.shareTextTitle}\n${t.shareTextGirl}#${girl.number} ${girl.name}\n${girl.instagram ? `IG: ${girl.instagram}\n` : ''}\n${t.shareTextSchedule}\n${dutySummary}\n\n${t.shareTextLearnMore}https://mouse170.github.io/rkg_schedule/`;
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(shareText);
@@ -228,12 +229,12 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                                 key={iIdx}
                                 className={`p-2 rounded-xl border ${style}`}
                               >
-                                <div className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+                                <div className="text-[11px] text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
                                   {inn.period}
                                 </div>
-                                <div className="font-black text-sm mt-0.5 flex items-center justify-center gap-0.5">
-                                  <MapPin className="w-3 h-3 opacity-70" />
-                                  <span>{inn.location}</span>
+                                <div className="font-black text-sm mt-0.5 flex items-center justify-center gap-0.5 whitespace-nowrap">
+                                  <MapPin className="w-3 h-3 opacity-70 flex-shrink-0" />
+                                  <span className="truncate">{translateLocation(inn.location, language)}</span>
                                 </div>
                               </div>
                             );
