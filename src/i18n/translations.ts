@@ -90,6 +90,10 @@ export interface Translations {
   offDuty: string;
   locationTBD: string;
   viewSchedule: string;
+  todayScheduleBannerTitle: string;
+  todayScheduleBannerBadge: string;
+  todayScheduleBannerDesc: string;
+  todayScheduleAlertTitle: string;
 
   // Stadium Guide Modal
   guideModalTitle: string;
@@ -214,6 +218,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offDuty: '休假',
     locationTBD: '站位待公布',
     viewSchedule: '查看完整班表 →',
+    todayScheduleBannerTitle: '今日全猿主場 • 樂天女孩即時應援班表',
+    todayScheduleBannerBadge: '今日有比賽 • 即時應援進行中',
+    todayScheduleBannerDesc: '今天為樂天桃猿主場賽事！掌握女孩 1-3 局、中場表演與 7-8 局的最新站位，進場應援不迷路！',
+    todayScheduleAlertTitle: '今日賽事即時應援中',
 
     guideModalTitle: '樂天桃園棒球場 • 啦啦隊應援席位導覽',
     guideModalSubtitle: 'Taoyuan Baseball Stadium Cheerleading Zones',
@@ -333,6 +341,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offDuty: '休日',
     locationTBD: '立ち位置確認中',
     viewSchedule: '詳細スケジュールを見る →',
+    todayScheduleBannerTitle: '本日のホームゲーム • 楽天ガールズリアルタイム応援シフト',
+    todayScheduleBannerBadge: '本日試合あり • リアルタイム応援中',
+    todayScheduleBannerDesc: '本日は楽天モンキーズの主催試合日です！1〜3回、イニング間、7〜8回の最新立ち位置を確認して応援しましょう！',
+    todayScheduleAlertTitle: '本日試合開催中・リアルタイム応援シフト',
 
     guideModalTitle: '楽天桃園野球場 • チア応援シートガイド',
     guideModalSubtitle: 'Taoyuan Baseball Stadium Cheerleading Zones',
@@ -452,6 +464,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offDuty: '휴무',
     locationTBD: '위치 공지 예정',
     viewSchedule: '상세 일정 보기 →',
+    todayScheduleBannerTitle: '오늘의 홈경기 • 라쿠텐 걸스 실시간 응원 일정',
+    todayScheduleBannerBadge: '오늘 경기 진행 • 실시간 응원 중',
+    todayScheduleBannerDesc: '오늘은 라쿠텐 몽키스의 홈경기 날입니다! 1-3회, 중간 공연, 7-8회의 최신 응원 위치를 확인하세요!',
+    todayScheduleAlertTitle: '오늘 경기 진행 중 • 실시간 응원 일정',
 
     guideModalTitle: '라쿠텐 타오위안 야구장 • 치어리더 응원석 안내',
     guideModalSubtitle: 'Taoyuan Baseball Stadium Cheerleading Zones',

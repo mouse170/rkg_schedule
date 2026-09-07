@@ -9,7 +9,8 @@ import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Language } from './i18n/translations';
-import { Heart, Sparkles, AlertCircle, Globe, Loader2 } from 'lucide-react';
+import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame } from 'lucide-react';
+import { getRelativeDateInfo } from './utils/dateUtils';
 
 // Code Splitting via React.lazy for Non-initial View Components
 const InstagramDirectory = lazy(() =>
@@ -24,7 +25,7 @@ const StadiumGuideModal = lazy(() =>
 
 const MainApp: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('INSTAGRAM');
+  const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('SCHEDULE');
   const [schedule, setSchedule] = useState<ScheduleDataset>({
     dates: [],
     girlsScheduleMap: {},
@@ -70,9 +71,13 @@ const MainApp: React.FC = () => {
     try {
       const data = await fetchLiveSchedule();
       setSchedule(data);
-      // If dates exist and no date selected, default to first upcoming match
+      // 若尚未選取日期：檢查班表是否包含今天賽事，有則優先展示今天；否則預設第一場即將到來之賽事
       if (data.dates.length > 0 && !selectedDate) {
-        setSelectedDate(data.dates[0]);
+        const todayMatch = data.dates.find(d => {
+          const rel = getRelativeDateInfo(d, language);
+          return rel.isToday;
+        });
+        setSelectedDate(todayMatch || data.dates[0]);
       }
     } catch (err) {
       console.error('Error fetching live schedule:', err);
@@ -401,12 +406,21 @@ const MainApp: React.FC = () => {
       sortGirlsInGroup(onDutyGirls);
       sortGirlsInGroup(offDutyGirls);
 
+      const relInfo = getRelativeDateInfo(selectedDate, language);
+      const onDutyTitle = relInfo.isToday
+        ? `${selectedDate} ${relInfo.badgeText} • ${t.groupTitleOnDutySection}`
+        : `${selectedDate} (${relInfo.badgeText}) • ${t.groupTitleOnDutySection}`;
+
+      const onDutyBadgeStyle = relInfo.isToday
+        ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
+        : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
+
       const daySections: GroupSection[] = [];
       if (onDutyGirls.length > 0) {
         daySections.push({
           key: `DAY_${selectedDate}_ON_DUTY`,
-          title: `${selectedDate} ${t.groupTitleOnDutySection}`,
-          badgeStyle: 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm',
+          title: onDutyTitle,
+          badgeStyle: onDutyBadgeStyle,
           girls: onDutyGirls,
           favCount: countFavs(onDutyGirls),
           date: selectedDate
@@ -415,7 +429,7 @@ const MainApp: React.FC = () => {
       if (offDutyGirls.length > 0) {
         daySections.push({
           key: `DAY_${selectedDate}_OFF_DUTY`,
-          title: t.groupTitleOffDuty,
+          title: `${selectedDate} ${t.groupTitleOffDuty}`,
           badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
           girls: offDutyGirls,
           favCount: countFavs(offDutyGirls),
@@ -525,25 +539,63 @@ const MainApp: React.FC = () => {
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {activeTab === 'SCHEDULE' ? (
             <>
-              {/* Banner Card (Compact) */}
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-3 px-4 sm:py-3.5 sm:px-5 text-white mb-3 sm:mb-4 shadow-sm">
-                <div className="relative z-10">
-                  <div className="flex flex-wrap items-center gap-2 mb-1">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
-                      <Sparkles className="w-3 h-3 text-amber-300" />
-                      <span>{t.bannerBadge}</span>
-                    </span>
-                    <h2 className="text-sm sm:text-base font-black tracking-tight">
-                      {t.bannerTitle}
-                    </h2>
+              {/* Banner Card (Compact with Today Dynamic Highlight) */}
+              {(() => {
+                const currentRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
+                const isCurrentToday = currentRelInfo?.isToday;
+
+                if (isCurrentToday) {
+                  return (
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-3.5 px-4 sm:py-4 sm:px-5 text-white mb-3 sm:mb-4 shadow-lg ring-2 ring-pink-400/40">
+                      <div className="relative z-10">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white text-rose-700 text-[10px] sm:text-[11px] font-black shadow-sm animate-pulse">
+                            <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                            <span>{t.todayScheduleBannerBadge}</span>
+                          </span>
+                          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
+                            {selectedDate} ({currentRelInfo.weekdayName})
+                          </span>
+                          <h2 className="text-sm sm:text-base font-black tracking-tight">
+                            {t.todayScheduleBannerTitle}
+                          </h2>
+                        </div>
+                        <p className="text-[11px] sm:text-xs text-pink-100 leading-relaxed font-medium">
+                          {t.todayScheduleBannerDesc}
+                        </p>
+                      </div>
+                      <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-white/15 blur-xl pointer-events-none" />
+                      <div className="absolute right-16 -top-8 w-36 h-36 rounded-full bg-amber-400/25 blur-lg pointer-events-none" />
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-3 px-4 sm:py-3.5 sm:px-5 text-white mb-3 sm:mb-4 shadow-sm">
+                    <div className="relative z-10">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
+                          <Sparkles className="w-3 h-3 text-amber-300" />
+                          <span>{t.bannerBadge}</span>
+                        </span>
+                        {currentRelInfo && (
+                          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
+                            {selectedDate} • {currentRelInfo.badgeText}
+                          </span>
+                        )}
+                        <h2 className="text-sm sm:text-base font-black tracking-tight">
+                          {t.bannerTitle}
+                        </h2>
+                      </div>
+                      <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
+                        {t.bannerDesc}
+                      </p>
+                    </div>
+                    <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
+                    <div className="absolute right-16 -top-8 w-32 h-32 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
                   </div>
-                  <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
-                    {t.bannerDesc}
-                  </p>
-                </div>
-                <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                <div className="absolute right-16 -top-8 w-32 h-32 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
-              </div>
+                );
+              })()}
 
               {/* Filter Controls */}
               <FilterBar

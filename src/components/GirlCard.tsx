@@ -1,7 +1,8 @@
 import React from 'react';
-import { Heart, ExternalLink, Sparkles, MapPin } from 'lucide-react';
+import { Heart, ExternalLink, Sparkles, MapPin, Flame } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
+import { getRelativeDateInfo } from '../utils/dateUtils';
 
 interface GirlCardProps {
   girl: GirlProfile;
@@ -22,13 +23,18 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   onClick,
   priority = false
 }) => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   // Duty on selected date (if a date is chosen)
   const currentDuty = selectedDate
     ? duties.find(d => d.date === selectedDate)
     : duties[0]; // most recent duty
 
-  const isOnDuty = selectedDate ? !!currentDuty : duties.length > 0;
+  const isOnDuty = selectedDate
+    ? duties.some(d => d.date === selectedDate)
+    : duties.length > 0;
+
+  const dateRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
+  const isTodayDuty = isOnDuty && dateRelInfo?.isToday;
 
   return (
     <div
@@ -90,10 +96,17 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {/* Duty Status Ribbon */}
           <div className="absolute bottom-2 right-2">
             {isOnDuty ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/95 text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
-                <Sparkles className="w-2.5 h-2.5" />
-                <span>{selectedDate ? `${selectedDate} ${t.onDuty}` : `${t.dutyCount.replace('{count}', String(duties.length))}`}</span>
-              </span>
+              isTodayDuty ? (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-white/50 animate-pulse">
+                  <Flame className="w-2.5 h-2.5 text-amber-300" />
+                  <span>今日上班</span>
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/95 text-white text-[9px] sm:text-[10px] font-bold shadow-sm">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  <span>{selectedDate ? `${selectedDate} ${t.onDuty}` : `${t.dutyCount.replace('{count}', String(duties.length))}`}</span>
+                </span>
+              )
             ) : (
               <span className="px-2 py-0.5 rounded-full bg-gray-700/90 text-gray-200 text-[9px] sm:text-[10px] font-medium shadow-sm">
                 {t.offDuty}

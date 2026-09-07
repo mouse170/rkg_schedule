@@ -1,6 +1,7 @@
 import React from 'react';
-import { Search, Calendar, Heart, Compass, X, Sparkles } from 'lucide-react';
+import { Search, Calendar, Heart, Compass, X, Sparkles, Flame } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { getRelativeDateInfo } from '../utils/dateUtils';
 
 export type AreaFilterType =
   | 'ALL'
@@ -32,7 +33,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   totalCount,
   favoritesCount
 }) => {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   return (
     <div className="bg-white/90 dark:bg-oled-card/90 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-card-soft dark:shadow-card-oled border border-pink-100/80 dark:border-oled-border mb-4 sm:mb-6 transition">
@@ -54,24 +55,49 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           {t.areaAll}
         </button>
 
-        {dates.map((d) => (
-          <button
-            key={d}
-            onClick={() => onSelectDate(d)}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1.5 ${
-              selectedDate === d
-                ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow'
-                : 'bg-pink-50 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated'
-            }`}
-          >
-            <span>{d}</span>
-            <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-              selectedDate === d ? 'bg-white/20 text-white' : 'bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-semibold'
-            }`}>
-              比賽日
-            </span>
-          </button>
-        ))}
+        {dates.map((d) => {
+          const rel = getRelativeDateInfo(d, language);
+          const isSelected = selectedDate === d;
+
+          // 樣式區分：今天（特別醒目紅色光暈）、明天／後天／本週幾
+          let buttonClass = 'bg-pink-50 dark:bg-oled-surface text-gray-700 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated';
+          let badgeClass = 'bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-semibold';
+
+          if (isSelected) {
+            if (rel.isToday) {
+              buttonClass = 'bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-pink-glow ring-2 ring-pink-400/50 animate-pulse';
+              badgeClass = 'bg-white/25 text-white font-black';
+            } else {
+              buttonClass = 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow';
+              badgeClass = 'bg-white/20 text-white font-bold';
+            }
+          } else {
+            if (rel.isToday) {
+              buttonClass = 'bg-gradient-to-r from-rose-50 to-pink-100/70 dark:from-pink-950/40 dark:to-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800/80 hover:bg-rose-100 shadow-sm';
+              badgeClass = 'bg-rose-600 text-white font-black';
+            } else if (rel.isTomorrow || rel.isDayAfterTomorrow) {
+              buttonClass = 'bg-amber-50/70 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 border border-amber-200/80 dark:border-amber-800/60 hover:bg-amber-100/80';
+              badgeClass = 'bg-amber-200/80 dark:bg-amber-900/80 text-amber-900 dark:text-amber-200 font-bold';
+            } else if (rel.isThisWeek) {
+              buttonClass = 'bg-blue-50/60 dark:bg-blue-950/30 text-blue-900 dark:text-blue-200 border border-blue-200/70 dark:border-blue-800/50 hover:bg-blue-100/70';
+              badgeClass = 'bg-blue-100 dark:bg-blue-900/70 text-blue-800 dark:text-blue-200 font-semibold';
+            }
+          }
+
+          return (
+            <button
+              key={d}
+              onClick={() => onSelectDate(d)}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1.5 ${buttonClass}`}
+            >
+              {rel.isToday && <Flame className="w-3 h-3 text-amber-300 animate-bounce" />}
+              <span>{d}</span>
+              <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${badgeClass}`}>
+                {rel.badgeText}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       {/* 2. Search & Filter Tags Row */}
