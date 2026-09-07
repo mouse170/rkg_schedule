@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo, lazy, Suspense } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import { Language } from './i18n/translations';
 import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
 import { FilterBar, AreaFilterType } from './components/FilterBar';
@@ -8,9 +9,8 @@ import { GirlCard } from './components/GirlCard';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
-import { Language } from './i18n/translations';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame } from 'lucide-react';
-import { getRelativeDateInfo } from './utils/dateUtils';
+import { getRelativeDateInfo, isPastDate, compareScheduleDates } from './utils/dateUtils';
 
 // Code Splitting via React.lazy for Non-initial View Components
 const InstagramDirectory = lazy(() =>
@@ -65,19 +65,69 @@ const MainApp: React.FC = () => {
     });
   };
 
+  // 依時間排序並過濾掉已過去的歷史日期（今天與未來的比賽日）
+  const upcomingDates = useMemo(() => {
+    return schedule.dates
+      .filter(d => !isPastDate(d))
+      .sort((a, b) => compareScheduleDates(a, b));
+  }, [schedule.dates]);
+
+  // 計算智慧預設日期：
+  // 1. 若有點選最愛女孩：
+  //    a. 檢查今天是否有最愛女孩上班，有則優先展示今天
+  //    b. 若今天無最愛女孩上班，尋找未來有最愛女孩上班且距離今天最近的比賽日
+  // 2. 若無最愛女孩或最愛女孩未來皆無班：
+  //    a. 若今天有主場賽程，預設選取今天
+  //    b. 若今天無賽程，預設選取未來第一場賽程
+  const getSmartDefaultDate = (datesList: string[], favs: string[], sched: ScheduleDataset): string => {
+    if (datesList.length === 0) return '';
+
+    const todayDate = datesList.find(d => getRelativeDateInfo(d, language).isToday);
+
+    if (favs.length > 0) {
+      // 1. 今天是否有最愛女孩有班
+      if (todayDate) {
+        const isFavOnDutyToday = favs.some(favName => {
+          const duties = sched.girlsScheduleMap[favName] || [];
+          return duties.some(duty => duty.date === todayDate);
+        });
+        if (isFavOnDutyToday) {
+          return todayDate;
+        }
+      }
+
+      // 2. 尋找未來第一個有最愛女孩有班的日期
+      const nextFavDate = datesList.find(d => {
+        return favs.some(favName => {
+          const duties = sched.girlsScheduleMap[favName] || [];
+          return duties.some(duty => duty.date === d);
+        });
+      });
+
+      if (nextFavDate) {
+        return nextFavDate;
+      }
+    }
+
+    // 無最愛或最愛皆無班時：優先今天，若無今天則未來第一場
+    return todayDate || datesList[0] || '';
+  };
+
   // Load schedule data
   const loadSchedule = async () => {
     setIsLoading(true);
     try {
       const data = await fetchLiveSchedule();
       setSchedule(data);
-      // 若尚未選取日期：檢查班表是否包含今天賽事，有則優先展示今天；否則預設第一場即將到來之賽事
-      if (data.dates.length > 0 && !selectedDate) {
-        const todayMatch = data.dates.find(d => {
-          const rel = getRelativeDateInfo(d, language);
-          return rel.isToday;
-        });
-        setSelectedDate(todayMatch || data.dates[0]);
+
+      const validUpcoming = data.dates
+        .filter(d => !isPastDate(d))
+        .sort((a, b) => compareScheduleDates(a, b));
+
+      // 若目前選取的日期為空或已經過去，重新計算智慧預設日期
+      if (!selectedDate || isPastDate(selectedDate)) {
+        const smartDate = getSmartDefaultDate(validUpcoming, favorites, data);
+        setSelectedDate(smartDate);
       }
     } catch (err) {
       console.error('Error fetching live schedule:', err);
@@ -89,6 +139,22 @@ const MainApp: React.FC = () => {
   useEffect(() => {
     loadSchedule();
   }, []);
+
+  // 當使用者變更最愛女孩且當前未手動選定日期（或目前日期無最愛但其他日期有最愛）時進行智慧校準
+  useEffect(() => {
+    if (upcomingDates.length === 0) return;
+
+    // 如果目前選取的日期已經過去，強制重選
+    if (selectedDate && isPastDate(selectedDate)) {
+      setSelectedDate(getSmartDefaultDate(upcomingDates, favorites, schedule));
+      return;
+    }
+
+    // 若尚未選取日期，自動套用智慧日期
+    if (!selectedDate) {
+      setSelectedDate(getSmartDefaultDate(upcomingDates, favorites, schedule));
+    }
+  }, [favorites, upcomingDates, schedule]);
 
   // Filter and sort girls
   const filteredGirls = useMemo(() => {
@@ -231,7 +297,7 @@ const MainApp: React.FC = () => {
 
     // A. 中場表演專屬分組邏輯 (PERIOD_MID)
     if (areaFilter === 'PERIOD_MID') {
-      const targetDates = selectedDate ? [selectedDate] : schedule.dates;
+      const targetDates = selectedDate ? [selectedDate] : upcomingDates;
       const midSections: GroupSection[] = [];
 
       targetDates.forEach(date => {
@@ -599,7 +665,7 @@ const MainApp: React.FC = () => {
 
               {/* Filter Controls */}
               <FilterBar
-                dates={schedule.dates}
+                dates={upcomingDates}
                 selectedDate={selectedDate}
                 onSelectDate={setSelectedDate}
                 searchQuery={searchQuery}
@@ -797,7 +863,7 @@ const MainApp: React.FC = () => {
           {selectedGirl && (
             <GirlDetailDrawer
               girl={selectedGirl}
-              duties={schedule.girlsScheduleMap[selectedGirl.name] || []}
+              duties={(schedule.girlsScheduleMap[selectedGirl.name] || []).filter(duty => !isPastDate(duty.date))}
               isFavorite={favorites.includes(selectedGirl.name)}
               onToggleFavorite={(name) => toggleFavorite(null, name)}
               onClose={() => setSelectedGirl(null)}

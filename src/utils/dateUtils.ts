@@ -201,6 +201,29 @@ export function translateLocation(rawLocation: string, lang: Language): string {
     return trimmed;
   }
 
-  // zh-TW
+// zh-TW
   return trimmed;
+}
+
+/**
+ * 檢查日期是否為已過去之歷史日期（早於今天 00:00:00）
+ */
+export function isPastDate(dateStr: string, baseDate: Date = new Date()): boolean {
+  const target = parseScheduleDate(dateStr, baseDate);
+  if (!target) return false;
+  const startOfBase = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate());
+  const startOfTarget = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+  return startOfTarget.getTime() < startOfBase.getTime();
+}
+
+/**
+ * 比較兩日期字串之時間順序 (昇冪排序)
+ */
+export function compareScheduleDates(a: string, b: string, baseDate: Date = new Date()): number {
+  const dateA = parseScheduleDate(a, baseDate);
+  const dateB = parseScheduleDate(b, baseDate);
+  if (!dateA && !dateB) return 0;
+  if (!dateA) return 1;
+  if (!dateB) return -1;
+  return dateA.getTime() - dateB.getTime();
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Heart, ExternalLink, Sparkles, MapPin, Flame } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
-import { getRelativeDateInfo, translateLocation } from '../utils/dateUtils';
+import { getRelativeDateInfo, translateLocation, isPastDate } from '../utils/dateUtils';
 
 interface GirlCardProps {
   girl: GirlProfile;
@@ -24,14 +24,17 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   priority = false
 }) => {
   const { language, t } = useLanguage();
+  // 過濾掉已過去的歷史日期
+  const activeDuties = duties.filter(d => !isPastDate(d.date));
+
   // Duty on selected date (if a date is chosen)
   const currentDuty = selectedDate
     ? duties.find(d => d.date === selectedDate)
-    : duties[0]; // most recent duty
+    : activeDuties[0]; // 最靠近之未來排班
 
   const isOnDuty = selectedDate
     ? duties.some(d => d.date === selectedDate)
-    : duties.length > 0;
+    : activeDuties.length > 0;
 
   const dateRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
   const isTodayDuty = isOnDuty && dateRelInfo?.isToday;
@@ -178,9 +181,9 @@ export const GirlCard: React.FC<GirlCardProps> = ({
             )
           ) : (
             /* 全部天數模式：結構化日期清單，確保小手機雙欄下排版垂直對齊不錯亂 */
-            duties.length > 0 ? (
+            activeDuties.length > 0 ? (
               <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border space-y-1.5">
-                {duties.map((duty, dIdx) => (
+                {activeDuties.map((duty, dIdx) => (
                   <div
                     key={dIdx}
                     className="p-1 sm:p-1.5 rounded-xl bg-pink-50/50 dark:bg-oled-surface border border-pink-100/60 dark:border-oled-border"
