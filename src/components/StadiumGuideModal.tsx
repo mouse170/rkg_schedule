@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 interface StadiumGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectSeat?: (seat: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE') => void;
+  onSelectSeat?: (seat: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R') => void;
 }
 
 export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, onClose, onSelectSeat }) => {

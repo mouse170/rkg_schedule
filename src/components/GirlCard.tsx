@@ -22,7 +22,7 @@ interface GirlCardProps {
   pairedInfo?: PairedInfo;
   isPartnerHovered?: boolean;
   onHover?: (girlName: string | null) => void;
-  seatFilter?: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE' | null;
+  seatFilter?: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R' | null;
 }
 
 export const GirlCard: React.FC<GirlCardProps> = ({
@@ -203,7 +203,8 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                         (seatFilter === 'SEAT_EAST' && loc.includes('東') && !loc.includes('東R')) ||
                         (seatFilter === 'SEAT_WEST' && loc.includes('西') && !loc.includes('西R')) ||
                         (seatFilter === 'SEAT_DALE' && (loc.includes('大樂') || loc.includes('專區'))) ||
-                        (seatFilter === 'SEAT_R_STAGE' && (loc.includes('東R') || loc.includes('西R')));
+                        (seatFilter === 'SEAT_EAST_R' && loc.includes('東R')) ||
+                        (seatFilter === 'SEAT_WEST_R' && loc.includes('西R'));
                       if (matchesSeat) {
                         isSeatFocused = true;
                       } else {

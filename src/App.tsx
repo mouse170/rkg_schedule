@@ -249,14 +249,29 @@ const MainApp: React.FC = () => {
         }
         return duties.some(checkDuty);
       });
-    } else if (areaFilter === 'SEAT_R_STAGE') {
-      // 球迷座位視角：R 舞台 (東R / 西R)
+    } else if (areaFilter === 'SEAT_EAST_R') {
+      // 球迷座位視角：走道 東R 舞台
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         const checkDuty = (duty: any) =>
           duty.innings.some((inn: any) => {
             const loc = inn.location || '';
-            return loc.includes('東R') || loc.includes('西R');
+            return loc.includes('東R');
+          });
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
+    } else if (areaFilter === 'SEAT_WEST_R') {
+      // 球迷座位視角：走道 西R 舞台
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) =>
+          duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('西R');
           });
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
@@ -636,14 +651,15 @@ const MainApp: React.FC = () => {
       return daySections;
     }
 
-    // E. 球迷席位視角專屬時間軸分組 (SEAT_EAST, SEAT_WEST, SEAT_DALE, SEAT_R_STAGE)
+    // E. 球迷席位視角專屬時間軸分組 (SEAT_EAST, SEAT_WEST, SEAT_DALE, SEAT_EAST_R, SEAT_WEST_R)
     if (areaFilter.startsWith('SEAT_')) {
       const isMatchZone = (loc: string) => {
         if (!loc) return false;
         if (areaFilter === 'SEAT_EAST') return loc.includes('東') && !loc.includes('東R');
         if (areaFilter === 'SEAT_WEST') return loc.includes('西') && !loc.includes('西R');
         if (areaFilter === 'SEAT_DALE') return loc.includes('大樂') || loc.includes('專區');
-        if (areaFilter === 'SEAT_R_STAGE') return loc.includes('東R') || loc.includes('西R');
+        if (areaFilter === 'SEAT_EAST_R') return loc.includes('東R');
+        if (areaFilter === 'SEAT_WEST_R') return loc.includes('西R');
         return false;
       };
 
@@ -972,7 +988,7 @@ const MainApp: React.FC = () => {
                                 onHover={(name) => setHoveredGirl(name)}
                                 seatFilter={
                                   areaFilter.startsWith('SEAT_')
-                                    ? (areaFilter as 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE')
+                                    ? (areaFilter as 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R')
                                     : null
                                 }
                               />

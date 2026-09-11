@@ -77,8 +77,9 @@ export interface Translations {
   seatViewMode: string;
   seatEastZone: string;
   seatWestZone: string;
+  seatEastRZone: string;
+  seatWestRZone: string;
   seatDaLeZone: string;
-  seatRStageZone: string;
   seatViewBannerDesc: string;
   groupTitleSeat13: string;
   groupTitleSeatMid: string;
@@ -227,8 +228,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatViewMode: '我的座位視角',
     seatEastZone: '一壘東區 (內野東下 D~F)',
     seatWestZone: '三壘西區 (內野西下 D~F)',
+    seatEastRZone: '走道 東R 舞台',
+    seatWestRZone: '走道 西R 舞台',
     seatDaLeZone: '大樂放鬆區 / 專區',
-    seatRStageZone: '走道 R 舞台 (東R/西R)',
     seatViewBannerDesc: '已鎖定您入座的球場席位！以下為當日輪替出現在您視野前方的女孩與各局數時段：',
     groupTitleSeat13: '1-3 局來到你這區',
     groupTitleSeatMid: '第 5 局下中場舞表演',
@@ -371,7 +373,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatEastZone: '1塁側 東エリア (内野東下 D〜F)',
     seatWestZone: '3塁側 西エリア (内野西下 D〜F)',
     seatDaLeZone: '大楽リラックス席／特別区',
-    seatRStageZone: '通路 R ステージ (東R／西R)',
+    seatEastRZone: '通路 東R ステージ',
+    seatWestRZone: '通路 西R ステージ',
     seatViewBannerDesc: 'ご着席の球場シートを固定しました！試合中にあなたの視界エリアに登場するメンバーと各回を一覧表示：',
     groupTitleSeat13: '1〜3回に目の前に来るメンバー',
     groupTitleSeatMid: '5回裏 イニング間パフォーマンス',
@@ -514,7 +517,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatEastZone: '1루 동구역 (내야 동하 D~F)',
     seatWestZone: '3루 서구역 (내야 서하 D~F)',
     seatDaLeZone: '다러 릴랙스존 / 특구',
-    seatRStageZone: '통로 R 무대 (동R/서R)',
+    seatEastRZone: '통로 동R 무대',
+    seatWestRZone: '통로 서R 무대',
     seatViewBannerDesc: '착석하신 야구장 구역을 고정했습니다! 경기 중 시야 앞에 등장하는 멤버와 이닝별 일정을 확인하세요:',
     groupTitleSeat13: '1~3회 내 구역 응원 멤버',
     groupTitleSeatMid: '5회말 중간 댄스 공연',

@@ -12,7 +12,8 @@ export type AreaFilterType =
   | 'SEAT_EAST'
   | 'SEAT_WEST'
   | 'SEAT_DALE'
-  | 'SEAT_R_STAGE';
+  | 'SEAT_EAST_R'
+  | 'SEAT_WEST_R';
 
 interface FilterBarProps {
   dates: string[];
@@ -240,17 +241,30 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <span>{t.seatDaLeZone}</span>
         </button>
 
-        {/* R 舞台 */}
+        {/* 走道 東R 舞台 */}
         <button
-          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_R_STAGE' ? 'ALL' : 'SEAT_R_STAGE')}
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST_R' ? 'ALL' : 'SEAT_EAST_R')}
           className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
-            areaFilter === 'SEAT_R_STAGE'
-              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md ring-2 ring-amber-400/40'
-              : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200/80 dark:border-amber-800/60'
+            areaFilter === 'SEAT_EAST_R'
+              ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md ring-2 ring-cyan-400/40'
+              : 'bg-cyan-50/80 dark:bg-cyan-950/40 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 border border-cyan-200/80 dark:border-cyan-800/60'
           }`}
         >
-          <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-          <span>{t.seatRStageZone}</span>
+          <span className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
+          <span>{t.seatEastRZone}</span>
+        </button>
+
+        {/* 走道 西R 舞台 */}
+        <button
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST_R' ? 'ALL' : 'SEAT_WEST_R')}
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+            areaFilter === 'SEAT_WEST_R'
+              ? 'bg-gradient-to-r from-teal-600 to-emerald-700 text-white shadow-md ring-2 ring-teal-400/40'
+              : 'bg-teal-50/80 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200/80 dark:border-teal-800/60'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-teal-500 flex-shrink-0" />
+          <span>{t.seatWestRZone}</span>
         </button>
       </div>
     </div>
