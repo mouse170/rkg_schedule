@@ -74,12 +74,19 @@ export interface Translations {
   resetFilters: string;
 
   // Seat Perspective Mode
+  filterModeInning: string;
+  filterModeSeat: string;
   seatViewMode: string;
   seatEastZone: string;
   seatWestZone: string;
   seatEastRZone: string;
   seatWestRZone: string;
   seatDaLeZone: string;
+  seatEastZoneShort: string;
+  seatWestZoneShort: string;
+  seatDaLeZoneShort: string;
+  seatEastRZoneShort: string;
+  seatWestRZoneShort: string;
   seatViewBannerDesc: string;
   groupTitleSeat13: string;
   groupTitleSeatMid: string;
@@ -225,12 +232,19 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     noMatchDesc: '請嘗試切換其他日期、清除搜尋文字或重設篩選標籤',
     resetFilters: '重設所有條件',
 
+    filterModeInning: '依比賽局數看',
+    filterModeSeat: '依座位視角看',
     seatViewMode: '我的座位視角',
     seatEastZone: '一壘東區 (內野東下 D~F)',
     seatWestZone: '三壘西區 (內野西下 D~F)',
     seatEastRZone: '走道 東R 舞台',
     seatWestRZone: '走道 西R 舞台',
     seatDaLeZone: '大樂放鬆區 / 專區',
+    seatEastZoneShort: '一壘東區',
+    seatWestZoneShort: '三壘西區',
+    seatDaLeZoneShort: '大樂專區',
+    seatEastRZoneShort: '東R 舞台',
+    seatWestRZoneShort: '西R 舞台',
     seatViewBannerDesc: '已鎖定您入座的球場席位！以下為當日輪替出現在您視野前方的女孩與各局數時段：',
     groupTitleSeat13: '1-3 局來到你這區',
     groupTitleSeatMid: '第 5 局下中場舞表演',
@@ -369,12 +383,19 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     noMatchDesc: '他の日付を選択するか、検索ワード・絞り込み条件を変更してください',
     resetFilters: 'すべての条件をリセット',
 
+    filterModeInning: 'イニング別で見る',
+    filterModeSeat: '座席視点で見る',
     seatViewMode: 'マイスポット視点',
     seatEastZone: '1塁側 東エリア (内野東下 D〜F)',
     seatWestZone: '3塁側 西エリア (内野西下 D〜F)',
     seatDaLeZone: '大楽リラックス席／特別区',
     seatEastRZone: '通路 東R ステージ',
     seatWestRZone: '通路 西R ステージ',
+    seatEastZoneShort: '1塁側東区',
+    seatWestZoneShort: '3塁側西区',
+    seatDaLeZoneShort: '大楽特区',
+    seatEastRZoneShort: '東R舞台',
+    seatWestRZoneShort: '西R舞台',
     seatViewBannerDesc: 'ご着席の球場シートを固定しました！試合中にあなたの視界エリアに登場するメンバーと各回を一覧表示：',
     groupTitleSeat13: '1〜3回に目の前に来るメンバー',
     groupTitleSeatMid: '5回裏 イニング間パフォーマンス',
@@ -513,12 +534,19 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     noMatchDesc: '다른 날짜를 선택하거나 검색어 또는 필터 태그를 재설정해 보세요',
     resetFilters: '모든 조건 초기화',
 
+    filterModeInning: '경기 이닝별 보기',
+    filterModeSeat: '내 좌석 시야로 보기',
     seatViewMode: '내 좌석 시야',
     seatEastZone: '1루 동구역 (내야 동하 D~F)',
     seatWestZone: '3루 서구역 (내야 서하 D~F)',
     seatDaLeZone: '다러 릴랙스존 / 특구',
     seatEastRZone: '통로 동R 무대',
     seatWestRZone: '통로 서R 무대',
+    seatEastZoneShort: '1루 동구역',
+    seatWestZoneShort: '3루 서구역',
+    seatDaLeZoneShort: '다러 특구',
+    seatEastRZoneShort: '동R 무대',
+    seatWestRZoneShort: '서R 무대',
     seatViewBannerDesc: '착석하신 야구장 구역을 고정했습니다! 경기 중 시야 앞에 등장하는 멤버와 이닝별 일정을 확인하세요:',
     groupTitleSeat13: '1~3회 내 구역 응원 멤버',
     groupTitleSeatMid: '5회말 중간 댄스 공연',

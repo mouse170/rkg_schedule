@@ -852,60 +852,60 @@ const MainApp: React.FC = () => {
 
                 if (isCurrentToday) {
                   return (
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-3.5 px-4 sm:py-4 sm:px-5 text-white mb-3 sm:mb-4 shadow-lg ring-2 ring-pink-400/40">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-2.5 px-3.5 sm:py-3 sm:px-4 text-white mb-2.5 sm:mb-3 shadow-md ring-1.5 ring-pink-400/40">
                       <div className="relative z-10">
-                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white text-rose-700 text-[10px] sm:text-[11px] font-black shadow-sm animate-pulse">
-                            <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-rose-700 text-[10px] font-black shadow-sm">
+                            <Flame className="w-3 h-3 text-amber-500 fill-amber-500" />
                             <span>{t.todayScheduleBannerBadge}</span>
                           </span>
-                          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
+                          <span className="text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-full bg-white/20 text-white">
                             {selectedDate} ({currentRelInfo.weekdayName})
                           </span>
-                          <h2 className="text-sm sm:text-base font-black tracking-tight">
+                          <h2 className="text-xs sm:text-sm font-black tracking-tight">
                             {t.todayScheduleBannerTitle}
                           </h2>
                         </div>
-                        <p className="text-[11px] sm:text-xs text-pink-100 leading-relaxed font-medium">
+                        <p className="text-[10px] sm:text-xs text-pink-100 leading-snug font-normal line-clamp-1 sm:line-clamp-none">
                           {t.todayScheduleBannerDesc}
                         </p>
                       </div>
-                      <div className="absolute -right-8 -bottom-8 w-48 h-48 rounded-full bg-white/15 blur-xl pointer-events-none" />
-                      <div className="absolute right-16 -top-8 w-36 h-36 rounded-full bg-amber-400/25 blur-lg pointer-events-none" />
+                      <div className="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-white/10 blur-xl pointer-events-none" />
+                      <div className="absolute right-16 -top-8 w-28 h-28 rounded-full bg-amber-400/20 blur-lg pointer-events-none" />
                     </div>
                   );
                 }
 
                 return (
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-3 px-4 sm:py-3.5 sm:px-5 text-white mb-3 sm:mb-4 shadow-sm">
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-2 px-3.5 sm:py-2.5 sm:px-4 text-white mb-2.5 sm:mb-3 shadow-sm">
                     <div className="relative z-10">
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
-                          <Sparkles className="w-3 h-3 text-amber-300" />
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5">
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold">
+                          <Sparkles className="w-2.5 h-2.5 text-amber-300" />
                           <span>{t.bannerBadge}</span>
                         </span>
                         {currentRelInfo && (
-                          <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-white/20 text-white">
+                          <span className="text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-full bg-white/20 text-white">
                             {selectedDate} • {currentRelInfo.badgeText}
                           </span>
                         )}
-                        <h2 className="text-sm sm:text-base font-black tracking-tight">
+                        <h2 className="text-xs sm:text-sm font-black tracking-tight">
                           {t.bannerTitle}
                         </h2>
                       </div>
-                      <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
+                      <p className="text-[10px] sm:text-xs text-pink-100/90 leading-snug font-normal line-clamp-1 sm:line-clamp-none">
                         {areaFilter.startsWith('SEAT_')
                           ? t.seatViewBannerDesc
                           : t.bannerDesc}
                       </p>
                     </div>
-                    <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                    <div className="absolute right-16 -top-8 w-32 h-32 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
+                    <div className="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-white/10 blur-xl pointer-events-none" />
+                    <div className="absolute right-16 -top-8 w-24 h-24 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
                   </div>
                 );
               })()}
 
-              {/* Filter Controls */}
+              {/* Filter Controls (Ultra-Compact Stitch Dual-Mode) */}
               <FilterBar
                 dates={upcomingDates}
                 selectedDate={selectedDate}
@@ -916,24 +916,13 @@ const MainApp: React.FC = () => {
                 onAreaFilterChange={setAreaFilter}
                 totalCount={OFFICIAL_GIRLS.length}
                 favoritesCount={favorites.length}
+                filteredCount={filteredGirls.length}
+                onResetFilters={() => {
+                  setSearchQuery('');
+                  setAreaFilter('ALL');
+                  setSelectedDate('');
+                }}
               />
-
-              {/* Active Filter Summary Hint */}
-              <div className="flex items-center justify-between mb-4 px-1 text-xs text-gray-500 dark:text-gray-400 font-medium">
-                <div>
-                  {t.filterCountSummary.replace('{count}', String(filteredGirls.length))}
-                  {selectedDate && <span className="ml-1 text-rkg-pink-deep dark:text-pink-400">（{selectedDate}）</span>}
-                </div>
-                {favorites.length > 0 && areaFilter !== 'FAVORITES' && (
-                  <button
-                    onClick={() => setAreaFilter('FAVORITES')}
-                    className="text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1"
-                  >
-                    <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
-                    <span>{t.filterFavorites} ({favorites.length})</span>
-                  </button>
-                )}
-              </div>
 
               {/* Grouped Member Cards by Station Area */}
               {groupedSections.length > 0 ? (
