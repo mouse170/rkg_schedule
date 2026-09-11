@@ -5,9 +5,10 @@ import { useLanguage } from '../context/LanguageContext';
 interface StadiumGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSelectSeat?: (seat: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE') => void;
 }
 
-export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, onClose }) => {
+export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, onClose, onSelectSeat }) => {
   const { t } = useLanguage();
   if (!isOpen) return null;
 
@@ -53,24 +54,50 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
             <div className="relative border-2 border-dashed border-pink-200 dark:border-oled-border rounded-2xl p-4 bg-white dark:bg-oled-bg shadow-inner">
               <div className="grid grid-cols-2 gap-3 mb-4">
                 {/* West Wing */}
-                <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-700/60 rounded-xl text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onSelectSeat) {
+                      onSelectSeat('SEAT_WEST');
+                      onClose();
+                    }
+                  }}
+                  className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-300 dark:border-emerald-700/60 rounded-xl text-center hover:border-emerald-500 dark:hover:border-emerald-400 hover:scale-[1.02] transition cursor-pointer active:scale-95"
+                  title="點擊切換為三壘西區席位視角"
+                >
                   <div className="flex items-center justify-center gap-1 text-emerald-800 dark:text-emerald-300 font-extrabold text-sm mb-1">
                     <Compass className="w-4 h-4" />
                     <span>{t.westCheerZone}</span>
                   </div>
                   <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">{t.westCheerDesc}</div>
                   <div className="text-[10px] text-emerald-600 dark:text-emerald-500 mt-1">{t.westCheerSeats}</div>
-                </div>
+                  <div className="mt-1.5 text-[9px] font-black text-emerald-700 dark:text-emerald-300 bg-emerald-100/80 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full inline-block">
+                    點擊查看本區女孩 →
+                  </div>
+                </button>
 
                 {/* East Wing */}
-                <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border-2 border-blue-300 dark:border-blue-700/60 rounded-xl text-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (onSelectSeat) {
+                      onSelectSeat('SEAT_EAST');
+                      onClose();
+                    }
+                  }}
+                  className="p-3 bg-blue-50 dark:bg-blue-950/40 border-2 border-blue-300 dark:border-blue-700/60 rounded-xl text-center hover:border-blue-500 dark:hover:border-blue-400 hover:scale-[1.02] transition cursor-pointer active:scale-95"
+                  title="點擊切換為一壘東區席位視角"
+                >
                   <div className="flex items-center justify-center gap-1 text-blue-800 dark:text-blue-300 font-extrabold text-sm mb-1">
                     <Compass className="w-4 h-4" />
                     <span>{t.eastCheerZone}</span>
                   </div>
                   <div className="text-[11px] text-blue-700 dark:text-blue-400 font-semibold">{t.eastCheerDesc}</div>
                   <div className="text-[10px] text-blue-600 dark:text-blue-500 mt-1">{t.eastCheerSeats}</div>
-                </div>
+                  <div className="mt-1.5 text-[9px] font-black text-blue-700 dark:text-blue-300 bg-blue-100/80 dark:bg-blue-900/60 px-2 py-0.5 rounded-full inline-block">
+                    點擊查看本區女孩 →
+                  </div>
+                </button>
               </div>
 
               {/* Diamond & Home Plate */}

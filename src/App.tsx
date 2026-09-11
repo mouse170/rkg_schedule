@@ -204,6 +204,66 @@ const MainApp: React.FC = () => {
         }
         return duties.some(d => d.innings.some(inn => inn.period.includes('中場') && inn.location.trim().length > 0));
       });
+    } else if (areaFilter === 'SEAT_EAST') {
+      // 球迷座位視角：一壘東區 (內野東下 D~F) - 包含 1-3 局、7-8 局或中場出現在東區之女孩
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) =>
+          duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('東') && !loc.includes('東R');
+          });
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
+    } else if (areaFilter === 'SEAT_WEST') {
+      // 球迷座位視角：三壘西區 (內野西下 D~F) - 包含 1-3 局、7-8 局或中場出現在西區之女孩
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) =>
+          duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('西') && !loc.includes('西R');
+          });
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
+    } else if (areaFilter === 'SEAT_DALE') {
+      // 球迷座位視角：大樂放鬆席 / 專區
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) =>
+          duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('大樂') || loc.includes('專區');
+          });
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
+    } else if (areaFilter === 'SEAT_R_STAGE') {
+      // 球迷座位視角：R 舞台 (東R / 西R)
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) =>
+          duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('東R') || loc.includes('西R');
+          });
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
     }
 
     // 3. Sorting: Favorites first, then on duty for selected date, then by jersey number
@@ -576,7 +636,100 @@ const MainApp: React.FC = () => {
       return daySections;
     }
 
-    // E. 指定時段站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date)
+    // E. 球迷席位視角專屬時間軸分組 (SEAT_EAST, SEAT_WEST, SEAT_DALE, SEAT_R_STAGE)
+    if (areaFilter.startsWith('SEAT_')) {
+      const isMatchZone = (loc: string) => {
+        if (!loc) return false;
+        if (areaFilter === 'SEAT_EAST') return loc.includes('東') && !loc.includes('東R');
+        if (areaFilter === 'SEAT_WEST') return loc.includes('西') && !loc.includes('西R');
+        if (areaFilter === 'SEAT_DALE') return loc.includes('大樂') || loc.includes('專區');
+        if (areaFilter === 'SEAT_R_STAGE') return loc.includes('東R') || loc.includes('西R');
+        return false;
+      };
+
+      const p13Girls: GirlProfile[] = [];
+      const midGirls: GirlProfile[] = [];
+      const p78Girls: GirlProfile[] = [];
+      const continuousGirls: GirlProfile[] = [];
+
+      filteredGirls.forEach(girl => {
+        const duties = schedule.girlsScheduleMap[girl.name] || [];
+        const duty = selectedDate ? duties.find(d => d.date === selectedDate) : duties[0];
+        if (!duty) return;
+
+        const has13 = duty.innings.some(i => i.period.includes('1-3') && isMatchZone(i.location));
+        const hasMid = duty.innings.some(i => i.period.includes('中場') && isMatchZone(i.location));
+        const has78 = duty.innings.some(i => i.period.includes('7-8') && isMatchZone(i.location));
+
+        // 若多個時段都在此區（例如大樂區或專區常駐）
+        if (has13 && has78) {
+          continuousGirls.push(girl);
+        } else {
+          if (has13) p13Girls.push(girl);
+          if (has78) p78Girls.push(girl);
+        }
+        if (hasMid) midGirls.push(girl);
+      });
+
+      sortGirlsInGroup(p13Girls);
+      sortGirlsInGroup(midGirls);
+      sortGirlsInGroup(p78Girls);
+      sortGirlsInGroup(continuousGirls);
+
+      const seatSections: GroupSection[] = [];
+
+      // 1. 全場固定此區
+      if (continuousGirls.length > 0) {
+        seatSections.push({
+          key: 'SEAT_CONTINUOUS',
+          title: t.groupTitleSeatAllMatch,
+          badgeStyle: 'from-fuchsia-600 to-pink-600 text-white shadow-sm',
+          girls: continuousGirls,
+          favCount: countFavs(continuousGirls),
+          date: selectedDate
+        });
+      }
+
+      // 2. 1-3 局來到你這區
+      if (p13Girls.length > 0) {
+        seatSections.push({
+          key: 'SEAT_PERIOD_13',
+          title: t.groupTitleSeat13,
+          badgeStyle: 'from-sky-600 to-indigo-600 text-white shadow-sm',
+          girls: p13Girls,
+          favCount: countFavs(p13Girls),
+          date: selectedDate
+        });
+      }
+
+      // 3. 第 5 局下中場舞
+      if (midGirls.length > 0) {
+        seatSections.push({
+          key: 'SEAT_PERIOD_MID',
+          title: t.groupTitleSeatMid,
+          badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+          girls: midGirls,
+          favCount: countFavs(midGirls),
+          date: selectedDate
+        });
+      }
+
+      // 4. 7-8 局換側來到你面前
+      if (p78Girls.length > 0) {
+        seatSections.push({
+          key: 'SEAT_PERIOD_78',
+          title: t.groupTitleSeat78,
+          badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
+          girls: p78Girls,
+          favCount: countFavs(p78Girls),
+          date: selectedDate
+        });
+      }
+
+      return seatSections;
+    }
+
+    // F. 指定時段站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date)
     const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
       EAST: [],
       WEST: [],
@@ -725,7 +878,9 @@ const MainApp: React.FC = () => {
                         </h2>
                       </div>
                       <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
-                        {t.bannerDesc}
+                        {areaFilter.startsWith('SEAT_')
+                          ? t.seatViewBannerDesc
+                          : t.bannerDesc}
                       </p>
                     </div>
                     <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full bg-white/10 blur-xl pointer-events-none" />
@@ -815,6 +970,11 @@ const MainApp: React.FC = () => {
                                 pairedInfo={paired}
                                 isPartnerHovered={isPartnerHovered}
                                 onHover={(name) => setHoveredGirl(name)}
+                                seatFilter={
+                                  areaFilter.startsWith('SEAT_')
+                                    ? (areaFilter as 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE')
+                                    : null
+                                }
                               />
                             );
                           })}
@@ -957,6 +1117,10 @@ const MainApp: React.FC = () => {
             <StadiumGuideModal
               isOpen={isStadiumGuideOpen}
               onClose={() => setIsStadiumGuideOpen(false)}
+              onSelectSeat={(seat) => {
+                setAreaFilter(seat);
+                setIsStadiumGuideOpen(false);
+              }}
             />
           )}
         </Suspense>

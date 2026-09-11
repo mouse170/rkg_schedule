@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Calendar, Heart, Compass, X, Sparkles, Flame } from 'lucide-react';
+import { Search, Calendar, Heart, Compass, X, Sparkles, Flame, MapPin } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo } from '../utils/dateUtils';
 
@@ -8,7 +8,11 @@ export type AreaFilterType =
   | 'PERIOD_13'
   | 'PERIOD_78'
   | 'PERIOD_MID'
-  | 'FAVORITES';
+  | 'FAVORITES'
+  | 'SEAT_EAST'
+  | 'SEAT_WEST'
+  | 'SEAT_DALE'
+  | 'SEAT_R_STAGE';
 
 interface FilterBarProps {
   dates: string[];
@@ -188,6 +192,66 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <span>{t.filterFavorites} ({favoritesCount})</span>
           </button>
         </div>
+      </div>
+
+      {/* 3. My Seat Perspective Selector Tray */}
+      <div className="mt-3 pt-2.5 border-t border-pink-100/70 dark:border-oled-border flex flex-wrap items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 text-[11px] sm:text-xs font-black text-gray-500 dark:text-gray-400 whitespace-nowrap pl-1 pr-1">
+          <MapPin className="w-3.5 h-3.5 text-rkg-crimson dark:text-rkg-pink" />
+          <span>{t.seatViewMode}：</span>
+        </div>
+
+        {/* 一壘東區 */}
+        <button
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST' ? 'ALL' : 'SEAT_EAST')}
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+            areaFilter === 'SEAT_EAST'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md ring-2 ring-blue-400/40'
+              : 'bg-blue-50/80 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/60'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
+          <span>{t.seatEastZone}</span>
+        </button>
+
+        {/* 三壘西區 */}
+        <button
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST' ? 'ALL' : 'SEAT_WEST')}
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+            areaFilter === 'SEAT_WEST'
+              ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md ring-2 ring-emerald-400/40'
+              : 'bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200/80 dark:border-emerald-800/60'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
+          <span>{t.seatWestZone}</span>
+        </button>
+
+        {/* 大樂放鬆區 */}
+        <button
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_DALE' ? 'ALL' : 'SEAT_DALE')}
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+            areaFilter === 'SEAT_DALE'
+              ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-md ring-2 ring-violet-400/40'
+              : 'bg-violet-50/80 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/50 border border-violet-200/80 dark:border-violet-800/60'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-violet-500 flex-shrink-0" />
+          <span>{t.seatDaLeZone}</span>
+        </button>
+
+        {/* R 舞台 */}
+        <button
+          onClick={() => onAreaFilterChange(areaFilter === 'SEAT_R_STAGE' ? 'ALL' : 'SEAT_R_STAGE')}
+          className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap ${
+            areaFilter === 'SEAT_R_STAGE'
+              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md ring-2 ring-amber-400/40'
+              : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-200/80 dark:border-amber-800/60'
+          }`}
+        >
+          <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
+          <span>{t.seatRStageZone}</span>
+        </button>
       </div>
     </div>
   );

@@ -22,6 +22,7 @@ interface GirlCardProps {
   pairedInfo?: PairedInfo;
   isPartnerHovered?: boolean;
   onHover?: (girlName: string | null) => void;
+  seatFilter?: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_R_STAGE' | null;
 }
 
 export const GirlCard: React.FC<GirlCardProps> = ({
@@ -34,7 +35,8 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   priority = false,
   pairedInfo,
   isPartnerHovered = false,
-  onHover
+  onHover,
+  seatFilter = null
 }) => {
   const { language, t } = useLanguage();
   // 過濾掉已過去的歷史日期
@@ -192,10 +194,33 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     } else if (loc.includes('西')) {
                       badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
                     }
+
+                    // 檢查此時段是否精確對應使用者當前選定的座位視角
+                    let isSeatFocused = false;
+                    let isSeatDimmed = false;
+                    if (seatFilter) {
+                      const matchesSeat =
+                        (seatFilter === 'SEAT_EAST' && loc.includes('東') && !loc.includes('東R')) ||
+                        (seatFilter === 'SEAT_WEST' && loc.includes('西') && !loc.includes('西R')) ||
+                        (seatFilter === 'SEAT_DALE' && (loc.includes('大樂') || loc.includes('專區'))) ||
+                        (seatFilter === 'SEAT_R_STAGE' && (loc.includes('東R') || loc.includes('西R')));
+                      if (matchesSeat) {
+                        isSeatFocused = true;
+                      } else {
+                        isSeatDimmed = true;
+                      }
+                    }
+
+                    const focusClass = isSeatFocused
+                      ? 'ring-2 ring-amber-400 dark:ring-amber-500 shadow-sm font-black scale-105 transition-transform'
+                      : isSeatDimmed
+                      ? 'opacity-40'
+                      : '';
+
                     return (
                       <span
                         key={idx}
-                        className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle}`}
+                        className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle} ${focusClass}`}
                       >
                         <MapPin className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
                         <span>{inn.period}:{translateLocation(inn.location, language)}</span>
