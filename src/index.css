@@ -3,31 +3,72 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 240 10% 98%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 345 100% 27%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 345 50% 96%;
+    --accent-foreground: 345 90% 28%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 345 100% 27%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 5%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 5%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 345 82% 48%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 345 40% 18%;
+    --accent-foreground: 345 90% 85%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 18%;
+    --input: 240 3.7% 18%;
+    --ring: 345 82% 48%;
+  }
+
   html {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
   }
   body {
     font-family: 'Plus Jakarta Sans', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
-    background-color: #fff8f8;
-    color: #211a1d;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     overflow-x: hidden;
-  }
-  .dark body {
-    background-color: #000000;
-    color: #f1f1f5;
   }
 }
 
 /* Custom animations & glow */
 @keyframes heartPulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.18); }
+  50% { transform: scale(1.22); }
   100% { transform: scale(1); }
 }
 
 .animate-heart-pulse {
-  animation: heartPulse 0.3s ease-in-out;
+  animation: heartPulse 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Stitch 特殊專區同時段同台配對流光動畫 (方案 A) */
@@ -79,18 +120,26 @@
   will-change: transform;
 }
 
-/* Glassmorphism */
+/* Lovable Glassmorphic Nav & Dock */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .dark .glass-nav {
-  background: rgba(13, 13, 17, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(38, 38, 51, 0.9);
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Lovable Bento Micro Border */
+.bento-border {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.dark .bento-border {
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Soft custom scrollbar */
@@ -99,21 +148,18 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #fff0f5;
-}
-.dark ::-webkit-scrollbar-track {
-  background: #0d0d11;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #ffb0d0;
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #ac2471;
+  background: rgba(255, 255, 255, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ac2471;
+  background: rgba(137, 0, 34, 0.5);
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #ff69b4;
+  background: rgba(255, 105, 180, 0.6);
 }
