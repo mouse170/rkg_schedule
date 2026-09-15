@@ -1,92 +1,41 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
-export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeMode = 'dark';
 
 interface ThemeContextType {
-  theme: ThemeMode;
-  resolvedTheme: 'light' | 'dark';
-  setTheme: (mode: ThemeMode) => void;
+  theme: 'dark';
+  resolvedTheme: 'dark';
+  setTheme: (mode: 'dark') => void;
   toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType>({
+  theme: 'dark',
+  resolvedTheme: 'dark',
+  setTheme: () => {},
+  toggleTheme: () => {}
+});
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
-    try {
-      const saved = localStorage.getItem('rkg_theme');
-      if (saved === 'light' || saved === 'dark' || saved === 'system') {
-        return saved;
-      }
-    } catch {
-      // ignore
-    }
-    return 'system';
-  });
-
-  const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
-
   useEffect(() => {
-    const root = document.documentElement;
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const applyTheme = () => {
-      let isDark = false;
-      if (theme === 'system') {
-        isDark = mediaQuery.matches;
-      } else {
-        isDark = theme === 'dark';
-      }
-
-      if (isDark) {
-        root.classList.add('dark');
-        setResolvedTheme('dark');
-      } else {
-        root.classList.remove('dark');
-        setResolvedTheme('light');
-      }
-    };
-
-    applyTheme();
-
-    const handler = () => {
-      if (theme === 'system') {
-        applyTheme();
-      }
-    };
-
-    mediaQuery.addEventListener('change', handler);
-    return () => mediaQuery.removeEventListener('change', handler);
-  }, [theme]);
-
-  const setTheme = (mode: ThemeMode) => {
-    setThemeState(mode);
-    try {
-      localStorage.setItem('rkg_theme', mode);
-    } catch {
-      // ignore
-    }
-  };
-
-  const toggleTheme = () => {
-    if (resolvedTheme === 'dark') {
-      setTheme('light');
-    } else {
-      setTheme('dark');
-    }
-  };
+    // 依據辣酷甜天鵝絨金主視覺主題，全站統一鎖定於天鵝絨暗色奢華設計，取消亮暗切換
+    document.documentElement.classList.add('dark');
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{
+        theme: 'dark',
+        resolvedTheme: 'dark',
+        setTheme: () => {},
+        toggleTheme: () => {}
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
 };
 
 export const useTheme = () => {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) {
-    throw new Error('useTheme must be used within ThemeProvider');
-  }
-  return ctx;
+  return useContext(ThemeContext);
 };

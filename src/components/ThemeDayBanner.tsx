@@ -108,12 +108,12 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
                 </button>
               </div>
 
-              {/* Single Key Visual Banner in Modal */}
-              <div className="mt-3 rounded-2xl overflow-hidden border border-amber-500/40 shadow-md">
+              {/* 27-Girl Panoramic Key Visual Banner in Modal */}
+              <div className="mt-3 rounded-2xl overflow-hidden border border-amber-500/50 shadow-lg bg-black/60">
                 <img
-                  src="./theme/spicy_cool_sweet_key_visual.jpg"
-                  alt="辣酷甜主題日全員主視覺"
-                  className="w-full h-24 sm:h-32 object-cover object-center"
+                  src="./theme/spicy_cool_sweet_banner.jpg"
+                  alt="辣酷甜主題日 27 位女孩全員主視覺"
+                  className="w-full h-auto object-contain object-center"
                 />
               </div>
 
