@@ -68,20 +68,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   );
 
   return (
-    <div className="glass-nav rounded-2xl p-2.5 sm:p-3.5 shadow-bento dark:shadow-bento-dark border border-border/70 mb-3 sm:mb-4 transition">
+    <div className="bg-white/90 dark:bg-oled-card/90 backdrop-blur-md rounded-2xl p-2.5 sm:p-3.5 shadow-card-soft dark:shadow-card-oled border border-pink-100/80 dark:border-oled-border mb-3 sm:mb-4 transition">
       {/* 1. Date Selector Tabs (Horizontal Scroll Rail) */}
-      <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-2 mb-2.5 border-b border-border/50 no-scrollbar">
-        <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground whitespace-nowrap pl-0.5 pr-1">
-          <Calendar className="w-3 h-3 text-primary" />
+      <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-2 mb-2.5 border-b border-pink-100/60 dark:border-oled-border no-scrollbar">
+        <div className="flex items-center gap-1 text-[11px] font-bold text-gray-500 dark:text-gray-400 whitespace-nowrap pl-0.5 pr-1">
+          <Calendar className="w-3 h-3 text-rkg-pink-deep dark:text-rkg-pink" />
           <span>{t.tabSchedule}：</span>
         </div>
 
         <button
           onClick={() => onSelectDate('')}
-          className={`px-2.5 py-1 rounded-full text-xs font-bold transition whitespace-nowrap active:scale-95 ${
+          className={`px-2.5 py-1 rounded-full text-xs font-bold transition whitespace-nowrap ${
             selectedDate === ''
-              ? 'bg-primary text-primary-foreground shadow-sm'
-              : 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground'
+              ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow'
+              : 'bg-pink-50 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated'
           }`}
         >
           {t.areaAll}
@@ -91,27 +91,27 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           const rel = getRelativeDateInfo(d, language);
           const isSelected = selectedDate === d;
 
-          let buttonClass = 'bg-muted/70 text-muted-foreground hover:bg-muted hover:text-foreground';
-          let badgeClass = 'bg-background/80 text-foreground font-semibold';
+          let buttonClass = 'bg-pink-50 dark:bg-oled-surface text-gray-700 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated';
+          let badgeClass = 'bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300 font-semibold';
 
           if (isSelected) {
             if (rel.isToday) {
-              buttonClass = 'bg-primary text-primary-foreground shadow-md ring-2 ring-primary/40 animate-pulse font-black';
-              badgeClass = 'bg-white/20 text-white font-black';
+              buttonClass = 'bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-pink-glow ring-1.5 ring-pink-400/50 animate-pulse';
+              badgeClass = 'bg-white/25 text-white font-black';
             } else {
-              buttonClass = 'bg-primary text-primary-foreground shadow-sm font-bold';
+              buttonClass = 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-pink-glow';
               badgeClass = 'bg-white/20 text-white font-bold';
             }
           } else {
             if (rel.isToday) {
-              buttonClass = 'bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800/80 hover:bg-rose-500/20 shadow-sm';
+              buttonClass = 'bg-gradient-to-r from-rose-50 to-pink-100/70 dark:from-pink-950/40 dark:to-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800/80 hover:bg-rose-100 shadow-sm';
               badgeClass = 'bg-rose-600 text-white font-black';
             } else if (rel.isTomorrow || rel.isDayAfterTomorrow) {
-              buttonClass = 'bg-amber-500/10 text-amber-900 dark:text-amber-200 border border-amber-300/80 dark:border-amber-800/60 hover:bg-amber-500/20';
-              badgeClass = 'bg-amber-400 text-amber-950 font-bold';
+              buttonClass = 'bg-amber-50/70 dark:bg-amber-950/30 text-amber-900 dark:text-amber-200 border border-amber-200/80 dark:border-amber-800/60 hover:bg-amber-100/80';
+              badgeClass = 'bg-amber-200/80 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 font-bold';
             } else if (rel.isThisWeek) {
-              buttonClass = 'bg-blue-500/10 text-blue-900 dark:text-blue-200 border border-blue-300/70 dark:border-blue-800/50 hover:bg-blue-500/20';
-              badgeClass = 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 font-semibold';
+              buttonClass = 'bg-blue-50/60 dark:bg-blue-950/30 text-blue-900 dark:text-blue-200 border border-blue-200/70 dark:border-blue-800/50 hover:bg-blue-100/70';
+              badgeClass = 'bg-blue-100 dark:bg-blue-900/70 text-blue-800 dark:text-blue-200 font-semibold';
             }
           }
 
@@ -119,7 +119,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             <button
               key={d}
               onClick={() => onSelectDate(d)}
-              className={`px-2.5 py-1 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1 active:scale-95 ${buttonClass}`}
+              className={`px-2.5 py-1 rounded-full text-xs font-bold transition whitespace-nowrap flex items-center gap-1 ${buttonClass}`}
             >
               {rel.isToday && <Flame className="w-3 h-3 text-amber-300 animate-bounce" />}
               <span>{d}</span>
@@ -131,14 +131,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         })}
       </div>
 
-      {/* 2. Dual-Mode Segmented Control (Lovable Tactile Pill) */}
-      <div className="grid grid-cols-2 p-1 bg-muted/70 rounded-xl mb-2 gap-1 border border-border/40">
+      {/* 2. Dual-Mode Segmented Control (Idol Bloom Tactile Pill) */}
+      <div className="grid grid-cols-2 p-1 bg-pink-100/60 dark:bg-oled-surface rounded-xl mb-2 gap-1">
         <button
           onClick={handleSwitchToInningMode}
-          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 active:scale-[0.98] ${
+          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
             !isSeatMode
-              ? 'bg-background text-primary shadow-sm ring-1 ring-border/80'
-              : 'text-muted-foreground hover:text-foreground'
+              ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
           }`}
         >
           <Compass className="w-3.5 h-3.5" />
@@ -147,10 +147,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={handleSwitchToSeatMode}
-          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 active:scale-[0.98] ${
+          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
             isSeatMode
-              ? 'bg-background text-primary shadow-sm ring-1 ring-border/80'
-              : 'text-muted-foreground hover:text-foreground'
+              ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
           }`}
         >
           <MapPin className="w-3.5 h-3.5" />
@@ -160,18 +160,18 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
       {/* 3. Compact Inline Search Bar */}
       <div className="relative mb-2">
-        <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+        <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={t.searchSchedulePlaceholder}
-          className="w-full pl-8 pr-8 py-1.5 bg-muted/40 hover:bg-muted/60 focus:bg-background text-xs sm:text-sm text-foreground placeholder-muted-foreground rounded-xl border border-border/70 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/40 transition"
+          className="w-full pl-8 pr-8 py-1.5 bg-pink-50/30 dark:bg-oled-surface hover:bg-pink-50/70 dark:hover:bg-oled-elevated focus:bg-white dark:focus:bg-oled-surface text-xs sm:text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 rounded-xl border border-pink-200/70 dark:border-oled-border focus:border-rkg-pink focus:outline-none focus:ring-1 focus:ring-pink-300 dark:focus:ring-pink-900 transition"
         />
         {searchQuery && (
           <button
             onClick={() => onSearchChange('')}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-0.5 rounded-full"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-0.5 rounded-full"
             title="清除搜尋"
           >
             <X className="w-3.5 h-3.5" />
@@ -187,10 +187,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 全部女孩 */}
             <button
               onClick={() => onAreaFilterChange('ALL')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'ALL'
-                  ? 'bg-primary text-primary-foreground shadow-sm ring-1 ring-primary/40'
-                  : 'bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground border border-border/60'
+                  ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-sm ring-1 ring-pink-300/50'
+                  : 'bg-pink-50 dark:bg-oled-surface text-gray-600 dark:text-gray-300 hover:bg-pink-100 dark:hover:bg-oled-elevated border border-pink-100 dark:border-oled-border'
               }`}
             >
               {t.areaAll} ({totalCount})
@@ -199,10 +199,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 1-3 局 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_13' ? 'ALL' : 'PERIOD_13')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
                 areaFilter === 'PERIOD_13'
                   ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white shadow-sm ring-1 ring-sky-300/50'
-                  : 'bg-sky-500/10 text-sky-800 dark:text-sky-300 hover:bg-sky-500/20 border border-sky-300/60 dark:border-sky-800/60'
+                  : 'bg-sky-50/80 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900/60 border border-sky-200/80 dark:border-sky-800/60'
               }`}
             >
               <Compass className="w-3 h-3 flex-shrink-0" />
@@ -212,10 +212,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 中場表演 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_MID' ? 'ALL' : 'PERIOD_MID')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
                 areaFilter === 'PERIOD_MID'
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm ring-1 ring-amber-300/50'
-                  : 'bg-amber-500/10 text-amber-800 dark:text-amber-300 hover:bg-amber-500/20 border border-amber-300/60 dark:border-amber-800/60'
+                  : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200/80 dark:border-amber-800/60'
               }`}
             >
               <Sparkles className="w-3 h-3 text-amber-500 flex-shrink-0" />
@@ -225,10 +225,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 7-8 局 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_78' ? 'ALL' : 'PERIOD_78')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
                 areaFilter === 'PERIOD_78'
                   ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm ring-1 ring-purple-300/50'
-                  : 'bg-purple-500/10 text-purple-800 dark:text-purple-300 hover:bg-purple-500/20 border border-purple-300/60 dark:border-purple-800/60'
+                  : 'bg-purple-50/80 dark:bg-purple-950/40 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200/80 dark:border-purple-800/60'
               }`}
             >
               <Compass className="w-3 h-3 flex-shrink-0" />
@@ -238,13 +238,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 最愛 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'FAVORITES' ? 'ALL' : 'FAVORITES')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 active:scale-95 ${
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
                 areaFilter === 'FAVORITES'
                   ? 'bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-sm ring-1 ring-rose-300/50'
-                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-300 hover:bg-rose-500/20 border border-rose-300/60 dark:border-rose-800/60'
+                  : 'bg-rose-50/80 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200/80 dark:border-rose-800/60'
               }`}
             >
-              <Heart className={`w-3 h-3 flex-shrink-0 ${favoritesCount > 0 ? 'fill-rose-500 text-rose-500' : ''}`} />
+              <Heart className={`w-3 h-3 flex-shrink-0 ${favoritesCount > 0 ? 'fill-rose-500' : ''}`} />
               <span>{t.filterFavorites} ({favoritesCount})</span>
             </button>
           </>
@@ -254,10 +254,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 一壘東區 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST' ? 'ALL' : 'SEAT_EAST')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'SEAT_EAST'
                   ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm ring-1 ring-blue-300/50'
-                  : 'bg-blue-500/10 text-blue-700 dark:text-blue-300 hover:bg-blue-500/20 border border-blue-300/60 dark:border-blue-800/60'
+                  : 'bg-blue-50/80 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200/80 dark:border-blue-800/60'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
@@ -267,10 +267,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 三壘西區 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST' ? 'ALL' : 'SEAT_WEST')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'SEAT_WEST'
                   ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm ring-1 ring-emerald-300/50'
-                  : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 border border-emerald-300/60 dark:border-emerald-800/60'
+                  : 'bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200/80 dark:border-emerald-800/60'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
@@ -280,10 +280,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 大樂放鬆專區 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'SEAT_DALE' ? 'ALL' : 'SEAT_DALE')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'SEAT_DALE'
                   ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-sm ring-1 ring-violet-300/50'
-                  : 'bg-violet-500/10 text-violet-700 dark:text-violet-300 hover:bg-violet-500/20 border border-violet-300/60 dark:border-violet-800/60'
+                  : 'bg-violet-50/80 dark:bg-violet-950/40 text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/50 border border-violet-200/80 dark:border-violet-800/60'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-violet-500 flex-shrink-0" />
@@ -293,10 +293,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 走道 東R 舞台 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST_R' ? 'ALL' : 'SEAT_EAST_R')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'SEAT_EAST_R'
                   ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md ring-1 ring-cyan-300/50'
-                  : 'bg-cyan-500/10 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-500/20 border border-cyan-300/60 dark:border-cyan-800/60'
+                  : 'bg-cyan-50/80 dark:bg-cyan-950/40 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 border border-cyan-200/80 dark:border-cyan-800/60'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
@@ -306,10 +306,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             {/* 走道 西R 舞台 */}
             <button
               onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST_R' ? 'ALL' : 'SEAT_WEST_R')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 active:scale-95 ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
                 areaFilter === 'SEAT_WEST_R'
                   ? 'bg-gradient-to-r from-teal-600 to-emerald-700 text-white shadow-sm ring-1 ring-teal-300/50'
-                  : 'bg-teal-500/10 text-teal-800 dark:text-teal-300 hover:bg-teal-500/20 border border-teal-300/60 dark:border-teal-800/60'
+                  : 'bg-teal-50/80 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200/80 dark:border-teal-800/60'
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-teal-500 flex-shrink-0" />
@@ -320,13 +320,13 @@ export const FilterBar: React.FC<FilterBarProps> = ({
       </div>
 
       {/* 5. Micro-metadata Bar (即時微型統計與重設按鈕) */}
-      <div className="mt-2 pt-2 border-t border-border/50 flex items-center justify-between text-[11px] text-muted-foreground">
+      <div className="mt-2 pt-2 border-t border-pink-100/60 dark:border-oled-border flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400">
         <div className="flex items-center gap-1 font-medium">
           <span>
             {t.filterCountSummary.replace('{count}', String(filteredCount ?? totalCount))}
           </span>
           {selectedDate && (
-            <span className="text-primary font-bold">
+            <span className="text-rkg-pink-deep dark:text-pink-400 font-bold">
               • {selectedDate}
             </span>
           )}
@@ -335,7 +335,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {hasActiveFilters && onResetFilters && (
           <button
             onClick={onResetFilters}
-            className="flex items-center gap-1 text-primary hover:underline font-bold transition active:scale-95"
+            className="flex items-center gap-1 text-rkg-crimson dark:text-pink-400 hover:underline font-bold transition active:scale-95"
           >
             <RotateCcw className="w-3 h-3" />
             <span>{t.resetFilters}</span>
