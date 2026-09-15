@@ -11,6 +11,8 @@ import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates } from './utils/dateUtils';
+import { ThemeDayBanner } from './components/ThemeDayBanner';
+import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
 // Code Splitting via React.lazy for Non-initial View Components
 const InstagramDirectory = lazy(() =>
@@ -241,7 +243,7 @@ const MainApp: React.FC = () => {
         const checkDuty = (duty: any) =>
           duty.innings.some((inn: any) => {
             const loc = inn.location || '';
-            return loc.includes('大樂') || loc.includes('專區');
+            return loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西'));
           });
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
@@ -627,6 +629,44 @@ const MainApp: React.FC = () => {
         ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
         : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
 
+      // 辣酷甜特別主題日分組：專區看台應援女孩 vs 全員出席主舞台演出女孩
+      if (isSpicyCoolSweetDate(selectedDate)) {
+        const zoneGirls: GirlProfile[] = [];
+        const mainStageGirls: GirlProfile[] = [];
+
+        onDutyGirls.forEach(girl => {
+          const assign = getZoneAssignment(selectedDate, girl.name);
+          if (assign) {
+            zoneGirls.push(girl);
+          } else {
+            mainStageGirls.push(girl);
+          }
+        });
+
+        const themeSections: GroupSection[] = [];
+        if (zoneGirls.length > 0) {
+          themeSections.push({
+            key: `THEME_${selectedDate}_ZONES`,
+            title: `${selectedDate} 辣酷甜看台專區應援女孩 (${zoneGirls.length} 位)`,
+            badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
+            girls: zoneGirls,
+            favCount: countFavs(zoneGirls),
+            date: selectedDate
+          });
+        }
+        if (mainStageGirls.length > 0) {
+          themeSections.push({
+            key: `THEME_${selectedDate}_STAGE`,
+            title: `${selectedDate} 全員出席 ‧ 內野主舞台演出女孩 (${mainStageGirls.length} 位)`,
+            badgeStyle: 'from-[#380712] to-[#690d1f] text-amber-200 shadow-sm border border-amber-500/30',
+            girls: mainStageGirls,
+            favCount: countFavs(mainStageGirls),
+            date: selectedDate
+          });
+        }
+        return themeSections;
+      }
+
       const daySections: GroupSection[] = [];
       if (onDutyGirls.length > 0) {
         daySections.push({
@@ -657,7 +697,7 @@ const MainApp: React.FC = () => {
         if (!loc) return false;
         if (areaFilter === 'SEAT_EAST') return loc.includes('東') && !loc.includes('東R');
         if (areaFilter === 'SEAT_WEST') return loc.includes('西') && !loc.includes('西R');
-        if (areaFilter === 'SEAT_DALE') return loc.includes('大樂') || loc.includes('專區');
+        if (areaFilter === 'SEAT_DALE') return loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西'));
         if (areaFilter === 'SEAT_EAST_R') return loc.includes('東R');
         if (areaFilter === 'SEAT_WEST_R') return loc.includes('西R');
         return false;
@@ -845,8 +885,17 @@ const MainApp: React.FC = () => {
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {activeTab === 'SCHEDULE' ? (
             <>
-              {/* Banner Card (Compact with Today Dynamic Highlight) */}
+              {/* Banner Card (Theme Day, Today Highlight, or Default) */}
               {(() => {
+                if (isSpicyCoolSweetDate(selectedDate)) {
+                  return (
+                    <ThemeDayBanner
+                      selectedDate={selectedDate}
+                      onSelectDate={setSelectedDate}
+                    />
+                  );
+                }
+
                 const currentRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
                 const isCurrentToday = currentRelInfo?.isToday;
 

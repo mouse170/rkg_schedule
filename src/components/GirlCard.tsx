@@ -3,6 +3,7 @@ import { Heart, ExternalLink, Sparkles, MapPin, Flame } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo, translateLocation, isPastDate } from '../utils/dateUtils';
+import { isSpicyCoolSweetDate, getZoneAssignment } from '../data/spicyCoolSweetData';
 
 export interface PairedInfo {
   isPaired: boolean;
@@ -53,6 +54,9 @@ export const GirlCard: React.FC<GirlCardProps> = ({
 
   const dateRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
   const isTodayDuty = isOnDuty && dateRelInfo?.isToday;
+
+  const isThemeDay = isSpicyCoolSweetDate(selectedDate);
+  const zoneAssign = isThemeDay ? getZoneAssignment(selectedDate, girl.name) : undefined;
 
   const isPaired = pairedInfo?.isPaired;
 
@@ -129,7 +133,18 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {/* Duty Status Ribbon */}
           <div className="absolute bottom-2 right-2">
             {isOnDuty ? (
-              isTodayDuty ? (
+              isThemeDay ? (
+                zoneAssign ? (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-amber-300 whitespace-nowrap">
+                    <Sparkles className="w-2.5 h-2.5 text-[#1a0007] fill-[#1a0007]" />
+                    <span>專區應援</span>
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#3d000f] to-[#73001e] border border-amber-400/40 text-amber-200 text-[9px] sm:text-[10px] font-bold shadow-sm whitespace-nowrap">
+                    <span>全員出席</span>
+                  </span>
+                )
+              ) : isTodayDuty ? (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-white/50 animate-pulse whitespace-nowrap">
                   <Flame className="w-2.5 h-2.5 text-amber-300" />
                   <span>{t.onDutyToday}</span>
@@ -169,6 +184,14 @@ export const GirlCard: React.FC<GirlCardProps> = ({
             )}
           </div>
 
+          {/* Theme Day Zone Info Tag */}
+          {zoneAssign && (
+            <div className="mt-1 mb-1 px-1.5 py-0.5 rounded-lg bg-amber-500/15 dark:bg-amber-950/40 border border-amber-500/40 text-[10px] font-black text-amber-800 dark:text-amber-300 flex items-center justify-between shadow-sm">
+              <span>{zoneAssign.name}</span>
+              <span className="text-[9px] font-semibold opacity-80">{zoneAssign.ticketType.split(' ')[0]}</span>
+            </div>
+          )}
+
           {/* Cheering Inning Pills */}
           {selectedDate ? (
             /* 單一指定日期模式 */
@@ -188,7 +211,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     } else if (loc.includes('大樂')) {
                       badgeStyle = 'bg-violet-100 dark:bg-violet-950/80 text-violet-900 dark:text-violet-200 border border-violet-300 dark:border-violet-700 font-black shadow-sm';
                     } else if (loc.includes('專區')) {
-                      badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
+                      badgeStyle = 'bg-gradient-to-r from-red-950/85 to-amber-950/85 text-amber-300 border border-amber-500/70 font-black shadow-sm ring-1 ring-amber-400/30';
                     } else if (loc.includes('東')) {
                       badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
                     } else if (loc.includes('西')) {
@@ -202,7 +225,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                       const matchesSeat =
                         (seatFilter === 'SEAT_EAST' && loc.includes('東') && !loc.includes('東R')) ||
                         (seatFilter === 'SEAT_WEST' && loc.includes('西') && !loc.includes('西R')) ||
-                        (seatFilter === 'SEAT_DALE' && (loc.includes('大樂') || loc.includes('專區'))) ||
+                        (seatFilter === 'SEAT_DALE' && (loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西')))) ||
                         (seatFilter === 'SEAT_EAST_R' && loc.includes('東R')) ||
                         (seatFilter === 'SEAT_WEST_R' && loc.includes('西R'));
                       if (matchesSeat) {

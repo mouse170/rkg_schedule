@@ -1,9 +1,10 @@
 import Papa from 'papaparse';
 import { ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { findGirlByName } from '../data/girlsRoster';
+import { enrichDutyWithZone } from '../data/spicyCoolSweetData';
 
 export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
-export const SHEET_GIDS = ['1468073228', '1259873345'];
+export const SHEET_GIDS = ['1468073228', '1259873345', '735466597'];
 export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${SHEET_GIDS[0]}`;
 
 interface TableBlock {
@@ -178,13 +179,13 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       const canonicalName = officialGirl ? officialGirl.name : (rawName === '珈妤' ? '沈珈妤' : rawName);
       const canonicalNumber = officialGirl ? officialGirl.number : rawNumber;
 
-      const duty: DailyDuty = {
+      const duty: DailyDuty = enrichDutyWithZone({
         date: table.date,
         girlName: canonicalName,
         number: canonicalNumber,
         innings,
         primaryArea
-      };
+      }, table.date, canonicalName);
 
       // Add to daily roster
       dailyRosterMap[table.date].push(duty);
