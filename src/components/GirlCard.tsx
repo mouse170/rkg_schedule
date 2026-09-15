@@ -201,8 +201,14 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                   {currentDuty.innings.map((inn, idx) => {
                     const loc = inn.location;
                     const isMid = inn.period.includes('中場');
+                    const isZoneSingle = inn.period === '全場專區';
+                    const isPending = loc.includes('待公布');
                     let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
-                    if (isMid) {
+                    if (isZoneSingle) {
+                      badgeStyle = 'bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 text-amber-950 dark:text-amber-200 border border-amber-400/70 font-black shadow-sm ring-1 ring-amber-400/30';
+                    } else if (isPending) {
+                      badgeStyle = 'bg-pink-50/80 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 border border-pink-200/70 dark:border-pink-800/50 font-medium';
+                    } else if (isMid) {
                       badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
                     } else if (loc === '東R' || loc.includes('東R')) {
                       badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';
@@ -241,13 +247,24 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                       ? 'opacity-40'
                       : '';
 
+                    let labelText = `${inn.period}:${translateLocation(inn.location, language)}`;
+                    if (isZoneSingle) {
+                      labelText = `全場專區 ‧ ${zoneAssign ? zoneAssign.zoneCode : inn.location}`;
+                    } else if (isPending) {
+                      labelText = inn.location;
+                    }
+
                     return (
                       <span
                         key={idx}
                         className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle} ${focusClass}`}
                       >
-                        <MapPin className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
-                        <span>{inn.period}:{translateLocation(inn.location, language)}</span>
+                        {isZoneSingle ? (
+                          <Sparkles className="w-2.5 h-2.5 text-amber-500 flex-shrink-0" />
+                        ) : (
+                          <MapPin className="w-2.5 h-2.5 opacity-70 flex-shrink-0" />
+                        )}
+                        <span>{labelText}</span>
                       </span>
                     );
                   })}
@@ -296,19 +313,29 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                             badgeStyle = 'bg-teal-50 dark:bg-teal-950/60 text-teal-800 dark:text-teal-300 border border-teal-300 dark:border-teal-800 font-black';
                           } else if (loc.includes('大樂')) {
                             badgeStyle = 'bg-violet-100 dark:bg-violet-950/80 text-violet-900 dark:text-violet-200 border border-violet-300 dark:border-violet-700 font-black shadow-sm';
-                          } else if (loc.includes('專區')) {
-                            badgeStyle = 'bg-fuchsia-50 dark:bg-fuchsia-950/60 text-fuchsia-800 dark:text-fuchsia-300 border border-fuchsia-300 dark:border-fuchsia-800 font-black';
+                          } else if (inn.period === '全場專區' || loc.includes('專區')) {
+                            badgeStyle = 'bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700 font-black shadow-sm';
+                          } else if (loc.includes('待公布')) {
+                            badgeStyle = 'bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border border-pink-200/60 dark:border-pink-800/40 font-medium';
                           } else if (loc.includes('東')) {
                             badgeStyle = 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/60';
                           } else if (loc.includes('西')) {
                             badgeStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-800/60';
                           }
+
+                          let allDaysLabel = `${inn.period}:${translateLocation(inn.location, language)}`;
+                          if (inn.period === '全場專區') {
+                            allDaysLabel = `全場專區 ‧ ${inn.location}`;
+                          } else if (loc.includes('待公布')) {
+                            allDaysLabel = inn.location;
+                          }
+
                           return (
                             <span
                               key={iIdx}
                               className={`inline-flex items-center px-1 sm:px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold whitespace-nowrap flex-shrink-0 ${badgeStyle}`}
                             >
-                              <span>{inn.period}:{translateLocation(inn.location, language)}</span>
+                              <span>{allDaysLabel}</span>
                             </span>
                           );
                         })}

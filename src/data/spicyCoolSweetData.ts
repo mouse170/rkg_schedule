@@ -101,11 +101,9 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
 
   const assign = getZoneAssignment(date, girlName);
   if (assign) {
-    // 該女孩為當日專區應援女孩：12378 局在個人專區，第 5 局下為中場主舞台
+    // 該女孩為當日專區應援女孩：比賽期間全程在個人專區應援，單一標示
     const newInnings: InningAssignment[] = [
-      { period: '1-3局', location: `${assign.zoneCode}專區` },
-      { period: '第5局下', location: '辣酷甜全員主舞台' },
-      { period: '7-8局', location: `${assign.zoneCode}專區` }
+      { period: '全場專區', location: `${assign.zoneCode}專區` }
     ];
     return {
       ...duty,
@@ -113,13 +111,13 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
     };
   }
 
-  // 該女孩當日未被安排在專區，但全員出席：中場舞參加合體表演
+  // 該女孩當日未被安排在專區（一般看台應援女孩）：若試算表尚未填寫局數站位，顯示待公布
   const hasInnings = duty.innings && duty.innings.length > 0;
   if (!hasInnings) {
     return {
       ...duty,
       innings: [
-        { period: '第5局下', location: '辣酷甜全員主舞台' }
+        { period: '比賽期間', location: '站位待公布（東／西／東R／西R／大樂）' }
       ]
     };
   }

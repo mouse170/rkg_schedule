@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Sparkles, Map, X, CheckCircle2, Users } from 'lucide-react';
-import { SPICY_COOL_SWEET_THEME } from '../data/spicyCoolSweetData';
 
 interface ThemeDayBannerProps {
   selectedDate: string;
@@ -148,107 +147,21 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
                 </button>
               </div>
 
-              {/* Stadium Map Image from User */}
-              <div className="rounded-2xl overflow-hidden border border-amber-500/30 bg-black/60 p-1 mb-4">
+              {/* Stadium Map Image from User (Court layout) */}
+              <div className="rounded-2xl overflow-hidden border border-amber-500/30 bg-black/80 p-2 mb-4 flex items-center justify-center">
                 <img
-                  src="./theme/spicy_cool_sweet_stadium_map.png"
-                  alt="樂天桃園棒球場看台位置圖與票價"
-                  className="w-full h-auto rounded-xl object-contain max-h-64 sm:max-h-80 mx-auto"
+                  src="./theme/spicy_cool_sweet_court_map.png"
+                  alt="樂天桃園棒球場看台位置圖"
+                  className="w-full h-auto rounded-xl object-contain max-h-72 sm:max-h-96 mx-auto"
+                  loading="eager"
                 />
-              </div>
-
-              {/* Zone Breakdown Grid */}
-              <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1 no-scrollbar">
-                {/* 1. 東下一壘熱區 */}
-                <div className="bg-red-950/40 rounded-xl p-2.5 border border-amber-500/30">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-black text-amber-300 flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-blue-400" />
-                      <span>一壘東下熱區（全票 500 / 半票 400）</span>
-                    </span>
-                    <span className="text-[10px] text-amber-200/60">下層看台 I~M 區</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                    {(SPICY_COOL_SWEET_THEME.zoneAssignments[modalDate] || [])
-                      .filter(z => z.deck === '東下')
-                      .map(z => (
-                        <div key={z.name} className="px-2 py-1 rounded-lg bg-red-900/40 border border-amber-500/20 text-[11px] font-bold text-amber-100 flex items-center justify-between">
-                          <span className="text-amber-400">{z.zoneCode}</span>
-                          <span>{z.girlName}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* 2. 西下三壘熱區 */}
-                <div className="bg-red-950/40 rounded-xl p-2.5 border border-amber-500/30">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-black text-amber-300 flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                      <span>三壘西下熱區（全票 500 / 半票 400）</span>
-                    </span>
-                    <span className="text-[10px] text-amber-200/60">下層看台 I~K 區</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                    {(SPICY_COOL_SWEET_THEME.zoneAssignments[modalDate] || [])
-                      .filter(z => z.deck === '西下')
-                      .map(z => (
-                        <div key={z.name} className="px-2 py-1 rounded-lg bg-red-900/40 border border-amber-500/20 text-[11px] font-bold text-amber-100 flex items-center justify-between">
-                          <span className="text-amber-400">{z.zoneCode}</span>
-                          <span>{z.girlName}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* 3. 東上二樓視野區 */}
-                <div className="bg-red-950/40 rounded-xl p-2.5 border border-amber-500/30">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-black text-amber-300 flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                      <span>一壘東上視野區（全票 450 / 半票 350）</span>
-                    </span>
-                    <span className="text-[10px] text-amber-200/60">上層 4F B~D 區</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                    {(SPICY_COOL_SWEET_THEME.zoneAssignments[modalDate] || [])
-                      .filter(z => z.deck === '東上')
-                      .map(z => (
-                        <div key={z.name} className="px-2 py-1 rounded-lg bg-red-900/40 border border-amber-500/20 text-[11px] font-bold text-amber-100 flex items-center justify-between">
-                          <span className="text-amber-400">{z.zoneCode}</span>
-                          <span>{z.girlName}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* 4. 西上二樓視野區 */}
-                <div className="bg-red-950/40 rounded-xl p-2.5 border border-amber-500/30">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-xs font-black text-amber-300 flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-teal-400" />
-                      <span>三壘西上視野區（全票 450 / 半票 350）</span>
-                    </span>
-                    <span className="text-[10px] text-amber-200/60">上層 4F B~D 區</span>
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-                    {(SPICY_COOL_SWEET_THEME.zoneAssignments[modalDate] || [])
-                      .filter(z => z.deck === '西上')
-                      .map(z => (
-                        <div key={z.name} className="px-2 py-1 rounded-lg bg-red-900/40 border border-amber-500/20 text-[11px] font-bold text-amber-100 flex items-center justify-between">
-                          <span className="text-amber-400">{z.zoneCode}</span>
-                          <span>{z.girlName}</span>
-                        </div>
-                      ))}
-                  </div>
-                </div>
               </div>
 
               {/* Special Theme Rules Description */}
               <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-200/90 space-y-1.5 mb-4">
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>局數規則</strong>：專區女孩於第 1、2、3、7、8 局皆固定在專屬指定看台應援，不進行一般局數換側輪替。</span>
+                  <span><strong>局數規則</strong>：專區女孩於比賽期間固定在個人專屬看台全程應援；一般看台女孩依東、西、東R、西R、大樂區輪替安排。</span>
                 </div>
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
