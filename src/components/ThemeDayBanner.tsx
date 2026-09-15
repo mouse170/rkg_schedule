@@ -46,7 +46,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
 
             {/* Inning Rules Subtitle */}
             <p className="text-[11px] sm:text-xs text-amber-200/90 leading-relaxed font-medium max-w-2xl">
-              1、2、3、7、8 局專區女孩全程於專屬看台貼身應援 ‧ 第 5 局下全體女孩於內野主舞台合體演出「辣酷甜」單曲！
+              1、2、3、7、8 局專區女孩全程於專屬看台貼身應援 ‧ 第 5 局下為全員表演（可能分區域進行表演，依試算表即時資料為主）
             </p>
           </div>
 
@@ -165,7 +165,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
                 </div>
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>中場演出</strong>：第 5 局下全體 27 位女孩合體於內野主舞台帶來「辣酷甜」年度主題單曲震撼演出！</span>
+                  <span><strong>中場演出</strong>：第 5 局下為全員表演，可能還會分區域進行表演，確切安排以試算表即時資料為主。</span>
                 </div>
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />

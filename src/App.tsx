@@ -159,6 +159,56 @@ const MainApp: React.FC = () => {
     }
   }, [favorites, upcomingDates, schedule]);
 
+  type StationAreaTier = 'ZONE' | 'EAST' | 'WEST' | 'SPECIAL' | 'UNASSIGNED';
+
+  const TIER_PRIORITY: Record<StationAreaTier, number> = {
+    ZONE: 1,
+    EAST: 2,
+    WEST: 3,
+    SPECIAL: 4,
+    UNASSIGNED: 5
+  };
+
+  const getGirlStationTier = (girl: GirlProfile, targetDate?: string, targetFilter?: string): StationAreaTier => {
+    const date = targetDate || selectedDate;
+    const filter = targetFilter || areaFilter;
+    const duties = schedule.girlsScheduleMap[girl.name] || [];
+    const duty = date ? duties.find(d => d.date === date) : duties[0];
+    if (!duty) return 'UNASSIGNED';
+
+    // 1. 專區優先判定：主題日專區女孩，或站位包含專區
+    if (date && isSpicyCoolSweetDate(date)) {
+      const assign = getZoneAssignment(date, girl.name);
+      if (assign) return 'ZONE';
+    }
+
+    let targetInning = duty.innings[0];
+    if (filter === 'PERIOD_13') {
+      targetInning = duty.innings.find(i => i.period.includes('1-3')) || targetInning;
+    } else if (filter === 'PERIOD_78') {
+      targetInning = duty.innings.find(i => i.period.includes('7-8')) || targetInning;
+    } else if (filter === 'PERIOD_MID') {
+      targetInning = duty.innings.find(i => i.period.includes('中場')) || targetInning;
+    }
+
+    if (!targetInning) return 'UNASSIGNED';
+    const loc = targetInning.location || '';
+
+    if (loc.includes('專區')) return 'ZONE';
+    if (loc.includes('待公布') || loc.includes('待定') || loc.includes('未安排') || !loc.trim()) return 'UNASSIGNED';
+    if (loc.includes('東R') || loc.includes('西R') || loc.includes('大樂')) return 'SPECIAL';
+    if (loc.includes('東')) return 'EAST';
+    if (loc.includes('西')) return 'WEST';
+
+    // Fallback based on primaryArea
+    if (duty.primaryArea === '專區') return 'ZONE';
+    if (duty.primaryArea === '東區') return 'EAST';
+    if (duty.primaryArea === '西區') return 'WEST';
+    if (duty.primaryArea === '東R' || duty.primaryArea === '西R' || duty.primaryArea === '大樂') return 'SPECIAL';
+
+    return 'UNASSIGNED';
+  };
+
   // Filter and sort girls
   const filteredGirls = useMemo(() => {
     let list = [...OFFICIAL_GIRLS];
@@ -288,21 +338,31 @@ const MainApp: React.FC = () => {
       });
     }
 
-    // 3. Sorting: Favorites first, then on duty for selected date, then by jersey number
+    // 3. Sorting: 5 階區域排序階層，組內最愛（點擊喜歡）優先置頂
+    // 第 1 階：專區、第 2 階：東區、第 3 階：西區、第 4 階：特殊區域、第 5 階：未安排站位人員
     list.sort((a, b) => {
+      const aTier = getGirlStationTier(a, selectedDate, areaFilter);
+      const bTier = getGirlStationTier(b, selectedDate, areaFilter);
+
       const aFav = favorites.includes(a.name) ? 1 : 0;
       const bFav = favorites.includes(b.name) ? 1 : 0;
-      if (aFav !== bFav) return bFav - aFav;
 
+      // Score: Tier * 2 + (isFav ? 0 : 1)
+      const aScore = TIER_PRIORITY[aTier] * 2 + (aFav ? 0 : 1);
+      const bScore = TIER_PRIORITY[bTier] * 2 + (bFav ? 0 : 1);
+
+      if (aScore !== bScore) {
+        return aScore - bScore;
+      }
+
+      // 檢查在勤狀態（若未指定日期）
       const aDuties = schedule.girlsScheduleMap[a.name] || [];
       const bDuties = schedule.girlsScheduleMap[b.name] || [];
-
       const aOnDuty = selectedDate ? aDuties.some(d => d.date === selectedDate) : aDuties.length > 0;
       const bOnDuty = selectedDate ? bDuties.some(d => d.date === selectedDate) : bDuties.length > 0;
-
       if (aOnDuty !== bOnDuty) return (bOnDuty ? 1 : 0) - (aOnDuty ? 1 : 0);
 
-      // number sort
+      // 同階同最愛狀態依背號遞增排序
       const numA = parseInt(a.number, 10) || 999;
       const numB = parseInt(b.number, 10) || 999;
       return numA - numB;
@@ -381,32 +441,6 @@ const MainApp: React.FC = () => {
     return result;
   }, [selectedDate, favorites, schedule, areaFilter]);
 
-  // Grouping helper function to determine a girl's station area for non-mid contexts
-  const getGirlStationGroup = (girl: GirlProfile): 'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY' => {
-    const duties = schedule.girlsScheduleMap[girl.name] || [];
-    const duty = selectedDate ? duties.find(d => d.date === selectedDate) : duties[0];
-    if (!duty || duty.innings.length === 0) return 'OFF_DUTY';
-
-    // 依篩選時段或當日首要時段取得站位
-    let targetInning = duty.innings[0];
-    if (areaFilter === 'PERIOD_13') {
-      targetInning = duty.innings.find(i => i.period.includes('1-3')) || targetInning;
-    } else if (areaFilter === 'PERIOD_78') {
-      targetInning = duty.innings.find(i => i.period.includes('7-8')) || targetInning;
-    }
-
-    const loc = targetInning.location || '';
-    if (loc.includes('東R') || loc.includes('西R') || loc.includes('大樂') || loc.includes('專區')) {
-      return 'SPECIAL';
-    }
-    if (loc.includes('東')) {
-      return 'EAST';
-    }
-    if (loc.includes('西')) {
-      return 'WEST';
-    }
-    return 'SPECIAL';
-  };
 
   interface GroupSection {
     key: string;
@@ -430,17 +464,19 @@ const MainApp: React.FC = () => {
     if (filteredGirls.length === 0 && areaFilter !== 'PERIOD_MID') return [];
 
     const countFavs = (list: GirlProfile[]) => list.filter(g => favorites.includes(g.name)).length;
-    const sortGirlsInGroup = (list: GirlProfile[]) => {
+    const sortGirlsInGroup = (list: GirlProfile[], targetDate?: string) => {
+      const dateToUse = targetDate || selectedDate;
       list.sort((a, b) => {
+        const aTier = getGirlStationTier(a, dateToUse, areaFilter);
+        const bTier = getGirlStationTier(b, dateToUse, areaFilter);
+
         const aFav = favorites.includes(a.name) ? 1 : 0;
         const bFav = favorites.includes(b.name) ? 1 : 0;
-        if (aFav !== bFav) return bFav - aFav;
 
-        const aDuties = schedule.girlsScheduleMap[a.name] || [];
-        const bDuties = schedule.girlsScheduleMap[b.name] || [];
-        const aOnDuty = selectedDate ? aDuties.some(d => d.date === selectedDate) : aDuties.length > 0;
-        const bOnDuty = selectedDate ? bDuties.some(d => d.date === selectedDate) : bDuties.length > 0;
-        if (aOnDuty !== bOnDuty) return (bOnDuty ? 1 : 0) - (aOnDuty ? 1 : 0);
+        // 組內最愛置頂，再依 5 階階層 (專區 > 東區 > 西區 > 特殊 > 未安排)
+        const aScore = TIER_PRIORITY[aTier] * 2 + (aFav ? 0 : 1);
+        const bScore = TIER_PRIORITY[bTier] * 2 + (bFav ? 0 : 1);
+        if (aScore !== bScore) return aScore - bScore;
 
         const numA = parseInt(a.number, 10) || 999;
         const numB = parseInt(b.number, 10) || 999;
@@ -454,6 +490,7 @@ const MainApp: React.FC = () => {
       const midSections: GroupSection[] = [];
 
       targetDates.forEach(date => {
+        const isTheme = isSpicyCoolSweetDate(date);
         const eastGirls: GirlProfile[] = [];
         const westGirls: GirlProfile[] = [];
         const stageGirls: GirlProfile[] = [];
@@ -463,11 +500,11 @@ const MainApp: React.FC = () => {
           const duty = duties.find(d => d.date === date);
           if (!duty) return;
 
-          const midInning = duty.innings.find(i => i.period.includes('中場') && i.location.trim().length > 0);
+          const midInning = duty.innings.find(i => (i.period.includes('中場') || i.period.toUpperCase().includes('IF')) && i.location.trim().length > 0);
           if (!midInning) return;
 
           const loc = midInning.location;
-          if (loc.includes('東R') || loc.includes('西R') || loc.includes('舞台') || loc.includes('專區')) {
+          if (loc.includes('東R') || loc.includes('西R') || loc.includes('舞台') || loc.includes('專區') || loc.includes('全員')) {
             stageGirls.push(girl);
           } else if (loc.includes('東')) {
             eastGirls.push(girl);
@@ -478,15 +515,15 @@ const MainApp: React.FC = () => {
           }
         });
 
-        sortGirlsInGroup(eastGirls);
-        sortGirlsInGroup(westGirls);
-        sortGirlsInGroup(stageGirls);
+        sortGirlsInGroup(eastGirls, date);
+        sortGirlsInGroup(westGirls, date);
+        sortGirlsInGroup(stageGirls, date);
 
         // 當日中場表演 (東區前)
         if (eastGirls.length > 0) {
           midSections.push({
             key: `MID_${date}_EAST`,
-            title: `${date} ${t.groupTitleMidEast}`,
+            title: `${date} ${t.groupTitleMidEast} (${eastGirls.length} 位)`,
             badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
             girls: eastGirls,
             favCount: countFavs(eastGirls),
@@ -498,7 +535,7 @@ const MainApp: React.FC = () => {
         if (westGirls.length > 0) {
           midSections.push({
             key: `MID_${date}_WEST`,
-            title: `${date} ${t.groupTitleMidWest}`,
+            title: `${date} ${t.groupTitleMidWest} (${westGirls.length} 位)`,
             badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
             girls: westGirls,
             favCount: countFavs(westGirls),
@@ -506,12 +543,18 @@ const MainApp: React.FC = () => {
           });
         }
 
-        // 當日中場表演 (應援舞台/專區)
+        // 當日中場表演 (應援舞台/全員合體/專區)
         if (stageGirls.length > 0) {
+          const stageTitle = isTheme
+            ? `${date} 辣酷甜中場全員表演（第 5 局下全體演出，可能分區進行） (${stageGirls.length} 位)`
+            : `${date} ${t.groupTitleMidStage} (${stageGirls.length} 位)`;
+
           midSections.push({
             key: `MID_${date}_STAGE`,
-            title: `${date} ${t.groupTitleMidStage}`,
-            badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+            title: stageTitle,
+            badgeStyle: isTheme
+              ? 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black'
+              : 'from-amber-500 to-orange-500 text-white shadow-sm',
             girls: stageGirls,
             favCount: countFavs(stageGirls),
             date
@@ -634,42 +677,69 @@ const MainApp: React.FC = () => {
         ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
         : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
 
-      // 辣酷甜特別主題日分組：專區看台應援女孩 vs 一般看台應援女孩
+      // 辣酷甜特別主題日分組：依專區、東區、西區、特殊區域、未安排站位依序呈現
       if (isSpicyCoolSweetDate(selectedDate)) {
-        const zoneGirls: GirlProfile[] = [];
-        const generalGirls: GirlProfile[] = [];
+        const themeGroups: Record<StationAreaTier, GirlProfile[]> = {
+          ZONE: [],
+          EAST: [],
+          WEST: [],
+          SPECIAL: [],
+          UNASSIGNED: []
+        };
 
         onDutyGirls.forEach(girl => {
-          const assign = getZoneAssignment(selectedDate, girl.name);
-          if (assign) {
-            zoneGirls.push(girl);
-          } else {
-            generalGirls.push(girl);
-          }
+          const tier = getGirlStationTier(girl, selectedDate, 'ALL');
+          themeGroups[tier].push(girl);
         });
 
-        const themeSections: GroupSection[] = [];
-        if (zoneGirls.length > 0) {
-          themeSections.push({
-            key: `THEME_${selectedDate}_ZONES`,
-            title: `${selectedDate} 辣酷甜看台專區應援女孩 (${zoneGirls.length} 位)`,
+        Object.keys(themeGroups).forEach(k => {
+          sortGirlsInGroup(themeGroups[k as StationAreaTier], selectedDate);
+        });
+
+        const themeSections: GroupSection[] = [
+          {
+            key: `THEME_${selectedDate}_ZONE`,
+            title: `${selectedDate} 看台專區應援女孩 (${themeGroups.ZONE.length} 位)`,
             badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
-            girls: zoneGirls,
-            favCount: countFavs(zoneGirls),
+            girls: themeGroups.ZONE,
+            favCount: countFavs(themeGroups.ZONE),
             date: selectedDate
-          });
-        }
-        if (generalGirls.length > 0) {
-          themeSections.push({
-            key: `THEME_${selectedDate}_GENERAL`,
-            title: `${selectedDate} 一般看台應援女孩 (${generalGirls.length} 位)`,
+          },
+          {
+            key: `THEME_${selectedDate}_EAST`,
+            title: `${selectedDate} 一壘東區應援 (${themeGroups.EAST.length} 位)`,
+            badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
+            girls: themeGroups.EAST,
+            favCount: countFavs(themeGroups.EAST),
+            date: selectedDate
+          },
+          {
+            key: `THEME_${selectedDate}_WEST`,
+            title: `${selectedDate} 三壘西區應援 (${themeGroups.WEST.length} 位)`,
+            badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
+            girls: themeGroups.WEST,
+            favCount: countFavs(themeGroups.WEST),
+            date: selectedDate
+          },
+          {
+            key: `THEME_${selectedDate}_SPECIAL`,
+            title: `${selectedDate} 特殊區域（東R／西R／大樂） (${themeGroups.SPECIAL.length} 位)`,
+            badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
+            girls: themeGroups.SPECIAL,
+            favCount: countFavs(themeGroups.SPECIAL),
+            date: selectedDate
+          },
+          {
+            key: `THEME_${selectedDate}_UNASSIGNED`,
+            title: `${selectedDate} 未安排站位人員（待公布） (${themeGroups.UNASSIGNED.length} 位)`,
             badgeStyle: 'from-rose-900/90 via-pink-900/90 to-[#4d0913] text-pink-100 shadow-sm border border-pink-400/30 font-bold',
-            girls: generalGirls,
-            favCount: countFavs(generalGirls),
+            girls: themeGroups.UNASSIGNED,
+            favCount: countFavs(themeGroups.UNASSIGNED),
             date: selectedDate
-          });
-        }
-        return themeSections;
+          }
+        ];
+
+        return themeSections.filter(s => s.girls.length > 0);
       }
 
       const daySections: GroupSection[] = [];
@@ -792,82 +862,82 @@ const MainApp: React.FC = () => {
     }
 
     // F. 指定時段站位分組邏輯 (PERIOD_13, PERIOD_78, FAVORITES w/ date)
-    const groups: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', GirlProfile[]> = {
+    const groups: Record<StationAreaTier, GirlProfile[]> = {
+      ZONE: [],
       EAST: [],
       WEST: [],
       SPECIAL: [],
-      OFF_DUTY: []
+      UNASSIGNED: []
     };
 
     filteredGirls.forEach(girl => {
-      const gType = getGirlStationGroup(girl);
+      const gType = getGirlStationTier(girl, selectedDate, areaFilter);
       groups[gType].push(girl);
     });
 
     // 每組內部排序：最愛優先，再依背號大小
     Object.keys(groups).forEach(k => {
-      const key = k as keyof typeof groups;
-      sortGirlsInGroup(groups[key]);
+      const key = k as StationAreaTier;
+      sortGirlsInGroup(groups[key], selectedDate);
     });
 
-    // 預設區域排序權重 (相同最愛數時，東優先：EAST 0, WEST 1, SPECIAL 2, OFF_DUTY 3)
-    const basePriority: Record<'EAST' | 'WEST' | 'SPECIAL' | 'OFF_DUTY', number> = {
-      EAST: 0,
-      WEST: 1,
-      SPECIAL: 2,
-      OFF_DUTY: 3
-    };
+    const isTheme = selectedDate && isSpicyCoolSweetDate(selectedDate);
 
     const sectionMeta: GroupSection[] = [
       {
+        key: 'ZONE',
+        title: isTheme
+          ? `${selectedDate} 看台專區應援女孩 (${groups.ZONE.length} 位)`
+          : `看台專區應援女孩 (${groups.ZONE.length} 位)`,
+        badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
+        girls: groups.ZONE,
+        favCount: countFavs(groups.ZONE),
+        date: selectedDate
+      },
+      {
         key: 'EAST',
-        title: t.groupTitleEast,
+        title: selectedDate
+          ? `${selectedDate} 一壘東區應援 (${groups.EAST.length} 位)`
+          : `${t.groupTitleEast} (${groups.EAST.length} 位)`,
         badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
         girls: groups.EAST,
-        favCount: countFavs(groups.EAST)
+        favCount: countFavs(groups.EAST),
+        date: selectedDate
       },
       {
         key: 'WEST',
-        title: t.groupTitleWest,
+        title: selectedDate
+          ? `${selectedDate} 三壘西區應援 (${groups.WEST.length} 位)`
+          : `${t.groupTitleWest} (${groups.WEST.length} 位)`,
         badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
         girls: groups.WEST,
-        favCount: countFavs(groups.WEST)
+        favCount: countFavs(groups.WEST),
+        date: selectedDate
       },
       {
         key: 'SPECIAL',
-        title: t.groupTitleSpecial,
-        badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+        title: selectedDate
+          ? `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`
+          : `${t.groupTitleSpecial} (${groups.SPECIAL.length} 位)`,
+        badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
         girls: groups.SPECIAL,
-        favCount: countFavs(groups.SPECIAL)
+        favCount: countFavs(groups.SPECIAL),
+        date: selectedDate
       },
       {
-        key: 'OFF_DUTY',
-        title: t.groupTitleOffDuty,
-        badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
-        girls: groups.OFF_DUTY,
-        favCount: countFavs(groups.OFF_DUTY)
+        key: 'UNASSIGNED',
+        title: isTheme
+          ? `${selectedDate} 未安排站位人員（待公布） (${groups.UNASSIGNED.length} 位)`
+          : `${selectedDate ? `${selectedDate} ` : ''}未安排站位／待公布 (${groups.UNASSIGNED.length} 位)`,
+        badgeStyle: 'from-gray-600 to-gray-700 text-white shadow-sm',
+        girls: groups.UNASSIGNED,
+        favCount: countFavs(groups.UNASSIGNED),
+        date: selectedDate
       }
     ];
 
+    // 區域排序依據：嚴格依循 專區 > 東區 > 西區 > 特殊區域 > 未安排站位人員
     const activeSections = sectionMeta.filter(s => s.girls.length > 0);
-
-    // 區域排序依據：
-    // 1. 有上班之應援區域 (EAST, WEST, SPECIAL) 永遠優先於未排班／休假 (OFF_DUTY)
-    // 2. 最愛數量多的在最上面
-    // 3. 最愛數量相同時東區優先 (EAST > WEST > SPECIAL)
-    activeSections.sort((a, b) => {
-      const aIsOff = a.key === 'OFF_DUTY';
-      const bIsOff = b.key === 'OFF_DUTY';
-      if (aIsOff !== bIsOff) {
-        return aIsOff ? 1 : -1;
-      }
-
-      if (b.favCount !== a.favCount) {
-        return b.favCount - a.favCount;
-      }
-      return (basePriority[a.key as keyof typeof basePriority] ?? 99) - (basePriority[b.key as keyof typeof basePriority] ?? 99);
-    });
-
     return activeSections;
   }, [filteredGirls, favorites, selectedDate, areaFilter, schedule, t]);
 

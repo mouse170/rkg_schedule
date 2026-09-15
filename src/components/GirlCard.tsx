@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Heart, ExternalLink, Sparkles, MapPin, Flame } from 'lucide-react';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
@@ -59,6 +59,24 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   const zoneAssign = isThemeDay ? getZoneAssignment(selectedDate, girl.name) : undefined;
 
   const isPaired = pairedInfo?.isPaired;
+
+  // 專區女孩標示簡化：比賽期間都在自己專區，專區只需標示一個
+  const displayInnings = useMemo(() => {
+    if (!currentDuty || currentDuty.innings.length === 0) return [];
+    if (!zoneAssign) return currentDuty.innings;
+
+    // 若為專區女孩：合併 1-3 與 7-8 專區為單一「全場專區」標籤，保留中場表演
+    const midInning = currentDuty.innings.find(i => i.period.includes('中場'));
+    const zonePill = {
+      period: '全場專區',
+      location: `${zoneAssign.zoneCode}專區`
+    };
+
+    if (midInning) {
+      return [zonePill, midInning];
+    }
+    return [zonePill];
+  }, [currentDuty, zoneAssign]);
 
   // 動態邊框與光暈樣式（方案 A）
   let cardBorderGlowClass = 'border-pink-100/90 dark:border-oled-border shadow-card-soft dark:shadow-card-oled hover:border-pink-300 dark:hover:border-pink-700';
@@ -196,9 +214,9 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           {selectedDate ? (
             /* 單一指定日期模式 */
             currentDuty ? (
-              currentDuty.innings.length > 0 ? (
+              displayInnings.length > 0 ? (
                 <div className="mt-2 pt-2 border-t border-pink-50 dark:border-oled-border flex flex-wrap gap-1">
-                  {currentDuty.innings.map((inn, idx) => {
+                  {displayInnings.map((inn, idx) => {
                     const loc = inn.location;
                     const isMid = inn.period.includes('中場');
                     const isZoneSingle = inn.period === '全場專區';

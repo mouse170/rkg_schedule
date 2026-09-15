@@ -17,7 +17,7 @@ interface TableBlock {
 }
 
 export function parseSheetCsv(csvText: string): ScheduleDataset {
-  const parsed = Papa.parse<string[]>(csvText, { skipEmptyLines: false });
+  const parsed = Papa.parse<string[]>(csvText, { skipEmptyLines: true });
   const rows = parsed.data;
 
   if (!rows || rows.length < 2) {
@@ -46,7 +46,17 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
   }
 
   const headerRow = rows[headerRowIndex];
-  const dateRow = rows[headerRowIndex - 1] || [];
+
+  // Search backward from headerRowIndex to find the row containing dates
+  let dateRowIndex = -1;
+  for (let i = headerRowIndex - 1; i >= 0; i--) {
+    const row = rows[i];
+    if (row && row.some(c => (c || '').trim().match(/\d{1,2}\/\d{1,2}/))) {
+      dateRowIndex = i;
+      break;
+    }
+  }
+  const dateRow = dateRowIndex !== -1 ? rows[dateRowIndex] : (rows[headerRowIndex - 1] || []);
 
   // 2. Locate each game table by finding '背號' occurrences in the header row
   const tableStarts: number[] = [];
@@ -85,7 +95,11 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
       if (h === '女孩' || h === '姓名') {
         nameCol = c;
       } else if (h && h !== '背號' && !h.includes('分隔線')) {
-        inningCols.push({ colIndex: c, period: h });
+        let period = h;
+        if (h.toUpperCase() === 'IF' || h.includes('中場')) {
+          period = '第5局中場';
+        }
+        inningCols.push({ colIndex: c, period });
       }
     }
 
