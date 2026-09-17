@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
         {/* Brand & Title */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-shrink">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-[#2a040b] to-[#140104] border border-amber-500/40 p-1 shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform overflow-hidden" title="Rakuten Girls 樂天女孩 • 辣酷甜主視覺">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-rose-50 to-pink-100 dark:from-[#2a040b] dark:to-[#140104] border border-rose-300 dark:border-amber-500/40 p-1 shadow-sm dark:shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 transition-all overflow-hidden" title="Rakuten Girls 樂天女孩 • 辣酷甜主視覺">
             <img
               src="./rkg_badge.png"
               alt="Rakuten Girls Logo"
