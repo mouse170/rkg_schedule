@@ -73,14 +73,14 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       title: t.areaEast,
       subTitle: '內野 1B 一般應援',
       badgeStyle: 'bg-blue-100/80 dark:bg-gradient-to-r dark:from-blue-600/30 dark:to-indigo-600/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-500/40',
-      matchFn: (loc, isZone) => !isZone && loc.includes('東') && !loc.includes('東R')
+      matchFn: (loc, isZone) => !isZone && !loc.includes('專區') && loc.includes('東') && !loc.includes('東R')
     },
     {
       key: 'WEST',
       title: t.areaWest,
       subTitle: '內野 3B 一般應援',
       badgeStyle: 'bg-emerald-100/80 dark:bg-gradient-to-r dark:from-emerald-600/30 dark:to-teal-600/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-500/40',
-      matchFn: (loc, isZone) => !isZone && loc.includes('西') && !loc.includes('西R')
+      matchFn: (loc, isZone) => !isZone && !loc.includes('專區') && loc.includes('西') && !loc.includes('西R')
     },
     {
       key: 'DALE',
@@ -167,6 +167,9 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
     }
     if (areaFilter === 'SEAT_WEST') {
       return allAreaRows.filter(row => row.key === 'WEST');
+    }
+    if (areaFilter === 'SEAT_ZONE') {
+      return allAreaRows.filter(row => row.key === 'ZONE');
     }
     if (areaFilter === 'SEAT_DALE') {
       return allAreaRows.filter(row => row.key === 'DALE');

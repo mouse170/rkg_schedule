@@ -4,6 +4,14 @@ import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo } from '../utils/dateUtils';
 import { isSpicyCoolSweetDate } from '../data/spicyCoolSweetData';
 
+export type SeatFilterType =
+  | 'SEAT_EAST'
+  | 'SEAT_WEST'
+  | 'SEAT_ZONE'
+  | 'SEAT_DALE'
+  | 'SEAT_EAST_R'
+  | 'SEAT_WEST_R';
+
 export type AreaFilterType =
   | 'ALL'
   | 'PERIOD_13'
@@ -11,11 +19,7 @@ export type AreaFilterType =
   | 'PERIOD_MID'
   | 'PERIOD_POST'
   | 'FAVORITES'
-  | 'SEAT_EAST'
-  | 'SEAT_WEST'
-  | 'SEAT_DALE'
-  | 'SEAT_EAST_R'
-  | 'SEAT_WEST_R';
+  | SeatFilterType;
 
 interface FilterBarProps {
   dates: string[];
@@ -335,6 +339,19 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
               <span>{t.seatWestZoneShort}</span>
+            </button>
+
+            {/* 專區應援 */}
+            <button
+              onClick={() => onAreaFilterChange(areaFilter === 'SEAT_ZONE' ? 'ALL' : 'SEAT_ZONE')}
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
+                areaFilter === 'SEAT_ZONE'
+                  ? 'bg-gradient-to-r from-amber-500 via-rose-500 to-amber-600 text-white shadow-md ring-1 ring-amber-300/50 font-black'
+                  : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50 border border-amber-300/80 dark:border-amber-700/60'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
+              <span>{t.seatSpecialZoneShort}</span>
             </button>
 
             {/* 大樂放鬆專區 */}

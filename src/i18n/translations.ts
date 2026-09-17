@@ -88,6 +88,8 @@ export interface Translations {
   seatDaLeZone: string;
   seatEastZoneShort: string;
   seatWestZoneShort: string;
+  seatSpecialZone: string;
+  seatSpecialZoneShort: string;
   seatDaLeZoneShort: string;
   seatEastRZoneShort: string;
   seatWestRZoneShort: string;
@@ -304,6 +306,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatDaLeZone: '大樂放鬆區 / 專區',
     seatEastZoneShort: '一壘東區',
     seatWestZoneShort: '三壘西區',
+    seatSpecialZone: '看台專區 (主題日個人專區貼身應援)',
+    seatSpecialZoneShort: '專區應援',
     seatDaLeZoneShort: '大樂專區',
     seatEastRZoneShort: '東R 舞台',
     seatWestRZoneShort: '西R 舞台',
@@ -511,6 +515,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatWestRZone: '通路 西R ステージ',
     seatEastZoneShort: '1塁側東区',
     seatWestZoneShort: '3塁側西区',
+    seatSpecialZone: '応援特区 (テーマデー特区至近距離応援)',
+    seatSpecialZoneShort: '特区応援',
     seatDaLeZoneShort: '大楽特区',
     seatEastRZoneShort: '東R舞台',
     seatWestRZoneShort: '西R舞台',
@@ -718,6 +724,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     seatWestRZone: '통로 서R 무대',
     seatEastZoneShort: '1루 동구역',
     seatWestZoneShort: '3루 서구역',
+    seatSpecialZone: '응원 특구 (테마데이 개인 특구 밀착 응원)',
+    seatSpecialZoneShort: '특구 응원',
     seatDaLeZoneShort: '다러 특구',
     seatEastRZoneShort: '동R 무대',
     seatWestRZoneShort: '서R 무대',

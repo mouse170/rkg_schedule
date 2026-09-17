@@ -4,7 +4,7 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { Language } from './i18n/translations';
 import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
-import { FilterBar, AreaFilterType } from './components/FilterBar';
+import { FilterBar, AreaFilterType, SeatFilterType } from './components/FilterBar';
 import { GirlCard, PairedInfo } from './components/GirlCard';
 import { MatrixView } from './components/MatrixView';
 import { ShareScheduleModal } from './components/ShareScheduleModal';
@@ -347,15 +347,18 @@ const MainApp: React.FC = () => {
         return duties.some(d => d.innings.some(inn => inn.period.includes('賽後') && inn.location.trim().length > 0));
       });
     } else if (areaFilter === 'SEAT_EAST') {
-      // 球迷座位視角：一壘東區 (內野東下 D~F、東下/東上專區)
+      // 球迷座位視角：一壘東區 (排除專區與東R)
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
-        const checkDuty = (duty: any) =>
-          duty.innings.some((inn: any) => {
+        const checkDuty = (duty: any) => {
+          if (duty.date && isSpicyCoolSweetDate(duty.date) && getZoneAssignment(duty.date, g.name)) return false;
+          if (duty.primaryArea === '專區') return false;
+          return duty.innings.some((inn: any) => {
             const loc = inn.location || '';
-            if (loc.includes('待公布')) return false;
+            if (loc.includes('待公布') || loc.includes('專區')) return false;
             return loc.includes('東') && !loc.includes('東R');
           });
+        };
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
           return d && checkDuty(d);
@@ -363,15 +366,36 @@ const MainApp: React.FC = () => {
         return duties.some(checkDuty);
       });
     } else if (areaFilter === 'SEAT_WEST') {
-      // 球迷座位視角：三壘西區 (內野西下 D~F、西下/西上專區)
+      // 球迷座位視角：三壘西區 (排除專區與西R)
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
-        const checkDuty = (duty: any) =>
-          duty.innings.some((inn: any) => {
+        const checkDuty = (duty: any) => {
+          if (duty.date && isSpicyCoolSweetDate(duty.date) && getZoneAssignment(duty.date, g.name)) return false;
+          if (duty.primaryArea === '專區') return false;
+          return duty.innings.some((inn: any) => {
             const loc = inn.location || '';
-            if (loc.includes('待公布')) return false;
+            if (loc.includes('待公布') || loc.includes('專區')) return false;
             return loc.includes('西') && !loc.includes('西R');
           });
+        };
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && checkDuty(d);
+        }
+        return duties.some(checkDuty);
+      });
+    } else if (areaFilter === 'SEAT_ZONE') {
+      // 球迷座位視角：專區應援 (主題日個人專區貼身應援)
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        const checkDuty = (duty: any) => {
+          if (duty.date && isSpicyCoolSweetDate(duty.date) && getZoneAssignment(duty.date, g.name)) return true;
+          if (duty.primaryArea === '專區') return true;
+          return duty.innings.some((inn: any) => {
+            const loc = inn.location || '';
+            return loc.includes('專區') || inn.period === '全場專區';
+          });
+        };
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
           return d && checkDuty(d);
@@ -379,14 +403,14 @@ const MainApp: React.FC = () => {
         return duties.some(checkDuty);
       });
     } else if (areaFilter === 'SEAT_DALE') {
-      // 球迷座位視角：大樂放鬆席 / 專區
+      // 球迷座位視角：大樂放鬆席
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         const checkDuty = (duty: any) =>
           duty.innings.some((inn: any) => {
             const loc = inn.location || '';
             if (loc.includes('待公布')) return false;
-            return loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西'));
+            return loc.includes('大樂');
           });
         if (selectedDate) {
           const d = duties.find(item => item.date === selectedDate);
@@ -428,21 +452,16 @@ const MainApp: React.FC = () => {
       });
     }
 
-    // 3. Sorting: 5 階區域排序階層，組內最愛（點擊喜歡）優先置頂
-    // 第 1 階：專區、第 2 階：東區、第 3 階：西區、第 4 階：特殊區域、第 5 階：未安排站位人員
+    // 3. Sorting: 最愛女孩絕對優先置頂，再依 5 階區域排序階層
     list.sort((a, b) => {
-      const aTier = getGirlStationTier(a, selectedDate, areaFilter);
-      const bTier = getGirlStationTier(b, selectedDate, areaFilter);
-
       const aFav = favorites.includes(a.name) ? 1 : 0;
       const bFav = favorites.includes(b.name) ? 1 : 0;
+      if (aFav !== bFav) return bFav - aFav;
 
-      // Score: Tier * 2 + (isFav ? 0 : 1)
-      const aScore = TIER_PRIORITY[aTier] * 2 + (aFav ? 0 : 1);
-      const bScore = TIER_PRIORITY[bTier] * 2 + (bFav ? 0 : 1);
-
-      if (aScore !== bScore) {
-        return aScore - bScore;
+      const aTier = getGirlStationTier(a, selectedDate, areaFilter);
+      const bTier = getGirlStationTier(b, selectedDate, areaFilter);
+      if (TIER_PRIORITY[aTier] !== TIER_PRIORITY[bTier]) {
+        return TIER_PRIORITY[aTier] - TIER_PRIORITY[bTier];
       }
 
       // 檢查在勤狀態（若未指定日期）
@@ -557,16 +576,15 @@ const MainApp: React.FC = () => {
     const sortGirlsInGroup = (list: GirlProfile[], targetDate?: string) => {
       const dateToUse = targetDate || selectedDate;
       list.sort((a, b) => {
-        const aTier = getGirlStationTier(a, dateToUse, areaFilter);
-        const bTier = getGirlStationTier(b, dateToUse, areaFilter);
-
         const aFav = favorites.includes(a.name) ? 1 : 0;
         const bFav = favorites.includes(b.name) ? 1 : 0;
+        if (aFav !== bFav) return bFav - aFav; // 最愛優先置頂
 
-        // 組內最愛置頂，再依 5 階階層 (專區 > 東區 > 西區 > 特殊 > 未安排)
-        const aScore = TIER_PRIORITY[aTier] * 2 + (aFav ? 0 : 1);
-        const bScore = TIER_PRIORITY[bTier] * 2 + (bFav ? 0 : 1);
-        if (aScore !== bScore) return aScore - bScore;
+        const aTier = getGirlStationTier(a, dateToUse, areaFilter);
+        const bTier = getGirlStationTier(b, dateToUse, areaFilter);
+        if (TIER_PRIORITY[aTier] !== TIER_PRIORITY[bTier]) {
+          return TIER_PRIORITY[aTier] - TIER_PRIORITY[bTier];
+        }
 
         const numA = parseInt(a.number, 10) || 999;
         const numB = parseInt(b.number, 10) || 999;
@@ -898,13 +916,14 @@ const MainApp: React.FC = () => {
       return daySections;
     }
 
-    // E. 球迷席位視角專屬時間軸分組 (SEAT_EAST, SEAT_WEST, SEAT_DALE, SEAT_EAST_R, SEAT_WEST_R)
+    // E. 球迷席位視角專屬時間軸分組 (SEAT_EAST, SEAT_WEST, SEAT_ZONE, SEAT_DALE, SEAT_EAST_R, SEAT_WEST_R)
     if (areaFilter.startsWith('SEAT_')) {
       const isMatchZone = (loc: string) => {
         if (!loc || loc.includes('待公布')) return false;
-        if (areaFilter === 'SEAT_EAST') return loc.includes('東') && !loc.includes('東R');
-        if (areaFilter === 'SEAT_WEST') return loc.includes('西') && !loc.includes('西R');
-        if (areaFilter === 'SEAT_DALE') return loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西'));
+        if (areaFilter === 'SEAT_EAST') return !loc.includes('專區') && loc.includes('東') && !loc.includes('東R');
+        if (areaFilter === 'SEAT_WEST') return !loc.includes('專區') && loc.includes('西') && !loc.includes('西R');
+        if (areaFilter === 'SEAT_ZONE') return loc.includes('專區');
+        if (areaFilter === 'SEAT_DALE') return loc.includes('大樂');
         if (areaFilter === 'SEAT_EAST_R') return loc.includes('東R');
         if (areaFilter === 'SEAT_WEST_R') return loc.includes('西R');
         return false;
@@ -920,10 +939,13 @@ const MainApp: React.FC = () => {
         const duty = selectedDate ? duties.find(d => d.date === selectedDate) : duties[0];
         if (!duty) return;
 
+        const isThemeDate = duty.date && isSpicyCoolSweetDate(duty.date);
+        const isZoneMember = (isThemeDate && Boolean(getZoneAssignment(duty.date, girl.name))) || duty.primaryArea === '專區';
+
         const has13 = duty.innings.some(i => i.period.includes('1-3') && isMatchZone(i.location));
         const hasMid = duty.innings.some(i => i.period.includes('中場') && isMatchZone(i.location));
         const has78 = duty.innings.some(i => i.period.includes('7-8') && isMatchZone(i.location));
-        const hasWholeGame = duty.innings.some(i => (i.period.includes('全場') || i.period.includes('專區')) && isMatchZone(i.location));
+        const hasWholeGame = (areaFilter === 'SEAT_ZONE' && isZoneMember) || duty.innings.some(i => (i.period.includes('全場') || i.period.includes('專區')) && isMatchZone(i.location));
 
         // 若多個時段都在此區（例如大樂區或專區常駐）
         if (hasWholeGame || (has13 && has78)) {
@@ -946,8 +968,10 @@ const MainApp: React.FC = () => {
       if (continuousGirls.length > 0) {
         seatSections.push({
           key: 'SEAT_CONTINUOUS',
-          title: t.groupTitleSeatAllMatch,
-          badgeStyle: 'from-fuchsia-600 to-pink-600 text-white shadow-sm',
+          title: areaFilter === 'SEAT_ZONE' ? t.seatSpecialZone : t.groupTitleSeatAllMatch,
+          badgeStyle: areaFilter === 'SEAT_ZONE'
+            ? 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black'
+            : 'from-fuchsia-600 to-pink-600 text-white shadow-sm',
           girls: continuousGirls,
           favCount: countFavs(continuousGirls),
           date: selectedDate
@@ -1296,7 +1320,7 @@ const MainApp: React.FC = () => {
                                 onHover={(name) => setHoveredGirl(name)}
                                 seatFilter={
                                   areaFilter.startsWith('SEAT_')
-                                    ? (areaFilter as 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R')
+                                    ? (areaFilter as SeatFilterType)
                                     : null
                                 }
                               />

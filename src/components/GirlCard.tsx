@@ -4,6 +4,7 @@ import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo, translateLocation, isPastDate } from '../utils/dateUtils';
 import { isSpicyCoolSweetDate, getZoneAssignment } from '../data/spicyCoolSweetData';
+import { SeatFilterType } from './FilterBar';
 
 export interface PairedInfo {
   isPaired: boolean;
@@ -23,7 +24,7 @@ interface GirlCardProps {
   pairedInfo?: PairedInfo;
   isPartnerHovered?: boolean;
   onHover?: (girlName: string | null) => void;
-  seatFilter?: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R' | null;
+  seatFilter?: SeatFilterType | null;
 }
 
 export const GirlCard: React.FC<GirlCardProps> = ({
@@ -249,10 +250,12 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     let isSeatFocused = false;
                     let isSeatDimmed = false;
                     if (seatFilter) {
+                      const isZoneMember = Boolean(zoneAssign) || isZoneSingle || loc.includes('專區');
                       const matchesSeat =
-                        (seatFilter === 'SEAT_EAST' && loc.includes('東') && !loc.includes('東R')) ||
-                        (seatFilter === 'SEAT_WEST' && loc.includes('西') && !loc.includes('西R')) ||
-                        (seatFilter === 'SEAT_DALE' && (loc.includes('大樂') || (loc.includes('專區') && !loc.includes('東') && !loc.includes('西')))) ||
+                        (seatFilter === 'SEAT_EAST' && !isZoneMember && loc.includes('東') && !loc.includes('東R')) ||
+                        (seatFilter === 'SEAT_WEST' && !isZoneMember && loc.includes('西') && !loc.includes('西R')) ||
+                        (seatFilter === 'SEAT_ZONE' && isZoneMember) ||
+                        (seatFilter === 'SEAT_DALE' && loc.includes('大樂')) ||
                         (seatFilter === 'SEAT_EAST_R' && loc.includes('東R')) ||
                         (seatFilter === 'SEAT_WEST_R' && loc.includes('西R'));
                       if (matchesSeat) {

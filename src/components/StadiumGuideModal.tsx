@@ -1,11 +1,12 @@
 import React from 'react';
 import { X, Map, Compass, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { SeatFilterType } from './FilterBar';
 
 interface StadiumGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectSeat?: (seat: 'SEAT_EAST' | 'SEAT_WEST' | 'SEAT_DALE' | 'SEAT_EAST_R' | 'SEAT_WEST_R') => void;
+  onSelectSeat?: (seat: SeatFilterType) => void;
 }
 
 export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, onClose, onSelectSeat }) => {
