@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle, Calendar } from 'lucide-react';
+import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle, Calendar, Share2 } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -11,6 +11,7 @@ interface HeaderProps {
   isLoading: boolean;
   onRefresh: () => void;
   onOpenStadiumGuide: () => void;
+  onOpenShareModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -20,7 +21,8 @@ export const Header: React.FC<HeaderProps> = ({
   isLive,
   isLoading,
   onRefresh,
-  onOpenStadiumGuide
+  onOpenStadiumGuide,
+  onOpenShareModal
 }) => {
   const { t } = useLanguage();
 
@@ -91,7 +93,17 @@ export const Header: React.FC<HeaderProps> = ({
             <span>{t.stadiumGuideBtn}</span>
           </button>
 
-          {/* Sync Button */}
+          {/* Share Schedule Button */}
+          <button
+            onClick={onOpenShareModal}
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-[#26040c] hover:bg-[#3d0714] text-amber-200 border border-amber-500/40 shadow-sm transition active:scale-95 whitespace-nowrap"
+            title="分享專屬追星班表與 9:16 IG 限動圖卡"
+          >
+            <Share2 className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden sm:inline">分享</span>
+          </button>
+
+          {/* Sync / Force Cache Refresh Button */}
           <button
             onClick={onRefresh}
             disabled={isLoading}
@@ -100,11 +112,11 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-[#2b050f] text-amber-400/50 cursor-not-allowed border border-amber-500/20'
                 : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20'
             }`}
-            title={t.refreshBtn}
+            title="手動強制清除快取並同步最新班表"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">
-              {isLoading ? '...' : t.refreshBtn}
+              {isLoading ? '同步中' : '同步更新'}
             </span>
           </button>
         </div>

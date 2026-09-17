@@ -6,10 +6,12 @@ import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
 import { FilterBar, AreaFilterType } from './components/FilterBar';
 import { GirlCard, PairedInfo } from './components/GirlCard';
+import { MatrixView } from './components/MatrixView';
+import { ShareScheduleModal } from './components/ShareScheduleModal';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
 import { fetchLiveSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
-import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame } from 'lucide-react';
+import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2 } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates } from './utils/dateUtils';
 import { ThemeDayBanner } from './components/ThemeDayBanner';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
@@ -28,6 +30,17 @@ const StadiumGuideModal = lazy(() =>
 const MainApp: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('SCHEDULE');
+  const [viewMode, setViewMode] = useState<'CARD' | 'MATRIX'>('CARD');
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3000);
+  };
+
   const [schedule, setSchedule] = useState<ScheduleDataset>({
     dates: [],
     girlsScheduleMap: {},
@@ -153,8 +166,59 @@ const MainApp: React.FC = () => {
     }
   };
 
+  // 手動強制清除快取並向網路重新同步最新班表
+  const handleManualRefresh = async () => {
+    setIsLoading(true);
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames.map(name => caches.delete(name))
+        );
+      }
+      await loadSchedule();
+      showToast('已清除離線快取並同步最新班表');
+    } catch (err) {
+      console.error('Manual refresh error:', err);
+      await loadSchedule();
+      showToast('班表已重新載入');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     loadSchedule();
+  }, []);
+
+  // 網址參數同步（URL Query Params Share & Sync）
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const dateParam = params.get('date');
+      const favsParam = params.get('favs');
+
+      if (dateParam) {
+        setSelectedDate(dateParam);
+      }
+      if (favsParam) {
+        const importedFavs = favsParam.split(',').map(decodeURIComponent).filter(Boolean);
+        if (importedFavs.length > 0) {
+          setFavorites(prev => {
+            const merged = Array.from(new Set([...prev, ...importedFavs]));
+            try {
+              localStorage.setItem('rkg_favorites', JSON.stringify(merged));
+            } catch (e) {
+              console.error(e);
+            }
+            return merged;
+          });
+          showToast(`已載入分享的追星班表 (${importedFavs.length} 位女孩)`);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to parse URL search params:', err);
+    }
   }, []);
 
   // 當使用者變更最愛女孩且當前未手動選定日期（或目前日期無最愛但其他日期有最愛）時進行智慧校準
@@ -1070,8 +1134,9 @@ const MainApp: React.FC = () => {
           lastUpdated={schedule.lastUpdated}
           isLive={schedule.isLive}
           isLoading={isLoading}
-          onRefresh={loadSchedule}
+          onRefresh={handleManualRefresh}
           onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
+          onOpenShareModal={() => setIsShareModalOpen(true)}
         />
 
         {/* 2. Data Source Notice Banner */}
@@ -1129,14 +1194,9 @@ const MainApp: React.FC = () => {
                           <Sparkles className="w-2.5 h-2.5 text-amber-300" />
                           <span>{t.bannerBadge}</span>
                         </span>
-                        {currentRelInfo && (
-                          <span className="text-[10px] sm:text-xs font-bold px-1.5 py-0.5 rounded-full bg-white/20 text-white">
-                            {selectedDate} • {currentRelInfo.badgeText}
-                          </span>
-                        )}
-                        <h2 className="text-xs sm:text-sm font-black tracking-tight">
+                        <span className="text-xs font-bold tracking-tight">
                           {t.bannerTitle}
-                        </h2>
+                        </span>
                       </div>
                       <p className="text-[10px] sm:text-xs text-pink-100/90 leading-snug font-normal line-clamp-1 sm:line-clamp-none">
                         {areaFilter.startsWith('SEAT_')
@@ -1162,6 +1222,8 @@ const MainApp: React.FC = () => {
                 totalCount={OFFICIAL_GIRLS.length}
                 favoritesCount={favorites.length}
                 filteredCount={filteredGirls.length}
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
                 onResetFilters={() => {
                   setSearchQuery('');
                   setAreaFilter('ALL');
@@ -1169,8 +1231,17 @@ const MainApp: React.FC = () => {
                 }}
               />
 
-              {/* Grouped Member Cards by Station Area */}
-              {groupedSections.length > 0 ? (
+              {/* Conditional View Mode: Matrix View vs Grouped Cards */}
+              {viewMode === 'MATRIX' ? (
+                <MatrixView
+                  selectedDate={selectedDate}
+                  allGirls={OFFICIAL_GIRLS}
+                  schedule={schedule}
+                  favorites={favorites}
+                  onSelectGirl={setSelectedGirl}
+                  onToggleFavorite={(name) => toggleFavorite(null, name)}
+                />
+              ) : groupedSections.length > 0 ? (
                 <div className="space-y-8">
                   {groupedSections.map((sec) => (
                     <section key={sec.key} className="space-y-3.5">
@@ -1374,6 +1445,25 @@ const MainApp: React.FC = () => {
             />
           )}
         </Suspense>
+
+        {/* 7. Share Schedule Modal */}
+        <ShareScheduleModal
+          isOpen={isShareModalOpen}
+          onClose={() => setIsShareModalOpen(false)}
+          selectedDate={selectedDate}
+          favorites={favorites}
+          allGirls={OFFICIAL_GIRLS}
+          schedule={schedule}
+          onShowToast={showToast}
+        />
+
+        {/* 8. Light Toast Notification */}
+        {toastMessage && (
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] font-black text-xs sm:text-sm shadow-2xl border border-amber-300 ring-2 ring-amber-400/40 animate-bounce">
+            <CheckCircle2 className="w-4 h-4 text-[#1a0007] flex-shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+        )}
       </div>
   );
 };

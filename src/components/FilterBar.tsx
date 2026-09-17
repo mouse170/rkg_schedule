@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Calendar, Heart, Compass, X, Sparkles, Flame, MapPin, RotateCcw } from 'lucide-react';
+import { Search, Calendar, Heart, Compass, X, Sparkles, Flame, MapPin, RotateCcw, LayoutGrid, Table2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo } from '../utils/dateUtils';
 import { isSpicyCoolSweetDate } from '../data/spicyCoolSweetData';
@@ -29,6 +29,8 @@ interface FilterBarProps {
   favoritesCount: number;
   filteredCount?: number;
   onResetFilters?: () => void;
+  viewMode?: 'CARD' | 'MATRIX';
+  onViewModeChange?: (mode: 'CARD' | 'MATRIX') => void;
 }
 
 export const FilterBar: React.FC<FilterBarProps> = ({
@@ -42,7 +44,9 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   totalCount,
   favoritesCount,
   filteredCount,
-  onResetFilters
+  onResetFilters,
+  viewMode = 'CARD',
+  onViewModeChange
 }) => {
   const { language, t } = useLanguage();
 
@@ -134,31 +138,64 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         })}
       </div>
 
-      {/* 2. Dual-Mode Segmented Control (Idol Bloom Tactile Pill) */}
-      <div className="grid grid-cols-2 p-1 bg-pink-100/60 dark:bg-oled-surface rounded-xl mb-2 gap-1">
-        <button
-          onClick={handleSwitchToInningMode}
-          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
-            !isSeatMode
-              ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-          }`}
-        >
-          <Compass className="w-3.5 h-3.5" />
-          <span>{t.filterModeInning}</span>
-        </button>
+      {/* 2. Dual-Mode Segmented Control & View Mode Switcher */}
+      <div className="flex items-center gap-2 mb-2">
+        <div className="flex-1 grid grid-cols-2 p-1 bg-pink-100/60 dark:bg-oled-surface rounded-xl gap-1">
+          <button
+            onClick={handleSwitchToInningMode}
+            className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
+              !isSeatMode
+                ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>{t.filterModeInning}</span>
+          </button>
 
-        <button
-          onClick={handleSwitchToSeatMode}
-          className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
-            isSeatMode
-              ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
-              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-          }`}
-        >
-          <MapPin className="w-3.5 h-3.5" />
-          <span>{t.filterModeSeat}</span>
-        </button>
+          <button
+            onClick={handleSwitchToSeatMode}
+            className={`py-1.5 px-2 rounded-lg text-xs font-extrabold transition flex items-center justify-center gap-1.5 ${
+              isSeatMode
+                ? 'bg-white dark:bg-oled-card text-rkg-crimson dark:text-pink-400 shadow-sm ring-1 ring-pink-200 dark:ring-oled-border'
+                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+            }`}
+          >
+            <MapPin className="w-3.5 h-3.5" />
+            <span>{t.filterModeSeat}</span>
+          </button>
+        </div>
+
+        {/* View Mode Toggle: Card List vs Matrix View */}
+        {onViewModeChange && (
+          <div className="flex items-center p-1 bg-pink-100/60 dark:bg-oled-surface rounded-xl gap-1 flex-shrink-0 border border-pink-200/50 dark:border-oled-border">
+            <button
+              onClick={() => onViewModeChange('CARD')}
+              className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1 ${
+                viewMode === 'CARD'
+                  ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+              }`}
+              title="卡片列表視圖"
+            >
+              <LayoutGrid className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">列表</span>
+            </button>
+
+            <button
+              onClick={() => onViewModeChange('MATRIX')}
+              className={`p-1.5 sm:px-2.5 sm:py-1.5 rounded-lg text-xs font-extrabold transition flex items-center gap-1 ${
+                viewMode === 'MATRIX'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-sm font-black ring-1 ring-amber-300/50'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+              }`}
+              title="看台輪替矩陣視圖"
+            >
+              <Table2 className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">矩陣</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 3. Compact Inline Search Bar */}
