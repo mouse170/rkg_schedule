@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type ThemeMode = 'dark';
+export type ThemeMode = 'dark' | 'light';
 
 interface ThemeContextType {
-  theme: 'dark';
-  resolvedTheme: 'dark';
-  setTheme: (mode: 'dark') => void;
+  theme: ThemeMode;
+  resolvedTheme: ThemeMode;
+  setTheme: (mode: ThemeMode) => void;
   toggleTheme: () => void;
 }
 
@@ -17,18 +17,45 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [theme, setThemeState] = useState<ThemeMode>(() => {
+    try {
+      const saved = localStorage.getItem('rkg_theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      return 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
   useEffect(() => {
-    // 依據辣酷甜天鵝絨金主視覺主題，全站統一鎖定於天鵝絨暗色奢華設計，取消亮暗切換
-    document.documentElement.classList.add('dark');
-  }, []);
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('rkg_theme', theme);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [theme]);
+
+  const setTheme = (mode: ThemeMode) => {
+    setThemeState(mode);
+  };
+
+  const toggleTheme = () => {
+    setThemeState(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
     <ThemeContext.Provider
       value={{
-        theme: 'dark',
-        resolvedTheme: 'dark',
-        setTheme: () => {},
-        toggleTheme: () => {}
+        theme,
+        resolvedTheme: theme,
+        setTheme,
+        toggleTheme
       }}
     >
       {children}
@@ -39,3 +66,4 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
+

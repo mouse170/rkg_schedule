@@ -1,7 +1,8 @@
-import React from 'react';
-import { Heart, Compass } from 'lucide-react';
+import React, { useMemo } from 'react';
+import { Heart, Compass, Calendar, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone } from '../data/spicyCoolSweetData';
+import { getRelativeDateInfo } from '../utils/dateUtils';
 
 interface MatrixViewProps {
   selectedDate: string;
@@ -36,34 +37,41 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
 }) => {
   const isTheme = Boolean(selectedDate && isSpicyCoolSweetDate(selectedDate));
 
+  // 日期與星期計算
+  const dateInfo = selectedDate ? getRelativeDateInfo(selectedDate, 'zh-TW') : null;
+  const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '') : '';
+  const formattedDateText = selectedDate
+    ? `${selectedDate} (${weekdayShort})`
+    : '全賽季總覽';
+
   // 定義看台橫列（縱軸）
   const areaRows: AreaRowDef[] = [
     {
       key: 'EAST',
       title: '一壘東區',
       subTitle: '內野 1B 應援區',
-      badgeStyle: 'bg-gradient-to-r from-blue-600/30 to-indigo-600/30 text-blue-200 border-blue-500/40',
+      badgeStyle: 'bg-blue-100/80 dark:bg-gradient-to-r dark:from-blue-600/30 dark:to-indigo-600/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-500/40',
       matchFn: (loc, isZone) => !isZone && loc.includes('東') && !loc.includes('東R')
     },
     {
       key: 'WEST',
       title: '三壘西區',
       subTitle: '內野 3B 應援區',
-      badgeStyle: 'bg-gradient-to-r from-emerald-600/30 to-teal-600/30 text-emerald-200 border-emerald-500/40',
+      badgeStyle: 'bg-emerald-100/80 dark:bg-gradient-to-r dark:from-emerald-600/30 dark:to-teal-600/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-500/40',
       matchFn: (loc, isZone) => !isZone && loc.includes('西') && !loc.includes('西R')
     },
     {
       key: 'DALE',
       title: '大樂區',
       subTitle: '特殊外野熱舞台',
-      badgeStyle: 'bg-gradient-to-r from-purple-600/30 to-pink-600/30 text-purple-200 border-purple-500/40',
+      badgeStyle: 'bg-purple-100/80 dark:bg-gradient-to-r dark:from-purple-600/30 dark:to-pink-600/30 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-500/40',
       matchFn: (loc, isZone) => !isZone && (loc.includes('大樂') || loc.includes('東R') || loc.includes('西R'))
     },
     {
       key: 'ZONE',
       title: '看台專區',
       subTitle: isTheme ? '個人專屬看台貼身' : '特殊專區／合體',
-      badgeStyle: 'bg-gradient-to-r from-amber-500/30 to-rose-600/30 text-amber-200 border-amber-400/50 font-black',
+      badgeStyle: 'bg-amber-100/90 dark:bg-gradient-to-r dark:from-amber-500/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400/60 dark:border-amber-400/50 font-black',
       matchFn: (loc, isZone) => isZone || loc.includes('專區') || loc.includes('舞台')
     }
   ];
@@ -75,19 +83,19 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           key: 'P13',
           title: '1-3 局',
           subTitle: '前段專屬攻守',
-          badgeStyle: 'text-sky-300 border-sky-500/30 bg-sky-950/40'
+          badgeStyle: 'text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-950/40'
         },
         {
           key: 'P78',
           title: '7-8 局',
           subTitle: '後段換側熱舞',
-          badgeStyle: 'text-purple-300 border-purple-500/30 bg-purple-950/40'
+          badgeStyle: 'text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/40'
         },
         {
           key: 'POST',
           title: '賽後表演',
           subTitle: '主題日勝利煙火',
-          badgeStyle: 'text-amber-300 border-amber-500/30 bg-amber-950/40 font-black'
+          badgeStyle: 'text-amber-800 dark:text-amber-300 border-amber-400 dark:border-amber-500/30 bg-amber-100/90 dark:bg-amber-950/40 font-black'
         }
       ]
     : [
@@ -95,19 +103,19 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           key: 'P13',
           title: '1-3 局',
           subTitle: '開場與前段攻守',
-          badgeStyle: 'text-sky-300 border-sky-500/30 bg-sky-950/40'
+          badgeStyle: 'text-sky-700 dark:text-sky-300 border-sky-300 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-950/40'
         },
         {
           key: 'PMID',
           title: '第 5 局',
           subTitle: '中場舞合體演出',
-          badgeStyle: 'text-amber-300 border-amber-500/30 bg-amber-950/40'
+          badgeStyle: 'text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-950/40'
         },
         {
           key: 'P78',
           title: '7-8 局',
           subTitle: '後段換側熱舞',
-          badgeStyle: 'text-purple-300 border-purple-500/30 bg-purple-950/40'
+          badgeStyle: 'text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/40'
         }
       ];
 
@@ -140,7 +148,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     return '';
   };
 
-  // 查詢符合特定 [區域 × 時段] 之女孩陣列
+  // 查詢符合特定 [區域 × 時段] 之女孩陣列（嚴格排除待公布、未安排與休息者）
   const getCellGirls = (row: AreaRowDef, col: PeriodColDef): GirlProfile[] => {
     return allGirls.filter(girl => {
       const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
@@ -165,7 +173,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
       }
 
       const loc = getGirlLocationInPeriod(girl, col.key);
-      if (!loc) return false;
+      if (!loc || loc.includes('待公布') || loc.includes('未安排') || loc === '休息') return false;
 
       return row.matchFn(loc, isZone);
     }).sort((a, b) => {
@@ -178,53 +186,83 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     });
   };
 
+  // 計算當日尚未安排站位（待公布／未安排）之女孩名單
+  const unassignedGirls = useMemo(() => {
+    if (!selectedDate) return [];
+    return allGirls.filter(girl => {
+      const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
+      const duty = duties.find((d: DailyDuty) => d.date === selectedDate);
+      if (!duty) return false;
+
+      // 若為主題日且有個人專區，視為已有站位安排
+      if (isTheme && getZoneAssignment(selectedDate, girl.name)) return false;
+
+      // 檢查局數中是否有確定排定之站位（排除待公布、未安排、休息）
+      const hasValidStation = duty.innings.some(inn => {
+        const loc = (inn.location || '').trim();
+        return loc.length > 0 && !loc.includes('待公布') && !loc.includes('未安排') && loc !== '休息';
+      });
+
+      return !hasValidStation;
+    });
+  }, [allGirls, schedule, selectedDate, isTheme]);
+
   return (
-    <div className="w-full bg-[#180206] rounded-2xl border border-amber-500/30 shadow-2xl p-2.5 sm:p-4 mb-4 overflow-hidden">
+    <div className="w-full bg-white dark:bg-[#180206] rounded-2xl border border-rose-200/80 dark:border-amber-500/30 shadow-xl dark:shadow-2xl p-3 sm:p-4 mb-4 overflow-hidden transition-colors">
       {/* Matrix Header Banner */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-amber-500/20">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 text-[#1a0007] flex items-center justify-center font-black text-xs shadow-md">
-            <Compass className="w-4 h-4" />
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-rose-200/60 dark:border-amber-500/20">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-[#1a0007] flex items-center justify-center font-black text-xs sm:text-sm shadow-md flex-shrink-0">
+            <Compass className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <h2 className="text-sm sm:text-base font-extrabold text-amber-200 flex items-center gap-1.5">
-              <span>看台輪替矩陣視圖</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/40">
-                {selectedDate || '全賽季'}
-              </span>
-            </h2>
-            <p className="text-[11px] text-amber-300/70">
-              左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-sm sm:text-base font-black text-slate-900 dark:text-amber-100 tracking-tight">
+                看台輪替矩陣視圖
+              </h2>
+              {/* 明顯日期與星期膠囊標籤 */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 text-white font-black text-xs sm:text-sm shadow-md shadow-rose-500/20 ring-1 ring-rose-400/40">
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{formattedDateText}</span>
+              </div>
+              {isTheme && (
+                <span className="text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-400/50">
+                  辣酷甜主題日
+                </span>
+              )}
+            </div>
+            <p className="text-[11px] text-slate-500 dark:text-amber-300/70 mt-0.5">
+              全猿主場各時段站位二維速查 • 點擊女孩頭像即刻開啟詳細抽屜
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 text-[11px] text-amber-300/80 bg-[#120104] px-2.5 py-1 rounded-xl border border-amber-500/20">
-          <Heart className="w-3 h-3 text-rose-500 fill-rose-500" />
+        <div className="flex items-center gap-1.5 text-xs text-rose-700 dark:text-amber-300/80 bg-rose-50 dark:bg-[#120104] px-3 py-1 rounded-xl border border-rose-200 dark:border-amber-500/20 font-bold">
+          <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
           <span>最愛優先置頂</span>
         </div>
       </div>
 
       {/* 2D Scrollable Matrix Table Wrapper */}
-      <div className="relative overflow-x-auto no-scrollbar rounded-xl border border-amber-500/20 bg-[#120104]">
+      <div className="relative overflow-x-auto no-scrollbar rounded-xl border border-rose-200 dark:border-amber-500/20 bg-[#fffbfc] dark:bg-[#120104]">
         <table className="w-full text-left border-collapse min-w-[580px] sm:min-w-[680px]">
           {/* Table Header: Columns (Periods) */}
           <thead>
-            <tr className="border-b border-amber-500/30 bg-[#1e0209]">
+            <tr className="border-b border-rose-200 dark:border-amber-500/30 bg-rose-50/70 dark:bg-[#1e0209]">
               {/* Sticky Top-Left Corner Cell */}
-              <th className="sticky left-0 z-20 w-28 sm:w-36 p-2.5 sm:p-3 bg-[#24040b] backdrop-blur-md border-r border-amber-500/30 text-[11px] sm:text-xs font-black text-amber-300 uppercase tracking-wider">
+              <th className="sticky left-0 z-20 w-28 sm:w-36 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#24040b] backdrop-blur-md border-r border-rose-200 dark:border-amber-500/30 text-[11px] sm:text-xs font-black text-rose-900 dark:text-amber-300 uppercase tracking-wider">
                 看台區域 / 局數
               </th>
               {periodCols.map(col => (
                 <th
                   key={col.key}
-                  className={`p-2.5 sm:p-3 text-center border-r last:border-r-0 border-amber-500/20 min-w-[150px] sm:min-w-[180px]`}
+                  className="p-2.5 sm:p-3 text-center border-r last:border-r-0 border-rose-200/80 dark:border-amber-500/20 min-w-[150px] sm:min-w-[180px]"
                 >
                   <div className="flex flex-col items-center">
                     <span className={`text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-full border ${col.badgeStyle}`}>
                       {col.title}
                     </span>
-                    <span className="text-[10px] text-amber-300/60 mt-0.5 font-medium">
+                    <span className="text-[10px] text-slate-500 dark:text-amber-300/60 mt-0.5 font-medium">
                       {col.subTitle}
                     </span>
                   </div>
@@ -238,17 +276,17 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
             {areaRows.map((row, rIdx) => (
               <tr
                 key={row.key}
-                className={`border-b last:border-b-0 border-amber-500/20 ${
-                  rIdx % 2 === 0 ? 'bg-[#150105]/70' : 'bg-[#1b0208]/70'
+                className={`border-b last:border-b-0 border-rose-100 dark:border-amber-500/20 ${
+                  rIdx % 2 === 0 ? 'bg-white dark:bg-[#150105]/70' : 'bg-[#fffafb] dark:bg-[#1b0208]/70'
                 }`}
               >
                 {/* Sticky Left Column Cell: Area Label */}
-                <th className="sticky left-0 z-10 p-2.5 sm:p-3 bg-[#1e030a] backdrop-blur-md border-r border-amber-500/30 align-top">
+                <th className="sticky left-0 z-10 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#1e030a] backdrop-blur-md border-r border-rose-200 dark:border-amber-500/30 align-top">
                   <div className="flex flex-col">
                     <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-black border ${row.badgeStyle} mb-0.5 w-max`}>
                       {row.title}
                     </span>
-                    <span className="text-[10px] text-amber-300/60 font-medium">
+                    <span className="text-[10px] text-slate-500 dark:text-amber-300/60 font-medium">
                       {row.subTitle}
                     </span>
                   </div>
@@ -261,11 +299,11 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                   return (
                     <td
                       key={col.key}
-                      className="p-2 sm:p-2.5 border-r last:border-r-0 border-amber-500/10 align-top"
+                      className="p-2 sm:p-2.5 border-r last:border-r-0 border-rose-100 dark:border-amber-500/10 align-top"
                     >
                       {girls.length === 0 ? (
-                        <div className="h-14 flex items-center justify-center text-[10px] text-amber-400/40 italic">
-                          未安排站位
+                        <div className="h-10 sm:h-12 flex items-center justify-center text-slate-300 dark:text-amber-500/20 text-xs select-none">
+                          —
                         </div>
                       ) : (
                         <div className="grid grid-cols-2 gap-1.5">
@@ -279,13 +317,13 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                                 onClick={() => onSelectGirl(girl)}
                                 className={`group flex items-center gap-1.5 p-1 rounded-xl transition text-left active:scale-95 border ${
                                   isFav
-                                    ? 'bg-gradient-to-r from-rose-950/80 to-pink-950/80 border-amber-400/60 shadow-sm shadow-rose-900/30 ring-1 ring-amber-400/30'
-                                    : 'bg-[#26050e]/60 hover:bg-[#380815] border-amber-500/20'
+                                    ? 'bg-rose-50 hover:bg-rose-100 dark:bg-gradient-to-r dark:from-rose-950/80 dark:to-pink-950/80 border-rose-300 dark:border-amber-400/60 shadow-sm shadow-rose-900/10 dark:shadow-rose-900/30 ring-1 ring-rose-300 dark:ring-amber-400/30'
+                                    : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20 shadow-xs'
                                 }`}
                                 title={`${girl.name} (#${girl.number}) - 點擊查看詳細資訊`}
                               >
                                 {/* Micro Avatar */}
-                                <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden flex-shrink-0 border border-amber-400/50 bg-neutral-900">
+                                <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden flex-shrink-0 border border-rose-300 dark:border-amber-400/50 bg-neutral-100 dark:bg-neutral-900">
                                   <img
                                     src={girl.localPhoto || girl.photo}
                                     alt={girl.name}
@@ -294,7 +332,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                                   />
                                   {isFav && (
                                     <div className="absolute inset-0 bg-rose-500/20 flex items-center justify-center">
-                                      <Heart className="w-2.5 h-2.5 text-rose-300 fill-rose-300" />
+                                      <Heart className="w-2.5 h-2.5 text-rose-500 dark:text-rose-300 fill-rose-500 dark:fill-rose-300" />
                                     </div>
                                   )}
                                 </div>
@@ -302,15 +340,15 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                                 {/* Text info */}
                                 <div className="min-w-0 flex-1 leading-tight">
                                   <div className="flex items-center gap-1">
-                                    <span className="text-[9px] font-black text-amber-400">
+                                    <span className="text-[9px] font-black text-rose-600 dark:text-amber-400">
                                       #{girl.number}
                                     </span>
-                                    <span className="text-[11px] font-bold text-amber-100 truncate">
+                                    <span className="text-[11px] font-bold text-slate-800 dark:text-amber-100 truncate">
                                       {girl.name}
                                     </span>
                                   </div>
                                   {zoneAssign && (
-                                    <span className="inline-block text-[8px] text-amber-300 bg-amber-500/20 px-1 rounded-full font-black truncate max-w-full">
+                                    <span className="inline-block text-[8px] text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-500/20 px-1 rounded-full font-black truncate max-w-full">
                                       {zoneAssign.zoneCode}
                                     </span>
                                   )}
@@ -327,6 +365,41 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Explanation & Unassigned Girls Notice Bar */}
+      <div className="mt-3 pt-3 border-t border-rose-200/60 dark:border-amber-500/20 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          {unassignedGirls.length > 0 ? (
+            <div className="flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-500/30 text-amber-900 dark:text-amber-200">
+              <span className="font-extrabold flex items-center gap-1">
+                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                <span>未安排站位名單（共 {unassignedGirls.length} 位）：</span>
+              </span>
+              <div className="flex flex-wrap items-center gap-1.5">
+                {unassignedGirls.map(g => (
+                  <button
+                    key={g.name}
+                    onClick={() => onSelectGirl(g)}
+                    className="px-2 py-0.5 rounded-lg bg-white dark:bg-[#2a050e] border border-amber-300 dark:border-amber-500/40 text-slate-800 dark:text-amber-100 font-black text-[11px] hover:bg-amber-100 dark:hover:bg-[#3a0714] transition shadow-xs"
+                    title={`點擊查看 ${g.name} 詳細資訊`}
+                  >
+                    #{g.number} {g.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300/60 dark:border-emerald-500/30">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>✓ 當日出勤女孩均已排定站位</span>
+            </div>
+          )}
+        </div>
+
+        <p className="text-[11px] text-slate-500 dark:text-amber-300/60">
+          左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜
+        </p>
       </div>
     </div>
   );

@@ -1126,7 +1126,7 @@ const MainApp: React.FC = () => {
   }, [filteredGirls, favorites, selectedDate, areaFilter, schedule, t]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#140104] via-[#1c0208] to-[#140104] text-[#fff5f5]">
+    <div className="min-h-screen flex flex-col bg-[#fff8f9] dark:bg-gradient-to-b dark:from-[#140104] dark:via-[#1c0208] dark:to-[#140104] text-slate-800 dark:text-[#fff5f5] transition-colors duration-300">
         {/* 1. Header */}
         <Header
           activeTab={activeTab}
