@@ -181,12 +181,17 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
           </div>
         </div>
 
-        {/* 超額警示提示欄 */}
+        {/* 超額警示提示欄（支援手機版與電腦版響應式字級） */}
         {isOverLimit && (
-          <div className="mt-3 p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2 flex-shrink-0">
-            <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
-            <div className="leading-relaxed">
-              <p className="font-bold">
+          <div className="mt-3 p-3 sm:p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400/80 dark:border-amber-500/50 text-amber-950 dark:text-amber-100 shadow-sm flex items-start gap-2.5 sm:gap-3 flex-shrink-0">
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-700 dark:text-amber-300 flex-shrink-0 mt-0.5">
+              <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xs sm:text-sm font-black text-amber-900 dark:text-amber-200 mb-0.5">
+                {t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))}
+              </h4>
+              <p className="text-xs sm:text-sm font-medium leading-relaxed text-amber-800/90 dark:text-amber-200/80">
                 {t.shareLimitWarning
                   .replace('{count}', String(favGirls.length))
                   .replace('{mode}', selectedDate ? t.shareModeSingle : t.shareModeAll)
@@ -563,21 +568,23 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               </span>
             </div>
 
-            {/* 若人數超額，於卡片上方提供防破版警示覆蓋層 */}
+            {/* 若人數超額，於卡片上方提供防破版警示覆蓋層（響應式手機版與電腦版） */}
             {isOverLimit && (
-              <div className="absolute inset-0 z-20 bg-black/65 backdrop-blur-[2px] rounded-2xl flex flex-col items-center justify-center p-4 text-center">
-                <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-400 mb-2">
-                  <AlertTriangle className="w-5 h-5" />
+              <div className="absolute inset-0 z-20 bg-black/75 backdrop-blur-[3px] rounded-2xl flex flex-col items-center justify-center p-3 sm:p-5 text-center">
+                <div className="w-[92%] max-w-[290px] sm:max-w-[310px] p-4 sm:p-5 rounded-2xl bg-[#1a0006]/95 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md flex flex-col items-center text-center">
+                  <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-amber-500/25 border border-amber-400/80 flex items-center justify-center text-amber-400 mb-2.5 sm:mb-3 shadow-lg shadow-amber-500/20">
+                    <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </div>
+                  <h4 className="text-sm sm:text-base font-black text-amber-300 tracking-wide mb-1.5 sm:mb-2">
+                    {t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-amber-100 font-semibold leading-relaxed">
+                    {t.shareLimitWarning
+                      .replace('{count}', String(favGirls.length))
+                      .replace('{mode}', selectedDate ? t.shareModeSingle : t.shareModeAll)
+                      .replace('{max}', String(currentMaxLimit))}
+                  </p>
                 </div>
-                <p className="text-xs font-black text-amber-300 mb-1">
-                  {t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))}
-                </p>
-                <p className="text-[11px] text-amber-100/90 max-w-[260px] leading-relaxed">
-                  {t.shareLimitWarning
-                    .replace('{count}', String(favGirls.length))
-                    .replace('{mode}', selectedDate ? t.shareModeSingle : t.shareModeAll)
-                    .replace('{max}', String(currentMaxLimit))}
-                </p>
               </div>
             )}
           </div>
