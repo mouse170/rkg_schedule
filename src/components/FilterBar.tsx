@@ -9,6 +9,7 @@ export type AreaFilterType =
   | 'PERIOD_13'
   | 'PERIOD_78'
   | 'PERIOD_MID'
+  | 'PERIOD_POST'
   | 'FAVORITES'
   | 'SEAT_EAST'
   | 'SEAT_WEST'
@@ -238,6 +239,21 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <Compass className="w-3 h-3 flex-shrink-0" />
               <span>{t.filterPeriod78}</span>
             </button>
+
+            {/* 賽後表演（主題日專屬） */}
+            {isThemeDate && (
+              <button
+                onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_POST' ? 'ALL' : 'PERIOD_POST')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
+                  areaFilter === 'PERIOD_POST'
+                    ? 'bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white shadow-md ring-1 ring-amber-400/50 font-black'
+                    : 'bg-rose-950/60 dark:bg-rose-950/40 text-pink-200 hover:bg-rose-900/60 border border-amber-500/40'
+                }`}
+              >
+                <Sparkles className="w-3 h-3 text-amber-300 flex-shrink-0" />
+                <span>{t.filterPeriodPost}</span>
+              </button>
+            )}
 
             {/* 最愛 */}
             <button

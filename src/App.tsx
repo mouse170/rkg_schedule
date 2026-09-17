@@ -68,11 +68,17 @@ const MainApp: React.FC = () => {
     });
   };
 
-  // 日期選取處理（若選中主題日，因無東R/西R席位與中場表演，自動切換為全部視角）
+  // 日期選取處理（若選中主題日，因無東R/西R席位與中場表演，自動切換為全部視角；若離開主題日且在賽後表演視角，自動切回全部視角）
   const handleSelectDate = (date: string) => {
     setSelectedDate(date);
-    if (isSpicyCoolSweetDate(date) && (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R' || areaFilter === 'PERIOD_MID')) {
-      setAreaFilter('ALL');
+    if (isSpicyCoolSweetDate(date)) {
+      if (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R' || areaFilter === 'PERIOD_MID') {
+        setAreaFilter('ALL');
+      }
+    } else {
+      if (areaFilter === 'PERIOD_POST') {
+        setAreaFilter('ALL');
+      }
     }
   };
 
@@ -197,6 +203,8 @@ const MainApp: React.FC = () => {
       targetInning = duty.innings.find(i => i.period.includes('7-8')) || targetInning;
     } else if (filter === 'PERIOD_MID') {
       targetInning = duty.innings.find(i => i.period.includes('中場')) || targetInning;
+    } else if (filter === 'PERIOD_POST') {
+      targetInning = duty.innings.find(i => i.period.includes('賽後')) || targetInning;
     }
 
     if (!targetInning) return 'UNASSIGNED';
@@ -263,6 +271,16 @@ const MainApp: React.FC = () => {
           return d && d.innings.some(inn => inn.period.includes('中場') && inn.location.trim().length > 0);
         }
         return duties.some(d => d.innings.some(inn => inn.period.includes('中場') && inn.location.trim().length > 0));
+      });
+    } else if (areaFilter === 'PERIOD_POST') {
+      // 賽後表演有排定之女孩
+      list = list.filter(g => {
+        const duties = schedule.girlsScheduleMap[g.name] || [];
+        if (selectedDate) {
+          const d = duties.find(item => item.date === selectedDate);
+          return d && d.innings.some(inn => inn.period.includes('賽後') && inn.location.trim().length > 0);
+        }
+        return duties.some(d => d.innings.some(inn => inn.period.includes('賽後') && inn.location.trim().length > 0));
       });
     } else if (areaFilter === 'SEAT_EAST') {
       // 球迷座位視角：一壘東區 (內野東下 D~F、東下/東上專區)
@@ -491,6 +509,59 @@ const MainApp: React.FC = () => {
         return numA - numB;
       });
     };
+
+    // A0. 賽後表演專屬分組邏輯 (PERIOD_POST - 辣酷甜主題日專屬)
+    if (areaFilter === 'PERIOD_POST') {
+      const targetDates = selectedDate ? [selectedDate] : upcomingDates.filter(d => isSpicyCoolSweetDate(d));
+      const postSections: GroupSection[] = [];
+
+      targetDates.forEach(date => {
+        const eastGirls: GirlProfile[] = [];
+        const westGirls: GirlProfile[] = [];
+
+        filteredGirls.forEach(girl => {
+          const duties = schedule.girlsScheduleMap[girl.name] || [];
+          const duty = duties.find(d => d.date === date);
+          if (!duty) return;
+
+          const postInning = duty.innings.find(i => i.period.includes('賽後') && i.location.trim().length > 0);
+          if (!postInning) return;
+
+          if (postInning.location.includes('東')) {
+            eastGirls.push(girl);
+          } else if (postInning.location.includes('西')) {
+            westGirls.push(girl);
+          }
+        });
+
+        sortGirlsInGroup(eastGirls, date);
+        sortGirlsInGroup(westGirls, date);
+
+        if (eastGirls.length > 0) {
+          postSections.push({
+            key: `POST_${date}_EAST`,
+            title: `${date} ${t.groupTitlePostEast} (${eastGirls.length} 位)`,
+            badgeStyle: 'from-rose-600 via-pink-600 to-rose-700 text-white shadow-md font-bold',
+            girls: eastGirls,
+            favCount: countFavs(eastGirls),
+            date
+          });
+        }
+
+        if (westGirls.length > 0) {
+          postSections.push({
+            key: `POST_${date}_WEST`,
+            title: `${date} ${t.groupTitlePostWest} (${westGirls.length} 位)`,
+            badgeStyle: 'from-zinc-800 via-zinc-900 to-black text-amber-200 shadow-md border border-zinc-700 font-bold',
+            girls: westGirls,
+            favCount: countFavs(westGirls),
+            date
+          });
+        }
+      });
+
+      return postSections;
+    }
 
     // A. 中場表演專屬分組邏輯 (PERIOD_MID)
     if (areaFilter === 'PERIOD_MID') {

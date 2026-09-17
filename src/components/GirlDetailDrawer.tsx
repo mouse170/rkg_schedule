@@ -207,11 +207,18 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
 
                       {/* Inning Breakdown Table */}
                       {duty.innings.length > 0 ? (
-                        <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="flex flex-wrap gap-2 text-center">
                           {duty.innings.map((inn, iIdx) => {
                             const loc = inn.location;
+                            const isPostMatch = inn.period.includes('賽後');
                             let style = 'bg-purple-50/70 dark:bg-purple-950/60 border-purple-200 dark:border-purple-800/60 text-purple-900 dark:text-purple-300';
-                            if (loc === '東R' || loc.includes('東R')) {
+                            if (isPostMatch) {
+                              if (loc.includes('東')) {
+                                style = 'bg-rose-950/80 dark:bg-rose-950/90 border-rose-400/80 text-rose-200 font-black shadow-sm';
+                              } else {
+                                style = 'bg-zinc-900/90 dark:bg-zinc-950 border-zinc-500/80 text-zinc-100 font-black shadow-sm';
+                              }
+                            } else if (loc === '東R' || loc.includes('東R')) {
                               style = 'bg-cyan-50 dark:bg-cyan-950/60 border-cyan-300 dark:border-cyan-800 text-cyan-950 dark:text-cyan-300 font-black';
                             } else if (loc === '西R' || loc.includes('西R')) {
                               style = 'bg-teal-50 dark:bg-teal-950/60 border-teal-300 dark:border-teal-800 text-teal-950 dark:text-teal-300 font-black';
@@ -227,7 +234,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                             return (
                               <div
                                 key={iIdx}
-                                className={`p-2 rounded-xl border ${style}`}
+                                className={`flex-1 min-w-[90px] p-2 rounded-xl border ${style}`}
                               >
                                 <div className="text-[11px] text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
                                   {inn.period}

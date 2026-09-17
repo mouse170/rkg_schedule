@@ -65,15 +65,15 @@ export const GirlCard: React.FC<GirlCardProps> = ({
     if (!currentDuty || currentDuty.innings.length === 0) return [];
     if (!zoneAssign) return currentDuty.innings;
 
-    // 若為專區女孩：合併 1-3 與 7-8 專區為單一「全場專區」標籤，保留中場表演
-    const midInning = currentDuty.innings.find(i => i.period.includes('中場'));
+    // 若為專區女孩：合併 1-3 與 7-8 專區為單一「全場專區」標籤，保留賽後表演（若有）
+    const postMatchInning = currentDuty.innings.find(i => i.period.includes('賽後'));
     const zonePill = {
       period: '全場專區',
       location: `${zoneAssign.zoneCode}專區`
     };
 
-    if (midInning) {
-      return [zonePill, midInning];
+    if (postMatchInning) {
+      return [zonePill, postMatchInning];
     }
     return [zonePill];
   }, [currentDuty, zoneAssign]);
@@ -219,11 +219,18 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                   {displayInnings.map((inn, idx) => {
                     const loc = inn.location;
                     const isMid = inn.period.includes('中場');
+                    const isPostMatch = inn.period.includes('賽後');
                     const isZoneSingle = inn.period === '全場專區';
                     const isPending = loc.includes('待公布');
                     let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
                     if (isZoneSingle) {
                       badgeStyle = 'bg-gradient-to-r from-amber-500/20 via-amber-400/30 to-amber-500/20 text-amber-950 dark:text-amber-200 border border-amber-400/70 font-black shadow-sm ring-1 ring-amber-400/30';
+                    } else if (isPostMatch) {
+                      if (loc.includes('東')) {
+                        badgeStyle = 'bg-gradient-to-r from-rose-950/90 to-pink-950/90 text-rose-200 border border-rose-400/80 font-black shadow-sm ring-1 ring-rose-400/40';
+                      } else {
+                        badgeStyle = 'bg-gradient-to-r from-zinc-900 to-black text-zinc-100 border border-zinc-400/80 font-black shadow-sm ring-1 ring-zinc-400/30';
+                      }
                     } else if (isPending) {
                       badgeStyle = 'bg-pink-50/80 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 border border-pink-200/70 dark:border-pink-800/50 font-medium';
                     } else if (isMid) {
@@ -322,8 +329,15 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                         {duty.innings.map((inn, iIdx) => {
                           const loc = inn.location;
                           const isMid = inn.period.includes('中場');
+                          const isPostMatch = inn.period.includes('賽後');
                           let badgeStyle = 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/60 dark:border-purple-800/60';
-                          if (isMid) {
+                          if (isPostMatch) {
+                            if (loc.includes('東')) {
+                              badgeStyle = 'bg-rose-950/90 text-rose-200 border border-rose-400/80 font-black';
+                            } else {
+                              badgeStyle = 'bg-zinc-900 text-zinc-100 border border-zinc-400/80 font-black';
+                            }
+                          } else if (isMid) {
                             badgeStyle = 'bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-300 dark:border-amber-800 font-black';
                           } else if (loc === '東R' || loc.includes('東R')) {
                             badgeStyle = 'bg-cyan-50 dark:bg-cyan-950/60 text-cyan-800 dark:text-cyan-300 border border-cyan-300 dark:border-cyan-800 font-black';

@@ -55,6 +55,7 @@ export interface Translations {
   filterPeriod13: string;
   filterPeriod78: string;
   filterPeriodMid: string;
+  filterPeriodPost: string;
   groupTitleEast: string;
   groupTitleWest: string;
   groupTitleSpecial: string;
@@ -62,6 +63,9 @@ export interface Translations {
   groupTitleMidEast: string;
   groupTitleMidWest: string;
   groupTitleMidStage: string;
+  groupTitlePostEast: string;
+  groupTitlePostWest: string;
+  groupTitlePost: string;
   groupTitleOffDuty: string;
   groupTitleOnDutySection: string;
   groupTitleFavOnDuty: string;
@@ -214,6 +218,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3 局站位',
     filterPeriod78: '7-8 局站位',
     filterPeriodMid: '中場表演',
+    filterPeriodPost: '賽後表演',
     groupTitleEast: '一壘東區站位',
     groupTitleWest: '三壘西區站位',
     groupTitleSpecial: '假日與專區站位 (大樂／R舞台)',
@@ -221,6 +226,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidEast: '中場表演 (東區前)',
     groupTitleMidWest: '中場表演 (西區前)',
     groupTitleMidStage: '中場舞應援舞台表演',
+    groupTitlePostEast: '賽後表演 (一壘東區)',
+    groupTitlePostWest: '賽後表演 (三壘西區)',
+    groupTitlePost: '賽後表演女孩',
     groupTitleOffDuty: '未排班／休假女孩',
     groupTitleOnDutySection: '當日應援女孩',
     groupTitleFavOnDuty: '本期有排班最愛女孩',
@@ -365,6 +373,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3回の位置',
     filterPeriod78: '7-8回の位置',
     filterPeriodMid: 'イニング間',
+    filterPeriodPost: '試合後パフォーマンス',
     groupTitleEast: '1塁側 東エリア立ち位置',
     groupTitleWest: '3塁側 西エリア立ち位置',
     groupTitleSpecial: '休日・特別エリア (大楽／Rステージ)',
@@ -372,6 +381,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidEast: 'イニング間パフォーマンス (東エリア前)',
     groupTitleMidWest: 'イニング間パフォーマンス (西エリア前)',
     groupTitleMidStage: 'イニング間応援ステージパフォーマンス',
+    groupTitlePostEast: '試合後パフォーマンス (1塁東側)',
+    groupTitlePostWest: '試合後パフォーマンス (3塁西側)',
+    groupTitlePost: '試合後パフォーマンスメンバー',
     groupTitleOffDuty: '本日未シフト／休日メンバー',
     groupTitleOnDutySection: '当日応援ガールズ',
     groupTitleFavOnDuty: '今期シフトありお気に入りメンバー',
@@ -516,6 +528,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     filterPeriod13: '1-3회 위치',
     filterPeriod78: '7-8회 위치',
     filterPeriodMid: '중간 공연',
+    filterPeriodPost: '경기 후 공연',
     groupTitleEast: '1루 동구역 응원 위치',
     groupTitleWest: '3루 서구역 응원 위치',
     groupTitleSpecial: '주말 및 특별구역 (다러／R무대)',
@@ -523,6 +536,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     groupTitleMidEast: '중간 공연 (동구역 앞)',
     groupTitleMidWest: '중간 공연 (서구역 앞)',
     groupTitleMidStage: '중간 댄스 무대 공연',
+    groupTitlePostEast: '경기 후 공연 (1루 동측)',
+    groupTitlePostWest: '경기 후 공연 (3루 서측)',
+    groupTitlePost: '경기 후 공연 멤버',
     groupTitleOffDuty: '미출근／휴무 걸스',
     groupTitleOnDutySection: '당일 응원 걸스',
     groupTitleFavOnDuty: '이번 시즌 출근 일정 있는 최애 걸스',
