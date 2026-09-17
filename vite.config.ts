@@ -37,7 +37,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,json}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,jpg,jpeg,json}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/docs\.google\.com\/spreadsheets\/.*/i,

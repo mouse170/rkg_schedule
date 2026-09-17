@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sparkles, Map, X, CheckCircle2 } from 'lucide-react';
 
 interface ThemeDayBannerProps {
@@ -11,6 +11,25 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
   const [modalDate, setModalDate] = useState<'9/19' | '9/20'>(selectedDate === '9/20' ? '9/20' : '9/19');
 
   const activeDateKey = selectedDate === '9/20' ? '9/20' : '9/19';
+
+  // 提前於瀏覽器背景靜態預載入主題日大圖，開窗即刻 0 延遲秒開
+  useEffect(() => {
+    const preload = (src: string) => {
+      const img = new Image();
+      img.src = src;
+    };
+    preload('./theme/spicy_cool_sweet_banner.webp');
+    preload('./theme/spicy_cool_sweet_court_map.webp');
+  }, []);
+
+  const handlePreloadModalImages = () => {
+    const preload = (src: string) => {
+      const img = new Image();
+      img.src = src;
+    };
+    preload('./theme/spicy_cool_sweet_banner.webp');
+    preload('./theme/spicy_cool_sweet_court_map.webp');
+  };
 
   return (
     <>
@@ -52,6 +71,8 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
                 setModalDate(activeDateKey);
                 setIsModalOpen(true);
               }}
+              onMouseEnter={handlePreloadModalImages}
+              onFocus={handlePreloadModalImages}
               className="px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap"
             >
               <Map className="w-4 h-4 text-[#1a0007]" />
@@ -60,11 +81,18 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
 
             {/* Single Visual Badge Thumbnail */}
             <div className="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden sm:block">
-              <img
-                src="./theme/spicy_cool_sweet_key_visual.jpg"
-                alt="辣酷甜單曲主視覺"
-                className="w-full h-full object-cover"
-              />
+              <picture>
+                <source srcSet="./theme/spicy_cool_sweet_key_visual.webp" type="image/webp" />
+                <img
+                  src="./theme/spicy_cool_sweet_key_visual.jpg"
+                  alt="辣酷甜單曲主視覺"
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover"
+                />
+              </picture>
             </div>
           </div>
         </div>
@@ -104,12 +132,20 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               </div>
 
               {/* 27-Girl Panoramic Key Visual Banner in Modal */}
-              <div className="mt-3 rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/50 shadow-lg bg-black/5 dark:bg-black/60">
-                <img
-                  src="./theme/spicy_cool_sweet_banner.jpg"
-                  alt="辣酷甜主題日 27 位女孩全員主視覺"
-                  className="w-full h-auto object-contain object-center"
-                />
+              <div className="mt-3 rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/50 shadow-lg bg-black/5 dark:bg-black/60 relative aspect-[1024/409]">
+                <picture>
+                  <source srcSet="./theme/spicy_cool_sweet_banner.webp" type="image/webp" />
+                  <img
+                    src="./theme/spicy_cool_sweet_banner.jpg"
+                    alt="辣酷甜主題日 27 位女孩全員主視覺"
+                    width="1024"
+                    height="409"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className="w-full h-auto object-contain object-center"
+                  />
+                </picture>
               </div>
 
               {/* Date Switcher Tabs inside Modal */}
@@ -143,13 +179,20 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               </div>
 
               {/* Stadium Map Image from User (Court layout) */}
-              <div className="rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/30 bg-slate-50 dark:bg-black/80 p-2 mb-4 flex items-center justify-center">
-                <img
-                  src="./theme/spicy_cool_sweet_court_map.png"
-                  alt="樂天桃園棒球場看台位置圖"
-                  className="w-full h-auto rounded-xl object-contain max-h-72 sm:max-h-96 mx-auto"
-                  loading="eager"
-                />
+              <div className="rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/30 bg-slate-50 dark:bg-black/80 p-2 mb-4 flex items-center justify-center min-h-[220px]">
+                <picture>
+                  <source srcSet="./theme/spicy_cool_sweet_court_map.webp" type="image/webp" />
+                  <img
+                    src="./theme/spicy_cool_sweet_court_map.png"
+                    alt="樂天桃園棒球場看台位置圖"
+                    width="446"
+                    height="447"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
+                    className="w-full h-auto rounded-xl object-contain max-h-72 sm:max-h-96 mx-auto"
+                  />
+                </picture>
               </div>
 
               {/* Special Theme Rules Description */}
