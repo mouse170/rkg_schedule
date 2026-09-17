@@ -6,12 +6,20 @@
     <link rel="alternate icon" type="image/png" href="./favicon.png" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>樂天女孩 Rakuten Girls 即時上班班表</title>
+    <title>樂天女孩即時上班班表｜Rakuten Girls 主場應援席位、局數站位與出勤查詢</title>
+    <!-- Standard Search Engine Meta Tags -->
+    <meta name="description" content="全猿主場應援席位查詢系統！掌握 2026 樂天女孩（Rakuten Girls）各場次出勤名單、1-3局、中場表演、7-8局看台換側站位（一壘東區／三壘西區／大樂區／看台專區）與官方 Instagram 完整名鑑。" />
+    <meta name="keywords" content="樂天女孩, Rakuten Girls, 樂天女孩班表, 樂天女孩名單, 棒球場應援席位, 辣酷甜, 桃園棒球場, 啦啦隊站位, 樂天女孩出勤, 全猿主場" />
+    <meta name="author" content="mouse170" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#890022" />
+    <link rel="canonical" href="https://mouse170.github.io/rkg_schedule/" />
+
     <!-- Open Graph / LINE / Threads / Facebook / Telegram Meta Tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mouse170.github.io/rkg_schedule/" />
-    <meta property="og:title" content="樂天女孩 Rakuten Girls 即時上班班表" />
-    <meta property="og:description" content="全猿主場應援席位查詢 • 當日出勤成員 • 1-3局、中場、7-8局站位資訊及女孩 IG 目錄" />
+    <meta property="og:title" content="樂天女孩即時上班班表｜Rakuten Girls 主場應援席位、局數站位與出勤查詢" />
+    <meta property="og:description" content="全猿主場應援席位查詢系統！掌握 2026 樂天女孩（Rakuten Girls）各場次出勤名單、1-3局、中場表演、7-8局看台換側站位（一壘東區／三壘西區／大樂區／看台專區）與官方 Instagram 完整名鑑。" />
     <meta property="og:image" content="https://mouse170.github.io/rkg_schedule/og-image.png?v=20260918_v2" />
     <meta property="og:image:secure_url" content="https://mouse170.github.io/rkg_schedule/og-image.png?v=20260918_v2" />
     <meta property="og:image:type" content="image/png" />
@@ -23,9 +31,49 @@
     <!-- Twitter / X Card Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://mouse170.github.io/rkg_schedule/" />
-    <meta name="twitter:title" content="樂天女孩 Rakuten Girls 即時上班班表" />
-    <meta name="twitter:description" content="全猿主場應援席位查詢 • 當日出勤成員 • 1-3局、中場、7-8局站位資訊及女孩 IG 目錄" />
+    <meta name="twitter:title" content="樂天女孩即時上班班表｜Rakuten Girls 主場應援席位、局數站位與出勤查詢" />
+    <meta name="twitter:description" content="全猿主場應援席位查詢系統！掌握 2026 樂天女孩（Rakuten Girls）各場次出勤名單、1-3局、中場表演、7-8局看台換側站位（一壘東區／三壘西區／大樂區／看台專區）與官方 Instagram 完整名鑑。" />
     <meta name="twitter:image" content="https://mouse170.github.io/rkg_schedule/og-image.png?v=20260918_v2" />
+
+    <!-- Structured Data: Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://mouse170.github.io/rkg_schedule/#webapp",
+          "name": "樂天女孩即時上班班表",
+          "alternateName": ["Rakuten Girls Cheer Schedule", "樂天女孩班表查詢"],
+          "url": "https://mouse170.github.io/rkg_schedule/",
+          "applicationCategory": "SportsApplication",
+          "operatingSystem": "All",
+          "inLanguage": ["zh-TW", "ja", "ko"],
+          "description": "全猿主場應援席位查詢系統，即時掌握樂天女孩各場次出勤、局數站位輪替與看台視角時間軸。",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "TWD"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Rakuten Monkeys & Rakuten Girls Fans",
+            "url": "https://mouse170.github.io/rkg_schedule/"
+          }
+        },
+        {
+          "@type": "SportsTeam",
+          "@id": "https://mouse170.github.io/rkg_schedule/#team",
+          "name": "Rakuten Girls (樂天女孩)",
+          "sport": "Cheerleading / Baseball",
+          "subOrganizationOf": {
+            "@type": "SportsTeam",
+            "name": "Rakuten Monkeys (樂天桃猿)"
+          }
+        }
+      ]
+    }
+    </script>
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +83,22 @@
     <link rel="prefetch" href="./theme/spicy_cool_sweet_court_map.webp" as="image" type="image/webp" />
   </head>
   <body class="bg-rkg-surface text-gray-800 antialiased selection:bg-rkg-pink selection:text-white min-h-screen">
+    <!-- Static Fallback for Search Engine Crawlers & Users without JavaScript -->
+    <noscript>
+      <div style="padding: 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; line-height: 1.6; color: #1e293b;">
+        <h1 style="color: #890022; font-size: 24px; font-weight: 800;">樂天女孩即時上班班表 (Rakuten Girls Cheer Schedule)</h1>
+        <p>專為台灣樂天桃猿棒球隊專屬啦啦隊 Rakuten Girls（樂天女孩）打造的即時排班、看台應援輪替矩陣與席位查詢系統。</p>
+        <h2 style="font-size: 18px; margin-top: 16px;">核心功能特色</h2>
+        <ul>
+          <li><strong>即時出勤班表</strong>：即時連線官方最新排班，掌握每場賽事實體出勤成員名冊。</li>
+          <li><strong>局數應援站位</strong>：查詢 1-3 局、第 5 局下中場表演、7-8 局看台換側與賽後表演全方位站位安排。</li>
+          <li><strong>看台分區指南</strong>：包含一壘東區、三壘西區、大樂放鬆區、東R／西R舞台與主題日看台專區。</li>
+          <li><strong>現役 27 位女孩名錄</strong>：收錄本土現役成員與韓籍應援外援之官方 Instagram 社群與背號資訊。</li>
+          <li><strong>2D 看台輪替矩陣</strong>與 <strong>9:16 Instagram 限動分享圖卡</strong> 匯出支援。</li>
+        </ul>
+        <p style="color: #64748b; font-size: 13px; margin-top: 20px;">本應用程式需要啟用 JavaScript 方能享受完整互動體驗，請於瀏覽器設定中開啟 JavaScript。</p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <!-- Cloudflare Web Analytics -->

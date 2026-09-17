@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+
+Sitemap: https://mouse170.github.io/rkg_schedule/sitemap.xml
