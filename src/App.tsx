@@ -68,6 +68,14 @@ const MainApp: React.FC = () => {
     });
   };
 
+  // 日期選取處理（若選中主題日且目前處於東R或西R席位視角，自動切換為全部視角）
+  const handleSelectDate = (date: string) => {
+    setSelectedDate(date);
+    if (isSpicyCoolSweetDate(date) && (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R')) {
+      setAreaFilter('ALL');
+    }
+  };
+
   // 依時間排序並過濾掉已過去的歷史日期（今天與未來的比賽日）
   const upcomingDates = useMemo(() => {
     return schedule.dates
@@ -723,7 +731,7 @@ const MainApp: React.FC = () => {
           },
           {
             key: `THEME_${selectedDate}_SPECIAL`,
-            title: `${selectedDate} 特殊區域（東R／西R／大樂） (${themeGroups.SPECIAL.length} 位)`,
+            title: `${selectedDate} 特殊區域（大樂區） (${themeGroups.SPECIAL.length} 位)`,
             badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
             girls: themeGroups.SPECIAL,
             favCount: countFavs(themeGroups.SPECIAL),
@@ -917,7 +925,7 @@ const MainApp: React.FC = () => {
       {
         key: 'SPECIAL',
         title: selectedDate
-          ? `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`
+          ? (isTheme ? `${selectedDate} 特殊區域（大樂區） (${groups.SPECIAL.length} 位)` : `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`)
           : `${t.groupTitleSpecial} (${groups.SPECIAL.length} 位)`,
         badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
         girls: groups.SPECIAL,
@@ -967,7 +975,7 @@ const MainApp: React.FC = () => {
                   return (
                     <ThemeDayBanner
                       selectedDate={selectedDate}
-                      onSelectDate={setSelectedDate}
+                      onSelectDate={handleSelectDate}
                     />
                   );
                 }
@@ -1034,7 +1042,7 @@ const MainApp: React.FC = () => {
               <FilterBar
                 dates={upcomingDates}
                 selectedDate={selectedDate}
-                onSelectDate={setSelectedDate}
+                onSelectDate={handleSelectDate}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 areaFilter={areaFilter}

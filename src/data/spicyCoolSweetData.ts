@@ -24,7 +24,7 @@ export const SPICY_COOL_SWEET_THEME: ThemeDayConfig = {
   subTitle: '全員出席 ‧ 專區貼身應援盛典',
   description: 'Rakuten Girls 年度重磅主題日！全員女孩盛裝出席，各大專屬看台特區全程貼身應援，帶來最具熱力的球場應援體驗！',
   ruleTitle: '辣酷甜主題日專區應援規則',
-  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域貼身應援；第 5 局下為全員表演，可能還會分區域進行表演，確切安排以試算表即時資料為主。',
+  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域貼身應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位）；第 5 局下為全員表演，可能還會分區域進行表演，確切安排以試算表即時資料為主。',
   scheduleDates: ['9/19', '9/20'],
   zoneAssignments: {
     '9/19': [
@@ -128,14 +128,14 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
     };
   }
 
-  // 一般看台應援女孩：站位以試算表填入值為主；若尚未公布，標記為待公布
+  // 一般看台應援女孩：站位以試算表填入值為主；若尚未公布，標記為待公布（本次主題日無東R、西R）
   const loc13 = existing13 && existing13.location.trim().length > 0 && !existing13.location.includes('專區')
     ? existing13.location.trim()
-    : '待公布（東／西／東R／西R／大樂）';
+    : '待公布（東／西／大樂）';
 
   const loc78 = existing78 && existing78.location.trim().length > 0 && !existing78.location.includes('專區')
     ? existing78.location.trim()
-    : '待公布（東／西／東R／西R／大樂）';
+    : '待公布（東／西／大樂）';
 
   const newInnings: InningAssignment[] = [
     { period: '1-3局', location: loc13 },

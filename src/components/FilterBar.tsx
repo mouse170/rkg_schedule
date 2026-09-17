@@ -2,6 +2,7 @@ import React from 'react';
 import { Search, Calendar, Heart, Compass, X, Sparkles, Flame, MapPin, RotateCcw } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { getRelativeDateInfo } from '../utils/dateUtils';
+import { isSpicyCoolSweetDate } from '../data/spicyCoolSweetData';
 
 export type AreaFilterType =
   | 'ALL'
@@ -45,6 +46,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const { language, t } = useLanguage();
 
   const isSeatMode = areaFilter.startsWith('SEAT_');
+  const isThemeDate = Boolean(selectedDate && isSpicyCoolSweetDate(selectedDate));
 
   // 切換至局數模式
   const handleSwitchToInningMode = () => {
@@ -290,31 +292,35 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <span>{t.seatDaLeZoneShort}</span>
             </button>
 
-            {/* 走道 東R 舞台 */}
-            <button
-              onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST_R' ? 'ALL' : 'SEAT_EAST_R')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
-                areaFilter === 'SEAT_EAST_R'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md ring-1 ring-cyan-300/50'
-                  : 'bg-cyan-50/80 dark:bg-cyan-950/40 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 border border-cyan-200/80 dark:border-cyan-800/60'
-              }`}
-            >
-              <span className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
-              <span>{t.seatEastRZoneShort}</span>
-            </button>
+            {/* 走道 東R 舞台（主題日無東R站位） */}
+            {!isThemeDate && (
+              <button
+                onClick={() => onAreaFilterChange(areaFilter === 'SEAT_EAST_R' ? 'ALL' : 'SEAT_EAST_R')}
+                className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
+                  areaFilter === 'SEAT_EAST_R'
+                    ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md ring-1 ring-cyan-300/50'
+                    : 'bg-cyan-50/80 dark:bg-cyan-950/40 text-cyan-800 dark:text-cyan-300 hover:bg-cyan-100 dark:hover:bg-cyan-900/50 border border-cyan-200/80 dark:border-cyan-800/60'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-cyan-500 flex-shrink-0" />
+                <span>{t.seatEastRZoneShort}</span>
+              </button>
+            )}
 
-            {/* 走道 西R 舞台 */}
-            <button
-              onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST_R' ? 'ALL' : 'SEAT_WEST_R')}
-              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
-                areaFilter === 'SEAT_WEST_R'
-                  ? 'bg-gradient-to-r from-teal-600 to-emerald-700 text-white shadow-sm ring-1 ring-teal-300/50'
-                  : 'bg-teal-50/80 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200/80 dark:border-teal-800/60'
-              }`}
-            >
-              <span className="w-2 h-2 rounded-full bg-teal-500 flex-shrink-0" />
-              <span>{t.seatWestRZoneShort}</span>
-            </button>
+            {/* 走道 西R 舞台（主題日無西R站位） */}
+            {!isThemeDate && (
+              <button
+                onClick={() => onAreaFilterChange(areaFilter === 'SEAT_WEST_R' ? 'ALL' : 'SEAT_WEST_R')}
+                className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${
+                  areaFilter === 'SEAT_WEST_R'
+                    ? 'bg-gradient-to-r from-teal-600 to-emerald-700 text-white shadow-sm ring-1 ring-teal-300/50'
+                    : 'bg-teal-50/80 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/50 border border-teal-200/80 dark:border-teal-800/60'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full bg-teal-500 flex-shrink-0" />
+                <span>{t.seatWestRZoneShort}</span>
+              </button>
+            )}
           </>
         )}
       </div>

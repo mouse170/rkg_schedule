@@ -161,7 +161,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-200/90 space-y-1.5 mb-4">
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>局數規則</strong>：專區女孩於比賽期間固定在個人專屬看台全程應援；一般看台女孩依東、西、東R、西R、大樂區輪替安排。</span>
+                  <span><strong>局數規則</strong>：專區女孩於比賽期間固定在個人專屬看台全程應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位）。</span>
                 </div>
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
