@@ -46,7 +46,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
 
             {/* Inning Rules Subtitle */}
             <p className="text-[11px] sm:text-xs text-amber-200/90 leading-relaxed font-medium max-w-2xl">
-              1、2、3、7、8 局專區女孩全程於專屬看台貼身應援 ‧ 第 5 局下為全員表演（可能分區域進行表演，依試算表即時資料為主）
+              1、2、3、7、8 局專區女孩全程於專屬看台貼身應援 ‧ 本次主題日無中場表演
             </p>
           </div>
 
@@ -161,11 +161,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               <div className="rounded-xl bg-amber-500/10 border border-amber-500/30 p-3 text-xs text-amber-200/90 space-y-1.5 mb-4">
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>局數規則</strong>：專區女孩於比賽期間固定在個人專屬看台全程應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位）。</span>
-                </div>
-                <div className="flex items-start gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <span><strong>中場演出</strong>：第 5 局下為全員表演，可能還會分區域進行表演，確切安排以試算表即時資料為主。</span>
+                  <span><strong>局數規則</strong>：專區女孩於比賽期間固定在個人專屬看台全程應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位，亦無中場表演）。</span>
                 </div>
                 <div className="flex items-start gap-1.5">
                   <CheckCircle2 className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />

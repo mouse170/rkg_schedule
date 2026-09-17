@@ -211,18 +211,20 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <span>{t.filterPeriod13}</span>
             </button>
 
-            {/* 中場表演 */}
-            <button
-              onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_MID' ? 'ALL' : 'PERIOD_MID')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
-                areaFilter === 'PERIOD_MID'
-                  ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm ring-1 ring-amber-300/50'
-                  : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200/80 dark:border-amber-800/60'
-              }`}
-            >
-              <Sparkles className="w-3 h-3 text-amber-500 flex-shrink-0" />
-              <span>{t.filterPeriodMid}</span>
-            </button>
+            {/* 中場表演（主題日無中場表演） */}
+            {!isThemeDate && (
+              <button
+                onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_MID' ? 'ALL' : 'PERIOD_MID')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
+                  areaFilter === 'PERIOD_MID'
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-sm ring-1 ring-amber-300/50'
+                    : 'bg-amber-50/80 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200/80 dark:border-amber-800/60'
+                }`}
+              >
+                <Sparkles className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                <span>{t.filterPeriodMid}</span>
+              </button>
+            )}
 
             {/* 7-8 局 */}
             <button

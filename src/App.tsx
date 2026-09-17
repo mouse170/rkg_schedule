@@ -68,10 +68,10 @@ const MainApp: React.FC = () => {
     });
   };
 
-  // 日期選取處理（若選中主題日且目前處於東R或西R席位視角，自動切換為全部視角）
+  // 日期選取處理（若選中主題日，因無東R/西R席位與中場表演，自動切換為全部視角）
   const handleSelectDate = (date: string) => {
     setSelectedDate(date);
-    if (isSpicyCoolSweetDate(date) && (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R')) {
+    if (isSpicyCoolSweetDate(date) && (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R' || areaFilter === 'PERIOD_MID')) {
       setAreaFilter('ALL');
     }
   };
@@ -498,7 +498,7 @@ const MainApp: React.FC = () => {
       const midSections: GroupSection[] = [];
 
       targetDates.forEach(date => {
-        const isTheme = isSpicyCoolSweetDate(date);
+        if (isSpicyCoolSweetDate(date)) return;
         const eastGirls: GirlProfile[] = [];
         const westGirls: GirlProfile[] = [];
         const stageGirls: GirlProfile[] = [];
@@ -553,16 +553,12 @@ const MainApp: React.FC = () => {
 
         // 當日中場表演 (應援舞台/全員合體/專區)
         if (stageGirls.length > 0) {
-          const stageTitle = isTheme
-            ? `${date} 辣酷甜中場全員表演（第 5 局下全體演出，可能分區進行） (${stageGirls.length} 位)`
-            : `${date} ${t.groupTitleMidStage} (${stageGirls.length} 位)`;
+          const stageTitle = `${date} ${t.groupTitleMidStage} (${stageGirls.length} 位)`;
 
           midSections.push({
             key: `MID_${date}_STAGE`,
             title: stageTitle,
-            badgeStyle: isTheme
-              ? 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black'
-              : 'from-amber-500 to-orange-500 text-white shadow-sm',
+            badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
             girls: stageGirls,
             favCount: countFavs(stageGirls),
             date
@@ -570,7 +566,7 @@ const MainApp: React.FC = () => {
         }
       });
 
-      // 如果選定特定日期，但當日無中場表演 (例如 9/2)
+      // 如果選定特定日期，但當日無中場表演 (例如 9/2 或辣酷甜主題日)
       if (midSections.length === 0 && selectedDate) {
         midSections.push({
           key: `MID_${selectedDate}_EMPTY`,
@@ -579,7 +575,9 @@ const MainApp: React.FC = () => {
           girls: [],
           favCount: 0,
           date: selectedDate,
-          emptyNotice: t.noMidPerformance
+          emptyNotice: isSpicyCoolSweetDate(selectedDate)
+            ? '本次辣酷甜主題日無安排中場表演。'
+            : t.noMidPerformance
         });
       }
 

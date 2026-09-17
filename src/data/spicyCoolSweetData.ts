@@ -24,7 +24,7 @@ export const SPICY_COOL_SWEET_THEME: ThemeDayConfig = {
   subTitle: '全員出席 ‧ 專區貼身應援盛典',
   description: 'Rakuten Girls 年度重磅主題日！全員女孩盛裝出席，各大專屬看台特區全程貼身應援，帶來最具熱力的球場應援體驗！',
   ruleTitle: '辣酷甜主題日專區應援規則',
-  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域貼身應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位）；第 5 局下為全員表演，可能還會分區域進行表演，確切安排以試算表即時資料為主。',
+  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域貼身應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位，亦無中場表演）。',
   scheduleDates: ['9/19', '9/20'],
   zoneAssignments: {
     '9/19': [
@@ -101,23 +101,16 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
 
   const assign = getZoneAssignment(date, girlName);
 
-  // 1. 中場表演（第 5 局下）：以試算表資料為主，若試算表空白則預設為全員表演（分區待定）
-  const existingMid = duty.innings?.find(i => i.period.includes('中場') || i.period.toUpperCase().includes('IF') || i.period.includes('5'));
-  const midLocation = existingMid && existingMid.location.trim().length > 0 && !existingMid.location.includes('待定')
-    ? existingMid.location.trim()
-    : '全員表演（分區待定）';
-
-  // 2. 1-3 局站位
+  // 1. 1-3 局站位
   const existing13 = duty.innings?.find(i => i.period.includes('1-3'));
-  // 3. 7-8 局站位
+  // 2. 7-8 局站位
   const existing78 = duty.innings?.find(i => i.period.includes('7-8'));
 
   if (assign) {
-    // 專區應援女孩：1-3 局與 7-8 局固定在個人看台專區，中場為全員表演（或試算表填入值）
+    // 專區應援女孩：1-3 局與 7-8 局固定在個人看台專區（本次主題日無中場表演）
     const zoneLocation = `${assign.zoneCode}專區`;
     const newInnings: InningAssignment[] = [
       { period: '1-3局', location: zoneLocation },
-      { period: '第5局中場', location: midLocation },
       { period: '7-8局', location: zoneLocation }
     ];
 
@@ -128,7 +121,7 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
     };
   }
 
-  // 一般看台應援女孩：站位以試算表填入值為主；若尚未公布，標記為待公布（本次主題日無東R、西R）
+  // 一般看台應援女孩：站位以試算表填入值為主；若尚未公布，標記為待公布（本次主題日無東R、西R，亦無中場表演）
   const loc13 = existing13 && existing13.location.trim().length > 0 && !existing13.location.includes('專區')
     ? existing13.location.trim()
     : '待公布（東／西／大樂）';
@@ -139,7 +132,6 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
 
   const newInnings: InningAssignment[] = [
     { period: '1-3局', location: loc13 },
-    { period: '第5局中場', location: midLocation },
     { period: '7-8局', location: loc78 }
   ];
 
