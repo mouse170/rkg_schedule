@@ -2,9 +2,10 @@ import Papa from 'papaparse';
 import { ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { findGirlByName } from '../data/girlsRoster';
 import { enrichDutyWithZone } from '../data/spicyCoolSweetData';
+import { isPastDate } from '../utils/dateUtils';
 
 export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
-export const SHEET_GIDS = ['1468073228', '1259873345', '735466597'];
+export const SHEET_GIDS = ['735466597'];
 export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${SHEET_GIDS[0]}`;
 
 interface TableBlock {
@@ -223,43 +224,66 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
   };
 }
 
-// Fallback CSV snapshot
-const FALLBACK_CSV = `,,9/2,,,,,9/3,,
-背號,女孩,1-3,7-8,,背號,女孩,1-3,中場,7-8
-3,穆又甯,西,東,我  叫  分  隔  線,3,穆又甯,東,西,西
-6,宋宋,東,西,,7,筠熹,東,西,西
-7,筠熹,西,東,,10,卉妮,西,東,東
-10,卉妮,東,西,,12,穎樂,西,東,東
-12,穎樂,西,東,,15,孟潔,東,西,西
-15,孟潔,西,東,,17,笑笑,東,西,西
-18,熊霓,東,西,,22,河智媛,西,東,東
-22,河智媛,東,西,,25,禹洙漢,東,西,西
-25,禹洙漢,西,東,,36,禹菡,東,西,西
-27,若潼,西,東,,66,岱縈,東,西,西
-33,言梓璇,東,西,,67,崔荷潾,西,東,東
-66,岱縈,西,東,,77,曲曲,西,東,東
-67,崔荷潾,東,西,,87,彭彭,東,西,西
-77,曲曲,東,西,,88,珈妤,西,東,東
-87,彭彭,西,東,,97,溫妮,西,東,東
-88,沈珈妤,東,西,,0,琳妲,西,東,東`;
+// Fallback CSV snapshot（9/19 與 9/20 辣酷甜主題日當期即時備份）
+const FALLBACK_CSV = `"🦈站位由各家女孩粉絲手動更新,僅供參考,實際站位以現場為主🦈",,,,,,,,,,
+,,9/19,,,,,,9/20,,
+背號,女孩,1-3,7-8,賽後,,背號,女孩,1-3,7-8,賽後
+3,穆又甯,,,東,我  叫  分  隔  線,3,穆又甯,專區,專區,
+6,宋宋,專區,專區,,,6,宋宋,,,
+7,筠熹,,,,,7,筠熹,專區,專區,
+8,貝佳頤,大樂,東,,,8,貝佳頤,專區,專區,
+9,高橋佳帆,專區,專區,西,,9,高橋佳帆,,,
+10,卉妮,,,,,10,卉妮,專區,專區,
+12,穎樂,專區,專區,,,12,穎樂,,,
+15,孟潔,專區,專區,,,15,孟潔,西,大樂,
+17,笑笑,大樂,西,西,,17,笑笑,專區,專區,
+18,熊霓,專區,專區,西,,18,熊霓,,,
+19,KIRA,西,大樂,,,19,KIRA,專區,專區,東
+20,MIKA,,,,,20,MIKA,專區,專區,西
+22,河智媛,西,東,,,22,河智媛,專區,專區,西
+24,廉世彬,專區,專區,,,24,廉世彬,西,東,東
+25,禹洙漢,東,西,,,25,禹洙漢,專區,專區,西
+26,高佳彬,專區,專區,,,26,高佳彬,東,西,東
+27,若潼,,,,,27,若潼,專區,專區,
+33,言梓璇,西,東,,,33,言梓璇,專區,專區,東
+34,金佳垠,專區,專區,,,34,金佳垠,東,西,東
+36,禹菡,專區,專區,東,,36,禹菡,西,東,
+66,岱縈,專區,專區,,,66,岱縈,西,東,
+67,崔荷潾,專區,專區,,,67,崔荷潾,,,
+77,曲曲,專區,專區,東,,77,曲曲,東,西,
+87,彭彭,專區,專區,西,,87,彭彭,,,
+88,沈珈妤,專區,專區,,,88,沈珈妤,,,西
+97,溫妮,西,東,東,,97,溫妮,專區,專區,
+0,琳妲,,,西,,0,琳妲,專區,專區,`;
 
 export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
   try {
     const timestamp = Date.now();
-    // 平行抓取所有 GID 頁籤之 CSV
-    const fetchPromises = SHEET_GIDS.map(async (gid) => {
-      const url = `${SHEET_CSV_BASE_URL}&gid=${gid}&t=${timestamp}`;
-      const response = await fetch(url, { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status} on gid ${gid}: ${response.statusText}`);
+    // 優先抓取發布之主要活頁簿 CSV，並同步檢索當期 GID
+    const urlsToFetch = [
+      `${SHEET_CSV_BASE_URL}&t=${timestamp}`,
+      ...SHEET_GIDS.map(gid => `${SHEET_CSV_BASE_URL}&gid=${gid}&t=${timestamp}`)
+    ];
+
+    const fetchPromises = urlsToFetch.map(async (url) => {
+      try {
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) return null;
+        const csvText = await response.text();
+        return parseSheetCsv(csvText);
+      } catch {
+        return null;
       }
-      const csvText = await response.text();
-      return parseSheetCsv(csvText);
     });
 
-    const datasets = await Promise.all(fetchPromises);
+    const results = await Promise.all(fetchPromises);
+    const datasets = results.filter((ds): ds is ScheduleDataset => ds !== null && ds.dates.length > 0);
 
-    // 合併多頁籤之 dates、dailyRosterMap 與 girlsScheduleMap
+    if (datasets.length === 0) {
+      throw new Error('No valid dataset returned from Google Sheets');
+    }
+
+    // 合併頁籤之 dates、dailyRosterMap 與 girlsScheduleMap
     const combinedDates: string[] = [];
     const combinedDailyRosterMap: Record<string, DailyDuty[]> = {};
     const combinedGirlsScheduleMap: Record<string, DailyDuty[]> = {};
@@ -270,11 +294,10 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
         if (!combinedDates.includes(d)) {
           combinedDates.push(d);
         }
-        // 2. 合併 dailyRosterMap
         combinedDailyRosterMap[d] = ds.dailyRosterMap[d] || [];
       });
 
-      // 3. 合併 girlsScheduleMap
+      // 2. 合併 girlsScheduleMap
       Object.entries(ds.girlsScheduleMap).forEach(([name, duties]) => {
         if (!combinedGirlsScheduleMap[name]) {
           combinedGirlsScheduleMap[name] = [];
@@ -287,8 +310,12 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
       });
     });
 
+    // 嚴格過濾已過期之歷史賽事，只保留當期有效賽事日期
+    const activeDates = combinedDates.filter(d => !isPastDate(d));
+    const finalDates = activeDates.length > 0 ? activeDates : combinedDates;
+
     return {
-      dates: combinedDates,
+      dates: finalDates,
       girlsScheduleMap: combinedGirlsScheduleMap,
       dailyRosterMap: combinedDailyRosterMap,
       lastUpdated: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
@@ -298,6 +325,8 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
     console.warn('Failed to fetch live sheet, using snapshot fallback:', err);
     const fallback = parseSheetCsv(FALLBACK_CSV);
     fallback.isLive = false;
+    const activeDates = fallback.dates.filter(d => !isPastDate(d));
+    fallback.dates = activeDates.length > 0 ? activeDates : fallback.dates;
     return fallback;
   }
 }

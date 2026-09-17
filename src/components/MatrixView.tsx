@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Heart, Compass, Calendar, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone, SPICY_COOL_SWEET_THEME } from '../data/spicyCoolSweetData';
-import { getRelativeDateInfo } from '../utils/dateUtils';
+import { getRelativeDateInfo, isPastDate, compareScheduleDates } from '../utils/dateUtils';
 import { useLanguage } from '../context/LanguageContext';
 import { AreaFilterType } from './FilterBar';
 
@@ -615,16 +615,20 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
 }) => {
   const { t } = useLanguage();
 
-  // 計算需要顯示的日期清單
+  // 計算需要顯示的日期清單（嚴格清除過期歷史日期，對齊當期試算表）
   const displayDates = useMemo(() => {
     if (selectedDate) return [selectedDate];
 
-    // 全賽季檢視：取得未來的有效賽事日期，若無則回傳所有日期
-    const validDates = schedule.dates.length > 0
-      ? schedule.dates
-      : SPICY_COOL_SWEET_THEME.scheduleDates;
+    // 嚴格過濾已過期之歷史日期，僅呈現當期有效賽事
+    const upcoming = schedule.dates
+      .filter(d => !isPastDate(d))
+      .sort((a, b) => compareScheduleDates(a, b));
 
-    return validDates;
+    if (upcoming.length > 0) return upcoming;
+
+    // 若備份主題日日期亦進行過期過濾
+    const themeUpcoming = SPICY_COOL_SWEET_THEME.scheduleDates.filter(d => !isPastDate(d));
+    return themeUpcoming.length > 0 ? themeUpcoming : schedule.dates;
   }, [selectedDate, schedule.dates]);
 
   const isMultiDate = !selectedDate && displayDates.length > 1;
