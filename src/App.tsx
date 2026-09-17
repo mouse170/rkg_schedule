@@ -1458,6 +1458,7 @@ const MainApp: React.FC = () => {
           allGirls={OFFICIAL_GIRLS}
           schedule={schedule}
           onShowToast={showToast}
+          onToggleFavorite={(girlName) => toggleFavorite(null, girlName)}
         />
 
         {/* 8. Light Toast Notification */}

@@ -210,6 +210,10 @@ export interface Translations {
   shareToastDownloadSuccess: string;
   shareToastGenerating: string;
   shareToastFailed: string;
+  shareAdjustFavTitle: string;
+  shareAdjustFavTip: string;
+  shareAdjustCurrentCount: string;
+  shareAdjustSuccess: string;
 
   // Language Switcher & Footer
   switchLanguage: string;
@@ -416,6 +420,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareToastDownloadSuccess: '9:16 女孩班表圖卡已下載完成！',
     shareToastGenerating: '正在生成 9:16 高解析圖卡...',
     shareToastFailed: '圖卡生成失敗，請稍後再試',
+    shareAdjustFavTitle: '快速調整最愛名單（點擊直接移除）：',
+    shareAdjustFavTip: '點擊女孩可直接移出最愛，名單符合上限後即可啟用圖卡下載',
+    shareAdjustCurrentCount: '目前已選 {count} 位 / 上限 {max} 位',
+    shareAdjustSuccess: '✓ 已符合圖卡人數限制（{count}/{max} 位），現已可生成 9:16 限動圖卡',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -619,6 +627,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareToastDownloadSuccess: '9:16ストーリー画像をダウンロードしました！',
     shareToastGenerating: '9:16高解像度画像を生成中...',
     shareToastFailed: '画像の生成に失敗しました。もう一度お試しください',
+    shareAdjustFavTitle: 'お気に入りメンバーのクイック調整（タップして解除）：',
+    shareAdjustFavTip: 'タップするとお気に入りから解除され、上限以下になると画像保存が可能になります',
+    shareAdjustCurrentCount: '現在 {count}名 / 上限 {max}名',
+    shareAdjustSuccess: '✓ 人数制限を満たしました（{count}/{max}名）。9:16画像の生成が可能です',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -822,6 +834,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareToastDownloadSuccess: '9:16 스토리 카드가 다운로드되었습니다!',
     shareToastGenerating: '9:16 고해상도 카드 생성 중...',
     shareToastFailed: '카드 생성에 실패했습니다. 잠시 후 다시 시도해주세요',
+    shareAdjustFavTitle: '최애 멤버 빠른 조정 (탭하여 제외):',
+    shareAdjustFavTip: '멤버를 탭하여 즐겨찾기에서 제외하면, 상한 충족 시 카드 다운로드가 활성화됩니다',
+    shareAdjustCurrentCount: '현재 {count}명 / 상한 {max}명',
+    shareAdjustSuccess: '✓ 인원 제한을 충족했습니다 ({count}/{max}명). 이제 9:16 카드 다운로드가 가능합니다',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',
