@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Map, X, CheckCircle2, Users } from 'lucide-react';
+import { Sparkles, Map, X, CheckCircle2 } from 'lucide-react';
 
 interface ThemeDayBannerProps {
   selectedDate: string;
@@ -27,11 +27,6 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] text-[11px] font-black shadow-sm tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-[#1a0007] fill-[#1a0007]" />
                 <span>辣酷甜 THEME DAY</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-red-950/80 border border-amber-400/40 text-amber-200 text-[10px] font-bold">
-                <Users className="w-3 h-3 text-amber-400" />
-                <span>全體 27 位女孩全員出席盛典</span>
               </span>
 
               <span className="text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full bg-white/10 text-pink-100">

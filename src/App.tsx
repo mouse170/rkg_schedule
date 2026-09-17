@@ -754,64 +754,55 @@ const MainApp: React.FC = () => {
         ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
         : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
 
-      // 辣酷甜特別主題日分組：依專區、東區、西區、特殊區域、未安排站位依序呈現
+      // 辣酷甜特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
       if (isSpicyCoolSweetDate(selectedDate)) {
-        const themeGroups: Record<StationAreaTier, GirlProfile[]> = {
-          ZONE: [],
-          EAST: [],
-          WEST: [],
-          SPECIAL: [],
-          UNASSIGNED: []
-        };
+        const favZoneGirls: GirlProfile[] = [];
+        const courtGirls: GirlProfile[] = [];
+        const otherZoneGirls: GirlProfile[] = [];
 
         onDutyGirls.forEach(girl => {
-          const tier = getGirlStationTier(girl, selectedDate, 'ALL');
-          themeGroups[tier].push(girl);
+          const assign = getZoneAssignment(selectedDate, girl.name);
+          const isZone = Boolean(assign);
+          const isFav = favorites.includes(girl.name);
+
+          if (isZone) {
+            if (isFav) {
+              favZoneGirls.push(girl);
+            } else {
+              otherZoneGirls.push(girl);
+            }
+          } else {
+            courtGirls.push(girl);
+          }
         });
 
-        Object.keys(themeGroups).forEach(k => {
-          sortGirlsInGroup(themeGroups[k as StationAreaTier], selectedDate);
-        });
+        sortGirlsInGroup(favZoneGirls, selectedDate);
+        sortGirlsInGroup(courtGirls, selectedDate);
+        sortGirlsInGroup(otherZoneGirls, selectedDate);
 
         const themeSections: GroupSection[] = [
           {
-            key: `THEME_${selectedDate}_ZONE`,
-            title: `${selectedDate} 看台專區應援女孩 (${themeGroups.ZONE.length} 位)`,
+            key: `THEME_${selectedDate}_FAV_ZONE`,
+            title: `${selectedDate} 有喜歡的女孩專區應援 (${favZoneGirls.length} 位)`,
+            badgeStyle: 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black',
+            girls: favZoneGirls,
+            favCount: favZoneGirls.length,
+            date: selectedDate
+          },
+          {
+            key: `THEME_${selectedDate}_COURT`,
+            title: `${selectedDate} 東區、西區、大樂應援 (${courtGirls.length} 位)`,
+            badgeStyle: 'from-blue-600 via-indigo-600 to-purple-600 text-white shadow-sm font-bold',
+            girls: courtGirls,
+            favCount: countFavs(courtGirls),
+            date: selectedDate
+          },
+          {
+            key: `THEME_${selectedDate}_OTHER_ZONE`,
+            title: `${selectedDate} 其他的專區應援 (${otherZoneGirls.length} 位)`,
             badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
-            girls: themeGroups.ZONE,
-            favCount: countFavs(themeGroups.ZONE),
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_EAST`,
-            title: `${selectedDate} 一壘東區應援 (${themeGroups.EAST.length} 位)`,
-            badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
-            girls: themeGroups.EAST,
-            favCount: countFavs(themeGroups.EAST),
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_WEST`,
-            title: `${selectedDate} 三壘西區應援 (${themeGroups.WEST.length} 位)`,
-            badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
-            girls: themeGroups.WEST,
-            favCount: countFavs(themeGroups.WEST),
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_SPECIAL`,
-            title: `${selectedDate} 特殊區域（大樂區） (${themeGroups.SPECIAL.length} 位)`,
-            badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
-            girls: themeGroups.SPECIAL,
-            favCount: countFavs(themeGroups.SPECIAL),
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_UNASSIGNED`,
-            title: `${selectedDate} 未安排站位人員（待公布） (${themeGroups.UNASSIGNED.length} 位)`,
-            badgeStyle: 'from-rose-900/90 via-pink-900/90 to-[#4d0913] text-pink-100 shadow-sm border border-pink-400/30 font-bold',
-            girls: themeGroups.UNASSIGNED,
-            favCount: countFavs(themeGroups.UNASSIGNED),
+            girls: otherZoneGirls,
+            favCount: 0,
             date: selectedDate
           }
         ];
@@ -960,12 +951,66 @@ const MainApp: React.FC = () => {
 
     const isTheme = selectedDate && isSpicyCoolSweetDate(selectedDate);
 
+    // 辣酷甜特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
+    if (isTheme) {
+      const favZoneGirls: GirlProfile[] = [];
+      const courtGirls: GirlProfile[] = [];
+      const otherZoneGirls: GirlProfile[] = [];
+
+      filteredGirls.forEach(girl => {
+        const assign = getZoneAssignment(selectedDate, girl.name);
+        const isZone = Boolean(assign);
+        const isFav = favorites.includes(girl.name);
+
+        if (isZone) {
+          if (isFav) {
+            favZoneGirls.push(girl);
+          } else {
+            otherZoneGirls.push(girl);
+          }
+        } else {
+          courtGirls.push(girl);
+        }
+      });
+
+      sortGirlsInGroup(favZoneGirls, selectedDate);
+      sortGirlsInGroup(courtGirls, selectedDate);
+      sortGirlsInGroup(otherZoneGirls, selectedDate);
+
+      const themeSections: GroupSection[] = [
+        {
+          key: `THEME_${selectedDate}_FAV_ZONE`,
+          title: `${selectedDate} 有喜歡的女孩專區應援 (${favZoneGirls.length} 位)`,
+          badgeStyle: 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black',
+          girls: favZoneGirls,
+          favCount: favZoneGirls.length,
+          date: selectedDate
+        },
+        {
+          key: `THEME_${selectedDate}_COURT`,
+          title: `${selectedDate} 東區、西區、大樂應援 (${courtGirls.length} 位)`,
+          badgeStyle: 'from-blue-600 via-indigo-600 to-purple-600 text-white shadow-sm font-bold',
+          girls: courtGirls,
+          favCount: countFavs(courtGirls),
+          date: selectedDate
+        },
+        {
+          key: `THEME_${selectedDate}_OTHER_ZONE`,
+          title: `${selectedDate} 其他的專區應援 (${otherZoneGirls.length} 位)`,
+          badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
+          girls: otherZoneGirls,
+          favCount: 0,
+          date: selectedDate
+        }
+      ];
+
+      return themeSections.filter(s => s.girls.length > 0);
+    }
+
     const sectionMeta: GroupSection[] = [
       {
         key: 'ZONE',
-        title: isTheme
-          ? `${selectedDate} 看台專區應援女孩 (${groups.ZONE.length} 位)`
-          : `看台專區應援女孩 (${groups.ZONE.length} 位)`,
+        title: `看台專區應援女孩 (${groups.ZONE.length} 位)`,
         badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
         girls: groups.ZONE,
         favCount: countFavs(groups.ZONE),
@@ -994,7 +1039,7 @@ const MainApp: React.FC = () => {
       {
         key: 'SPECIAL',
         title: selectedDate
-          ? (isTheme ? `${selectedDate} 特殊區域（大樂區） (${groups.SPECIAL.length} 位)` : `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`)
+          ? `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`
           : `${t.groupTitleSpecial} (${groups.SPECIAL.length} 位)`,
         badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
         girls: groups.SPECIAL,
@@ -1003,9 +1048,7 @@ const MainApp: React.FC = () => {
       },
       {
         key: 'UNASSIGNED',
-        title: isTheme
-          ? `${selectedDate} 未安排站位人員（待公布） (${groups.UNASSIGNED.length} 位)`
-          : `${selectedDate ? `${selectedDate} ` : ''}未安排站位／待公布 (${groups.UNASSIGNED.length} 位)`,
+        title: `${selectedDate ? `${selectedDate} ` : ''}未安排站位／待公布 (${groups.UNASSIGNED.length} 位)`,
         badgeStyle: 'from-gray-600 to-gray-700 text-white shadow-sm',
         girls: groups.UNASSIGNED,
         favCount: countFavs(groups.UNASSIGNED),

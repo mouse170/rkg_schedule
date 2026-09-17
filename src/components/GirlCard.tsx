@@ -157,11 +157,7 @@ export const GirlCard: React.FC<GirlCardProps> = ({
                     <Sparkles className="w-2.5 h-2.5 text-[#1a0007] fill-[#1a0007]" />
                     <span>專區應援</span>
                   </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#3d000f] to-[#73001e] border border-amber-400/40 text-amber-200 text-[9px] sm:text-[10px] font-bold shadow-sm whitespace-nowrap">
-                    <span>全員出席</span>
-                  </span>
-                )
+                ) : null
               ) : isTodayDuty ? (
                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson text-white text-[9px] sm:text-[10px] font-black shadow-md ring-1 ring-white/50 animate-pulse whitespace-nowrap">
                   <Flame className="w-2.5 h-2.5 text-amber-300" />
