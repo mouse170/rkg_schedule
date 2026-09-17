@@ -178,6 +178,39 @@ export interface Translations {
   deckEastUpper: string;
   deckWestUpper: string;
 
+  // Share Schedule Modal
+  shareModalTitle: string;
+  shareModalSubtitle: string;
+  shareCardTheme: string;
+  shareThemeLight: string;
+  shareThemeDark: string;
+  shareCopyLink: string;
+  shareCopiedLink: string;
+  shareDownloadCard: string;
+  shareGenerating: string;
+  shareAllSeasonTitle: string;
+  shareThemeDayHighlight: string;
+  shareAllSeasonHighlight: string;
+  shareStadiumName: string;
+  shareZoneSubtitle: string;
+  shareMyFavoritesCount: string;
+  shareLiveSeatComparison: string;
+  shareAllDayZone: string;
+  sharePostMatch: string;
+  sharePeriod13: string;
+  sharePeriod78: string;
+  sharePeriodMid: string;
+  shareFooterTitle: string;
+  shareFooterSubtitle: string;
+  shareLimitWarning: string;
+  shareLimitBtnDisabled: string;
+  shareModeSingle: string;
+  shareModeAll: string;
+  shareToastCopied: string;
+  shareToastDownloadSuccess: string;
+  shareToastGenerating: string;
+  shareToastFailed: string;
+
   // Language Switcher & Footer
   switchLanguage: string;
   vibeCodingNotice: string;
@@ -351,6 +384,38 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deckWestLower: '三壘西下熱區',
     deckEastUpper: '一壘東上視野',
     deckWestUpper: '三壘西上視野',
+    // Share Schedule Modal
+    shareModalTitle: '分享我最愛的女孩班表',
+    shareModalSubtitle: '支援 URL 跨裝置同步與 9:16 IG 限動圖卡',
+    shareCardTheme: '圖卡風格：',
+    shareThemeLight: '亮色甜酷',
+    shareThemeDark: '暗色黑曜',
+    shareCopyLink: '複製分享連結',
+    shareCopiedLink: '已複製連結',
+    shareDownloadCard: '下載 9:16 限動圖卡',
+    shareGenerating: '生成中...',
+    shareAllSeasonTitle: '2026 全猿主場賽季',
+    shareThemeDayHighlight: '辣酷甜主題日 ‧ Highlight',
+    shareAllSeasonHighlight: '全猿主場 ‧ Highlight',
+    shareStadiumName: '樂天桃園棒球場',
+    shareZoneSubtitle: '看台專區貼身應援',
+    shareMyFavoritesCount: '我最愛的女孩 ({count} 位)',
+    shareLiveSeatComparison: '即時席位對照',
+    shareAllDayZone: '全場專區：',
+    sharePostMatch: '賽後',
+    sharePeriod13: '1-3局：',
+    sharePeriod78: '7-8局：',
+    sharePeriodMid: '中場：',
+    shareFooterTitle: '樂天女孩即時看台班表',
+    shareFooterSubtitle: '全猿主場應援席位即時查詢',
+    shareLimitWarning: '⚠️ 超過 9:16 限動圖卡上限：目前已選 {count} 位女孩（{mode}最多支援 {max} 位）。為避免圖片超出限制，圖卡下載功能已暫時關閉，請調整最愛名單。',
+    shareLimitBtnDisabled: '超過人數上限 (最多 {max} 位)',
+    shareModeSingle: '單日',
+    shareModeAll: '全賽季跨日',
+    shareToastCopied: '我最愛的女孩班表連結已複製到剪貼簿！',
+    shareToastDownloadSuccess: '9:16 女孩班表圖卡已下載完成！',
+    shareToastGenerating: '正在生成 9:16 高解析圖卡...',
+    shareToastFailed: '圖卡生成失敗，請稍後再試',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -522,6 +587,38 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deckWestLower: '3塁西下ホットエリア',
     deckEastUpper: '1塁東上ビュースタンド',
     deckWestUpper: '3塁西上ビュースタンド',
+    // Share Schedule Modal
+    shareModalTitle: 'お気に入りメンバーのスケジュールを共有',
+    shareModalSubtitle: 'URL共有＆9:16インスタストーリー画像対応',
+    shareCardTheme: 'カードスタイル：',
+    shareThemeLight: 'ライトスイート',
+    shareThemeDark: 'ダークオブシディアン',
+    shareCopyLink: '共有リンクをコピー',
+    shareCopiedLink: 'コピー完了',
+    shareDownloadCard: '9:16ストーリー画像を保存',
+    shareGenerating: '生成中...',
+    shareAllSeasonTitle: '2026 全猿ホームシーズン',
+    shareThemeDayHighlight: 'スパイシークールスイート ‧ Highlight',
+    shareAllSeasonHighlight: '全猿ホーム ‧ Highlight',
+    shareStadiumName: '楽天桃園野球場',
+    shareZoneSubtitle: '応援特区至近距離応援',
+    shareMyFavoritesCount: 'お気に入りメンバー ({count}名)',
+    shareLiveSeatComparison: 'リアルタイム席対照',
+    shareAllDayZone: '全試合特区：',
+    sharePostMatch: '試合後',
+    sharePeriod13: '1-3回：',
+    sharePeriod78: '7-8回：',
+    sharePeriodMid: 'ハーフタイム：',
+    shareFooterTitle: '楽天ガールズ応援スタンドスケジュール',
+    shareFooterSubtitle: '全猿ホーム応援席リアルタイム検索',
+    shareLimitWarning: '⚠️ 9:16画像の上限超過：現在{count}名を選択中（{mode}上限{max}名）。レイアウト崩れを防ぐため画像保存は無効化されています。',
+    shareLimitBtnDisabled: '人数制限超過 (最大{max}名)',
+    shareModeSingle: '単日',
+    shareModeAll: '全シーズン複数日',
+    shareToastCopied: '共有リンクをクリップボードにコピーしました！',
+    shareToastDownloadSuccess: '9:16ストーリー画像をダウンロードしました！',
+    shareToastGenerating: '9:16高解像度画像を生成中...',
+    shareToastFailed: '画像の生成に失敗しました。もう一度お試しください',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -693,6 +790,38 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deckWestLower: '3루 서하 핫구역',
     deckEastUpper: '1루 동상 시야석',
     deckWestUpper: '3루 서상 시야석',
+    // Share Schedule Modal
+    shareModalTitle: '내가 가장 좋아하는 치어리더 스케줄 공유',
+    shareModalSubtitle: 'URL 공유 및 9:16 인스타 스토리 카드 지원',
+    shareCardTheme: '카드 스타일:',
+    shareThemeLight: '라이트 스위트',
+    shareThemeDark: '다크 옵시디언',
+    shareCopyLink: '공유 링크 복사',
+    shareCopiedLink: '복사 완료',
+    shareDownloadCard: '9:16 스토리 카드 다운로드',
+    shareGenerating: '생성 중...',
+    shareAllSeasonTitle: '2026 라쿠텐 홈 시즌',
+    shareThemeDayHighlight: '핫쿨스윗 테마데이 ‧ Highlight',
+    shareAllSeasonHighlight: '전원 홈 ‧ Highlight',
+    shareStadiumName: '라쿠텐 타오위안 야구장',
+    shareZoneSubtitle: '응원 특구 밀착 응원',
+    shareMyFavoritesCount: '내가 가장 좋아하는 치어리더 ({count}명)',
+    shareLiveSeatComparison: '실시간 좌석 대조',
+    shareAllDayZone: '전경기 특구:',
+    sharePostMatch: '경기후',
+    sharePeriod13: '1-3회:',
+    sharePeriod78: '7-8회:',
+    sharePeriodMid: '하프타임:',
+    shareFooterTitle: '라쿠텐 걸스 실시간 응원단 스케줄',
+    shareFooterSubtitle: '전원 홈 응원석 실시간 조회',
+    shareLimitWarning: '⚠️ 9:16 카드 용량 초과: 현재 {count}명 선택됨 ({mode} 최대 {max}명 지원). 레이아웃 깨짐을 방지하기 위해 다운로드가 비활성화되었습니다.',
+    shareLimitBtnDisabled: '인원 초과 (최대 {max}명)',
+    shareModeSingle: '단일 경기',
+    shareModeAll: '전 시즌 다일 경기',
+    shareToastCopied: '스케줄 링크가 클립보드에 복사되었습니다!',
+    shareToastDownloadSuccess: '9:16 스토리 카드가 다운로드되었습니다!',
+    shareToastGenerating: '9:16 고해상도 카드 생성 중...',
+    shareToastFailed: '카드 생성에 실패했습니다. 잠시 후 다시 시도해주세요',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

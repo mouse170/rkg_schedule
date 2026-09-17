@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
-import { X, Share2, Download, Copy, Check, Sparkles, Heart, Calendar, MapPin, Sun, Moon } from 'lucide-react';
+import React, { useRef, useState, useMemo } from 'react';
+import { X, Share2, Download, Copy, Check, Sparkles, Heart, Calendar, MapPin, Sun, Moon, AlertTriangle } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone } from '../data/spicyCoolSweetData';
-import { getRelativeDateInfo, translateLocation } from '../utils/dateUtils';
+import { getRelativeDateInfo, translateLocation, isPastDate, compareScheduleDates } from '../utils/dateUtils';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ShareScheduleModalProps {
   isOpen: boolean;
@@ -16,6 +17,10 @@ interface ShareScheduleModalProps {
   onShowToast: (message: string) => void;
 }
 
+// 9:16 限動圖卡物理高度防破版上限
+const MAX_GIRLS_SINGLE_DATE = 8;
+const MAX_GIRLS_ALL_DATES = 4;
+
 export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   isOpen,
   onClose,
@@ -26,28 +31,49 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   onShowToast
 }) => {
   const { theme } = useTheme();
+  const { language, t } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [copied, setCopied] = useState(false);
   const [cardTheme, setCardTheme] = useState<'light' | 'dark'>(() => (theme === 'light' ? 'light' : 'dark'));
 
+  // 當期有效賽事（排除已過期歷史賽事）
+  const activeDates = useMemo(() => {
+    return schedule.dates
+      .filter(d => !isPastDate(d))
+      .sort((a, b) => compareScheduleDates(a, b));
+  }, [schedule.dates]);
+
+  // 最愛女孩名單
+  const favGirls = useMemo(() => {
+    return allGirls.filter(g => favorites.includes(g.name));
+  }, [allGirls, favorites]);
+
+  // 人數限制計算：單日模式上限 8 位，跨日全賽季模式上限 4 位
+  const currentMaxLimit = selectedDate ? MAX_GIRLS_SINGLE_DATE : MAX_GIRLS_ALL_DATES;
+  const isOverLimit = favGirls.length > currentMaxLimit;
+
+  // 展示名單：若無收藏則以當日/當期前 4 位女孩做預覽
+  const displayGirls = useMemo(() => {
+    if (favGirls.length > 0) return favGirls;
+    return allGirls
+      .filter(g => {
+        const duties: DailyDuty[] = schedule.girlsScheduleMap[g.name] || [];
+        return selectedDate
+          ? duties.some((d: DailyDuty) => d.date === selectedDate)
+          : duties.length > 0;
+      })
+      .slice(0, 4);
+  }, [favGirls, allGirls, schedule, selectedDate]);
+
   if (!isOpen) return null;
 
-  // 日期與星期計算
-  const dateInfo = selectedDate ? getRelativeDateInfo(selectedDate, 'zh-TW') : null;
-  const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '') : '';
+  // 日期與星期多語系計算
+  const dateInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
+  const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '').replace('曜日', '') : '';
   const formattedDateFull = selectedDate
     ? `${selectedDate} (${weekdayShort})`
-    : '2026 全猿主場賽季';
-
-  // 取得使用者收藏之女孩，若無收藏則展示當日前 4 位出勤女孩作為範例
-  const favGirls = allGirls.filter(g => favorites.includes(g.name));
-  const displayGirls = favGirls.length > 0
-    ? favGirls
-    : allGirls.filter(g => {
-        const duties: DailyDuty[] = schedule.girlsScheduleMap[g.name] || [];
-        return duties.some((d: DailyDuty) => d.date === selectedDate);
-      }).slice(0, 4);
+    : t.shareAllSeasonTitle;
 
   const isTheme = Boolean(selectedDate && isSpicyCoolSweetDate(selectedDate));
 
@@ -62,19 +88,19 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      onShowToast('我最愛的女孩班表連結已複製到剪貼簿！');
+      onShowToast(t.shareToastCopied);
       setTimeout(() => setCopied(false), 2500);
     } catch (err) {
       console.error('Failed to copy', err);
-      onShowToast('複製失敗，請手動複製網址');
+      onShowToast(t.shareToastFailed);
     }
   };
 
   // 下載 9:16 直式 PNG 圖卡
   const handleDownloadImage = async () => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || isOverLimit) return;
     setIsExporting(true);
-    onShowToast('正在生成 9:16 高解析圖卡...');
+    onShowToast(t.shareToastGenerating);
 
     try {
       await document.fonts?.ready;
@@ -85,13 +111,14 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
       });
 
       const link = document.createElement('a');
-      link.download = `rkg_cheer_schedule_${selectedDate ? selectedDate.replace('/', '-') : 'all'}_${cardTheme}.png`;
+      const dateTag = selectedDate ? selectedDate.replace('/', '-') : 'all';
+      link.download = `rkg_cheer_schedule_${dateTag}_${language}_${cardTheme}.png`;
       link.href = dataUrl;
       link.click();
-      onShowToast('9:16 女孩班表圖卡已下載完成！');
+      onShowToast(t.shareToastDownloadSuccess);
     } catch (err) {
       console.error('Failed to generate image', err);
-      onShowToast('圖卡生成失敗，請稍後再試');
+      onShowToast(t.shareToastFailed);
     } finally {
       setIsExporting(false);
     }
@@ -108,10 +135,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-amber-200">
-                分享我最愛的女孩班表
+                {t.shareModalTitle}
               </h2>
               <p className="text-[11px] text-slate-500 dark:text-amber-300/70">
-                支援 URL 跨裝置同步與 9:16 IG 限動圖卡
+                {t.shareModalSubtitle}
               </p>
             </div>
           </div>
@@ -126,7 +153,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
         {/* Style Selector Toolbar */}
         <div className="flex items-center justify-between gap-2 mt-3 pt-1 flex-shrink-0">
           <span className="text-xs font-black text-slate-700 dark:text-amber-200 flex items-center gap-1">
-            <span>圖卡風格：</span>
+            <span>{t.shareCardTheme}</span>
           </span>
           <div className="flex items-center gap-1 bg-rose-50 dark:bg-black/50 p-1 rounded-xl border border-rose-200 dark:border-amber-500/30">
             <button
@@ -138,7 +165,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               }`}
             >
               <Sun className="w-3.5 h-3.5" />
-              <span>亮色甜酷</span>
+              <span>{t.shareThemeLight}</span>
             </button>
             <button
               onClick={() => setCardTheme('dark')}
@@ -149,10 +176,25 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               }`}
             >
               <Moon className="w-3.5 h-3.5" />
-              <span>暗色黑曜</span>
+              <span>{t.shareThemeDark}</span>
             </button>
           </div>
         </div>
+
+        {/* 超額警示提示欄 */}
+        {isOverLimit && (
+          <div className="mt-3 p-3 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2 flex-shrink-0">
+            <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              <p className="font-bold">
+                {t.shareLimitWarning
+                  .replace('{count}', String(favGirls.length))
+                  .replace('{mode}', selectedDate ? t.shareModeSingle : t.shareModeAll)
+                  .replace('{max}', String(currentMaxLimit))}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Action Buttons Toolbar */}
         <div className="grid grid-cols-2 gap-2 my-3 flex-shrink-0">
@@ -161,16 +203,25 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 border border-rose-300 dark:border-amber-400/50 text-rose-800 dark:text-amber-200 text-xs font-bold transition active:scale-95 shadow-xs"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />}
-            <span>{copied ? '已複製連結' : '複製分享連結'}</span>
+            <span>{copied ? t.shareCopiedLink : t.shareCopyLink}</span>
           </button>
 
           <button
             onClick={handleDownloadImage}
-            disabled={isExporting}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] text-xs font-black transition active:scale-95 shadow-md shadow-amber-500/20 disabled:opacity-50"
+            disabled={isExporting || isOverLimit}
+            title={isOverLimit ? t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit)) : ''}
+            className={`flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-black transition active:scale-95 shadow-md ${
+              isOverLimit
+                ? 'bg-neutral-300 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 cursor-not-allowed opacity-75'
+                : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20 disabled:opacity-50'
+            }`}
           >
             <Download className="w-3.5 h-3.5" />
-            <span>{isExporting ? '生成中...' : '下載 9:16 限動圖卡'}</span>
+            <span>
+              {isOverLimit
+                ? t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))
+                : (isExporting ? t.shareGenerating : t.shareDownloadCard)}
+            </span>
           </button>
         </div>
 
@@ -223,7 +274,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#890022] via-[#af1b33] to-[#890022]'
                   : 'text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-100 to-amber-300'
               }`}>
-                {isTheme ? '辣酷甜主題日 ‧ Highlight' : '全猿主場 ‧ Highlight'}
+                {isTheme ? t.shareThemeDayHighlight : t.shareAllSeasonHighlight}
               </h3>
 
               <div className={`flex items-center justify-center gap-2 mt-1 text-[11px] font-bold ${
@@ -231,13 +282,13 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               }`}>
                 <span className="flex items-center gap-1">
                   <MapPin className="w-3 h-3 text-rose-500" />
-                  <span>樂天桃園棒球場</span>
+                  <span>{t.shareStadiumName}</span>
                 </span>
                 {isTheme && (
                   <>
                     <span>•</span>
                     <span className="font-extrabold text-amber-700 dark:text-amber-300">
-                      看台專區貼身應援
+                      {t.shareZoneSubtitle}
                     </span>
                   </>
                 )}
@@ -251,16 +302,16 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   cardTheme === 'light' ? 'text-rose-900' : 'text-amber-300'
                 }`}>
                   <Heart className="w-3 h-3 text-rose-500 fill-rose-500" />
-                  <span>我最愛的女孩 ({displayGirls.length} 位)</span>
+                  <span>{t.shareMyFavoritesCount.replace('{count}', String(displayGirls.length))}</span>
                 </span>
                 <span className={`text-[9px] font-medium ${
                   cardTheme === 'light' ? 'text-slate-500' : 'text-amber-300/60'
                 }`}>
-                  即時席位對照
+                  {t.shareLiveSeatComparison}
                 </span>
               </div>
 
-              {/* Girls Row */}
+              {/* Girls Top Avatars (最多展示前 4 位頭像) */}
               <div className="grid grid-cols-4 gap-1.5 mb-2">
                 {displayGirls.slice(0, 4).map(g => (
                   <div
@@ -292,87 +343,206 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
               {/* Schedule Timeline Table */}
               <div className="space-y-1.5">
-                {displayGirls.map(girl => {
-                  const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
-                  const duty = selectedDate ? duties.find((d: DailyDuty) => d.date === selectedDate) : duties[0];
-                  const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isTheme ? '看台應援' : '休息');
-                  const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isTheme ? '看台換側' : '休息');
-                  const p13 = translateLocation(rawP13, 'zh-TW');
-                  const p78 = translateLocation(rawP78, 'zh-TW');
-                  const zoneAssign = isTheme ? getZoneAssignment(selectedDate, girl.name) : null;
-                  const postZone = isTheme ? getPostMatchZone(selectedDate, girl.name) : null;
+                {selectedDate ? (
+                  // --- 單一日期檢視：女孩單行緊湊呈現 ---
+                  displayGirls.map(girl => {
+                    const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
+                    const duty = duties.find((d: DailyDuty) => d.date === selectedDate);
+                    const isDateTheme = isSpicyCoolSweetDate(selectedDate);
+                    const zoneAssign = isDateTheme ? getZoneAssignment(selectedDate, girl.name) : null;
+                    const postZone = isDateTheme ? getPostMatchZone(selectedDate, girl.name) : null;
+                    const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isDateTheme ? '看台應援' : '休息');
+                    const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isDateTheme ? '看台換側' : '休息');
+                    const p13 = translateLocation(rawP13, language);
+                    const p78 = translateLocation(rawP78, language);
+                    const translatedPostZone = postZone ? translateLocation(postZone, language) : null;
 
-                  return (
-                    <div
-                      key={girl.name}
-                      className={`rounded-xl p-2 border flex items-center justify-between text-[11px] ${
-                        cardTheme === 'light'
-                          ? 'bg-white/95 border-rose-200/90 shadow-xs text-slate-800'
-                          : 'bg-[#2a050e]/80 border-amber-500/20 text-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-1.5 min-w-[70px]">
-                        <span className={`font-black text-[10px] ${
-                          cardTheme === 'light' ? 'text-rose-600' : 'text-amber-400'
-                        }`}>
-                          #{girl.number}
-                        </span>
-                        <span className={`font-extrabold ${
-                          cardTheme === 'light' ? 'text-slate-900' : 'text-white'
-                        }`}>
-                          {girl.name}
-                        </span>
-                      </div>
-
-                      {zoneAssign ? (
-                        <div className="flex items-center gap-1 text-right">
-                          <span className={`px-2 py-0.5 rounded-full font-black text-[10px] border ${
-                            cardTheme === 'light'
-                              ? 'bg-amber-100 text-amber-900 border-amber-300'
-                              : 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+                    return (
+                      <div
+                        key={girl.name}
+                        className={`rounded-xl p-2 border flex items-center justify-between text-[11px] ${
+                          cardTheme === 'light'
+                            ? 'bg-white/95 border-rose-200/90 shadow-xs text-slate-800'
+                            : 'bg-[#2a050e]/80 border-amber-500/20 text-white'
+                        }`}
+                      >
+                        <div className="flex items-center gap-1.5 min-w-[70px]">
+                          <span className={`font-black text-[10px] ${
+                            cardTheme === 'light' ? 'text-rose-600' : 'text-amber-400'
                           }`}>
-                            全場專區：{zoneAssign.zoneCode}
+                            #{girl.number}
                           </span>
-                          {postZone && (
-                            <span className={`px-1.5 py-0.5 rounded font-bold text-[9px] border ${
-                              cardTheme === 'light'
-                                ? 'bg-rose-100 text-rose-800 border-rose-300'
-                                : 'bg-rose-950 text-rose-200 border-rose-500/30'
-                            }`}>
-                              賽後{postZone}
-                            </span>
-                          )}
+                          <span className={`font-extrabold ${
+                            cardTheme === 'light' ? 'text-slate-900' : 'text-white'
+                          }`}>
+                            {girl.name}
+                          </span>
                         </div>
-                      ) : (
-                        <div className="flex items-center gap-1 text-[10px] font-medium">
-                          <span className={`px-1.5 py-0.5 rounded border ${
-                            cardTheme === 'light'
-                              ? 'bg-sky-50 text-sky-800 border-sky-300 font-bold'
-                              : 'bg-sky-950/70 text-sky-200 border-sky-600/30'
-                          }`}>
-                            1-3局：{p13}
-                          </span>
-                          <span className={`px-1.5 py-0.5 rounded border ${
-                            cardTheme === 'light'
-                              ? 'bg-purple-50 text-purple-800 border-purple-300 font-bold'
-                              : 'bg-purple-950/70 text-purple-200 border-purple-600/30'
-                          }`}>
-                            7-8局：{p78}
-                          </span>
-                          {postZone && (
+
+                        {zoneAssign ? (
+                          <div className="flex items-center gap-1 text-right">
+                            <span className={`px-2 py-0.5 rounded-full font-black text-[10px] border ${
+                              cardTheme === 'light'
+                                ? 'bg-amber-100 text-amber-900 border-amber-300'
+                                : 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+                            }`}>
+                              {t.shareAllDayZone}{zoneAssign.zoneCode}
+                            </span>
+                            {translatedPostZone && (
+                              <span className={`px-1.5 py-0.5 rounded font-bold text-[9px] border ${
+                                cardTheme === 'light'
+                                  ? 'bg-rose-100 text-rose-800 border-rose-300'
+                                  : 'bg-rose-950 text-rose-200 border-rose-500/30'
+                              }`}>
+                                {t.sharePostMatch}{translatedPostZone}
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1 text-[10px] font-medium">
                             <span className={`px-1.5 py-0.5 rounded border ${
                               cardTheme === 'light'
-                                ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold'
-                                : 'bg-rose-950/70 text-rose-200 border-rose-600/30'
+                                ? 'bg-sky-50 text-sky-800 border-sky-300 font-bold'
+                                : 'bg-sky-950/70 text-sky-200 border-sky-600/30'
                             }`}>
-                              賽後{postZone}
+                              {t.sharePeriod13}{p13}
+                            </span>
+                            <span className={`px-1.5 py-0.5 rounded border ${
+                              cardTheme === 'light'
+                                ? 'bg-purple-50 text-purple-800 border-purple-300 font-bold'
+                                : 'bg-purple-950/70 text-purple-200 border-purple-600/30'
+                            }`}>
+                              {t.sharePeriod78}{p78}
+                            </span>
+                            {translatedPostZone && (
+                              <span className={`px-1.5 py-0.5 rounded border ${
+                                cardTheme === 'light'
+                                  ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold'
+                                  : 'bg-rose-950/70 text-rose-200 border-rose-600/30'
+                              }`}>
+                                {t.sharePostMatch}{translatedPostZone}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // --- 全部日期檢視：每位女孩依照日期完整呈現兩天各別站位 ---
+                  displayGirls.map(girl => {
+                    const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
+
+                    return (
+                      <div
+                        key={girl.name}
+                        className={`rounded-xl p-2 border flex flex-col gap-1.5 text-[11px] ${
+                          cardTheme === 'light'
+                            ? 'bg-white/95 border-rose-200/90 shadow-xs text-slate-800'
+                            : 'bg-[#2a050e]/80 border-amber-500/20 text-white'
+                        }`}
+                      >
+                        {/* 女孩背號與姓名 */}
+                        <div className="flex items-center justify-between border-b border-dashed border-rose-200/60 dark:border-amber-500/20 pb-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className={`font-black text-[10px] ${
+                              cardTheme === 'light' ? 'text-rose-600' : 'text-amber-400'
+                            }`}>
+                              #{girl.number}
+                            </span>
+                            <span className={`font-extrabold ${
+                              cardTheme === 'light' ? 'text-slate-900' : 'text-white'
+                            }`}>
+                              {girl.name}
+                            </span>
+                          </div>
+                          {girl.instagramHandle && (
+                            <span className="text-[9px] font-mono text-slate-400 dark:text-amber-400/50">
+                              @{girl.instagramHandle}
                             </span>
                           )}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
+
+                        {/* 兩天各別站位列 */}
+                        <div className="space-y-1">
+                          {activeDates.map(date => {
+                            const duty = duties.find((d: DailyDuty) => d.date === date);
+                            const dateInfoItem = getRelativeDateInfo(date, language);
+                            const wShort = dateInfoItem?.weekdayName ? dateInfoItem.weekdayName.replace('週', '').replace('曜日', '') : '';
+                            const dateLabel = `${date} (${wShort})`;
+                            const isDateTheme = isSpicyCoolSweetDate(date);
+                            const zoneAssign = isDateTheme ? getZoneAssignment(date, girl.name) : null;
+                            const postZone = isDateTheme ? getPostMatchZone(date, girl.name) : null;
+                            const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isDateTheme ? '看台應援' : '休息');
+                            const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isDateTheme ? '看台換側' : '休息');
+                            const p13 = translateLocation(rawP13, language);
+                            const p78 = translateLocation(rawP78, language);
+                            const translatedPostZone = postZone ? translateLocation(postZone, language) : null;
+
+                            return (
+                              <div key={date} className="flex items-center justify-between text-[10px] gap-1">
+                                <span className={`px-1.5 py-0.5 rounded font-black text-[9px] flex-shrink-0 ${
+                                  cardTheme === 'light'
+                                    ? 'bg-rose-100 text-rose-800'
+                                    : 'bg-amber-500/20 text-amber-300'
+                                }`}>
+                                  {dateLabel}
+                                </span>
+
+                                {zoneAssign ? (
+                                  <div className="flex items-center gap-1 text-right flex-wrap justify-end">
+                                    <span className={`px-1.5 py-0.5 rounded-full font-black text-[9px] border ${
+                                      cardTheme === 'light'
+                                        ? 'bg-amber-100 text-amber-900 border-amber-300'
+                                        : 'bg-amber-500/20 text-amber-300 border-amber-400/40'
+                                    }`}>
+                                      {t.shareAllDayZone}{zoneAssign.zoneCode}
+                                    </span>
+                                    {translatedPostZone && (
+                                      <span className={`px-1.5 py-0.5 rounded font-bold text-[9px] border ${
+                                        cardTheme === 'light'
+                                          ? 'bg-rose-100 text-rose-800 border-rose-300'
+                                          : 'bg-rose-950 text-rose-200 border-rose-500/30'
+                                      }`}>
+                                        {t.sharePostMatch}{translatedPostZone}
+                                      </span>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-1 text-[9px] font-medium flex-wrap justify-end">
+                                    <span className={`px-1 py-0.5 rounded border ${
+                                      cardTheme === 'light'
+                                        ? 'bg-sky-50 text-sky-800 border-sky-300 font-bold'
+                                        : 'bg-sky-950/70 text-sky-200 border-sky-600/30'
+                                    }`}>
+                                      {t.sharePeriod13}{p13}
+                                    </span>
+                                    <span className={`px-1 py-0.5 rounded border ${
+                                      cardTheme === 'light'
+                                        ? 'bg-purple-50 text-purple-800 border-purple-300 font-bold'
+                                        : 'bg-purple-950/70 text-purple-200 border-purple-600/30'
+                                    }`}>
+                                      {t.sharePeriod78}{p78}
+                                    </span>
+                                    {translatedPostZone && (
+                                      <span className={`px-1 py-0.5 rounded border ${
+                                        cardTheme === 'light'
+                                          ? 'bg-rose-100 text-rose-800 border-rose-300 font-bold'
+                                          : 'bg-rose-950 text-rose-200 border-rose-600/30'
+                                      }`}>
+                                        {t.sharePostMatch}{translatedPostZone}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
               </div>
             </div>
 
@@ -384,14 +554,32 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             }`}>
               <div className="flex flex-col">
                 <span className={`font-black ${cardTheme === 'light' ? 'text-rose-900' : 'text-amber-200'}`}>
-                  樂天女孩即時看台班表
+                  {t.shareFooterTitle}
                 </span>
-                <span className="text-[9px]">全猿主場應援席位即時查詢</span>
+                <span className="text-[9px]">{t.shareFooterSubtitle}</span>
               </div>
               <span className={`text-[9px] font-mono ${cardTheme === 'light' ? 'text-slate-400' : 'text-amber-400/50'}`}>
                 mouse170.github.io/rkg_schedule
               </span>
             </div>
+
+            {/* 若人數超額，於卡片上方提供防破版警示覆蓋層 */}
+            {isOverLimit && (
+              <div className="absolute inset-0 z-20 bg-black/65 backdrop-blur-[2px] rounded-2xl flex flex-col items-center justify-center p-4 text-center">
+                <div className="w-10 h-10 rounded-full bg-amber-500/20 border border-amber-400 flex items-center justify-center text-amber-400 mb-2">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <p className="text-xs font-black text-amber-300 mb-1">
+                  {t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))}
+                </p>
+                <p className="text-[11px] text-amber-100/90 max-w-[260px] leading-relaxed">
+                  {t.shareLimitWarning
+                    .replace('{count}', String(favGirls.length))
+                    .replace('{mode}', selectedDate ? t.shareModeSingle : t.shareModeAll)
+                    .replace('{max}', String(currentMaxLimit))}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
