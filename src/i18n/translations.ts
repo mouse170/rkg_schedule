@@ -164,6 +164,8 @@ export interface Translations {
   // Matrix View
   matrixViewTitle: string;
   matrixAllSeason: string;
+  matrixAllSeasonTitle: string;
+  matrixAllSeasonDesc: string;
   matrixCornerHeader: string;
   matrixFavTop: string;
   matrixSubTitle: string;
@@ -171,6 +173,10 @@ export interface Translations {
   matrixUnassignedNotice: string;
   matrixAllAssignedNotice: string;
   matrixScrollTip: string;
+  deckEastLower: string;
+  deckWestLower: string;
+  deckEastUpper: string;
+  deckWestUpper: string;
 
   // Language Switcher & Footer
   switchLanguage: string;
@@ -332,6 +338,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     matrixViewTitle: '看台輪替矩陣視圖',
     matrixAllSeason: '全賽季總覽',
+    matrixAllSeasonTitle: '全賽季看台輪替矩陣總覽',
+    matrixAllSeasonDesc: '依 日期 / 局數 / 區域 / 看台專區 分層速查 • 點擊女孩即刻開啟詳細抽屜',
     matrixCornerHeader: '看台區域 / 局數',
     matrixFavTop: '最愛優先置頂',
     matrixSubTitle: '全猿主場各時段站位二維速查 • 點擊女孩頭像即刻開啟詳細抽屜',
@@ -339,6 +347,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixUnassignedNotice: '未安排站位名單（共 {count} 位）：',
     matrixAllAssignedNotice: '當日出勤女孩均已排定站位',
     matrixScrollTip: '左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜',
+    deckEastLower: '一壘東下熱區',
+    deckWestLower: '三壘西下熱區',
+    deckEastUpper: '一壘東上視野',
+    deckWestUpper: '三壘西上視野',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -497,6 +509,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     matrixViewTitle: 'スタンド交代マトリックス',
     matrixAllSeason: 'シーズン全体',
+    matrixAllSeasonTitle: 'シーズン全日程スタンド交代マトリックス',
+    matrixAllSeasonDesc: '日付／イニング／エリア／特別区で階層表示 • タップで詳細表示',
     matrixCornerHeader: 'スタンド席／イニング',
     matrixFavTop: 'お気に入り優先',
     matrixSubTitle: '各回の立ち位置をマトリックスで即座に確認 • タップで詳細表示',
@@ -504,6 +518,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixUnassignedNotice: '立ち位置未定メンバー（計 {count} 名）：',
     matrixAllAssignedNotice: '本日出勤のメンバーはすべて配置完了',
     matrixScrollTip: '横スクロールで各回を確認 • タップで詳細表示',
+    deckEastLower: '1塁東下ホットエリア',
+    deckWestLower: '3塁西下ホットエリア',
+    deckEastUpper: '1塁東上ビュースタンド',
+    deckWestUpper: '3塁西上ビュースタンド',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -662,6 +680,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     matrixViewTitle: '스탠드 로테이션 매트릭스',
     matrixAllSeason: '전체 시즌 보기',
+    matrixAllSeasonTitle: '전체 시즌 스탠드 로테이션 매트릭스',
+    matrixAllSeasonDesc: '날짜 / 이닝 / 구역 / 전용석 단계별 확인 • 프로필 클릭 시 상세 정보',
     matrixCornerHeader: '스탠드 구역 / 이닝',
     matrixFavTop: '최애 우선 정렬',
     matrixSubTitle: '이닝별 응원 위치 매트릭스 빠른 확인 • 프로필 클릭 시 상세 정보',
@@ -669,6 +689,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixUnassignedNotice: '위치 미정 명단 (총 {count}명): ',
     matrixAllAssignedNotice: '당일 출근 걸스 위치 배치 완료',
     matrixScrollTip: '좌우로 스크롤하여 이닝별 위치 확인 • 클릭 시 상세 정보',
+    deckEastLower: '1루 동하 핫구역',
+    deckWestLower: '3루 서하 핫구역',
+    deckEastUpper: '1루 동상 시야석',
+    deckWestUpper: '3루 서상 시야석',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

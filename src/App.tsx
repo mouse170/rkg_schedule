@@ -1240,6 +1240,7 @@ const MainApp: React.FC = () => {
                   favorites={favorites}
                   onSelectGirl={setSelectedGirl}
                   onToggleFavorite={(name) => toggleFavorite(null, name)}
+                  onSelectDate={setSelectedDate}
                   areaFilter={areaFilter}
                   searchQuery={searchQuery}
                 />
