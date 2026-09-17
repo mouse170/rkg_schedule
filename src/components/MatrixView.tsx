@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import { Heart, Compass, Calendar, CheckCircle2, AlertTriangle } from 'lucide-react';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
-import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone } from '../data/spicyCoolSweetData';
+import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone, SPICY_COOL_SWEET_THEME } from '../data/spicyCoolSweetData';
 import { getRelativeDateInfo } from '../utils/dateUtils';
+import { useLanguage } from '../context/LanguageContext';
+import { AreaFilterType } from './FilterBar';
 
 interface MatrixViewProps {
   selectedDate: string;
@@ -11,6 +13,8 @@ interface MatrixViewProps {
   favorites: string[];
   onSelectGirl: (girl: GirlProfile) => void;
   onToggleFavorite?: (name: string) => void;
+  areaFilter?: AreaFilterType;
+  searchQuery?: string;
 }
 
 interface AreaRowDef {
@@ -33,36 +37,41 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
   allGirls,
   schedule,
   favorites,
-  onSelectGirl
+  onSelectGirl,
+  areaFilter = 'ALL',
+  searchQuery = ''
 }) => {
-  const isTheme = Boolean(selectedDate && isSpicyCoolSweetDate(selectedDate));
+  const { language, t } = useLanguage();
+
+  const hasThemeDates = schedule.dates.some(d => isSpicyCoolSweetDate(d)) || SPICY_COOL_SWEET_THEME.scheduleDates.length > 0;
+  const isTheme = selectedDate ? isSpicyCoolSweetDate(selectedDate) : hasThemeDates;
 
   // 日期與星期計算
-  const dateInfo = selectedDate ? getRelativeDateInfo(selectedDate, 'zh-TW') : null;
-  const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '') : '';
+  const dateInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
+  const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '').replace('曜日', '') : '';
   const formattedDateText = selectedDate
     ? `${selectedDate} (${weekdayShort})`
-    : '全賽季總覽';
+    : t.matrixAllSeason;
 
   // 定義看台橫列（縱軸）
-  const areaRows: AreaRowDef[] = [
+  const allAreaRows: AreaRowDef[] = [
     {
       key: 'EAST',
-      title: '一壘東區',
+      title: t.areaEast,
       subTitle: '內野 1B 應援區',
       badgeStyle: 'bg-blue-100/80 dark:bg-gradient-to-r dark:from-blue-600/30 dark:to-indigo-600/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-500/40',
       matchFn: (loc, isZone) => !isZone && loc.includes('東') && !loc.includes('東R')
     },
     {
       key: 'WEST',
-      title: '三壘西區',
+      title: t.areaWest,
       subTitle: '內野 3B 應援區',
       badgeStyle: 'bg-emerald-100/80 dark:bg-gradient-to-r dark:from-emerald-600/30 dark:to-teal-600/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-500/40',
       matchFn: (loc, isZone) => !isZone && loc.includes('西') && !loc.includes('西R')
     },
     {
       key: 'DALE',
-      title: '大樂區',
+      title: t.zoneDaLe + '區',
       subTitle: '特殊外野熱舞台',
       badgeStyle: 'bg-purple-100/80 dark:bg-gradient-to-r dark:from-purple-600/30 dark:to-pink-600/30 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-500/40',
       matchFn: (loc, isZone) => !isZone && (loc.includes('大樂') || loc.includes('東R') || loc.includes('西R'))
@@ -76,8 +85,8 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     }
   ];
 
-  // 定義時段縱直行（橫軸）
-  const periodCols: PeriodColDef[] = isTheme
+  // 定義時段縱直行（橫軸）：主題日無中場表演，改為賽後表演
+  const allPeriodCols: PeriodColDef[] = isTheme
     ? [
         {
           key: 'P13',
@@ -93,7 +102,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
         },
         {
           key: 'POST',
-          title: '賽後表演',
+          title: t.filterPeriodPost,
           subTitle: '主題日勝利煙火',
           badgeStyle: 'text-amber-800 dark:text-amber-300 border-amber-400 dark:border-amber-500/30 bg-amber-100/90 dark:bg-amber-950/40 font-black'
         }
@@ -118,6 +127,40 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           badgeStyle: 'text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/40'
         }
       ];
+
+  // 根據 areaFilter 篩選當前應呈現的列與行
+  const periodCols = useMemo(() => {
+    if (areaFilter === 'PERIOD_POST') {
+      return allPeriodCols.filter(col => col.key === 'POST');
+    }
+    if (areaFilter === 'PERIOD_13') {
+      return allPeriodCols.filter(col => col.key === 'P13');
+    }
+    if (areaFilter === 'PERIOD_78') {
+      return allPeriodCols.filter(col => col.key === 'P78');
+    }
+    if (areaFilter === 'PERIOD_MID') {
+      return allPeriodCols.filter(col => col.key === 'PMID');
+    }
+    return allPeriodCols;
+  }, [areaFilter, allPeriodCols]);
+
+  const areaRows = useMemo(() => {
+    // 賽後表演只有東區與西區舞台，排除大樂與看台專區
+    if (areaFilter === 'PERIOD_POST') {
+      return allAreaRows.filter(row => row.key === 'EAST' || row.key === 'WEST');
+    }
+    if (areaFilter === 'SEAT_EAST') {
+      return allAreaRows.filter(row => row.key === 'EAST');
+    }
+    if (areaFilter === 'SEAT_WEST') {
+      return allAreaRows.filter(row => row.key === 'WEST');
+    }
+    if (areaFilter === 'SEAT_DALE') {
+      return allAreaRows.filter(row => row.key === 'DALE');
+    }
+    return allAreaRows;
+  }, [areaFilter, allAreaRows]);
 
   // 取得某女孩在特定時段所在之位置字串
   const getGirlLocationInPeriod = (girl: GirlProfile, periodKey: string): string => {
@@ -148,14 +191,29 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     return '';
   };
 
-  // 查詢符合特定 [區域 × 時段] 之女孩陣列（嚴格排除待公布、未安排與休息者）
+  // 查詢符合特定 [區域 × 時段] 之女孩陣列（排除待公布、未安排與休息者）
   const getCellGirls = (row: AreaRowDef, col: PeriodColDef): GirlProfile[] => {
     return allGirls.filter(girl => {
+      // 搜尋條件過濾
+      if (searchQuery && searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        const matchName = girl.name.toLowerCase().includes(q);
+        const matchNum = girl.number.includes(q);
+        if (!matchName && !matchNum) return false;
+      }
+
+      // 最愛篩選
+      if (areaFilter === 'FAVORITES' && !favorites.includes(girl.name)) {
+        return false;
+      }
+
       const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
       const hasDuty = selectedDate ? duties.some((d: DailyDuty) => d.date === selectedDate) : duties.length > 0;
       if (!hasDuty) return false;
 
-      const isZone = Boolean(selectedDate && getZoneAssignment(selectedDate, girl.name));
+      const isZone = selectedDate
+        ? Boolean(getZoneAssignment(selectedDate, girl.name))
+        : duties.some(d => getZoneAssignment(d.date, girl.name));
 
       // 若為主題日的專區列
       if (isTheme && row.key === 'ZONE') {
@@ -163,9 +221,24 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
         return isZone;
       }
 
-      // 賽後表演時段特殊判定
+      // 賽後表演時段特殊判定：主題日僅分東區與西區
       if (col.key === 'POST') {
-        const postZone = selectedDate ? getPostMatchZone(selectedDate, girl.name) : null;
+        if (row.key !== 'EAST' && row.key !== 'WEST') return false;
+
+        let postZone: '東區' | '西區' | undefined;
+        if (selectedDate) {
+          postZone = getPostMatchZone(selectedDate, girl.name);
+        } else {
+          // 全賽季總覽：尋找女孩在主題日中的賽後表演位置
+          for (const d of duties) {
+            const pz = getPostMatchZone(d.date, girl.name);
+            if (pz) {
+              postZone = pz;
+              break;
+            }
+          }
+        }
+
         if (!postZone) return false;
         if (row.key === 'EAST') return postZone.includes('東');
         if (row.key === 'WEST') return postZone.includes('西');
@@ -186,26 +259,40 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     });
   };
 
-  // 計算當日尚未安排站位（待公布／未安排）之女孩名單
+  // 計算當日或全賽季尚未安排站位（待公布／未安排）之女孩名單
   const unassignedGirls = useMemo(() => {
-    if (!selectedDate) return [];
+    const targetDates = selectedDate
+      ? [selectedDate]
+      : (schedule.dates.length > 0 ? schedule.dates : SPICY_COOL_SWEET_THEME.scheduleDates);
+
     return allGirls.filter(girl => {
+      if (searchQuery && searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        const matchName = girl.name.toLowerCase().includes(q);
+        const matchNum = girl.number.includes(q);
+        if (!matchName && !matchNum) return false;
+      }
+
+      if (areaFilter === 'FAVORITES' && !favorites.includes(girl.name)) {
+        return false;
+      }
+
       const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
-      const duty = duties.find((d: DailyDuty) => d.date === selectedDate);
-      if (!duty) return false;
+      const relevantDuties = duties.filter(d => targetDates.includes(d.date));
+      if (relevantDuties.length === 0) return false;
 
-      // 若為主題日且有個人專區，視為已有站位安排
-      if (isTheme && getZoneAssignment(selectedDate, girl.name)) return false;
+      return relevantDuties.some(duty => {
+        // 主題日若有個人專區，視為已有站位
+        if (isSpicyCoolSweetDate(duty.date) && getZoneAssignment(duty.date, girl.name)) return false;
 
-      // 檢查局數中是否有確定排定之站位（排除待公布、未安排、休息）
-      const hasValidStation = duty.innings.some(inn => {
-        const loc = (inn.location || '').trim();
-        return loc.length > 0 && !loc.includes('待公布') && !loc.includes('未安排') && loc !== '休息';
+        const hasValidStation = duty.innings.some(inn => {
+          const loc = (inn.location || '').trim();
+          return loc.length > 0 && !loc.includes('待公布') && !loc.includes('未安排') && loc !== '休息';
+        });
+        return !hasValidStation;
       });
-
-      return !hasValidStation;
     });
-  }, [allGirls, schedule, selectedDate, isTheme]);
+  }, [allGirls, schedule, selectedDate, searchQuery, areaFilter, favorites]);
 
   return (
     <div className="w-full bg-white dark:bg-[#180206] rounded-2xl border border-rose-200/80 dark:border-amber-500/30 shadow-xl dark:shadow-2xl p-3 sm:p-4 mb-4 overflow-hidden transition-colors">
@@ -218,7 +305,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-sm sm:text-base font-black text-slate-900 dark:text-amber-100 tracking-tight">
-                看台輪替矩陣視圖
+                {t.matrixViewTitle}
               </h2>
               {/* 明顯日期與星期膠囊標籤 */}
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 text-white font-black text-xs sm:text-sm shadow-md shadow-rose-500/20 ring-1 ring-rose-400/40">
@@ -227,19 +314,19 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
               </div>
               {isTheme && (
                 <span className="text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-400/50">
-                  辣酷甜主題日
+                  {t.matrixThemeBadge}
                 </span>
               )}
             </div>
             <p className="text-[11px] text-slate-500 dark:text-amber-300/70 mt-0.5">
-              全猿主場各時段站位二維速查 • 點擊女孩頭像即刻開啟詳細抽屜
+              {t.matrixSubTitle}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5 text-xs text-rose-700 dark:text-amber-300/80 bg-rose-50 dark:bg-[#120104] px-3 py-1 rounded-xl border border-rose-200 dark:border-amber-500/20 font-bold">
           <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
-          <span>最愛優先置頂</span>
+          <span>{t.matrixFavTop}</span>
         </div>
       </div>
 
@@ -251,7 +338,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
             <tr className="border-b border-rose-200 dark:border-amber-500/30 bg-rose-50/70 dark:bg-[#1e0209]">
               {/* Sticky Top-Left Corner Cell */}
               <th className="sticky left-0 z-20 w-28 sm:w-36 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#24040b] backdrop-blur-md border-r border-rose-200 dark:border-amber-500/30 text-[11px] sm:text-xs font-black text-rose-900 dark:text-amber-300 uppercase tracking-wider">
-                看台區域 / 局數
+                {t.matrixCornerHeader}
               </th>
               {periodCols.map(col => (
                 <th
@@ -309,7 +396,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
                         <div className="grid grid-cols-2 gap-1.5">
                           {girls.map(girl => {
                             const isFav = favorites.includes(girl.name);
-                            const zoneAssign = isTheme ? getZoneAssignment(selectedDate, girl.name) : null;
+                            const zoneAssign = isTheme ? getZoneAssignment(selectedDate || '', girl.name) : null;
 
                             return (
                               <button
@@ -374,7 +461,7 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
             <div className="flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-500/30 text-amber-900 dark:text-amber-200">
               <span className="font-extrabold flex items-center gap-1">
                 <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                <span>未安排站位名單（共 {unassignedGirls.length} 位）：</span>
+                <span>{t.matrixUnassignedNotice.replace('{count}', String(unassignedGirls.length))}</span>
               </span>
               <div className="flex flex-wrap items-center gap-1.5">
                 {unassignedGirls.map(g => (
@@ -392,13 +479,13 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
           ) : (
             <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300/60 dark:border-emerald-500/30">
               <CheckCircle2 className="w-4 h-4" />
-              <span>✓ 當日出勤女孩均已排定站位</span>
+              <span>{t.matrixAllAssignedNotice}</span>
             </div>
           )}
         </div>
 
         <p className="text-[11px] text-slate-500 dark:text-amber-300/60">
-          左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜
+          {t.matrixScrollTip}
         </p>
       </div>
     </div>

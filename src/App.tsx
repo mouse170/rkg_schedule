@@ -1240,6 +1240,8 @@ const MainApp: React.FC = () => {
                   favorites={favorites}
                   onSelectGirl={setSelectedGirl}
                   onToggleFavorite={(name) => toggleFavorite(null, name)}
+                  areaFilter={areaFilter}
+                  searchQuery={searchQuery}
                 />
               ) : groupedSections.length > 0 ? (
                 <div className="space-y-8">

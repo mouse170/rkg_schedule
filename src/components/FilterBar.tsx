@@ -51,7 +51,10 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   const { language, t } = useLanguage();
 
   const isSeatMode = areaFilter.startsWith('SEAT_');
-  const isThemeDate = Boolean(selectedDate && isSpicyCoolSweetDate(selectedDate));
+  const hasThemeSchedule = dates.some(d => isSpicyCoolSweetDate(d));
+  const hasRegularSchedule = dates.some(d => !isSpicyCoolSweetDate(d));
+  const isThemeDate = selectedDate ? isSpicyCoolSweetDate(selectedDate) : hasThemeSchedule;
+  const isRegularDate = selectedDate ? !isSpicyCoolSweetDate(selectedDate) : hasRegularSchedule;
 
   // 切換至局數模式
   const handleSwitchToInningMode = () => {
@@ -250,7 +253,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             </button>
 
             {/* 中場表演（主題日無中場表演） */}
-            {!isThemeDate && (
+            {isRegularDate && (
               <button
                 onClick={() => onAreaFilterChange(areaFilter === 'PERIOD_MID' ? 'ALL' : 'PERIOD_MID')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
@@ -284,7 +287,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap flex-shrink-0 flex items-center gap-1 ${
                   areaFilter === 'PERIOD_POST'
                     ? 'bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 text-white shadow-md ring-1 ring-amber-400/50 font-black'
-                    : 'bg-rose-950/60 dark:bg-rose-950/40 text-pink-200 hover:bg-rose-900/60 border border-amber-500/40'
+                    : 'bg-rose-50/80 dark:bg-rose-950/40 text-rose-800 dark:text-pink-200 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200/80 dark:border-amber-500/40'
                 }`}
               >
                 <Sparkles className="w-3 h-3 text-amber-300 flex-shrink-0" />

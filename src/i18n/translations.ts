@@ -161,6 +161,17 @@ export interface Translations {
   pairedStageBadge: string;
   pairedPartnerHint: string;
 
+  // Matrix View
+  matrixViewTitle: string;
+  matrixAllSeason: string;
+  matrixCornerHeader: string;
+  matrixFavTop: string;
+  matrixSubTitle: string;
+  matrixThemeBadge: string;
+  matrixUnassignedNotice: string;
+  matrixAllAssignedNotice: string;
+  matrixScrollTip: string;
+
   // Language Switcher & Footer
   switchLanguage: string;
   vibeCodingNotice: string;
@@ -274,7 +285,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDuty: '上班',
     offDuty: '休假',
     onDutyToday: '今日上班',
-    locationTBD: '站位待公布',
+    locationTBD: '待公布',
     viewSchedule: '查看完整班表 →',
     todayScheduleBannerTitle: '今日全猿主場 • 樂天女孩即時應援班表',
     todayScheduleBannerBadge: '今日有比賽 • 即時應援進行中',
@@ -318,6 +329,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     pairedStageBadge: '✨ {location} 同台配對',
     pairedPartnerHint: '與最愛 {partner} 同時段應援',
+
+    matrixViewTitle: '看台輪替矩陣視圖',
+    matrixAllSeason: '全賽季總覽',
+    matrixCornerHeader: '看台區域 / 局數',
+    matrixFavTop: '最愛優先置頂',
+    matrixSubTitle: '全猿主場各時段站位二維速查 • 點擊女孩頭像即刻開啟詳細抽屜',
+    matrixThemeBadge: '辣酷甜主題日',
+    matrixUnassignedNotice: '未安排站位名單（共 {count} 位）：',
+    matrixAllAssignedNotice: '當日出勤女孩均已排定站位',
+    matrixScrollTip: '左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -429,7 +450,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDuty: '出勤',
     offDuty: '休日',
     onDutyToday: '本日出勤',
-    locationTBD: '立ち位置確認中',
+    locationTBD: '未発表',
     viewSchedule: '詳細スケジュールを見る →',
     todayScheduleBannerTitle: '本日のホームゲーム • 楽天ガールズリアルタイム応援シフト',
     todayScheduleBannerBadge: '本日試合あり • リアルタイム応援中',
@@ -473,6 +494,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     pairedStageBadge: '✨ {location} 同時出演ペア',
     pairedPartnerHint: 'お気に入り {partner} と同じ回に応援',
+
+    matrixViewTitle: 'スタンド交代マトリックス',
+    matrixAllSeason: 'シーズン全体',
+    matrixCornerHeader: 'スタンド席／イニング',
+    matrixFavTop: 'お気に入り優先',
+    matrixSubTitle: '各回の立ち位置をマトリックスで即座に確認 • タップで詳細表示',
+    matrixThemeBadge: 'スパイシークールスイート',
+    matrixUnassignedNotice: '立ち位置未定メンバー（計 {count} 名）：',
+    matrixAllAssignedNotice: '本日出勤のメンバーはすべて配置完了',
+    matrixScrollTip: '横スクロールで各回を確認 • タップで詳細表示',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -584,7 +615,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDuty: '출근',
     offDuty: '휴무',
     onDutyToday: '오늘 출근',
-    locationTBD: '위치 공지 예정',
+    locationTBD: '미발표',
     viewSchedule: '상세 일정 보기 →',
     todayScheduleBannerTitle: '오늘의 홈경기 • 라쿠텐 걸스 실시간 응원 일정',
     todayScheduleBannerBadge: '오늘 경기 진행 • 실시간 응원 중',
@@ -628,6 +659,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     pairedStageBadge: '✨ {location} 동시간 무대 매칭',
     pairedPartnerHint: '최애 {partner}와 같은 시간대 응원',
+
+    matrixViewTitle: '스탠드 로테이션 매트릭스',
+    matrixAllSeason: '전체 시즌 보기',
+    matrixCornerHeader: '스탠드 구역 / 이닝',
+    matrixFavTop: '최애 우선 정렬',
+    matrixSubTitle: '이닝별 응원 위치 매트릭스 빠른 확인 • 프로필 클릭 시 상세 정보',
+    matrixThemeBadge: '스파이시 쿨 스위트 테마데이',
+    matrixUnassignedNotice: '위치 미정 명단 (총 {count}명): ',
+    matrixAllAssignedNotice: '당일 출근 걸스 위치 배치 완료',
+    matrixScrollTip: '좌우로 스크롤하여 이닝별 위치 확인 • 클릭 시 상세 정보',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

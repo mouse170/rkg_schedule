@@ -181,6 +181,33 @@ export function translateLocation(rawLocation: string, lang: Language): string {
   if (!rawLocation) return '';
   const trimmed = rawLocation.trim();
 
+  // 若站位為待公布（例如「待公布（東／西／大樂）」），依使用者規範簡化為「待公布」
+  if (trimmed.includes('待公布') || trimmed.includes('待公佈')) {
+    if (lang === 'ja') return '未発表';
+    if (lang === 'ko') return '미발표';
+    return '待公布';
+  }
+
+  if (trimmed.includes('未安排')) {
+    if (lang === 'ja') return '未定';
+    if (lang === 'ko') return '미배정';
+    return '未安排';
+  }
+
+  if (trimmed === '休息' || trimmed === '休') {
+    if (lang === 'ja') return '休み';
+    if (lang === 'ko') return '휴무';
+    return '休息';
+  }
+
+  if (trimmed.includes('賽後')) {
+    const isEast = trimmed.includes('東');
+    const isWest = trimmed.includes('西');
+    if (lang === 'ja') return isEast ? '試合後(東)' : isWest ? '試合後(西)' : '試合後';
+    if (lang === 'ko') return isEast ? '경기후(동)' : isWest ? '경기후(서)' : '경기후';
+    return isEast ? '賽後東區' : isWest ? '賽後西區' : '賽後表演';
+  }
+
   if (lang === 'ja') {
     if (trimmed === '東') return '東';
     if (trimmed === '西') return '西';
@@ -201,7 +228,7 @@ export function translateLocation(rawLocation: string, lang: Language): string {
     return trimmed;
   }
 
-// zh-TW
+  // zh-TW
   return trimmed;
 }
 

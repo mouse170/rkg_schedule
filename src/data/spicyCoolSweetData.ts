@@ -164,11 +164,11 @@ export function enrichDutyWithZone(duty: DailyDuty, date: string, girlName: stri
   // 一般看台應援女孩：站位以試算表填入值為主；若尚未公布，標記為待公布（本次主題日無東R、西R，亦無中場表演）
   const loc13 = existing13 && existing13.location.trim().length > 0 && !existing13.location.includes('專區')
     ? existing13.location.trim()
-    : '待公布（東／西／大樂）';
+    : '待公布';
 
   const loc78 = existing78 && existing78.location.trim().length > 0 && !existing78.location.includes('專區')
     ? existing78.location.trim()
-    : '待公布（東／西／大樂）';
+    : '待公布';
 
   const newInnings: InningAssignment[] = [
     { period: '1-3局', location: loc13 },

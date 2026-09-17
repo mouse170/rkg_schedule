@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { X, Share2, Download, Copy, Check, Sparkles, Heart, Calendar, MapPin, QrCode, Sun, Moon } from 'lucide-react';
+import { X, Share2, Download, Copy, Check, Sparkles, Heart, Calendar, MapPin, Sun, Moon } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone } from '../data/spicyCoolSweetData';
-import { getRelativeDateInfo } from '../utils/dateUtils';
+import { getRelativeDateInfo, translateLocation } from '../utils/dateUtils';
 import { useTheme } from '../context/ThemeContext';
 
 interface ShareScheduleModalProps {
@@ -62,7 +62,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
-      onShowToast('專屬追星班表連結已複製到剪貼簿！');
+      onShowToast('我最愛的女孩班表連結已複製到剪貼簿！');
       setTimeout(() => setCopied(false), 2500);
     } catch (err) {
       console.error('Failed to copy', err);
@@ -88,7 +88,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
       link.download = `rkg_cheer_schedule_${selectedDate ? selectedDate.replace('/', '-') : 'all'}_${cardTheme}.png`;
       link.href = dataUrl;
       link.click();
-      onShowToast('9:16 追星班表圖卡已下載完成！');
+      onShowToast('9:16 女孩班表圖卡已下載完成！');
     } catch (err) {
       console.error('Failed to generate image', err);
       onShowToast('圖卡生成失敗，請稍後再試');
@@ -108,7 +108,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-amber-200">
-                分享專屬追星班表
+                分享我最愛的女孩班表
               </h2>
               <p className="text-[11px] text-slate-500 dark:text-amber-300/70">
                 支援 URL 跨裝置同步與 9:16 IG 限動圖卡
@@ -223,7 +223,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#890022] via-[#af1b33] to-[#890022]'
                   : 'text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-100 to-amber-300'
               }`}>
-                {isTheme ? '辣酷甜主題日 ‧ 私藏應援席位' : '全猿主場 ‧ 專屬追星班表'}
+                {isTheme ? '辣酷甜主題日 ‧ Highlight' : '全猿主場 ‧ Highlight'}
               </h3>
 
               <div className={`flex items-center justify-center gap-2 mt-1 text-[11px] font-bold ${
@@ -251,7 +251,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   cardTheme === 'light' ? 'text-rose-900' : 'text-amber-300'
                 }`}>
                   <Heart className="w-3 h-3 text-rose-500 fill-rose-500" />
-                  <span>我的追星女孩 ({displayGirls.length} 位)</span>
+                  <span>我最愛的女孩 ({displayGirls.length} 位)</span>
                 </span>
                 <span className={`text-[9px] font-medium ${
                   cardTheme === 'light' ? 'text-slate-500' : 'text-amber-300/60'
@@ -295,8 +295,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 {displayGirls.map(girl => {
                   const duties: DailyDuty[] = schedule.girlsScheduleMap[girl.name] || [];
                   const duty = selectedDate ? duties.find((d: DailyDuty) => d.date === selectedDate) : duties[0];
-                  const p13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isTheme ? '看台應援' : '休息');
-                  const p78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isTheme ? '看台換側' : '休息');
+                  const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isTheme ? '看台應援' : '休息');
+                  const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isTheme ? '看台換側' : '休息');
+                  const p13 = translateLocation(rawP13, 'zh-TW');
+                  const p78 = translateLocation(rawP78, 'zh-TW');
                   const zoneAssign = isTheme ? getZoneAssignment(selectedDate, girl.name) : null;
                   const postZone = isTheme ? getPostMatchZone(selectedDate, girl.name) : null;
 
@@ -374,7 +376,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               </div>
             </div>
 
-            {/* Card Footer: Stadium Info & QR Code */}
+            {/* Card Footer: Stadium Info (Clean without QR Code) */}
             <div className={`relative z-10 pt-2 border-t flex items-center justify-between text-[10px] ${
               cardTheme === 'light'
                 ? 'border-rose-200 text-slate-600'
@@ -385,13 +387,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   樂天女孩即時看台班表
                 </span>
                 <span className="text-[9px]">全猿主場應援席位即時查詢</span>
-                <span className={`text-[8px] mt-0.5 ${cardTheme === 'light' ? 'text-slate-400' : 'text-amber-400/50'}`}>
-                  mouse170.github.io/rkg_schedule
-                </span>
               </div>
-              <div className="w-10 h-10 rounded-lg bg-white p-1 flex items-center justify-center flex-shrink-0 shadow-md border border-rose-100">
-                <QrCode className="w-full h-full text-[#140104]" />
-              </div>
+              <span className={`text-[9px] font-mono ${cardTheme === 'light' ? 'text-slate-400' : 'text-amber-400/50'}`}>
+                mouse170.github.io/rkg_schedule
+              </span>
             </div>
           </div>
         </div>
