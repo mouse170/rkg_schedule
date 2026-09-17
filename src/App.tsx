@@ -1483,6 +1483,10 @@ const MainApp: React.FC = () => {
           schedule={schedule}
           onShowToast={showToast}
           onToggleFavorite={(girlName) => toggleFavorite(null, girlName)}
+          onNavigateToInstagram={() => {
+            setIsShareModalOpen(false);
+            setActiveTab('INSTAGRAM');
+          }}
         />
 
         {/* 8. Light Toast Notification */}

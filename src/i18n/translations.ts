@@ -216,6 +216,13 @@ export interface Translations {
   shareAdjustFavTip: string;
   shareAdjustCurrentCount: string;
   shareAdjustSuccess: string;
+  shareDateScope: string;
+  shareExportCurrentPeriod: string;
+  shareExportSpecificDate: string;
+  shareNoFavoritesTitle: string;
+  shareNoFavoritesDesc: string;
+  shareGoToIgDirectory: string;
+  shareNoFavoritesBtn: string;
 
   // Language Switcher & Footer
   switchLanguage: string;
@@ -428,6 +435,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTip: '點擊女孩可直接移出最愛，名單符合上限後即可啟用圖卡下載',
     shareAdjustCurrentCount: '目前已選 {count} 位 / 上限 {max} 位',
     shareAdjustSuccess: '✓ 已符合圖卡人數限制（{count}/{max} 位），現已可生成 9:16 限動圖卡',
+    shareDateScope: '匯出範圍：',
+    shareExportCurrentPeriod: '當期一次匯出',
+    shareExportSpecificDate: '特定日期',
+    shareNoFavoritesTitle: '尚未加入最愛女孩',
+    shareNoFavoritesDesc: '目前尚未加入任何最愛女孩。請前往「成員 IG 目錄」點擊愛心加入最愛女孩後，再來按分享產生專屬應援圖卡！',
+    shareGoToIgDirectory: '前往成員 IG 目錄',
+    shareNoFavoritesBtn: '請先加入最愛女孩',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -637,6 +651,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTip: 'タップするとお気に入りから解除され、上限以下になると画像保存が可能になります',
     shareAdjustCurrentCount: '現在 {count}名 / 上限 {max}名',
     shareAdjustSuccess: '✓ 人数制限を満たしました（{count}/{max}名）。9:16画像の生成が可能です',
+    shareDateScope: '出力範囲：',
+    shareExportCurrentPeriod: '当期一括出力',
+    shareExportSpecificDate: '特定日程',
+    shareNoFavoritesTitle: 'お気に入りメンバーが未登録です',
+    shareNoFavoritesDesc: '現在、お気に入りメンバーが登録されていません。「メンバーIG名鑑」でハートを押してお気に入りを登録してから、共有カードを作成してください！',
+    shareGoToIgDirectory: 'メンバー IG 名鑑へ',
+    shareNoFavoritesBtn: '先にお気に入りを追加',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -846,6 +867,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTip: '멤버를 탭하여 즐겨찾기에서 제외하면, 상한 충족 시 카드 다운로드가 활성화됩니다',
     shareAdjustCurrentCount: '현재 {count}명 / 상한 {max}명',
     shareAdjustSuccess: '✓ 인원 제한을 충족했습니다 ({count}/{max}명). 이제 9:16 카드 다운로드가 가능합니다',
+    shareDateScope: '내보내기 범위:',
+    shareExportCurrentPeriod: '당기 일괄 내보내기',
+    shareExportSpecificDate: '특정 날짜',
+    shareNoFavoritesTitle: '최애 멤버가 등록되지 않았습니다',
+    shareNoFavoritesDesc: '현재 추가된 최애 멤버가 없습니다. 「멤버 IG 디렉토리」에서 하트를 눌러 최애 멤버를 추가한 후 전용 응원 카드를 생성해 보세요!',
+    shareGoToIgDirectory: '멤버 IG 디렉토리로 이동',
+    shareNoFavoritesBtn: '최애 멤버를 먼저 추가하세요',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',
