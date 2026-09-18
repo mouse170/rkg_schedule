@@ -1,5 +1,5 @@
 import React from 'react';
-import { RefreshCw, Sparkles, Map, ShieldCheck, AlertCircle, Calendar, Share2, Sun, Moon } from 'lucide-react';
+import { RefreshCw, Sparkles, Map, Calendar, Share2, Sun, Moon } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
@@ -7,8 +7,6 @@ import { useTheme } from '../context/ThemeContext';
 interface HeaderProps {
   activeTab: 'SCHEDULE' | 'INSTAGRAM';
   onTabChange: (tab: 'SCHEDULE' | 'INSTAGRAM') => void;
-  lastUpdated: string;
-  isLive: boolean;
   isLoading: boolean;
   onRefresh: () => void;
   onOpenStadiumGuide: () => void;
@@ -18,8 +16,6 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onTabChange,
-  lastUpdated,
-  isLive,
   isLoading,
   onRefresh,
   onOpenStadiumGuide,
@@ -163,36 +159,6 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <InstagramIcon className="w-3.5 h-3.5" />
             <span>{t.tabInstagram}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Sync Status Micro Bar */}
-      <div className="bg-pink-50/90 dark:bg-[#120104]/90 border-t border-pink-200 dark:border-amber-500/20 px-3 sm:px-4 py-1 text-[11px] text-gray-700 dark:text-amber-200/80">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2 truncate">
-            {isLive ? (
-              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold whitespace-nowrap flex-shrink-0">
-                <ShieldCheck className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
-                <span className="hidden xs:inline sm:inline">Google 試算表即時連線</span>
-                <span className="xs:hidden sm:hidden">即時連線</span>
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1 text-amber-700 dark:text-amber-300 font-semibold whitespace-nowrap flex-shrink-0">
-                <AlertCircle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
-                <span>離線模式</span>
-              </span>
-            )}
-            <span className="text-pink-300 dark:text-amber-500/40">|</span>
-            <span className="truncate text-gray-600 dark:text-amber-200/70">更新時間：{lastUpdated}</span>
-          </div>
-
-          <button
-            onClick={onOpenStadiumGuide}
-            className="md:hidden text-rose-700 dark:text-amber-300 hover:text-rose-900 dark:hover:text-amber-200 font-bold hover:underline flex items-center gap-0.5 whitespace-nowrap flex-shrink-0 text-[11px]"
-          >
-            <Map className="w-3 h-3 text-rose-600 dark:text-amber-400" />
-            <span>席位說明</span>
           </button>
         </div>
       </div>

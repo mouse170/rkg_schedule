@@ -1155,16 +1155,17 @@ const MainApp: React.FC = () => {
         <Header
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          lastUpdated={schedule.lastUpdated}
-          isLive={schedule.isLive}
           isLoading={isLoading}
           onRefresh={handleManualRefresh}
           onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
           onOpenShareModal={() => setIsShareModalOpen(true)}
         />
 
-        {/* 2. Data Source Notice Banner */}
-        <DataSourceBanner />
+        {/* 2. Data Source Notice & Live Verification Bar */}
+        <DataSourceBanner
+          schedule={schedule}
+          selectedDate={selectedDate}
+        />
 
         {/* 3. Main Content Container */}
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
@@ -1180,6 +1181,7 @@ const MainApp: React.FC = () => {
                       allGirls={OFFICIAL_GIRLS}
                       favorites={favorites}
                       onSelectGirl={(girl) => setSelectedGirl(girl)}
+                      onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
                     />
                   );
                 }

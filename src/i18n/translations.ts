@@ -259,7 +259,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     appSubtitle: 'Rakuten Girls Live Schedule • 成員 IG 目錄與即時應援席位',
     tabInstagram: '成員 IG 目錄',
     tabSchedule: '應援班表',
-    stadiumGuideBtn: '球場應援席位導覽',
+    stadiumGuideBtn: '席位說明',
     refreshBtn: '重新整理',
     themeToggle: '切換主題風格',
 
@@ -467,8 +467,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '請先加入最愛女孩',
 
     // Theme Day & Pre-Match Activities
-    themeDayPreMatchBtn: '賽前活動與攤位導覽 →',
-    themeDayStadiumBtn: '專區看台配置與票價圖 →',
+    themeDayPreMatchBtn: '賽前活動資訊',
+    themeDayStadiumBtn: '看台配置',
     preMatchModalTitle: '辣酷甜主題日 ‧ 賽前活動與攤位導覽',
     preMatchModalSubtitle: '女孩簽名會規則、兩日攤位出勤行程與外圍位置圖',
     tabPreMatchSchedule: '賽前行程與簽名會',
@@ -498,7 +498,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     appSubtitle: 'Rakuten Girls Live Schedule • メンバーIG名鑑＆リアルタイム応援座席',
     tabInstagram: 'メンバー IG 名鑑',
     tabSchedule: '応援スケジュール',
-    stadiumGuideBtn: '球場応援シートガイド',
+    stadiumGuideBtn: '席位説明',
     refreshBtn: '更新',
     themeToggle: 'テーマ切り替え',
 
@@ -706,8 +706,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '先にお気に入りを追加',
 
     // Theme Day & Pre-Match Activities
-    themeDayPreMatchBtn: '試合前イベント＆ブース案内 →',
-    themeDayStadiumBtn: '特別応援席配置＆チケット案内 →',
+    themeDayPreMatchBtn: '試合前イベント情報',
+    themeDayStadiumBtn: 'スタンド配置',
     preMatchModalTitle: 'スパイシークールスウィート ‧ 試合前イベント＆ブース案内',
     preMatchModalSubtitle: 'ガールズサイン会規定、ブース出演スケジュール、外周ブースマップ',
     tabPreMatchSchedule: '試合前スケジュール＆サイン会',
@@ -737,7 +737,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     appSubtitle: 'Rakuten Girls Live Schedule • 멤버 IG 디렉토리 및 실시간 응원석',
     tabInstagram: '멤버 IG 디렉토리',
     tabSchedule: '응원 일정표',
-    stadiumGuideBtn: '야구장 응원석 안내',
+    stadiumGuideBtn: '좌석 안내',
     refreshBtn: '새로고침',
     themeToggle: '테마 스타일 변경',
 
@@ -945,8 +945,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '최애 멤버를 먼저 추가하세요',
 
     // Theme Day & Pre-Match Activities
-    themeDayPreMatchBtn: '경기 전 이벤트 및 부스 안내 →',
-    themeDayStadiumBtn: '특별 응원석 배치 및 티켓 안내 →',
+    themeDayPreMatchBtn: '경기 전 이벤트 정보',
+    themeDayStadiumBtn: '관중석 배치',
     preMatchModalTitle: '스파이시 쿨 스위트 ‧ 경기 전 이벤트 및 부스 안내',
     preMatchModalSubtitle: '치어리더 팬사인회 규칙, 부스 출연 스케줄, 야구장 외곽 부스 맵',
     tabPreMatchSchedule: '경기 전 스케줄 & 사인회',

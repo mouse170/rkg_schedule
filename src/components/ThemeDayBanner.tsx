@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Map, X, CheckCircle2, Store } from 'lucide-react';
+import { Sparkles, X, CheckCircle2, Store, HelpCircle, Layers } from 'lucide-react';
 import { PreMatchActivityModal } from './PreMatchActivityModal';
 import { GirlProfile } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
@@ -10,6 +10,7 @@ interface ThemeDayBannerProps {
   allGirls?: GirlProfile[];
   favorites?: string[];
   onSelectGirl?: (girl: GirlProfile) => void;
+  onOpenStadiumGuide?: () => void;
 }
 
 export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
@@ -17,7 +18,8 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
   onSelectDate,
   allGirls = [],
   favorites = [],
-  onSelectGirl
+  onSelectGirl,
+  onOpenStadiumGuide
 }) => {
   const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +59,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
         <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-2xl pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full bg-rose-500/15 dark:bg-rose-600/20 blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4">
           <div className="space-y-1.5 flex-1">
             {/* Top Badges */}
             <div className="flex flex-wrap items-center gap-2">
@@ -82,9 +84,21 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
             </p>
           </div>
 
-          {/* Action Trigger Buttons & Visual Badge Thumbnail */}
-          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto justify-start lg:justify-end pt-2 lg:pt-0 border-t lg:border-t-0 border-rose-200/80 dark:border-amber-500/20">
-            {/* 1. Pre-Match Activities & Booths Button */}
+          {/* Action Trigger Buttons in ONE unified row & Visual Badge Thumbnail */}
+          <div className="flex items-center gap-1.5 sm:gap-2 w-full xl:w-auto overflow-x-auto no-scrollbar pt-2.5 xl:pt-0 border-t xl:border-t-0 border-rose-200/80 dark:border-amber-500/20">
+            {/* 1. 席位說明 (Stadium Guide) */}
+            {onOpenStadiumGuide && (
+              <button
+                onClick={onOpenStadiumGuide}
+                className="flex-1 sm:flex-initial px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white/90 hover:bg-white dark:bg-[#25030a] dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-rose-200/80 dark:border-amber-500/30 shadow-sm active:scale-95 whitespace-nowrap flex-shrink-0 cursor-pointer"
+                title={t.stadiumGuideBtn}
+              >
+                <HelpCircle className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
+                <span>{t.stadiumGuideBtn}</span>
+              </button>
+            )}
+
+            {/* 2. 賽前活動資訊 (Pre-Match Activities & Booths) */}
             <button
               onClick={() => {
                 setModalDate(activeDateKey);
@@ -92,13 +106,14 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               }}
               onMouseEnter={handlePreloadModalImages}
               onFocus={handlePreloadModalImages}
-              className="px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-md active:scale-95 whitespace-nowrap ring-1 ring-rose-400/40"
+              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-md active:scale-95 whitespace-nowrap ring-1 ring-rose-400/40 flex-shrink-0 cursor-pointer"
+              title={t.themeDayPreMatchBtn}
             >
-              <Store className="w-4 h-4 text-white" />
+              <Store className="w-3.5 h-3.5 text-white" />
               <span>{t.themeDayPreMatchBtn}</span>
             </button>
 
-            {/* 2. Stadium Zone Map & Ticket Info Button */}
+            {/* 3. 看台配置 (Stadium Zone Map & Ticket Info) */}
             <button
               onClick={() => {
                 setModalDate(activeDateKey);
@@ -106,21 +121,22 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               }}
               onMouseEnter={handlePreloadModalImages}
               onFocus={handlePreloadModalImages}
-              className="px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap"
+              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap ring-1 ring-amber-400/40 flex-shrink-0 cursor-pointer"
+              title={t.themeDayStadiumBtn}
             >
-              <Map className="w-4 h-4 text-[#1a0007]" />
+              <Layers className="w-3.5 h-3.5 text-[#1a0007]" />
               <span>{t.themeDayStadiumBtn}</span>
             </button>
 
             {/* Single Visual Badge Thumbnail */}
-            <div className="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden md:block">
+            <div className="relative w-9 h-9 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden md:block ml-0.5">
               <picture>
                 <source srcSet="./theme/spicy_cool_sweet_key_visual.webp" type="image/webp" />
                 <img
                   src="./theme/spicy_cool_sweet_key_visual.jpg"
                   alt="辣酷甜單曲主視覺"
-                  width="44"
-                  height="44"
+                  width="36"
+                  height="36"
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover"
