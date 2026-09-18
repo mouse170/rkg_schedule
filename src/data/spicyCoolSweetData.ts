@@ -21,10 +21,10 @@ export interface ThemeDayConfig {
 
 export const SPICY_COOL_SWEET_THEME: ThemeDayConfig = {
   themeName: '辣酷甜主題日',
-  subTitle: '看台專區與各區貼身應援盛典',
-  description: 'Rakuten Girls 年度重磅主題日！各大專屬看台特區全程貼身應援，帶來最具熱力的球場應援體驗！',
+  subTitle: '看台專區與各區寵粉應援盛典',
+  description: 'Rakuten Girls 年度重磅主題日！各大專屬看台特區全程寵粉應援，帶來最具熱力的球場應援體驗！',
   ruleTitle: '辣酷甜主題日專區應援規則',
-  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域貼身應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位，亦無中場表演）。',
+  ruleContent: '本週為特別主題日，專區女孩於第 1、2、3、7、8 局全程在指定個人專屬看台區域寵粉應援；一般看台女孩依東、西、大樂區輪替安排（本次主題日無東R、西R站位，亦無中場表演）。',
   scheduleDates: ['9/19', '9/20'],
   zoneAssignments: {
     '9/19': [

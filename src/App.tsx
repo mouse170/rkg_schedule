@@ -385,7 +385,7 @@ const MainApp: React.FC = () => {
         return duties.some(checkDuty);
       });
     } else if (areaFilter === 'SEAT_ZONE') {
-      // 球迷座位視角：專區應援 (主題日個人專區貼身應援)
+      // 球迷座位視角：專區應援 (主題日個人專區寵粉應援)
       list = list.filter(g => {
         const duties = schedule.girlsScheduleMap[g.name] || [];
         const checkDuty = (duty: any) => {

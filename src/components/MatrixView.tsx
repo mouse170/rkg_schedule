@@ -92,7 +92,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
     {
       key: 'ZONE',
       title: '看台專區',
-      subTitle: isTheme ? '個人專屬看台貼身' : '特殊企劃／專區',
+      subTitle: isTheme ? '個人專屬看台寵粉' : '特殊企劃／專區',
       badgeStyle: 'bg-amber-100/90 dark:bg-gradient-to-r dark:from-amber-500/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400/60 dark:border-amber-400/50 font-black',
       matchFn: (loc, isZone) => isZone || loc.includes('專區') || loc.includes('舞台')
     }
@@ -357,7 +357,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
             </div>
             <p className="text-[11px] text-slate-500 dark:text-amber-300/70 mt-0.5">
               {isTheme
-                ? '1-3 局與 7-8 局為看台專區貼身應援 • 賽後表演分東區與西區'
+                ? '1-3 局與 7-8 局為看台專區寵粉應援 • 賽後表演分東區與西區'
                 : '1-3 局、中場表演與 7-8 局換側應援輪替'}
             </p>
           </div>

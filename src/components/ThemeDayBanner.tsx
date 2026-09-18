@@ -55,12 +55,12 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
 
             {/* Main Headline */}
             <h2 className="text-base sm:text-xl font-black text-[#890022] dark:text-amber-100 tracking-tight flex items-center gap-2">
-              <span>辣酷甜主題日 ‧ 看台專區貼身應援</span>
+              <span>辣酷甜主題日 ‧ 看台專區寵粉應援</span>
             </h2>
 
             {/* Inning Rules Subtitle */}
             <p className="text-[11px] sm:text-xs text-rose-950/80 dark:text-amber-200/90 leading-relaxed font-medium max-w-2xl">
-              1、2、3、7、8 局專區女孩全程於專屬看台貼身應援 ‧ 本次主題日無中場表演
+              1、2、3、7、8 局專區女孩全程於專屬看台寵粉應援 ‧ 本次主題日無中場表演
             </p>
           </div>
 
@@ -119,7 +119,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
                       辣酷甜主題日 ‧ 看台專區配置與球場席位
                     </h3>
                     <p className="text-xs text-rose-900/70 dark:text-amber-300/80">
-                      女孩 1、2、3、7、8 局個人專屬看台貼身應援
+                      女孩 1、2、3、7、8 局個人專屬看台寵粉應援
                     </p>
                   </div>
                 </div>
