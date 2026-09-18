@@ -223,6 +223,10 @@ export interface Translations {
   shareNoFavoritesDesc: string;
   shareGoToIgDirectory: string;
   shareNoFavoritesBtn: string;
+  shareToX: string;
+  shareToThreads: string;
+  shareTweetHeadline: string;
+  shareTweetHashtags: string;
 
   // Theme Day & Pre-Match Activities
   themeDayPreMatchBtn: string;
@@ -465,6 +469,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesDesc: '目前尚未加入任何最愛女孩。請前往「成員 IG 目錄」點擊愛心加入最愛女孩後，再來按分享產生專屬應援圖卡！',
     shareGoToIgDirectory: '前往成員 IG 目錄',
     shareNoFavoritesBtn: '請先加入最愛女孩',
+    shareToX: '分享至 X (Twitter)',
+    shareToThreads: '分享至 Threads',
+    shareTweetHeadline: '⚾ 樂天女孩 Rakuten Girls 2026 即時應援班表！我的專屬追星行程表',
+    shareTweetHashtags: '#RakutenGirls #樂天女孩 #全猿主場',
 
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '賽前活動資訊',
@@ -704,6 +712,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesDesc: '現在、お気に入りメンバーが登録されていません。「メンバーIG名鑑」でハートを押してお気に入りを登録してから、共有カードを作成してください！',
     shareGoToIgDirectory: 'メンバー IG 名鑑へ',
     shareNoFavoritesBtn: '先にお気に入りを追加',
+    shareToX: 'X でポスト',
+    shareToThreads: 'Threads でシェア',
+    shareTweetHeadline: '⚾ Rakuten Girls（楽天ガールズ）応援スケジュール！推しメン日程＆席位配置表',
+    shareTweetHashtags: '#RakutenGirls #楽天ガールズ #台湾チア #台湾プロ野球 #CPBL',
 
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '試合前イベント情報',
@@ -943,6 +955,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesDesc: '현재 추가된 최애 멤버가 없습니다. 「멤버 IG 디렉토리」에서 하트를 눌러 최애 멤버를 추가한 후 전용 응원 카드를 생성해 보세요!',
     shareGoToIgDirectory: '멤버 IG 디렉토리로 이동',
     shareNoFavoritesBtn: '최애 멤버를 먼저 추가하세요',
+    shareToX: 'X에 공유',
+    shareToThreads: 'Threads에 공유',
+    shareTweetHeadline: '⚾ 라쿠텐 걸스（Rakuten Girls）2026 응원 일정표! 나의 최애 멤버 출근 스케줄',
+    shareTweetHashtags: '#RakutenGirls #라쿠텐걸스 #대만치어리더 #치어리더 #CPBL',
 
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '경기 전 이벤트 정보',

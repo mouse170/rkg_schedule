@@ -2,6 +2,7 @@ import React, { useRef, useState, useMemo, useEffect } from 'react';
 import { X, Share2, Download, Copy, Check, Sparkles, Heart, HeartOff, Calendar, MapPin, Sun, Moon, AlertTriangle, ArrowRight } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { InstagramIcon } from './InstagramIcon';
+import { XIcon, ThreadsIcon } from './SocialIcons';
 import { GirlProfile, ScheduleDataset, DailyDuty, InningAssignment } from '../types/schedule';
 import { isSpicyCoolSweetDate, getZoneAssignment, getPostMatchZone } from '../data/spicyCoolSweetData';
 import { getRelativeDateInfo, translateLocation, isPastDate, compareScheduleDates } from '../utils/dateUtils';
@@ -81,15 +82,55 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
   const isTheme = Boolean(exportDate && isSpicyCoolSweetDate(exportDate));
 
-  // 複製分享連結
-  const handleCopyLink = async () => {
+  // 建立包含語系參數的分享網址
+  const buildShareUrl = () => {
     try {
       const baseUrl = window.location.origin + window.location.pathname;
       const params = new URLSearchParams();
       if (exportDate) params.set('date', exportDate);
       if (favorites.length > 0) params.set('favs', favorites.join(','));
-      const shareUrl = `${baseUrl}?${params.toString()}`;
+      if (language) params.set('lang', language);
+      return `${baseUrl}?${params.toString()}`;
+    } catch {
+      return window.location.href;
+    }
+  };
 
+  // 組裝多語系推文內文與標籤
+  const buildShareText = () => {
+    const headline = t.shareTweetHeadline;
+    const dateText = exportDate ? `📅 ${formattedDateFull}` : `📅 ${t.shareAllSeasonTitle}`;
+    
+    // 最愛女孩清單文字
+    let girlsText = '';
+    if (favGirls.length > 0) {
+      const favNames = favGirls.map(g => `#${g.number} ${g.name}`).join(', ');
+      girlsText = `✨ ${favNames}`;
+    }
+
+    // 依語系與特定日韓成員追加專屬標籤
+    const baseTags = t.shareTweetHashtags;
+    const extraTags: string[] = [];
+    
+    if (language === 'ja') {
+      if (favorites.includes('高橋佳帆')) extraTags.push('#高橋佳帆');
+    } else if (language === 'ko') {
+      if (favorites.includes('河智媛')) extraTags.push('#하지원');
+      if (favorites.includes('禹洙漢')) extraTags.push('#우수한');
+      if (favorites.includes('廉世彬')) extraTags.push('#염세빈');
+      if (favorites.includes('高佳彬')) extraTags.push('#고가빈');
+      if (favorites.includes('金佳垠')) extraTags.push('#김가은');
+      if (favorites.includes('崔荷潾')) extraTags.push('#최하린');
+    }
+
+    const fullTags = extraTags.length > 0 ? `${baseTags} ${extraTags.join(' ')}` : baseTags;
+    return `${headline}\n${dateText}${girlsText ? `\n${girlsText}` : ''}\n\n${fullTags}`;
+  };
+
+  // 複製分享連結
+  const handleCopyLink = async () => {
+    try {
+      const shareUrl = buildShareUrl();
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       onShowToast(t.shareToastCopied);
@@ -98,6 +139,22 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
       console.error('Failed to copy', err);
       onShowToast(t.shareToastFailed);
     }
+  };
+
+  // 分享至 X (Twitter)
+  const handleShareToX = () => {
+    const text = buildShareText();
+    const url = buildShareUrl();
+    const xIntentUrl = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    window.open(xIntentUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  // 分享至 Threads
+  const handleShareToThreads = () => {
+    const text = buildShareText();
+    const url = buildShareUrl();
+    const threadsIntentUrl = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${text}\n${url}`)}`;
+    window.open(threadsIntentUrl, '_blank', 'noopener,noreferrer');
   };
 
   // 下載 9:16 直式 PNG 圖卡
@@ -333,14 +390,14 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
         )}
 
         {/* Action Buttons Toolbar */}
-        <div className="grid grid-cols-2 gap-2 my-3 flex-shrink-0">
+        <div className="flex items-center gap-2 my-3 flex-shrink-0">
           <button
             type="button"
             onClick={handleCopyLink}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 border border-rose-300 dark:border-amber-400/50 text-rose-800 dark:text-amber-200 text-xs font-bold transition active:scale-95 shadow-xs cursor-pointer"
+            className="flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 border border-rose-300 dark:border-amber-400/50 text-rose-800 dark:text-amber-200 text-xs font-bold transition active:scale-95 shadow-xs cursor-pointer"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />}
-            <span>{copied ? t.shareCopiedLink : t.shareCopyLink}</span>
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> : <Copy className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400 shrink-0" />}
+            <span className="truncate">{copied ? t.shareCopiedLink : t.shareCopyLink}</span>
           </button>
 
           <button
@@ -354,20 +411,42 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 ? t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))
                 : ''
             }
-            className={`flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-black transition active:scale-95 shadow-md ${
+            className={`flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-black transition active:scale-95 shadow-md ${
               !hasFavorites || isOverLimit
                 ? 'bg-neutral-300 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 cursor-not-allowed opacity-75'
                 : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20 disabled:opacity-50 cursor-pointer'
             }`}
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>
+            <Download className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">
               {!hasFavorites
                 ? t.shareNoFavoritesBtn
                 : isOverLimit
                 ? t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))
                 : (isExporting ? t.shareGenerating : t.shareDownloadCard)}
             </span>
+          </button>
+
+          {/* X (Twitter) 純圖標分享按鈕 */}
+          <button
+            type="button"
+            onClick={handleShareToX}
+            title={t.shareToX}
+            aria-label={t.shareToX}
+            className="flex-shrink-0 p-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
+          >
+            <XIcon className="w-4 h-4 text-white" />
+          </button>
+
+          {/* Threads 純圖標分享按鈕 */}
+          <button
+            type="button"
+            onClick={handleShareToThreads}
+            title={t.shareToThreads}
+            aria-label={t.shareToThreads}
+            className="flex-shrink-0 p-2.5 rounded-xl bg-neutral-900 hover:bg-black text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
+          >
+            <ThreadsIcon className="w-4 h-4 text-white" />
           </button>
         </div>
 

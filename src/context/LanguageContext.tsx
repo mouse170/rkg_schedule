@@ -12,6 +12,15 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     try {
+      // 1. URL search param takes top priority (for shared links from X/Threads)
+      if (typeof window !== 'undefined' && window.location?.search) {
+        const params = new URLSearchParams(window.location.search);
+        const langParam = params.get('lang');
+        if (langParam === 'ja' || langParam === 'ko' || langParam === 'zh-TW') {
+          return langParam;
+        }
+      }
+
       const saved = localStorage.getItem('rkg_language') as Language;
       if (saved && (saved === 'zh-TW' || saved === 'ja' || saved === 'ko')) {
         return saved;
