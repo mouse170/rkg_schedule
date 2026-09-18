@@ -69,6 +69,10 @@
 
 ## 改版歷程摘要
 
+* **v0.8.36.2**：
+  - **修復分享彈窗 React 條件式 Hook 呼叫崩潰問題（白屏錯誤）**：
+    - **消滅條件式 Hook 違反規則**：修復 `ShareScheduleModal` 原先在 `if (!isOpen) return null;` 提早返回條件之後呼叫 `useMemo`（計算 `shareUrl`、`shareText`、`xShareUrl`、`threadsShareUrl`）之嚴重架構缺陷。當使用者點擊「分享」按鈕由未開啟切換為開啟時，Hook 呼叫數量由 9 驟增至 13，觸發 React 核心 `Rendered more hooks than during the previous render` 未攔截例外，導致整個頁面元件樹卸載並呈現全白畫面（White Screen of Death）。
+    - **重構 Hook 執行順序保障渲染穩定度**：將所有 `useMemo` 與計算邏輯全面提升至元件頂層執行，確保無論彈窗開關狀態，每次渲染執行之 Hook 數量與順序絕對固定一致，徹底根除 Chrome 等現代瀏覽器點擊分享時的崩潰白屏現象。
 * **v0.8.36.1**：
   - **修復 Threads 社群分享規格與連動異常**：
     - **參數解耦與標準 Web Intent 格式**：將分享網址從 `text` 內文抽離，獨立傳入 `url` 查詢參數（`&url=${encodeURIComponent(shareUrl)}`），使 Threads 官方能精準產生卡片預覽，杜絕因長網址內嵌內文導致之格式截斷與解析失敗。

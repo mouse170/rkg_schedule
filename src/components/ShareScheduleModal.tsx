@@ -71,8 +71,6 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   const currentMaxLimit = exportDate ? MAX_GIRLS_SINGLE_DATE : MAX_GIRLS_ALL_DATES;
   const isOverLimit = hasFavorites && favGirls.length > currentMaxLimit;
 
-  if (!isOpen) return null;
-
   // 日期與星期多語系計算 (以 exportDate 為準)
   const dateInfo = exportDate ? getRelativeDateInfo(exportDate, language) : null;
   const weekdayShort = dateInfo?.weekdayName ? dateInfo.weekdayName.replace('週', '').replace('曜日', '') : '';
@@ -176,6 +174,8 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
       setIsExporting(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
