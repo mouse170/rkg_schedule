@@ -243,6 +243,12 @@ export interface Translations {
   autographCapacityNotice: string;
   autographStartNotice: string;
   autographSingleBookOnly: string;
+  autographLineupTitle: string;
+  autographQuotaBadge: string;
+  autographMatrixTip: string;
+  autographStepCheckin: string;
+  autographStepAdmission: string;
+  autographStepStart: string;
   boothScheduleTitle: string;
   boothInteractiveTip: string;
   boothMapLegendWest: string;
@@ -489,6 +495,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     autographCapacityNotice: '人數上限：每日 100 名（領完號碼牌驗票後，請至三壘側簽名區帳篷依序等候）',
     autographStartNotice: '15:10 正式開始簽名',
     autographSingleBookOnly: '限簽單曲簽名本',
+    autographLineupTitle: '簽名會出席陣容（共 {count} 位）',
+    autographQuotaBadge: '每日限量 100 名額 ‧ 持號碼牌依序簽名',
+    autographMatrixTip: '點擊女孩頭像可直接查看個人檔案與出勤班表',
+    autographStepCheckin: '14:40 檢查單曲本並發放號碼牌',
+    autographStepAdmission: '15:00 驗票進場',
+    autographStepStart: '15:10 正式開始簽名（限簽單曲本）',
     boothScheduleTitle: '攤位女孩出席見面行程',
     boothInteractiveTip: '點擊女孩標籤可直接查看女孩個人檔案與出勤班表',
     boothMapLegendWest: '三壘側（GATE W 側）攤位',
@@ -732,6 +744,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     autographCapacityNotice: '定員：各日 100 名（整理券受け取り・改札後、三塁側特設テントにて整列）',
     autographStartNotice: '15:10 サイン会開始',
     autographSingleBookOnly: 'シングルサイン本限定',
+    autographLineupTitle: 'サイン会出演メンバー（全 {count} 名）',
+    autographQuotaBadge: '各日限定 100 名 ‧ 整理券番号順',
+    autographMatrixTip: 'アイコンをタップして詳細プロフィールと出勤スケジュールを表示',
+    autographStepCheckin: '14:40 サイン本確認および整理券配布',
+    autographStepAdmission: '15:00 入場開始',
+    autographStepStart: '15:10 サイン会開始（シングル本限定）',
     boothScheduleTitle: 'ブース出演スケジュール',
     boothInteractiveTip: 'ガールズをタップして詳細プロフィールとスケジュールを表示',
     boothMapLegendWest: '三塁側（GATE W 側）ブース',
@@ -975,6 +993,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     autographCapacityNotice: '정원: 일일 100명 (번호표 수령 및 검표 후 3루측 텐트에서 순차 대기)',
     autographStartNotice: '15:10 팬사인회 공식 시작',
     autographSingleBookOnly: '싱글 사인북 전용 사인',
+    autographLineupTitle: '팬사인회 참석 멤버（총 {count}명）',
+    autographQuotaBadge: '일일 100명 한정 ‧ 번호표 순차 서명',
+    autographMatrixTip: '치어리더를 탭하여 상세 프로필과 출근 스케줄을 확인하세요',
+    autographStepCheckin: '14:40 싱글 사인북 확인 및 번호표 배부',
+    autographStepAdmission: '15:00 입장 시작',
+    autographStepStart: '15:10 팬사인회 시작（사인북 한정）',
     boothScheduleTitle: '부스 치어리더 출연 스케줄',
     boothInteractiveTip: '치어리더를 탭하여 상세 프로필과 스케줄을 확인하세요',
     boothMapLegendWest: '3루측 (GATE W 방면) 부스',

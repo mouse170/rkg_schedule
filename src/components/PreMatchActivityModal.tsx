@@ -308,8 +308,8 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                   </div>
                 </div>
 
-                {/* 2. Autograph Session Rules Card */}
-                <div className="rounded-2xl p-4 bg-gradient-to-br from-[#fff7f9] to-[#fff0f4] dark:from-[#21050a] dark:to-[#170105] border border-rose-300/80 dark:border-rose-800/60 shadow-sm space-y-3">
+                {/* 2. Autograph Session Rules & Lineup Matrix Card */}
+                <div className="rounded-2xl p-4 bg-gradient-to-br from-[#fff7f9] to-[#fff0f4] dark:from-[#21050a] dark:to-[#170105] border border-rose-300/80 dark:border-rose-800/60 shadow-sm space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="p-1.5 rounded-lg bg-rose-600 text-white shadow-sm">
@@ -321,7 +321,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                     </div>
 
                     <span className="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-rose-200 text-rose-900 dark:bg-rose-900/60 dark:text-rose-100 border border-rose-300/80 dark:border-rose-700/50">
-                      限額每日 100 名
+                      {t.autographQuotaBadge}
                     </span>
                   </div>
 
@@ -331,14 +331,19 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                       <span>{autograph.location}</span>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {/* 3-Step Quota Flow */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                       <div className="flex items-center gap-2 bg-white/70 dark:bg-black/30 p-2.5 rounded-xl border border-rose-200/60 dark:border-rose-900/40">
                         <Clock className="w-4 h-4 text-rose-600 dark:text-rose-400 flex-shrink-0" />
-                        <span><strong>14:40</strong> 檢查單曲本並發放號碼牌</span>
+                        <span className="text-[11px]"><strong>14:40</strong> {t.autographStepCheckin.replace('14:40 ', '')}</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-white/70 dark:bg-black/30 p-2.5 rounded-xl border border-rose-200/60 dark:border-rose-900/40">
+                        <Clock className="w-4 h-4 text-pink-600 dark:text-pink-400 flex-shrink-0" />
+                        <span className="text-[11px]"><strong>15:00</strong> {t.autographStepAdmission.replace('15:00 ', '')}</span>
                       </div>
                       <div className="flex items-center gap-2 bg-white/70 dark:bg-black/30 p-2.5 rounded-xl border border-rose-200/60 dark:border-rose-900/40">
                         <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
-                        <span><strong>15:10</strong> 正式開始簽名（限簽單曲本）</span>
+                        <span className="text-[11px]"><strong>15:10</strong> {t.autographStepStart.replace('15:10 ', '')}</span>
                       </div>
                     </div>
 
@@ -346,6 +351,83 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                       <li>單曲簽名本及本人均需在場，一人限一本。</li>
                       <li>領完號碼牌並完成驗票後，請直接至三壘側簽名區帳篷依序等候。</li>
                     </ul>
+                  </div>
+
+                  {/* 簽名會出席女孩矩陣圖視圖 (Autograph Lineup Matrix View) */}
+                  <div className="pt-2.5 border-t border-rose-200/80 dark:border-rose-900/40">
+                    <div className="flex flex-wrap items-center justify-between gap-1 mb-2.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                        <span className="text-xs sm:text-sm font-black text-rose-900 dark:text-rose-100">
+                          {t.autographLineupTitle.replace('{count}', String(currentDayData.autographGirls?.length || 0))}
+                        </span>
+                      </div>
+                      <span className="text-[10px] sm:text-[11px] text-rose-800/80 dark:text-rose-300/80 font-medium">
+                        {t.autographMatrixTip}
+                      </span>
+                    </div>
+
+                    {/* 矩陣圖網格：手機 4 欄，平板/電腦 7 欄 */}
+                    <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2">
+                      {(currentDayData.autographGirls || []).map((girlName) => {
+                        const girl = findGirl(girlName);
+                        const isFav = favorites.includes(girl?.name || girlName);
+                        const number = girl?.number || '—';
+                        const photo = girl?.localPhoto || girl?.photo;
+
+                        return (
+                          <button
+                            key={girlName}
+                            type="button"
+                            onClick={() => girl && onSelectGirl && onSelectGirl(girl)}
+                            className={`group relative flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-xl transition text-center active:scale-95 border cursor-pointer ${
+                              isFav
+                                ? 'bg-gradient-to-b from-rose-100 via-pink-50 to-amber-50 dark:from-rose-950/80 dark:to-[#2e0510] border-rose-400 dark:border-amber-400/80 shadow-md ring-2 ring-rose-400/50 dark:ring-amber-400/40'
+                                : 'bg-white/90 hover:bg-rose-50 dark:bg-[#1f0207]/90 dark:hover:bg-[#2d050f] border-rose-200/80 dark:border-rose-900/50 shadow-2xs hover:border-rose-300'
+                            }`}
+                            title={`${girlName} (#${number}) - 點擊查看個人檔案與出勤班表`}
+                          >
+                            {/* 女孩圓形頭像（小圖） */}
+                            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden mb-1 border-2 border-rose-200 dark:border-rose-900/60 bg-neutral-100 dark:bg-neutral-900 flex-shrink-0">
+                              {photo ? (
+                                <img
+                                  src={photo}
+                                  alt={girlName}
+                                  className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                  loading="lazy"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-[10px] font-bold text-rose-500">
+                                  {girlName.slice(0, 2)}
+                                </div>
+                              )}
+                              {isFav && (
+                                <div className="absolute inset-0 bg-rose-500/20 flex items-center justify-center">
+                                  <Heart className="w-3 h-3 text-rose-500 dark:text-rose-300 fill-rose-500 dark:fill-rose-300" />
+                                </div>
+                              )}
+                            </div>
+
+                            {/* 背號徽章（背號） */}
+                            <span className="text-[11px] sm:text-xs font-black text-[#890022] dark:text-amber-300 leading-none mb-0.5">
+                              #{number}
+                            </span>
+
+                            {/* 女孩姓名 */}
+                            <span className="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-rose-100 truncate max-w-full leading-tight">
+                              {girl?.name || girlName}
+                            </span>
+
+                            {/* 外援標籤 (KR / JP) */}
+                            {girl?.nationality && girl.nationality !== 'TW' && (
+                              <span className="absolute top-1 right-1 px-1 py-0.2 rounded text-[8px] font-black leading-none uppercase bg-amber-400 text-black shadow-xs">
+                                {girl.nationality}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
 

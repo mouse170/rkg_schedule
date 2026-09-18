@@ -81,6 +81,7 @@ export interface DayPreMatchSchedule {
   ticketTime: string;
   admissionTime: string;
   gameStartTime: string;
+  autographGirls: string[];
   boothEvents: BoothScheduleItem[];
 }
 
@@ -127,6 +128,10 @@ export const SPICY_COOL_SWEET_PRE_MATCH: PreMatchActivityConfig = {
       ticketTime: '15:00',
       admissionTime: '15:00',
       gameStartTime: '17:05',
+      autographGirls: [
+        '廉世彬', '高佳彬', '金佳垠', '禹菡', '穎樂', '岱縈', '高橋佳帆',
+        '彭彭', '沈珈妤', '孟潔', '宋宋', '曲曲', '熊霓', '崔荷潾'
+      ],
       boothEvents: [
         {
           timeSlot: '15:10-15:30',
@@ -156,6 +161,10 @@ export const SPICY_COOL_SWEET_PRE_MATCH: PreMatchActivityConfig = {
       ticketTime: '15:00',
       admissionTime: '15:00',
       gameStartTime: '17:05',
+      autographGirls: [
+        '河智媛', '筠熹', '禹洙漢', '貝佳頤', '卉妮', '若潼', 'Mika',
+        '笑笑', '溫妮', '言梓璇', 'Kira', '琳妲', '穆又甯'
+      ],
       boothEvents: [
         {
           timeSlot: '15:10-15:30',
