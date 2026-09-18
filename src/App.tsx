@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, lazy, Suspense } from 'react';
+import React, { useEffect, useState, useMemo, lazy, Suspense, useTransition } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { Language } from './i18n/translations';
@@ -9,10 +9,10 @@ import { GirlCard, PairedInfo } from './components/GirlCard';
 import { MatrixView } from './components/MatrixView';
 import { ShareScheduleModal } from './components/ShareScheduleModal';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
-import { fetchLiveSchedule } from './services/sheetService';
+import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2 } from 'lucide-react';
-import { getRelativeDateInfo, isPastDate, compareScheduleDates } from './utils/dateUtils';
+import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { ThemeDayBanner } from './components/ThemeDayBanner';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
@@ -29,6 +29,8 @@ const StadiumGuideModal = lazy(() =>
 
 const MainApp: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
+  const [, startTransition] = useTransition();
+
   const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('SCHEDULE');
   const [viewMode, setViewMode] = useState<'CARD' | 'MATRIX'>('CARD');
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
@@ -41,20 +43,54 @@ const MainApp: React.FC = () => {
     }, 3000);
   };
 
-  const [schedule, setSchedule] = useState<ScheduleDataset>({
-    dates: [],
-    girlsScheduleMap: {},
-    dailyRosterMap: {},
-    lastUpdated: '載入中...',
-    isLive: false,
+  // SWR 快取即刻繪製，首屏零等待消除 LCP 起跑延遲
+  const [schedule, setSchedule] = useState<ScheduleDataset>(getInitialSchedule);
+  const [isLoading, setIsLoading] = useState<boolean>(() => !getCachedSchedule());
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const init = getInitialSchedule();
+    const validUpcoming = init.dates.filter(d => !isPastDate(d)).sort(compareScheduleDates);
+    let favs: string[] = [];
+    try {
+      const saved = localStorage.getItem('rkg_favorites');
+      if (saved) favs = JSON.parse(saved);
+    } catch {
+      favs = [];
+    }
+    return getSmartDefaultDate(validUpcoming, favs, init);
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [selectedDate, setSelectedDate] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [areaFilter, setAreaFilter] = useState<AreaFilterType>('ALL');
   const [selectedGirl, setSelectedGirl] = useState<GirlProfile | null>(null);
   const [isStadiumGuideOpen, setIsStadiumGuideOpen] = useState<boolean>(false);
   const [hoveredGirl, setHoveredGirl] = useState<string | null>(null);
+
+  // 瀏覽器閒置時預先載入次要模組，徹底根除點擊抽屜時高達 920ms 的 INP 卡頓
+  useEffect(() => {
+    const prefetchComponents = () => {
+      import('./components/GirlDetailDrawer');
+      import('./components/StadiumGuideModal');
+    };
+
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(prefetchComponents, { timeout: 2500 });
+      } else {
+        setTimeout(prefetchComponents, 1200);
+      }
+    }
+  }, []);
+
+  const handleSelectGirl = (girl: GirlProfile) => {
+    startTransition(() => {
+      setSelectedGirl(girl);
+    });
+  };
+
+  const handleAreaFilterChange = (filter: AreaFilterType) => {
+    startTransition(() => {
+      setAreaFilter(filter);
+    });
+  };
 
   // Favorites stored in LocalStorage
   const [favorites, setFavorites] = useState<string[]>(() => {
@@ -83,16 +119,18 @@ const MainApp: React.FC = () => {
 
   // 日期選取處理（若選中主題日，因無東R/西R席位與中場表演，自動切換為全部視角；若離開主題日且在賽後表演視角，自動切回全部視角）
   const handleSelectDate = (date: string) => {
-    setSelectedDate(date);
-    if (isSpicyCoolSweetDate(date)) {
-      if (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R' || areaFilter === 'PERIOD_MID') {
-        setAreaFilter('ALL');
+    startTransition(() => {
+      setSelectedDate(date);
+      if (isSpicyCoolSweetDate(date)) {
+        if (areaFilter === 'SEAT_EAST_R' || areaFilter === 'SEAT_WEST_R' || areaFilter === 'PERIOD_MID') {
+          setAreaFilter('ALL');
+        }
+      } else {
+        if (areaFilter === 'PERIOD_POST') {
+          setAreaFilter('ALL');
+        }
       }
-    } else {
-      if (areaFilter === 'PERIOD_POST') {
-        setAreaFilter('ALL');
-      }
-    }
+    });
   };
 
   // 依時間排序並過濾掉已過去的歷史日期（今天與未來的比賽日）
@@ -102,50 +140,9 @@ const MainApp: React.FC = () => {
       .sort((a, b) => compareScheduleDates(a, b));
   }, [schedule.dates]);
 
-  // 計算智慧預設日期：
-  // 1. 若有點選最愛女孩：
-  //    a. 檢查今天是否有最愛女孩上班，有則優先展示今天
-  //    b. 若今天無最愛女孩上班，尋找未來有最愛女孩上班且距離今天最近的比賽日
-  // 2. 若無最愛女孩或最愛女孩未來皆無班：
-  //    a. 若今天有主場賽程，預設選取今天
-  //    b. 若今天無賽程，預設選取未來第一場賽程
-  const getSmartDefaultDate = (datesList: string[], favs: string[], sched: ScheduleDataset): string => {
-    if (datesList.length === 0) return '';
-
-    const todayDate = datesList.find(d => getRelativeDateInfo(d, language).isToday);
-
-    if (favs.length > 0) {
-      // 1. 今天是否有最愛女孩有班
-      if (todayDate) {
-        const isFavOnDutyToday = favs.some(favName => {
-          const duties = sched.girlsScheduleMap[favName] || [];
-          return duties.some(duty => duty.date === todayDate);
-        });
-        if (isFavOnDutyToday) {
-          return todayDate;
-        }
-      }
-
-      // 2. 尋找未來第一個有最愛女孩有班的日期
-      const nextFavDate = datesList.find(d => {
-        return favs.some(favName => {
-          const duties = sched.girlsScheduleMap[favName] || [];
-          return duties.some(duty => duty.date === d);
-        });
-      });
-
-      if (nextFavDate) {
-        return nextFavDate;
-      }
-    }
-
-    // 無最愛或最愛皆無班時：優先今天，若無今天則未來第一場
-    return todayDate || datesList[0] || '';
-  };
-
-  // Load schedule data
-  const loadSchedule = async () => {
-    setIsLoading(true);
+  // Load schedule data (SWR: 背景靜默驗證，首屏依賴快取零阻塞)
+  const loadSchedule = async (isSilent = false) => {
+    if (!isSilent) setIsLoading(true);
     try {
       const data = await fetchLiveSchedule();
       setSchedule(data);
@@ -156,7 +153,7 @@ const MainApp: React.FC = () => {
 
       // 若目前選取的日期為空或已經過去，重新計算智慧預設日期
       if (!selectedDate || isPastDate(selectedDate)) {
-        const smartDate = getSmartDefaultDate(validUpcoming, favorites, data);
+        const smartDate = getSmartDefaultDate(validUpcoming, favorites, data, language);
         setSelectedDate(smartDate);
       }
     } catch (err) {
@@ -176,11 +173,16 @@ const MainApp: React.FC = () => {
           cacheNames.map(name => caches.delete(name))
         );
       }
-      await loadSchedule();
+      try {
+        localStorage.removeItem('rkg_live_schedule_cache_v2');
+      } catch {
+        // ignore
+      }
+      await loadSchedule(false);
       showToast('已清除離線快取並同步最新班表');
     } catch (err) {
       console.error('Manual refresh error:', err);
-      await loadSchedule();
+      await loadSchedule(false);
       showToast('班表已重新載入');
     } finally {
       setIsLoading(false);
@@ -188,7 +190,8 @@ const MainApp: React.FC = () => {
   };
 
   useEffect(() => {
-    loadSchedule();
+    // SWR 靜默背景載入，避免觸發全頁面阻塞
+    loadSchedule(schedule.dates.length > 0);
   }, []);
 
   // 網址參數同步（URL Query Params Share & Sync）
@@ -1180,7 +1183,7 @@ const MainApp: React.FC = () => {
                       onSelectDate={handleSelectDate}
                       allGirls={OFFICIAL_GIRLS}
                       favorites={favorites}
-                      onSelectGirl={(girl) => setSelectedGirl(girl)}
+                      onSelectGirl={handleSelectGirl}
                       onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
                     />
                   );
@@ -1247,7 +1250,7 @@ const MainApp: React.FC = () => {
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
                 areaFilter={areaFilter}
-                onAreaFilterChange={setAreaFilter}
+                onAreaFilterChange={handleAreaFilterChange}
                 totalCount={OFFICIAL_GIRLS.length}
                 favoritesCount={favorites.length}
                 filteredCount={filteredGirls.length}
@@ -1255,8 +1258,8 @@ const MainApp: React.FC = () => {
                 onViewModeChange={setViewMode}
                 onResetFilters={() => {
                   setSearchQuery('');
-                  setAreaFilter('ALL');
-                  setSelectedDate('');
+                  handleAreaFilterChange('ALL');
+                  handleSelectDate('');
                 }}
               />
 
@@ -1267,9 +1270,9 @@ const MainApp: React.FC = () => {
                   allGirls={OFFICIAL_GIRLS}
                   schedule={schedule}
                   favorites={favorites}
-                  onSelectGirl={setSelectedGirl}
+                  onSelectGirl={handleSelectGirl}
                   onToggleFavorite={(name) => toggleFavorite(null, name)}
-                  onSelectDate={setSelectedDate}
+                  onSelectDate={handleSelectDate}
                   areaFilter={areaFilter}
                   searchQuery={searchQuery}
                 />
@@ -1318,8 +1321,8 @@ const MainApp: React.FC = () => {
                                 selectedDate={sec.date || selectedDate}
                                 isFavorite={isFav}
                                 onToggleFavorite={(e) => toggleFavorite(e, girl.name)}
-                                onClick={(g) => setSelectedGirl(g)}
-                                priority={idx < 8}
+                                onClick={handleSelectGirl}
+                                priority={idx < 2}
                                 pairedInfo={paired}
                                 isPartnerHovered={isPartnerHovered}
                                 onHover={(name) => setHoveredGirl(name)}

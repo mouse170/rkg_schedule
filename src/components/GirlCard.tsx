@@ -91,7 +91,13 @@ export const GirlCard: React.FC<GirlCardProps> = ({
   return (
     <div
       onClick={() => onClick(girl)}
-      onMouseEnter={() => onHover && onHover(girl.name)}
+      onMouseEnter={() => {
+        if (onHover) onHover(girl.name);
+        import('./GirlDetailDrawer');
+      }}
+      onTouchStart={() => {
+        import('./GirlDetailDrawer');
+      }}
       onMouseLeave={() => onHover && onHover(null)}
       className={`group relative flex flex-col justify-between bg-white dark:bg-oled-card rounded-2xl p-2.5 sm:p-3 border hover:shadow-card-hover hover:-translate-y-0.5 transition duration-300 cursor-pointer overflow-hidden card-render-layer ${cardBorderGlowClass}`}
     >
@@ -132,9 +138,11 @@ export const GirlCard: React.FC<GirlCardProps> = ({
           <img
             src={girl.localPhoto}
             alt={girl.name}
+            width="200"
+            height="250"
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            fetchPriority={priority ? 'high' : 'auto'}
+            {...(priority ? { fetchPriority: 'high' as const } : {})}
             onError={(e) => {
               // Fallback to official remote URL if local photo fails
               (e.target as HTMLImageElement).src = girl.photo;

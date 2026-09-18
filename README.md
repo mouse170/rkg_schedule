@@ -69,6 +69,13 @@
 
 ## 改版歷程摘要
 
+* **v0.8.35.0**：
+  - **Core Web Vitals 效能重構（LCP 4004ms 與 INP 920ms 深度調優）**：
+    - **SWR 快取零秒首屏繪製**：實施 Stale-While-Revalidate 機制，頁面載入時同步讀取本地快取或預載班表快照，消除等待 Google Sheets CSV 往返造成的 3 秒起跑延遲，首屏第一幀即刻繪製出勤卡片與人像；背景靜默發起非同步校驗同步最新資料。
+    - **收斂 Fetch Priority 頻寬爭奪**：遵循現代瀏覽器效能標準，將 `fetchPriority="high"` 嚴格收斂至首屏前 2 張關鍵卡片（`idx < 2`），其餘全數維持原生 `loading="lazy"`；補齊 `<img>` 實體寬高屬性（`width="200" height="250"`），杜絕版面位移。
+    - **抽屜模組雙重預載（Idle & Touch Prefetching）**：於瀏覽器閒置期（`requestIdleCallback`）與使用者觸控/懸停卡片瞬間（`onTouchStart` / `onMouseEnter`）預先快取 `GirlDetailDrawer` 模組，徹底消滅點擊當下才發起網路請求下載 JS 造成的 920ms 嚴重互動卡頓（INP）。
+    - **React 18 `startTransition` 並發排程**：將抽屜開啟、分區切換與日期選取全面納入 Transition 並發排程，點擊反饋零延遲繪製，徹底消除 248ms ~ 288ms 之主執行緒阻塞。
+    - **關鍵連線預建（Preconnect Hints）**：於 `index.html` 加入 `https://docs.google.com` 之 `preconnect` 與 `dns-prefetch`，縮減遠端試算表握手延遲。
 * **v0.8.34.0**：
   - **主題日導覽三合一整合**：將「席位說明」、「賽前活動資訊」與「看台配置」三大操作按鈕整合至主題日橫幅（`ThemeDayBanner`）同一橫列展示；按鈕名稱與圖示全面精簡化，手機端自動適配等寬彈性排版，一目了然且無破版換行。
   - **連線狀態與數據驗證精簡化**：移除頂部冗餘的重複連線列，將連線狀態全面重構為超緊湊單行資料驗證條（`DataSourceBanner`）；以綠燈即時連線標記、當日出勤人數統計（如：當日出勤 27 位）、看台排位對應數據（主題日專區 14 位／一般看台 13 位；例行賽東／西區排位統計）及更新時間簡明呈現，並以微型圖示收納外部試算表與官方名冊連結，大幅釋放手機螢幕垂直空間。

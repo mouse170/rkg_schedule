@@ -314,19 +314,64 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
     const activeDates = combinedDates.filter(d => !isPastDate(d));
     const finalDates = activeDates.length > 0 ? activeDates : combinedDates;
 
-    return {
+    const liveDataset: ScheduleDataset = {
       dates: finalDates,
       girlsScheduleMap: combinedGirlsScheduleMap,
       dailyRosterMap: combinedDailyRosterMap,
       lastUpdated: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
       isLive: true
     };
+
+    saveCachedSchedule(liveDataset);
+    return liveDataset;
   } catch (err) {
     console.warn('Failed to fetch live sheet, using snapshot fallback:', err);
+    const cached = getCachedSchedule();
+    if (cached) {
+      cached.isLive = false;
+      return cached;
+    }
     const fallback = parseSheetCsv(FALLBACK_CSV);
     fallback.isLive = false;
     const activeDates = fallback.dates.filter(d => !isPastDate(d));
     fallback.dates = activeDates.length > 0 ? activeDates : fallback.dates;
     return fallback;
   }
+}
+
+export const SCHEDULE_CACHE_KEY = 'rkg_live_schedule_cache_v2';
+
+export function getCachedSchedule(): ScheduleDataset | null {
+  try {
+    const raw = localStorage.getItem(SCHEDULE_CACHE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw) as ScheduleDataset;
+      if (parsed && Array.isArray(parsed.dates) && parsed.dates.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to read schedule cache:', e);
+  }
+  return null;
+}
+
+export function saveCachedSchedule(data: ScheduleDataset): void {
+  try {
+    localStorage.setItem(SCHEDULE_CACHE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn('Failed to save schedule cache:', e);
+  }
+}
+
+export function getInitialSchedule(): ScheduleDataset {
+  const cached = getCachedSchedule();
+  if (cached) {
+    return cached;
+  }
+  const fallback = parseSheetCsv(FALLBACK_CSV);
+  fallback.isLive = false;
+  const activeDates = fallback.dates.filter(d => !isPastDate(d));
+  fallback.dates = activeDates.length > 0 ? activeDates : fallback.dates;
+  return fallback;
 }

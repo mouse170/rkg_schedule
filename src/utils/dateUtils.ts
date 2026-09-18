@@ -254,3 +254,52 @@ export function compareScheduleDates(a: string, b: string, baseDate: Date = new 
   if (!dateB) return -1;
   return dateA.getTime() - dateB.getTime();
 }
+
+/**
+ * 計算智慧預設日期：
+ * 1. 若有點選最愛女孩：
+ *    a. 檢查今天是否有最愛女孩上班，有則優先展示今天
+ *    b. 若今天無最愛女孩上班，尋找未來有最愛女孩上班且距離今天最近的比賽日
+ * 2. 若無最愛女孩或最愛女孩未來皆無班：
+ *    a. 若今天有主場賽程，預設選取今天
+ *    b. 若今天無賽程，預設選取未來第一場賽程
+ */
+export function getSmartDefaultDate(
+  datesList: string[],
+  favs: string[],
+  sched: { girlsScheduleMap: Record<string, { date: string }[]> },
+  lang: Language = 'zh-TW',
+  baseDate: Date = new Date()
+): string {
+  if (datesList.length === 0) return '';
+
+  const todayDate = datesList.find(d => getRelativeDateInfo(d, lang, baseDate).isToday);
+
+  if (favs.length > 0) {
+    // 1. 今天是否有最愛女孩有班
+    if (todayDate) {
+      const isFavOnDutyToday = favs.some(favName => {
+        const duties = sched.girlsScheduleMap[favName] || [];
+        return duties.some(duty => duty.date === todayDate);
+      });
+      if (isFavOnDutyToday) {
+        return todayDate;
+      }
+    }
+
+    // 2. 尋找未來第一個有最愛女孩有班的日期
+    const nextFavDate = datesList.find(d => {
+      return favs.some(favName => {
+        const duties = sched.girlsScheduleMap[favName] || [];
+        return duties.some(duty => duty.date === d);
+      });
+    });
+
+    if (nextFavDate) {
+      return nextFavDate;
+    }
+  }
+
+  // 無最愛或最愛皆無班時：優先今天，若無今天則未來第一場
+  return todayDate || datesList[0] || '';
+}
