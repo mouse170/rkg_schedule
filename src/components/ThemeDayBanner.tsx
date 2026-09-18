@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Map, X, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Map, X, CheckCircle2, Store } from 'lucide-react';
+import { PreMatchActivityModal } from './PreMatchActivityModal';
+import { GirlProfile } from '../types/schedule';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ThemeDayBannerProps {
   selectedDate: string;
   onSelectDate?: (date: string) => void;
+  allGirls?: GirlProfile[];
+  favorites?: string[];
+  onSelectGirl?: (girl: GirlProfile) => void;
 }
 
-export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, onSelectDate }) => {
+export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
+  selectedDate,
+  onSelectDate,
+  allGirls = [],
+  favorites = [],
+  onSelectGirl
+}) => {
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPreMatchModalOpen, setIsPreMatchModalOpen] = useState(false);
   const [modalDate, setModalDate] = useState<'9/19' | '9/20'>(selectedDate === '9/20' ? '9/20' : '9/19');
 
   const activeDateKey = selectedDate === '9/20' ? '9/20' : '9/19';
@@ -20,6 +34,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
     };
     preload('./theme/spicy_cool_sweet_banner.webp');
     preload('./theme/spicy_cool_sweet_court_map.webp');
+    preload('./theme/spicy_cool_sweet_booth_map.jpg');
   }, []);
 
   const handlePreloadModalImages = () => {
@@ -29,6 +44,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
     };
     preload('./theme/spicy_cool_sweet_banner.webp');
     preload('./theme/spicy_cool_sweet_court_map.webp');
+    preload('./theme/spicy_cool_sweet_booth_map.jpg');
   };
 
   return (
@@ -39,7 +55,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
         <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-2xl pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full bg-rose-500/15 dark:bg-rose-600/20 blur-2xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="space-y-1.5 flex-1">
             {/* Top Badges */}
             <div className="flex flex-wrap items-center gap-2">
@@ -60,12 +76,27 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
 
             {/* Inning Rules Subtitle */}
             <p className="text-[11px] sm:text-xs text-rose-950/80 dark:text-amber-200/90 leading-relaxed font-medium max-w-2xl">
-              1、2、3、7、8 局專區女孩全程於專屬看台寵粉應援 ‧ 本次主題日無中場表演
+              1、2、3、7、8 局專區女孩全程於專屬看台寵粉應援 ‧ 賽前攤位簽名會熱烈展開
             </p>
           </div>
 
-          {/* Action Trigger Button & Single Art Thumbnail */}
-          <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end pt-2 md:pt-0 border-t md:border-t-0 border-rose-200/80 dark:border-amber-500/20">
+          {/* Action Trigger Buttons & Visual Badge Thumbnail */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 w-full lg:w-auto justify-start lg:justify-end pt-2 lg:pt-0 border-t lg:border-t-0 border-rose-200/80 dark:border-amber-500/20">
+            {/* 1. Pre-Match Activities & Booths Button */}
+            <button
+              onClick={() => {
+                setModalDate(activeDateKey);
+                setIsPreMatchModalOpen(true);
+              }}
+              onMouseEnter={handlePreloadModalImages}
+              onFocus={handlePreloadModalImages}
+              className="px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-md active:scale-95 whitespace-nowrap ring-1 ring-rose-400/40"
+            >
+              <Store className="w-4 h-4 text-white" />
+              <span>{t.themeDayPreMatchBtn}</span>
+            </button>
+
+            {/* 2. Stadium Zone Map & Ticket Info Button */}
             <button
               onClick={() => {
                 setModalDate(activeDateKey);
@@ -73,21 +104,21 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
               }}
               onMouseEnter={handlePreloadModalImages}
               onFocus={handlePreloadModalImages}
-              className="px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap"
+              className="px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap"
             >
               <Map className="w-4 h-4 text-[#1a0007]" />
-              <span>專區看台配置與票價圖 →</span>
+              <span>{t.themeDayStadiumBtn}</span>
             </button>
 
             {/* Single Visual Badge Thumbnail */}
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden sm:block">
+            <div className="relative w-11 h-11 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden md:block">
               <picture>
                 <source srcSet="./theme/spicy_cool_sweet_key_visual.webp" type="image/webp" />
                 <img
                   src="./theme/spicy_cool_sweet_key_visual.jpg"
                   alt="辣酷甜單曲主視覺"
-                  width="48"
-                  height="48"
+                  width="44"
+                  height="44"
                   loading="lazy"
                   decoding="async"
                   className="w-full h-full object-cover"
@@ -218,6 +249,20 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({ selectedDate, on
           </div>
         </div>
       )}
+
+      {/* 3. Pre-Match Activities & Booths Modal */}
+      <PreMatchActivityModal
+        isOpen={isPreMatchModalOpen}
+        onClose={() => setIsPreMatchModalOpen(false)}
+        selectedDate={modalDate}
+        onSelectDate={(d) => {
+          setModalDate(d);
+          onSelectDate?.(d);
+        }}
+        allGirls={allGirls}
+        favorites={favorites}
+        onSelectGirl={onSelectGirl}
+      />
     </>
   );
 };

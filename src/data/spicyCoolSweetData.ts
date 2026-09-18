@@ -69,6 +69,137 @@ export const SPICY_COOL_SWEET_THEME: ThemeDayConfig = {
   }
 };
 
+export interface BoothScheduleItem {
+  timeSlot: string; // e.g. "15:10-15:30"
+  boothName: string; // e.g. "財團法人保險安定基金"
+  girls: string[]; // e.g. ["言梓璇", "貝佳頤"]
+}
+
+export interface DayPreMatchSchedule {
+  date: string;
+  weekday: string;
+  ticketTime: string;
+  admissionTime: string;
+  gameStartTime: string;
+  boothEvents: BoothScheduleItem[];
+}
+
+export interface AutographSessionRules {
+  title: string;
+  dates: string[];
+  location: string;
+  checkInTime: string;
+  capacity: number;
+  startTime: string;
+  notes: string[];
+}
+
+export interface PreMatchActivityConfig {
+  autographRules: AutographSessionRules;
+  days: Record<string, DayPreMatchSchedule>;
+  boothMapLegend: {
+    side: '三壘側 (GATE W 側)' | '一壘側 (GATE E 側)';
+    booths: { number: number; name: string }[];
+  }[];
+}
+
+export const SPICY_COOL_SWEET_PRE_MATCH: PreMatchActivityConfig = {
+  autographRules: {
+    title: '女孩簽名會',
+    dates: ['9/19 (六)', '9/20 (日)'],
+    location: '三壘側 GATE W 女孩簽名會專用排隊區 (包含金猿亦請在此排隊入場)',
+    checkInTime: '14:40',
+    capacity: 100,
+    startTime: '15:10',
+    notes: [
+      '14:40 開始檢查單曲簽名本並發放號碼牌',
+      '單曲簽名本及本人均需在場，一人限一本',
+      '名額限制：每日 100 名',
+      '領完號碼牌並驗票後，請直接至三壘側簽名區帳篷依序等候',
+      '15:10 正式開始簽名',
+      '本活動嚴格限簽單曲簽名本'
+    ]
+  },
+  days: {
+    '9/19': {
+      date: '9/19',
+      weekday: '六',
+      ticketTime: '15:00',
+      admissionTime: '15:00',
+      gameStartTime: '17:05',
+      boothEvents: [
+        {
+          timeSlot: '15:10-15:30',
+          boothName: '財團法人保險安定基金',
+          girls: ['言梓璇', '貝佳頤']
+        },
+        {
+          timeSlot: '15:30-15:50',
+          boothName: 'Flexii (飛來速)',
+          girls: ['筠熹', 'Mika']
+        },
+        {
+          timeSlot: '15:50-16:10',
+          boothName: '昇恆昌',
+          girls: ['笑笑', '琳妲']
+        },
+        {
+          timeSlot: '16:10-16:30',
+          boothName: '浪LIVE',
+          girls: ['金佳垠', '高佳彬']
+        }
+      ]
+    },
+    '9/20': {
+      date: '9/20',
+      weekday: '日',
+      ticketTime: '15:00',
+      admissionTime: '15:00',
+      gameStartTime: '17:05',
+      boothEvents: [
+        {
+          timeSlot: '15:10-15:30',
+          boothName: '光泉',
+          girls: ['岱縈', '禹菡']
+        },
+        {
+          timeSlot: '15:30-15:50',
+          boothName: 'Flexii (飛來速)',
+          girls: ['穎樂', '宋宋']
+        },
+        {
+          timeSlot: '15:50-16:10',
+          boothName: '昇恆昌',
+          girls: ['廉世彬', '高橋佳帆']
+        }
+      ]
+    }
+  },
+  boothMapLegend: [
+    {
+      side: '三壘側 (GATE W 側)',
+      booths: [
+        { number: 1, name: '三得利 健益多' },
+        { number: 2, name: '美商大都會人壽' },
+        { number: 3, name: 'Flexii (飛來速)' },
+        { number: 4, name: '保險安定基金' },
+        { number: 5, name: '光泉' },
+        { number: 6, name: '浪LIVE' },
+        { number: 7, name: '昇恆昌' }
+      ]
+    },
+    {
+      side: '一壘側 (GATE E 側)',
+      booths: [
+        { number: 8, name: '樂天桃園棒球場服務台' },
+        { number: 9, name: '樂天市場' },
+        { number: 10, name: '樂天信用卡' },
+        { number: 11, name: '樂天國際商業銀行' }
+      ]
+    }
+  ]
+};
+
 /**
  * 判斷指定日期是否為辣酷甜主題日
  */

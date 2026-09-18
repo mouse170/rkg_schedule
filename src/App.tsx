@@ -1177,6 +1177,9 @@ const MainApp: React.FC = () => {
                     <ThemeDayBanner
                       selectedDate={selectedDate}
                       onSelectDate={handleSelectDate}
+                      allGirls={OFFICIAL_GIRLS}
+                      favorites={favorites}
+                      onSelectGirl={(girl) => setSelectedGirl(girl)}
                     />
                   );
                 }

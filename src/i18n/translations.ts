@@ -224,6 +224,27 @@ export interface Translations {
   shareGoToIgDirectory: string;
   shareNoFavoritesBtn: string;
 
+  // Theme Day & Pre-Match Activities
+  themeDayPreMatchBtn: string;
+  themeDayStadiumBtn: string;
+  preMatchModalTitle: string;
+  preMatchModalSubtitle: string;
+  tabPreMatchSchedule: string;
+  tabBoothMap: string;
+  ticketAdmissionTime: string;
+  gameStartTimeLabel: string;
+  autographTitle: string;
+  autographQueueLocation: string;
+  autographCheckinNotice: string;
+  autographCapacityNotice: string;
+  autographStartNotice: string;
+  autographSingleBookOnly: string;
+  boothScheduleTitle: string;
+  boothInteractiveTip: string;
+  boothMapLegendWest: string;
+  boothMapLegendEast: string;
+  closePreMatchModal: string;
+
   // Language Switcher & Footer
   switchLanguage: string;
   vibeCodingNotice: string;
@@ -443,6 +464,27 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareGoToIgDirectory: '前往成員 IG 目錄',
     shareNoFavoritesBtn: '請先加入最愛女孩',
 
+    // Theme Day & Pre-Match Activities
+    themeDayPreMatchBtn: '賽前活動與攤位導覽 →',
+    themeDayStadiumBtn: '專區看台配置與票價圖 →',
+    preMatchModalTitle: '辣酷甜主題日 ‧ 賽前活動與攤位導覽',
+    preMatchModalSubtitle: '女孩簽名會規則、兩日攤位出勤行程與外圍位置圖',
+    tabPreMatchSchedule: '賽前行程與簽名會',
+    tabBoothMap: '攤位分佈與廠商導覽',
+    ticketAdmissionTime: '售票／進場時間：',
+    gameStartTimeLabel: '開賽時間：',
+    autographTitle: '女孩簽名會規範',
+    autographQueueLocation: '排隊地點：三壘側 GATE W 女孩簽名會專用排隊區（金猿亦請在此排隊）',
+    autographCheckinNotice: '14:40 開始檢查單曲簽名本並發放號碼牌（單曲簽名本及本人均需在場，一人一本）',
+    autographCapacityNotice: '人數上限：每日 100 名（領完號碼牌驗票後，請至三壘側簽名區帳篷依序等候）',
+    autographStartNotice: '15:10 正式開始簽名',
+    autographSingleBookOnly: '限簽單曲簽名本',
+    boothScheduleTitle: '攤位女孩出席見面行程',
+    boothInteractiveTip: '點擊女孩標籤可直接查看女孩個人檔案與出勤班表',
+    boothMapLegendWest: '三壘側（GATE W 側）攤位',
+    boothMapLegendEast: '一壘側（GATE E 側）攤位',
+    closePreMatchModal: '關閉賽前活動說明',
+
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
     disclaimerCopyright: '本專案由粉絲應援所建立，所有肖像與商標權屬樂天桃猿棒球隊與 Rakuten 所有。班表資料即時連線公開 Google Sheet。'
@@ -659,6 +701,27 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareGoToIgDirectory: 'メンバー IG 名鑑へ',
     shareNoFavoritesBtn: '先にお気に入りを追加',
 
+    // Theme Day & Pre-Match Activities
+    themeDayPreMatchBtn: '試合前イベント＆ブース案内 →',
+    themeDayStadiumBtn: '特別応援席配置＆チケット案内 →',
+    preMatchModalTitle: 'スパイシークールスウィート ‧ 試合前イベント＆ブース案内',
+    preMatchModalSubtitle: 'ガールズサイン会規定、ブース出演スケジュール、外周ブースマップ',
+    tabPreMatchSchedule: '試合前スケジュール＆サイン会',
+    tabBoothMap: 'ブース配置＆協賛案内',
+    ticketAdmissionTime: 'チケット販売／入場時間：',
+    gameStartTimeLabel: '試合開始時間：',
+    autographTitle: 'ガールズサイン会レギュレーション',
+    autographQueueLocation: '整列場所：三塁側 GATE W サイン会専用整列エリア（ゴールドクラブ会員含む）',
+    autographCheckinNotice: '14:40 シングルサイン本確認および整理券配布（本人の同席必須、お一人様1冊限り）',
+    autographCapacityNotice: '定員：各日 100 名（整理券受け取り・改札後、三塁側特設テントにて整列）',
+    autographStartNotice: '15:10 サイン会開始',
+    autographSingleBookOnly: 'シングルサイン本限定',
+    boothScheduleTitle: 'ブース出演スケジュール',
+    boothInteractiveTip: 'ガールズをタップして詳細プロフィールとスケジュールを表示',
+    boothMapLegendWest: '三塁側（GATE W 側）ブース',
+    boothMapLegendEast: '一塁側（GATE E 側）ブース',
+    closePreMatchModal: 'イベント案内を閉じる',
+
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
     disclaimerCopyright: '本プロジェクトはファンによる応援目的で制作されており、すべての肖像権および商標権は楽天モンキーズおよび Rakuten に帰属します。スケジュールデータは公開 Google スプレッドシートから取得しています。'
@@ -874,6 +937,27 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesDesc: '현재 추가된 최애 멤버가 없습니다. 「멤버 IG 디렉토리」에서 하트를 눌러 최애 멤버를 추가한 후 전용 응원 카드를 생성해 보세요!',
     shareGoToIgDirectory: '멤버 IG 디렉토리로 이동',
     shareNoFavoritesBtn: '최애 멤버를 먼저 추가하세요',
+
+    // Theme Day & Pre-Match Activities
+    themeDayPreMatchBtn: '경기 전 이벤트 및 부스 안내 →',
+    themeDayStadiumBtn: '특별 응원석 배치 및 티켓 안내 →',
+    preMatchModalTitle: '스파이시 쿨 스위트 ‧ 경기 전 이벤트 및 부스 안내',
+    preMatchModalSubtitle: '치어리더 팬사인회 규칙, 부스 출연 스케줄, 야구장 외곽 부스 맵',
+    tabPreMatchSchedule: '경기 전 스케줄 & 사인회',
+    tabBoothMap: '부스 배치 & 기업 안내',
+    ticketAdmissionTime: '티켓 판매／입장 시간：',
+    gameStartTimeLabel: '경기 시작 시간：',
+    autographTitle: '치어리더 팬사인회 안내 규정',
+    autographQueueLocation: '대기 장소: 3루측 GATE W 사인회 전용 대기 구역 (골드 멤버 포함)',
+    autographCheckinNotice: '14:40 싱글 사인북 확인 및 번호표 배부 (본인 및 사인북 지참 필수, 1인 1권 한정)',
+    autographCapacityNotice: '정원: 일일 100명 (번호표 수령 및 검표 후 3루측 텐트에서 순차 대기)',
+    autographStartNotice: '15:10 팬사인회 공식 시작',
+    autographSingleBookOnly: '싱글 사인북 전용 사인',
+    boothScheduleTitle: '부스 치어리더 출연 스케줄',
+    boothInteractiveTip: '치어리더를 탭하여 상세 프로필과 스케줄을 확인하세요',
+    boothMapLegendWest: '3루측 (GATE W 방면) 부스',
+    boothMapLegendEast: '1루측 (GATE E 방면) 부스',
+    closePreMatchModal: '이벤트 안내 닫기',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',
