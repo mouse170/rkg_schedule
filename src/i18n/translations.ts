@@ -244,6 +244,8 @@ export interface Translations {
   boothMapLegendWest: string;
   boothMapLegendEast: string;
   closePreMatchModal: string;
+  boothZoomTip: string;
+  boothZoomReset: string;
 
   // Language Switcher & Footer
   switchLanguage: string;
@@ -484,6 +486,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     boothMapLegendWest: '三壘側（GATE W 側）攤位',
     boothMapLegendEast: '一壘側（GATE E 側）攤位',
     closePreMatchModal: '關閉賽前活動說明',
+    boothZoomTip: '支援雙指捏合縮放／單指拖曳平移，雙擊快速放大',
+    boothZoomReset: '重設大小',
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
@@ -721,6 +725,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     boothMapLegendWest: '三塁側（GATE W 側）ブース',
     boothMapLegendEast: '一塁側（GATE E 側）ブース',
     closePreMatchModal: 'イベント案内を閉じる',
+    boothZoomTip: 'ピンチ操作で拡大・縮小、ドラッグで移動、ダブルタップで拡大',
+    boothZoomReset: 'リセット',
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
@@ -958,6 +964,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     boothMapLegendWest: '3루측 (GATE W 방면) 부스',
     boothMapLegendEast: '1루측 (GATE E 방면) 부스',
     closePreMatchModal: '이벤트 안내 닫기',
+    boothZoomTip: '두 손가락 핀치 확대/축소, 드래그 이동, 더블 탭 확대 지원',
+    boothZoomReset: '초기화',
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import {
   Calendar,
   Clock,
@@ -10,7 +10,11 @@ import {
   AlertCircle,
   Heart,
   ChevronRight,
-  Store
+  Store,
+  ZoomIn,
+  ZoomOut,
+  RotateCcw,
+  Move
 } from 'lucide-react';
 import { SPICY_COOL_SWEET_PRE_MATCH } from '../data/spicyCoolSweetData';
 import { GirlProfile } from '../types/schedule';
@@ -37,6 +41,123 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
 }) => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'BOOTH_MAP'>('SCHEDULE');
+
+  // Interactive Zoom & Pan State for Booth Map
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomTranslate, setZoomTranslate] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const pinchStartDistRef = useRef<number | null>(null);
+  const pinchStartScaleRef = useRef(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Reset zoom & pan when closing or switching tab
+  const handleResetZoom = useCallback(() => {
+    setZoomScale(1);
+    setZoomTranslate({ x: 0, y: 0 });
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen || activeTab !== 'BOOTH_MAP') {
+      handleResetZoom();
+    }
+  }, [isOpen, activeTab, handleResetZoom]);
+
+  // Touch Gesture Handlers (Pinch-to-zoom & Pan)
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2) {
+      // Pinch gesture start
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const dist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+      pinchStartDistRef.current = dist;
+      pinchStartScaleRef.current = zoomScale;
+    } else if (e.touches.length === 1 && zoomScale > 1) {
+      // Pan gesture start when zoomed in
+      setIsDragging(true);
+      dragStartRef.current = {
+        x: e.touches[0].clientX - zoomTranslate.x,
+        y: e.touches[0].clientY - zoomTranslate.y
+      };
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (e.touches.length === 2 && pinchStartDistRef.current !== null) {
+      // Pinch to zoom
+      e.preventDefault();
+      const touch1 = e.touches[0];
+      const touch2 = e.touches[1];
+      const dist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+      const ratio = dist / pinchStartDistRef.current;
+      const nextScale = Math.min(Math.max(pinchStartScaleRef.current * ratio, 1), 3.5);
+      setZoomScale(nextScale);
+      if (nextScale === 1) {
+        setZoomTranslate({ x: 0, y: 0 });
+      }
+    } else if (e.touches.length === 1 && isDragging && zoomScale > 1) {
+      // Pan image
+      e.preventDefault();
+      const currentX = e.touches[0].clientX - dragStartRef.current.x;
+      const currentY = e.touches[0].clientY - dragStartRef.current.y;
+      
+      // Limit panning bounds according to scale
+      const maxTranslate = (zoomScale - 1) * 200;
+      setZoomTranslate({
+        x: Math.max(Math.min(currentX, maxTranslate), -maxTranslate),
+        y: Math.max(Math.min(currentY, maxTranslate), -maxTranslate)
+      });
+    }
+  };
+
+  const handleTouchEnd = () => {
+    pinchStartDistRef.current = null;
+    setIsDragging(false);
+  };
+
+  // Double Tap to toggle Zoom
+  const lastTapRef = useRef<number>(0);
+  const handleDoubleTap = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 300) {
+      e.preventDefault();
+      if (zoomScale > 1) {
+        handleResetZoom();
+      } else {
+        setZoomScale(2);
+      }
+    }
+    lastTapRef.current = now;
+  };
+
+  // Mouse Drag Handlers for Desktop
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (zoomScale > 1) {
+      e.preventDefault();
+      setIsDragging(true);
+      dragStartRef.current = {
+        x: e.clientX - zoomTranslate.x,
+        y: e.clientY - zoomTranslate.y
+      };
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (isDragging && zoomScale > 1) {
+      e.preventDefault();
+      const currentX = e.clientX - dragStartRef.current.x;
+      const currentY = e.clientY - dragStartRef.current.y;
+      const maxTranslate = (zoomScale - 1) * 200;
+      setZoomTranslate({
+        x: Math.max(Math.min(currentX, maxTranslate), -maxTranslate),
+        y: Math.max(Math.min(currentY, maxTranslate), -maxTranslate)
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
   if (!isOpen) return null;
 
@@ -313,21 +434,102 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
             ) : (
               /* Tab 2: Booth Map & Exhibitor Directory */
               <div className="space-y-4">
-                {/* Visual Map Frame */}
-                <div className="rounded-2xl overflow-hidden border border-rose-200 dark:border-rose-900/60 bg-white dark:bg-black/60 p-2 shadow-inner">
-                  <picture>
-                    <source srcSet="./theme/spicy_cool_sweet_booth_map.webp" type="image/webp" />
-                    <img
-                      src="./theme/spicy_cool_sweet_booth_map.jpg"
-                      alt="樂天桃園棒球場攤位位置圖與號碼牌排隊動線"
-                      width="1080"
-                      height="1080"
-                      loading="eager"
-                      decoding="async"
-                      className="w-full h-auto rounded-xl object-contain max-h-[380px] sm:max-h-[460px] mx-auto"
-                    />
-                  </picture>
-                  <p className="text-center text-[11px] text-rose-950/60 dark:text-rose-300/60 mt-2 font-medium">
+                {/* Visual Map Frame with Pinch-to-Zoom & Pan */}
+                <div className="relative rounded-2xl overflow-hidden border border-rose-200 dark:border-rose-900/60 bg-white dark:bg-black/60 shadow-inner">
+                  {/* Floating Zoom Control Toolbar */}
+                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2 py-1.5 rounded-xl border border-white/20 text-white shadow-lg">
+                    <button
+                      type="button"
+                      onClick={() => setZoomScale(s => Math.min(s + 0.5, 3.5))}
+                      className="p-1 rounded-lg hover:bg-white/20 active:scale-90 transition text-amber-200"
+                      title="放大"
+                      aria-label="放大"
+                    >
+                      <ZoomIn className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setZoomScale(s => {
+                          const next = Math.max(s - 0.5, 1);
+                          if (next === 1) setZoomTranslate({ x: 0, y: 0 });
+                          return next;
+                        });
+                      }}
+                      className="p-1 rounded-lg hover:bg-white/20 active:scale-90 transition text-amber-200"
+                      title="縮小"
+                      aria-label="縮小"
+                    >
+                      <ZoomOut className="w-4 h-4" />
+                    </button>
+                    {zoomScale > 1 && (
+                      <button
+                        type="button"
+                        onClick={handleResetZoom}
+                        className="px-1.5 py-1 text-[10px] font-black rounded-lg bg-rose-600 hover:bg-rose-500 text-white active:scale-90 transition flex items-center gap-1"
+                        title={t.boothZoomReset}
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        <span>{t.boothZoomReset}</span>
+                      </button>
+                    )}
+                    <span className="text-[10px] font-extrabold text-white/80 px-1 border-l border-white/20">
+                      {Math.round(zoomScale * 100)}%
+                    </span>
+                  </div>
+
+                  {/* Interactive Map Viewport */}
+                  <div
+                    ref={containerRef}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                    onClick={handleDoubleTap}
+                    className={`relative w-full h-[360px] sm:h-[450px] overflow-hidden flex items-center justify-center select-none ${
+                      zoomScale > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-zoom-in'
+                    }`}
+                    style={{ touchAction: 'none' }}
+                  >
+                    <div
+                      style={{
+                        transform: `translate3d(${zoomTranslate.x}px, ${zoomTranslate.y}px, 0px) scale(${zoomScale})`,
+                        transformOrigin: 'center center',
+                        transition: isDragging ? 'none' : 'transform 0.2s cubic-bezier(0.25, 1, 0.5, 1)',
+                        willChange: 'transform'
+                      }}
+                      className="w-full h-full flex items-center justify-center p-2"
+                    >
+                      <picture className="pointer-events-none w-full h-full flex items-center justify-center">
+                        <source srcSet="./theme/spicy_cool_sweet_booth_map.webp" type="image/webp" />
+                        <img
+                          src="./theme/spicy_cool_sweet_booth_map.jpg"
+                          alt="樂天桃園棒球場攤位位置圖與號碼牌排隊動線"
+                          width="1080"
+                          height="1080"
+                          loading="eager"
+                          decoding="async"
+                          draggable={false}
+                          className="w-full h-full object-contain rounded-xl"
+                        />
+                      </picture>
+                    </div>
+
+                    {/* Hint overlay for first-time viewers */}
+                    {zoomScale === 1 && (
+                      <div className="absolute bottom-2.5 inset-x-3 pointer-events-none flex items-center justify-center">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md text-[11px] font-semibold text-rose-100 border border-white/15 shadow-md animate-fade-in">
+                          <Move className="w-3.5 h-3.5 text-amber-300" />
+                          <span>{t.boothZoomTip}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <p className="text-center text-[11px] text-rose-950/60 dark:text-rose-300/60 py-2 font-medium bg-rose-50/50 dark:bg-black/40 border-t border-rose-100 dark:border-rose-950">
                     三壘側 GATE W 旁設有女孩簽名會帳篷 ‧ 1 至 11 號外圍廠商攤位一覽
                   </p>
                 </div>
