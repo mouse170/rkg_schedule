@@ -35,6 +35,22 @@ interface PeriodColDef {
 
 const DECK_ORDER: ('東下' | '西下' | '東上' | '西上')[] = ['東下', '西下', '東上', '西上'];
 
+/**
+ * 簡化矩陣視圖專區代碼，避免文字過長截斷破版：
+ * - 東下I~M / 西下I~K -> 簡化為 I, J, K, L, M
+ * - 東上B~D / 西上B~D -> 簡化為 上B, 上C, 上D
+ */
+export const formatMatrixZoneBadge = (zoneCode: string): string => {
+  if (!zoneCode) return '';
+  if (zoneCode.includes('上')) {
+    return zoneCode.replace(/^[東西]/, ''); // '東上B' -> '上B'
+  }
+  if (zoneCode.includes('下')) {
+    return zoneCode.replace(/^[東西]下/, ''); // '東下K' -> 'K'
+  }
+  return zoneCode;
+};
+
 interface DateMatrixTableProps {
   date: string;
   allGirls: GirlProfile[];
@@ -486,18 +502,13 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                                           )}
                                         </div>
 
-                                        <div className="min-w-0 flex-1 leading-tight">
-                                          <div className="flex items-center gap-1">
-                                            <span className="text-[9px] font-black text-rose-600 dark:text-amber-400">
-                                              #{girl.number}
-                                            </span>
-                                            <span className="text-[11px] font-bold text-slate-800 dark:text-amber-100 truncate">
-                                              {girl.name}
-                                            </span>
-                                          </div>
+                                        <div className="min-w-0 flex-1 flex flex-col justify-center">
+                                          <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-amber-100 leading-none">
+                                            #{girl.number}
+                                          </span>
                                           {assign && (
-                                            <span className="inline-block text-[8px] text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-500/20 px-1 rounded font-black truncate max-w-full">
-                                              {assign.zoneCode}
+                                            <span className="inline-block text-[9px] sm:text-[10px] text-amber-900 dark:text-amber-200 bg-amber-200/80 dark:bg-amber-500/25 px-1 py-0.2 rounded font-black w-max whitespace-nowrap leading-tight border border-amber-300/80 dark:border-amber-400/40 mt-0.5">
+                                              {formatMatrixZoneBadge(assign.zoneCode)}
                                             </span>
                                           )}
                                         </div>
@@ -525,7 +536,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                                     ? 'bg-rose-50 hover:bg-rose-100 dark:bg-gradient-to-r dark:from-rose-950/80 dark:to-pink-950/80 border-rose-300 dark:border-amber-400/60 shadow-sm ring-1 ring-rose-300 dark:ring-amber-400/30'
                                     : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20 shadow-xs'
                                 }`}
-                                title={`${girl.name} (#${girl.number})`}
+                                title={`${girl.name} (#${girl.number})${assign ? ` - ${assign.zoneCode}` : ''}`}
                               >
                                 <div className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden flex-shrink-0 border border-rose-300 dark:border-amber-400/50 bg-neutral-100 dark:bg-neutral-900">
                                   <img
@@ -541,18 +552,13 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                                   )}
                                 </div>
 
-                                <div className="min-w-0 flex-1 leading-tight">
-                                  <div className="flex items-center gap-1">
-                                    <span className="text-[9px] font-black text-rose-600 dark:text-amber-400">
-                                      #{girl.number}
-                                    </span>
-                                    <span className="text-[11px] font-bold text-slate-800 dark:text-amber-100 truncate">
-                                      {girl.name}
-                                    </span>
-                                  </div>
+                                <div className="min-w-0 flex-1 flex flex-col justify-center">
+                                  <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-amber-100 leading-none">
+                                    #{girl.number}
+                                  </span>
                                   {assign && (
-                                    <span className="inline-block text-[8px] text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-500/20 px-1 rounded-full font-black truncate max-w-full">
-                                      {assign.zoneCode}
+                                    <span className="inline-block text-[9px] sm:text-[10px] text-amber-900 dark:text-amber-200 bg-amber-200/80 dark:bg-amber-500/25 px-1 py-0.2 rounded font-black w-max whitespace-nowrap leading-tight border border-amber-300/80 dark:border-amber-400/40 mt-0.5">
+                                      {formatMatrixZoneBadge(assign.zoneCode)}
                                     </span>
                                   )}
                                 </div>
