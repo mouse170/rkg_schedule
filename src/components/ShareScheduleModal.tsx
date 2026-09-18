@@ -83,21 +83,21 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   const isTheme = Boolean(exportDate && isSpicyCoolSweetDate(exportDate));
 
   // 建立包含語系參數的分享網址
-  const buildShareUrl = () => {
+  const shareUrl = useMemo(() => {
     try {
-      const baseUrl = window.location.origin + window.location.pathname;
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : 'https://mouse170.github.io/rkg_schedule/';
       const params = new URLSearchParams();
       if (exportDate) params.set('date', exportDate);
       if (favorites.length > 0) params.set('favs', favorites.join(','));
       if (language) params.set('lang', language);
       return `${baseUrl}?${params.toString()}`;
     } catch {
-      return window.location.href;
+      return typeof window !== 'undefined' ? window.location.href : 'https://mouse170.github.io/rkg_schedule/';
     }
-  };
+  }, [exportDate, favorites, language]);
 
   // 組裝多語系推文內文與標籤
-  const buildShareText = () => {
+  const shareText = useMemo(() => {
     const headline = t.shareTweetHeadline;
     const dateText = exportDate ? `📅 ${formattedDateFull}` : `📅 ${t.shareAllSeasonTitle}`;
     
@@ -125,12 +125,20 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
     const fullTags = extraTags.length > 0 ? `${baseTags} ${extraTags.join(' ')}` : baseTags;
     return `${headline}\n${dateText}${girlsText ? `\n${girlsText}` : ''}\n\n${fullTags}`;
-  };
+  }, [t.shareTweetHeadline, t.shareTweetHashtags, t.shareAllSeasonTitle, exportDate, formattedDateFull, favGirls, favorites, language]);
+
+  // 社群分享 Intent 網址（依規範分離 text 與 url 參數）
+  const xShareUrl = useMemo(() => {
+    return `https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  }, [shareText, shareUrl]);
+
+  const threadsShareUrl = useMemo(() => {
+    return `https://www.threads.net/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+  }, [shareText, shareUrl]);
 
   // 複製分享連結
   const handleCopyLink = async () => {
     try {
-      const shareUrl = buildShareUrl();
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       onShowToast(t.shareToastCopied);
@@ -139,22 +147,6 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
       console.error('Failed to copy', err);
       onShowToast(t.shareToastFailed);
     }
-  };
-
-  // 分享至 X (Twitter)
-  const handleShareToX = () => {
-    const text = buildShareText();
-    const url = buildShareUrl();
-    const xIntentUrl = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-    window.open(xIntentUrl, '_blank', 'noopener,noreferrer');
-  };
-
-  // 分享至 Threads
-  const handleShareToThreads = () => {
-    const text = buildShareText();
-    const url = buildShareUrl();
-    const threadsIntentUrl = `https://www.threads.net/intent/post?text=${encodeURIComponent(`${text}\n${url}`)}`;
-    window.open(threadsIntentUrl, '_blank', 'noopener,noreferrer');
   };
 
   // 下載 9:16 直式 PNG 圖卡
@@ -428,26 +420,28 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
           </button>
 
           {/* X (Twitter) 純圖標分享按鈕 */}
-          <button
-            type="button"
-            onClick={handleShareToX}
+          <a
+            href={xShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             title={t.shareToX}
             aria-label={t.shareToX}
             className="flex-shrink-0 p-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
           >
             <XIcon className="w-4 h-4 text-white" />
-          </button>
+          </a>
 
           {/* Threads 純圖標分享按鈕 */}
-          <button
-            type="button"
-            onClick={handleShareToThreads}
+          <a
+            href={threadsShareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             title={t.shareToThreads}
             aria-label={t.shareToThreads}
             className="flex-shrink-0 p-2.5 rounded-xl bg-neutral-900 hover:bg-black text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
           >
             <ThreadsIcon className="w-4 h-4 text-white" />
-          </button>
+          </a>
         </div>
 
         {/* 9:16 Card Preview Container */}

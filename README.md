@@ -69,6 +69,10 @@
 
 ## 改版歷程摘要
 
+* **v0.8.36.1**：
+  - **修復 Threads 社群分享規格與連動異常**：
+    - **參數解耦與標準 Web Intent 格式**：將分享網址從 `text` 內文抽離，獨立傳入 `url` 查詢參數（`&url=${encodeURIComponent(shareUrl)}`），使 Threads 官方能精準產生卡片預覽，杜絕因長網址內嵌內文導致之格式截斷與解析失敗。
+    - **全面改採原生語意超連結（Native Anchor Tag）**：將社群按鈕由 JavaScript `window.open` 重構為標準 `<a target="_blank" rel="noopener noreferrer">`，徹底根除行動裝置（iOS Safari、Android Chrome 與 App 內建瀏覽器）之快顯封鎖問題，並無縫喚起 Threads 原生 App 發文編輯器（Universal Link / App Link）。
 * **v0.8.36.0**：
   - **X（Twitter）與 Threads 純圖標社群分享**：於分享彈窗操作列新增 X 與 Threads 純圖標按鈕，點擊即開啟官方 Web Intent，發送包含選定賽事日期、最愛女孩背號姓名與專屬標籤之在地化推文。
   - **動態多語系推文引擎與成員標籤加權**：依使用者當前語系自動切換中、日、韓三語系推文文案與熱門搜尋標籤；若最愛名單包含日籍成員（高橋佳帆）或韓籍成員（河智媛、禹洙漢、廉世彬、高佳彬、金佳垠、崔荷潾），自動追加專屬成員標籤加權。
