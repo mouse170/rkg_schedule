@@ -34,6 +34,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
     };
     preload('./theme/spicy_cool_sweet_banner.webp');
     preload('./theme/spicy_cool_sweet_court_map.webp');
+    preload('./theme/spicy_cool_sweet_booth_map.webp');
     preload('./theme/spicy_cool_sweet_booth_map.jpg');
   }, []);
 
@@ -44,6 +45,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
     };
     preload('./theme/spicy_cool_sweet_banner.webp');
     preload('./theme/spicy_cool_sweet_court_map.webp');
+    preload('./theme/spicy_cool_sweet_booth_map.webp');
     preload('./theme/spicy_cool_sweet_booth_map.jpg');
   };
 
