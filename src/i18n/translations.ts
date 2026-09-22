@@ -22,6 +22,14 @@ export interface Translations {
   googleSheetLink: string;
   officialRosterLink: string;
   officialIgLink: string;
+  liveOnline: string;
+  offlineCache: string;
+  dailyRosterDutyCount: string;
+  allStationsAssigned: string;
+  partiallyAssigned: string;
+  stationsPending: string;
+  updatingSchedule: string;
+  lastUpdatedLabel: string;
 
   // Instagram Directory
   igBannerTitle: string;
@@ -291,6 +299,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     googleSheetLink: 'Google 試算表班表',
     officialRosterLink: 'Rakuten Girls 官方名冊',
     officialIgLink: 'Rakuten Girls 官方IG',
+    liveOnline: '即時連線',
+    offlineCache: '離線快取',
+    dailyRosterDutyCount: '當日出勤 {count} 位',
+    allStationsAssigned: '站位已全數排定',
+    partiallyAssigned: '已排定 {assigned} 位 ‧ 待公布 {pending} 位',
+    stationsPending: '站位待公布',
+    updatingSchedule: '當期班表更新中',
+    lastUpdatedLabel: '更新：{time}',
 
     igBannerTitle: 'Rakuten Girls 官方 Instagram 目錄',
     igBannerBadge: '官方社群名錄 • 隨時追蹤女孩動態',
@@ -547,6 +563,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     googleSheetLink: 'Google スプレッドシート日程表',
     officialRosterLink: 'Rakuten Girls 公式名簿',
     officialIgLink: '球団公式 IG',
+    liveOnline: 'リアルタイム接続',
+    offlineCache: 'オフラインキャッシュ',
+    dailyRosterDutyCount: '本日出演 {count} 名',
+    allStationsAssigned: '配置スケジュール確定',
+    partiallyAssigned: '確定 {assigned} 名・未発表 {pending} 名',
+    stationsPending: '配置未発表',
+    updatingSchedule: 'スケジュール更新中',
+    lastUpdatedLabel: '更新：{time}',
 
     igBannerTitle: 'Rakuten Girls 公式 Instagram 名鑑',
     igBannerBadge: '公式SNS名鑑 • メンバーの最新動向をチェック',
@@ -803,6 +827,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     googleSheetLink: 'Google 스프레드시트 일정표',
     officialRosterLink: 'Rakuten Girls 공식 명단',
     officialIgLink: '구단 공식 IG',
+    liveOnline: '실시간 연결',
+    offlineCache: '오프라인 캐시',
+    dailyRosterDutyCount: '당일 출근 {count} 명',
+    allStationsAssigned: '배치 일정 확정',
+    partiallyAssigned: '확정 {assigned} 명 · 미발표 {pending} 명',
+    stationsPending: '배치 미발표',
+    updatingSchedule: '일정 업데이트 중',
+    lastUpdatedLabel: '업데이트：{time}',
 
     igBannerTitle: 'Rakuten Girls 공식 Instagram 디렉토리',
     igBannerBadge: '공식 SNS 명단 • 멤버들의 최신 소식을 확인하세요',

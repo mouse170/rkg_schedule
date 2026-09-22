@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { ExternalLink, Database, Info } from 'lucide-react';
+import { ExternalLink, Database, Info, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { ScheduleDataset } from '../types/schedule';
-import { isSpicyCoolSweetDate, getZoneAssignment } from '../data/spicyCoolSweetData';
 import { useLanguage } from '../context/LanguageContext';
 
 interface DataSourceBannerProps {
@@ -20,79 +19,51 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
 
   const roster = (selectedDate && schedule.dailyRosterMap[selectedDate]) || [];
   const onDutyCount = roster.length;
-  const isThemeDay = isSpicyCoolSweetDate(selectedDate);
 
-  const stats: (
-    | {
-        type: 'THEME';
-        zoneCount: number;
-        generalCount: number;
-        eastCount: number;
-        westCount: number;
-      }
-    | {
-        type: 'REGULAR';
-        assignedCount: number;
-        eastCount: number;
-        westCount: number;
-      }
-    | null
-  ) = useMemo(() => {
+  // 驗證試算表出勤女孩之班表安排狀態（排班完整度驗證，取代無實質意義之東/西區人數統計）
+  const stats = useMemo(() => {
     if (!selectedDate || roster.length === 0) {
       return null;
     }
 
-    if (isThemeDay) {
-      let zoneCount = 0;
-      let eastCount = 0;
-      let westCount = 0;
+    const assignedGirls: string[] = [];
+    const pendingGirls: string[] = [];
 
-      roster.forEach(duty => {
-        const hasZone = getZoneAssignment(selectedDate, duty.girlName);
-        const isZoneLoc = duty.innings.some(i => i.location.includes('專區'));
-        if (hasZone || isZoneLoc || duty.primaryArea === '專區') {
-          zoneCount++;
-        } else {
-          const isEast = duty.innings.some(i => i.location.includes('東'));
-          const isWest = duty.innings.some(i => i.location.includes('西'));
-          if (isEast) eastCount++;
-          else if (isWest) westCount++;
-        }
-      });
-
-      return {
-        type: 'THEME' as const,
-        zoneCount,
-        generalCount: onDutyCount - zoneCount,
-        eastCount,
-        westCount,
-      };
-    } else {
-      let eastCount = 0;
-      let westCount = 0;
-      let assignedCount = 0;
-
-      roster.forEach(duty => {
-        const hasStation = duty.innings.some(
-          i => i.location.trim() && !i.location.includes('待公布') && !i.location.includes('待定')
+    roster.forEach(duty => {
+      // 判定女孩是否已安排具體站位（排除空白、待公布、待定、未安排或純休息）
+      const hasAssignedStation = duty.innings.some(i => {
+        const loc = i.location.trim();
+        return (
+          loc.length > 0 &&
+          !loc.includes('待公布') &&
+          !loc.includes('待公佈') &&
+          !loc.includes('待定') &&
+          !loc.includes('未安排') &&
+          loc !== '休息' &&
+          loc !== '休'
         );
-        if (hasStation) assignedCount++;
-
-        if (duty.primaryArea === '東區' || duty.innings.some(i => i.location.includes('東') && !i.location.includes('東R'))) {
-          eastCount++;
-        } else if (duty.primaryArea === '西區' || duty.innings.some(i => i.location.includes('西') && !i.location.includes('西R'))) {
-          westCount++;
-        }
       });
 
-      return {
-        type: 'REGULAR' as const,
-        assignedCount,
-        eastCount,
-        westCount,
-      };
-    }
-  }, [selectedDate, roster, isThemeDay, onDutyCount]);
+      if (hasAssignedStation) {
+        assignedGirls.push(duty.girlName);
+      } else {
+        pendingGirls.push(duty.girlName);
+      }
+    });
+
+    const assignedCount = assignedGirls.length;
+    const pendingCount = pendingGirls.length;
+    const allAssigned = assignedCount === onDutyCount && onDutyCount > 0;
+
+    return {
+      onDutyCount,
+      assignedCount,
+      pendingCount,
+      allAssigned,
+      assignedGirls,
+      pendingGirls,
+    };
+  }, [selectedDate, roster, onDutyCount]);
 
   return (
     <div className="bg-pink-50/95 dark:bg-[#120104]/95 border-b border-pink-200/80 dark:border-amber-500/20 px-3 sm:px-4 py-1.5 text-xs text-gray-700 dark:text-amber-200/90 transition-colors shadow-xs">
@@ -108,14 +79,14 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
                 <span className="text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">
-                  即時連線
+                  {t.liveOnline}
                 </span>
               </>
             ) : (
               <>
                 <span className="h-2 w-2 rounded-full bg-amber-500 flex-shrink-0" />
                 <span className="text-amber-600 dark:text-amber-400 font-bold whitespace-nowrap">
-                  離線快取
+                  {t.offlineCache}
                 </span>
               </>
             )}
@@ -127,7 +98,7 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
           <div className="inline-flex items-center gap-1 font-medium whitespace-nowrap flex-shrink-0">
             {schedule.dates.length === 0 ? (
               <span className="font-bold text-amber-600 dark:text-amber-300">
-                當期班表更新中
+                {t.updatingSchedule}
               </span>
             ) : (
               <>
@@ -139,28 +110,41 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
             )}
           </div>
 
-          {/* 排位對應統計 */}
+          {/* 班表站位排定驗證狀態 */}
           {stats && onDutyCount > 0 && (
             <>
               <span className="text-pink-300 dark:text-amber-500/30">·</span>
-              <div className="inline-flex items-center gap-1 text-gray-600 dark:text-amber-100/90 whitespace-nowrap flex-shrink-0">
-                {stats.type === 'THEME' ? (
-                  <span>
-                    專區 <strong className="text-rose-600 dark:text-amber-300 font-extrabold">{stats.zoneCount}</strong> 位
-                    <span className="text-pink-300 dark:text-amber-500/40 mx-1">/</span>
-                    一般看台 <strong className="text-gray-800 dark:text-white font-bold">{stats.generalCount}</strong> 位
-                  </span>
+              <div className="inline-flex items-center whitespace-nowrap flex-shrink-0">
+                {stats.allAssigned ? (
+                  <div
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] sm:text-[11px]"
+                    title={`全數女孩均已完成排班 (${stats.assignedCount}/${stats.onDutyCount})`}
+                  >
+                    <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                    <span>{t.allStationsAssigned}</span>
+                  </div>
+                ) : stats.assignedCount > 0 ? (
+                  <div
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 font-bold text-[10px] sm:text-[11px] cursor-help"
+                    title={`待公布名單：${stats.pendingGirls.join('、')}`}
+                  >
+                    <AlertCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                    <span>
+                      已排定 <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold">{stats.assignedCount}</strong> 位
+                    </span>
+                    <span className="text-amber-400 dark:text-amber-600">‧</span>
+                    <span>
+                      待公布 <strong className="text-rose-600 dark:text-rose-400 font-extrabold">{stats.pendingCount}</strong> 位
+                    </span>
+                  </div>
                 ) : (
-                  <span>
-                    東區 <strong className="text-rose-600 dark:text-amber-300 font-extrabold">{stats.eastCount}</strong> 位
-                    <span className="text-pink-300 dark:text-amber-500/40 mx-1">/</span>
-                    西區 <strong className="text-gray-800 dark:text-white font-bold">{stats.westCount}</strong> 位
-                    {stats.assignedCount < onDutyCount && (
-                      <span className="text-gray-400 dark:text-gray-500 text-[10px] ml-1">
-                        ({stats.assignedCount}/{onDutyCount} 已排定)
-                      </span>
-                    )}
-                  </span>
+                  <div
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 font-bold text-[10px] sm:text-[11px] cursor-help"
+                    title={`尚未公布站位名單：${stats.pendingGirls.join('、')}`}
+                  >
+                    <Clock className="w-3 h-3 text-rose-500 dark:text-rose-400 flex-shrink-0" />
+                    <span>{t.stationsPending}</span>
+                  </div>
                 )}
               </div>
             </>
@@ -171,7 +155,7 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
             <>
               <span className="text-pink-300 dark:text-amber-500/30 hidden md:inline">|</span>
               <span className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 whitespace-nowrap hidden md:inline">
-                更新：{lastUpdated}
+                {t.lastUpdatedLabel.replace('{time}', lastUpdated)}
               </span>
             </>
           )}
