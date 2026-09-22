@@ -595,8 +595,15 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                       const isDateTheme = isSpicyCoolSweetDate(exportDate);
                       const zoneAssign = isDateTheme ? getZoneAssignment(exportDate, girl.name) : null;
                       const postZone = isDateTheme ? getPostMatchZone(exportDate, girl.name) : null;
-                      const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isDateTheme ? '看台應援' : '休息');
-                      const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isDateTheme ? '看台換側' : '休息');
+
+                      const inning13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'));
+                      const inning78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'));
+                      const loc13 = inning13?.location?.trim();
+                      const loc78 = inning78?.location?.trim();
+
+                      // 站位待公布判定：若當日有出勤（duty 存在），但站位空白或未排定，顯示「待公布」，嚴禁顯示為「休息」
+                      const rawP13 = loc13 || (isDateTheme ? '看台應援' : (duty ? '待公布' : '休息'));
+                      const rawP78 = loc78 || (isDateTheme ? '看台換側' : (duty ? '待公布' : '休息'));
                       const p13 = translateLocation(rawP13, language);
                       const p78 = translateLocation(rawP78, language);
                       const translatedPostZone = postZone ? translateLocation(postZone, language) : null;
@@ -623,7 +630,17 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                             </span>
                           </div>
 
-                          {zoneAssign ? (
+                          {!duty ? (
+                            <div className="flex items-center">
+                              <span className={`px-2 py-0.5 rounded border text-[10px] font-bold ${
+                                cardTheme === 'light'
+                                  ? 'bg-slate-100 text-slate-500 border-slate-200'
+                                  : 'bg-white/5 text-slate-400 border-white/10'
+                              }`}>
+                                {t.offDuty}
+                              </span>
+                            </div>
+                          ) : zoneAssign ? (
                             <div className="flex items-center gap-1 text-right">
                               <span className={`px-2 py-0.5 rounded-full font-black text-[10px] border ${
                                 cardTheme === 'light'
@@ -717,8 +734,14 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                               const isDateTheme = isSpicyCoolSweetDate(date);
                               const zoneAssign = isDateTheme ? getZoneAssignment(date, girl.name) : null;
                               const postZone = isDateTheme ? getPostMatchZone(date, girl.name) : null;
-                              const rawP13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'))?.location || (isDateTheme ? '看台應援' : '休息');
-                              const rawP78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'))?.location || (isDateTheme ? '看台換側' : '休息');
+                              const inning13 = duty?.innings.find((i: InningAssignment) => i.period.includes('1-3'));
+                              const inning78 = duty?.innings.find((i: InningAssignment) => i.period.includes('7-8'));
+                              const loc13 = inning13?.location?.trim();
+                              const loc78 = inning78?.location?.trim();
+
+                              // 站位待公布判定：若當日有出勤（duty 存在），但站位空白或未排定，顯示「待公布」，嚴禁顯示為「休息」
+                              const rawP13 = loc13 || (isDateTheme ? '看台應援' : (duty ? '待公布' : '休息'));
+                              const rawP78 = loc78 || (isDateTheme ? '看台換側' : (duty ? '待公布' : '休息'));
                               const p13 = translateLocation(rawP13, language);
                               const p78 = translateLocation(rawP78, language);
                               const translatedPostZone = postZone ? translateLocation(postZone, language) : null;
@@ -733,7 +756,15 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                                     {dateLabel}
                                   </span>
 
-                                  {zoneAssign ? (
+                                  {!duty ? (
+                                    <span className={`px-1.5 py-0.5 rounded border text-[9px] font-bold ${
+                                      cardTheme === 'light'
+                                        ? 'bg-slate-100 text-slate-500 border-slate-200'
+                                        : 'bg-white/5 text-slate-400 border-white/10'
+                                    }`}>
+                                      {t.offDuty}
+                                    </span>
+                                  ) : zoneAssign ? (
                                     <div className="flex items-center gap-1 text-right flex-wrap justify-end">
                                       <span className={`px-1.5 py-0.5 rounded-full font-black text-[9px] border ${
                                         cardTheme === 'light'
