@@ -6,7 +6,7 @@ import { isPastDate } from '../utils/dateUtils';
 
 export const SHEET_HTMLVIEW_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/htmlview';
 export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
-export const DEFAULT_FALLBACK_GIDS = ['735466597', '2095582072', '1259873345'];
+export const DEFAULT_FALLBACK_GIDS = ['2095582072', '1259873345'];
 export const SHEET_GIDS = DEFAULT_FALLBACK_GIDS;
 export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${DEFAULT_FALLBACK_GIDS[0]}`;
 
@@ -36,8 +36,8 @@ export async function fetchActiveSheetTabs(): Promise<SheetTabInfo[]> {
         .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
         .replace(/\\\//g, '/');
 
-      // 排除無效或空白範本頁籤
-      if (name.includes('範本') || name.trim() === '桃園') {
+      // 排除無效、空白範本或歷史主題日頁籤
+      if (name.includes('範本') || name.includes('辣酷甜') || name.trim() === '桃園') {
         continue;
       }
       tabs.push({ name, gid });
@@ -270,37 +270,35 @@ export function parseSheetCsv(csvText: string): ScheduleDataset {
   };
 }
 
-// Fallback CSV snapshot（9/19 與 9/20 辣酷甜主題日當期即時備份）
-const FALLBACK_CSV = `"🦈站位由各家女孩粉絲手動更新,僅供參考,實際站位以現場為主🦈",,,,,,,,,,
-,,9/19,,,,,,9/20,,
-背號,女孩,1-3,7-8,賽後,,背號,女孩,1-3,7-8,賽後
-3,穆又甯,,,東,我  叫  分  隔  線,3,穆又甯,專區,專區,
-6,宋宋,專區,專區,,,6,宋宋,,,
-7,筠熹,,,,,7,筠熹,專區,專區,
-8,貝佳頤,大樂,東,,,8,貝佳頤,專區,專區,
-9,高橋佳帆,專區,專區,西,,9,高橋佳帆,,,
-10,卉妮,,,,,10,卉妮,專區,專區,
-12,穎樂,專區,專區,,,12,穎樂,,,
-15,孟潔,專區,專區,,,15,孟潔,西,大樂,
-17,笑笑,大樂,西,西,,17,笑笑,專區,專區,
-18,熊霓,專區,專區,西,,18,熊霓,,,
-19,KIRA,西,大樂,,,19,KIRA,專區,專區,東
-20,MIKA,,,,,20,MIKA,專區,專區,西
-22,河智媛,西,東,,,22,河智媛,專區,專區,西
-24,廉世彬,專區,專區,,,24,廉世彬,西,東,東
-25,禹洙漢,東,西,,,25,禹洙漢,專區,專區,西
-26,高佳彬,專區,專區,,,26,高佳彬,東,西,東
-27,若潼,,,,,27,若潼,專區,專區,
-33,言梓璇,西,東,,,33,言梓璇,專區,專區,東
-34,金佳垠,專區,專區,,,34,金佳垠,東,西,東
-36,禹菡,專區,專區,東,,36,禹菡,西,東,
-66,岱縈,專區,專區,,,66,岱縈,西,東,
-67,崔荷潾,專區,專區,,,67,崔荷潾,,,
-77,曲曲,專區,專區,東,,77,曲曲,東,西,
-87,彭彭,專區,專區,西,,87,彭彭,,,
-88,沈珈妤,專區,專區,,,88,沈珈妤,,,西
-97,溫妮,西,東,東,,97,溫妮,專區,專區,
-0,琳妲,,,西,,0,琳妲,專區,專區,`;
+// Fallback CSV snapshot（9/22-25 補賽週當期即時備份）
+const FALLBACK_CSV = `"🦈站位由各家女孩粉絲手動更新,僅供參考,實際站位以現場為主🦈",,,,,,,,,,,,,,,,
+,,9/22,,,,,,9/24,,,,,,9/25,,
+背號,女孩,1-3,中場,7-8,,背號,女孩,1-3,中場,7-8,,背號,女孩,1-3,中場,7-8
+3,穆又甯,東,西,西,我  叫  分  隔  線,3,穆又甯,西,東,東,我  叫  分  隔  線,3,穆又甯,大樂,西,西
+6,宋宋,西,東,東,,6,宋宋,東,西,西,,6,宋宋,,,
+7,筠熹,東,西,西,,7,筠熹,西,東,東,,7,筠熹,,,
+9,高橋佳帆,東,西,西,,12,穎樂,東,西,西,,8,貝佳頤,,,
+10,卉妮,西,東,東,,15,孟潔,西,東,東,,9,高橋佳帆,東,西,大樂
+12,穎樂,東,西,西,,17,笑笑,東,西,西,,10,卉妮,,,
+17,笑笑,東,西,西,,20,MIKA,西,東,東,,18,熊霓,,,
+27,若潼,東,西,西,,27,若潼,西,東,東,,15,孟潔,,,
+66,岱縈,東,西,西,,66,岱縈,西,東,東,,17,笑笑,,,
+67,崔荷潾,西,東,東,,67,崔荷潾,東,西,西,,18,熊霓,,,
+77,曲曲,西,東,東,,77,曲曲,東,西,西,,19,KIRA,,,
+88,沈珈妤,西,東,東,,87,彭彭,西,東,東,,27,若潼,東,西,西
+0,琳妲,西,東,東,,88,沈珈妤,東,西,西,,33,言梓璇,,,
+,13,,,,,0,琳妲,東,西,西,,67,崔荷潾,東,西,西
+,東,7,6,6,,,14,,,,,77,曲曲,西,東,東
+,西,6,7,7,,,東,7,7,7,,87,彭彭,,,
+,東R,0,0,0,,,西,7,7,7,,88,沈珈妤,東,西,西
+,西R,0,0,0,,,東R,0,0,0,,97,溫妮,,,
+,大樂,0,0,0,,,西R,0,0,0,,0,琳妲,,,
+,,,,,,,大樂,0,0,0,,,19,,,
+,,,,,,,,,,,,,東,4,1,1
+,,,,,,,,,,,,,西,1,5,4
+,,,,,,,,,,,,,東R,0,0,0
+,,,,,,,,,,,,,西R,0,0,0
+,,,,,,,,,,,,,大樂,1,0,1`;
 
 export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
   try {
@@ -388,7 +386,7 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
   }
 }
 
-export const SCHEDULE_CACHE_KEY = 'rkg_live_schedule_cache_v2';
+export const SCHEDULE_CACHE_KEY = 'rkg_live_schedule_cache_v3';
 
 export function getCachedSchedule(): ScheduleDataset | null {
   try {

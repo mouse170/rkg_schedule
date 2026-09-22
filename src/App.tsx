@@ -594,7 +594,7 @@ const MainApp: React.FC = () => {
       });
     };
 
-    // A0. 賽後表演專屬分組邏輯 (PERIOD_POST - 辣酷甜主題日專屬)
+    // A0. 賽後表演專屬分組邏輯 (PERIOD_POST)
     if (areaFilter === 'PERIOD_POST') {
       const targetDates = selectedDate ? [selectedDate] : upcomingDates.filter(d => isSpicyCoolSweetDate(d));
       const postSections: GroupSection[] = [];
@@ -836,7 +836,7 @@ const MainApp: React.FC = () => {
         ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
         : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
 
-      // 辣酷甜特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
+      // 特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
       if (isSpicyCoolSweetDate(selectedDate)) {
         const favZoneGirls: GirlProfile[] = [];
         const courtGirls: GirlProfile[] = [];
@@ -1039,7 +1039,7 @@ const MainApp: React.FC = () => {
 
     const isTheme = selectedDate && isSpicyCoolSweetDate(selectedDate);
 
-    // 辣酷甜特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
+    // 特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
     if (isTheme) {
       const favZoneGirls: GirlProfile[] = [];
       const courtGirls: GirlProfile[] = [];

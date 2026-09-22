@@ -26,12 +26,10 @@ export const SPICY_COOL_SWEET_PRE_MATCH: PreMatchActivityConfig = SPICY_COOL_SWE
 export const SPICY_COOL_SWEET_POST_MATCH = SPICY_COOL_SWEET_POST_MATCH_TEMPLATE;
 
 /**
- * 判斷指定日期是否為辣酷甜主題日
+ * 判斷指定日期是否為辣酷甜主題日（該主題日已結束，常態恆回傳 false）
  */
-export function isSpicyCoolSweetDate(date: string): boolean {
-  if (!date) return false;
-  const clean = date.replace(/（.*?）|\(.*?\)/g, '').trim();
-  return SPICY_COOL_SWEET_THEME.scheduleDates.includes(clean);
+export function isSpicyCoolSweetDate(_date: string): boolean {
+  return false;
 }
 
 /**
