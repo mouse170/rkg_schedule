@@ -300,17 +300,28 @@ const FALLBACK_CSV = `"🦈站位由各家女孩粉絲手動更新,僅供參考,
 ,,,,,,,,,,,,,西R,0,0,0
 ,,,,,,,,,,,,,大樂,1,0,1`;
 
-export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
+// 記憶體快取防抖時間戳（60 秒內重複載入優先複用快取，降低 Google 試算表併發負擔）
+let lastFetchSuccessTime = 0;
+const FRESHNESS_TTL_MS = 60 * 1000;
+
+export async function fetchLiveSchedule(forceRefresh: boolean = false): Promise<ScheduleDataset> {
+  const now = Date.now();
+  if (!forceRefresh && now - lastFetchSuccessTime < FRESHNESS_TTL_MS) {
+    const cached = getCachedSchedule();
+    if (cached && cached.dates.length > 0) {
+      return cached;
+    }
+  }
+
   try {
     const timestamp = Date.now();
     // 1. 動態探索所有可用的分頁頁籤
     const tabs = await fetchActiveSheetTabs();
 
-    // 2. 構建並行請求之 CSV 網址（含動態探索到的 GID 與首頁 CSV）
-    const urlsToFetch = [
-      ...tabs.map(tab => `${SHEET_CSV_BASE_URL}&gid=${tab.gid}&t=${timestamp}`),
-      `${SHEET_CSV_BASE_URL}&t=${timestamp}`
-    ];
+    // 2. 構建並行請求之 CSV 網址（若有探索到特定 GID，僅請求該 GID，避免重複拉取首頁）
+    const urlsToFetch = tabs.length > 0
+      ? tabs.map(tab => `${SHEET_CSV_BASE_URL}&gid=${tab.gid}&t=${timestamp}`)
+      : [`${SHEET_CSV_BASE_URL}&t=${timestamp}`];
 
     const fetchPromises = urlsToFetch.map(async (url) => {
       try {
@@ -369,6 +380,7 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
       isLive: true
     };
 
+    lastFetchSuccessTime = Date.now();
     saveCachedSchedule(liveDataset);
     return liveDataset;
   } catch (err) {

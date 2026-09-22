@@ -6,16 +6,20 @@ import { Header } from './components/Header';
 import { DataSourceBanner } from './components/DataSourceBanner';
 import { FilterBar, AreaFilterType, SeatFilterType } from './components/FilterBar';
 import { GirlCard, PairedInfo } from './components/GirlCard';
-import { MatrixView } from './components/MatrixView';
-import { ShareScheduleModal } from './components/ShareScheduleModal';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
-import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule, SHEET_HTMLVIEW_URL } from './services/sheetService';
+import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule, SCHEDULE_CACHE_KEY, SHEET_HTMLVIEW_URL } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, CalendarX2, FileSpreadsheet, ExternalLink, Users, Map } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
-// Code Splitting via React.lazy for Non-initial View Components
+// Code Splitting via React.lazy for Non-initial View Components (大幅縮減首屏 Bundle 體積)
+const MatrixView = lazy(() =>
+  import('./components/MatrixView').then(module => ({ default: module.MatrixView }))
+);
+const ShareScheduleModal = lazy(() =>
+  import('./components/ShareScheduleModal').then(module => ({ default: module.ShareScheduleModal }))
+);
 const InstagramDirectory = lazy(() =>
   import('./components/InstagramDirectory').then(module => ({ default: module.InstagramDirectory }))
 );
@@ -140,10 +144,10 @@ const MainApp: React.FC = () => {
   }, [schedule.dates]);
 
   // Load schedule data (SWR: 背景靜默驗證，首屏依賴快取零阻塞)
-  const loadSchedule = async (isSilent = false) => {
+  const loadSchedule = async (isSilent = false, force = false) => {
     if (!isSilent) setIsLoading(true);
     try {
-      const data = await fetchLiveSchedule();
+      const data = await fetchLiveSchedule(force);
       setSchedule(data);
 
       const validUpcoming = data.dates
@@ -173,11 +177,11 @@ const MainApp: React.FC = () => {
         );
       }
       try {
-        localStorage.removeItem('rkg_live_schedule_cache_v2');
+        localStorage.removeItem(SCHEDULE_CACHE_KEY);
       } catch {
         // ignore
       }
-      await loadSchedule(false);
+      await loadSchedule(false, true);
       showToast('已清除離線快取並同步最新班表');
     } catch (err) {
       console.error('Manual refresh error:', err);
@@ -836,62 +840,6 @@ const MainApp: React.FC = () => {
         ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
         : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
 
-      // 特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
-      if (isSpicyCoolSweetDate(selectedDate)) {
-        const favZoneGirls: GirlProfile[] = [];
-        const courtGirls: GirlProfile[] = [];
-        const otherZoneGirls: GirlProfile[] = [];
-
-        onDutyGirls.forEach(girl => {
-          const assign = getZoneAssignment(selectedDate, girl.name);
-          const isZone = Boolean(assign);
-          const isFav = favorites.includes(girl.name);
-
-          if (isZone) {
-            if (isFav) {
-              favZoneGirls.push(girl);
-            } else {
-              otherZoneGirls.push(girl);
-            }
-          } else {
-            courtGirls.push(girl);
-          }
-        });
-
-        sortGirlsInGroup(favZoneGirls, selectedDate);
-        sortGirlsInGroup(courtGirls, selectedDate);
-        sortGirlsInGroup(otherZoneGirls, selectedDate);
-
-        const themeSections: GroupSection[] = [
-          {
-            key: `THEME_${selectedDate}_FAV_ZONE`,
-            title: `${selectedDate} 有喜歡的女孩專區應援 (${favZoneGirls.length} 位)`,
-            badgeStyle: 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black',
-            girls: favZoneGirls,
-            favCount: favZoneGirls.length,
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_COURT`,
-            title: `${selectedDate} 東區、西區、大樂應援 (${courtGirls.length} 位)`,
-            badgeStyle: 'from-blue-600 via-indigo-600 to-purple-600 text-white shadow-sm font-bold',
-            girls: courtGirls,
-            favCount: countFavs(courtGirls),
-            date: selectedDate
-          },
-          {
-            key: `THEME_${selectedDate}_OTHER_ZONE`,
-            title: `${selectedDate} 其他的專區應援 (${otherZoneGirls.length} 位)`,
-            badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
-            girls: otherZoneGirls,
-            favCount: 0,
-            date: selectedDate
-          }
-        ];
-
-        return themeSections.filter(s => s.girls.length > 0);
-      }
-
       const daySections: GroupSection[] = [];
       if (onDutyGirls.length > 0) {
         daySections.push({
@@ -1036,64 +984,6 @@ const MainApp: React.FC = () => {
       const key = k as StationAreaTier;
       sortGirlsInGroup(groups[key], selectedDate);
     });
-
-    const isTheme = selectedDate && isSpicyCoolSweetDate(selectedDate);
-
-    // 特別主題日分組：嚴格依循 1. 有喜歡的女孩專區應援、2. 東區、西區、大樂應援、3. 其他的專區應援
-    if (isTheme) {
-      const favZoneGirls: GirlProfile[] = [];
-      const courtGirls: GirlProfile[] = [];
-      const otherZoneGirls: GirlProfile[] = [];
-
-      filteredGirls.forEach(girl => {
-        const assign = getZoneAssignment(selectedDate, girl.name);
-        const isZone = Boolean(assign);
-        const isFav = favorites.includes(girl.name);
-
-        if (isZone) {
-          if (isFav) {
-            favZoneGirls.push(girl);
-          } else {
-            otherZoneGirls.push(girl);
-          }
-        } else {
-          courtGirls.push(girl);
-        }
-      });
-
-      sortGirlsInGroup(favZoneGirls, selectedDate);
-      sortGirlsInGroup(courtGirls, selectedDate);
-      sortGirlsInGroup(otherZoneGirls, selectedDate);
-
-      const themeSections: GroupSection[] = [
-        {
-          key: `THEME_${selectedDate}_FAV_ZONE`,
-          title: `${selectedDate} 有喜歡的女孩專區應援 (${favZoneGirls.length} 位)`,
-          badgeStyle: 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black',
-          girls: favZoneGirls,
-          favCount: favZoneGirls.length,
-          date: selectedDate
-        },
-        {
-          key: `THEME_${selectedDate}_COURT`,
-          title: `${selectedDate} 東區、西區、大樂應援 (${courtGirls.length} 位)`,
-          badgeStyle: 'from-blue-600 via-indigo-600 to-purple-600 text-white shadow-sm font-bold',
-          girls: courtGirls,
-          favCount: countFavs(courtGirls),
-          date: selectedDate
-        },
-        {
-          key: `THEME_${selectedDate}_OTHER_ZONE`,
-          title: `${selectedDate} 其他的專區應援 (${otherZoneGirls.length} 位)`,
-          badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
-          girls: otherZoneGirls,
-          favCount: 0,
-          date: selectedDate
-        }
-      ];
-
-      return themeSections.filter(s => s.girls.length > 0);
-    }
 
     const sectionMeta: GroupSection[] = [
       {
@@ -1315,19 +1205,28 @@ const MainApp: React.FC = () => {
                 }}
               />
 
-              {/* Conditional View Mode: Matrix View vs Grouped Cards */}
+              {/* Conditional View Mode: Matrix View vs Grouped Cards (Lazy Loaded) */}
               {viewMode === 'MATRIX' ? (
-                <MatrixView
-                  selectedDate={selectedDate}
-                  allGirls={OFFICIAL_GIRLS}
-                  schedule={schedule}
-                  favorites={favorites}
-                  onSelectGirl={handleSelectGirl}
-                  onToggleFavorite={(name) => toggleFavorite(null, name)}
-                  onSelectDate={handleSelectDate}
-                  areaFilter={areaFilter}
-                  searchQuery={searchQuery}
-                />
+                <Suspense
+                  fallback={
+                    <div className="flex flex-col items-center justify-center py-20 text-gray-400 dark:text-gray-500 gap-3">
+                      <Loader2 className="w-8 h-8 animate-spin text-rkg-pink-deep dark:text-pink-400" />
+                      <span className="text-xs font-medium">載入看台矩陣中...</span>
+                    </div>
+                  }
+                >
+                  <MatrixView
+                    selectedDate={selectedDate}
+                    allGirls={OFFICIAL_GIRLS}
+                    schedule={schedule}
+                    favorites={favorites}
+                    onSelectGirl={handleSelectGirl}
+                    onToggleFavorite={(name) => toggleFavorite(null, name)}
+                    onSelectDate={handleSelectDate}
+                    areaFilter={areaFilter}
+                    searchQuery={searchQuery}
+                  />
+                </Suspense>
               ) : groupedSections.length > 0 ? (
                 <div className="space-y-8">
                   {groupedSections.map((sec) => (
@@ -1534,21 +1433,25 @@ const MainApp: React.FC = () => {
           )}
         </Suspense>
 
-        {/* 7. Share Schedule Modal */}
-        <ShareScheduleModal
-          isOpen={isShareModalOpen}
-          onClose={() => setIsShareModalOpen(false)}
-          selectedDate={selectedDate}
-          favorites={favorites}
-          allGirls={OFFICIAL_GIRLS}
-          schedule={schedule}
-          onShowToast={showToast}
-          onToggleFavorite={(girlName) => toggleFavorite(null, girlName)}
-          onNavigateToInstagram={() => {
-            setIsShareModalOpen(false);
-            setActiveTab('INSTAGRAM');
-          }}
-        />
+        {/* 7. Share Schedule Modal (Lazy Loaded with Suspense) */}
+        {isShareModalOpen && (
+          <Suspense fallback={null}>
+            <ShareScheduleModal
+              isOpen={isShareModalOpen}
+              onClose={() => setIsShareModalOpen(false)}
+              selectedDate={selectedDate}
+              favorites={favorites}
+              allGirls={OFFICIAL_GIRLS}
+              schedule={schedule}
+              onShowToast={showToast}
+              onToggleFavorite={(girlName) => toggleFavorite(null, girlName)}
+              onNavigateToInstagram={() => {
+                setIsShareModalOpen(false);
+                setActiveTab('INSTAGRAM');
+              }}
+            />
+          </Suspense>
+        )}
 
         {/* 8. Light Toast Notification */}
         {toastMessage && (
