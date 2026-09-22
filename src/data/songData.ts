@@ -10,11 +10,11 @@ export interface SongMetadata {
 
 export const RAKUTEN_GIRLS_2026_SONG: SongMetadata = {
   id: 'rkg_2026_single',
-  title: '今晚被我攻略 (2026 年度單曲)',
+  title: '緋紅之夜 (2026 年度單曲)',
   year: '2026',
   youtubeId: 'fINHNk36uxM',
   youtubeUrl: 'https://www.youtube.com/watch?v=fINHNk36uxM',
-  description: 'Rakuten Girls 樂天女孩 2026 年度全新單曲 MV 震撼釋出！百鬼夜行魅惑魔幻視覺，突破極限的洗腦旋律，一起沉浸在女孩的超強電力中！',
+  description: 'Rakuten Girls 樂天女孩 2026 年度全新單曲《緋紅之夜》MV 震撼釋出！首度挑戰 J-POP 魅惑曲風，以「百鬼夜行」為創作靈感，打破甜美形象，化身神秘且無法抗拒的致命吸引力。踏進夜幕陷阱，今晚被我攻略！',
   lyrics: [
     '踏進了夜幕的陷阱 look into my eyes',
     '迷霧在這四面襲來 魅力的魔幻',

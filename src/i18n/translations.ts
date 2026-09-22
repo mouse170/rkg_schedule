@@ -329,10 +329,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     // Song Promotion
     songPromoBadge: '2026 年度全新單曲',
-    songPromoTitle: '樂天女孩全新單曲 MV 震撼釋出',
-    songPromoSubtitle: '今晚被我攻略 ‧ 點擊觀看 MV 與完整歌詞',
-    songModalTitle: 'Rakuten Girls 2026 年度單曲',
-    songModalSubtitle: '官方 MV • 完整歌詞 • 社群專屬分享',
+    songPromoTitle: '樂天女孩全新單曲《緋紅之夜》MV 震撼釋出',
+    songPromoSubtitle: '首度挑戰 J-POP 魅惑百鬼夜行 ‧ 今晚被我攻略',
+    songModalTitle: 'Rakuten Girls 2026 年度單曲《緋紅之夜》',
+    songModalSubtitle: '官方 MV • 百鬼夜行魅惑概念 • 完整歌詞',
     songLyricsTitle: '完整歌詞',
     songShareTitle: '推廣分享這首單曲',
     songShareFb: '分享至 Facebook',
@@ -612,10 +612,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     // Song Promotion
     songPromoBadge: '2026年最新シングル',
-    songPromoTitle: '楽天ガールズ新曲 MV 公開',
-    songPromoSubtitle: '今晚被我攻略 • MV 視聴と歌詞はこちら',
-    songModalTitle: 'Rakuten Girls 2026 最新シングル',
-    songModalSubtitle: '公式 MV • フル歌詞 • SNS シェア',
+    songPromoTitle: '楽天ガールズ新曲《緋紅之夜》MV 公開',
+    songPromoSubtitle: 'J-POP 魅惑百鬼夜行スタイル初挑戦 • 今晚被我攻略',
+    songModalTitle: 'Rakuten Girls 2026 最新シングル《緋紅之夜》',
+    songModalSubtitle: '公式 MV • 百鬼夜行コンセプト • フル歌詞',
     songLyricsTitle: 'フル歌詞',
     songShareTitle: 'この曲をシェアする',
     songShareFb: 'Facebook でシェア',
@@ -895,10 +895,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     // Song Promotion
     songPromoBadge: '2026 연도 최신 싱글',
-    songPromoTitle: '라쿠텐 걸스 신곡 MV 공개',
-    songPromoSubtitle: '今晚被我攻略 • MV 감상 및 전체 가사',
-    songModalTitle: 'Rakuten Girls 2026 신곡',
-    songModalSubtitle: '공식 MV • 전체 가사 • SNS 공유',
+    songPromoTitle: '라쿠텐 걸스 신곡 《비홍지야 緋紅之夜》 MV 공개',
+    songPromoSubtitle: 'J-POP 매혹적인 백귀야행 스타일 • 今晚被我攻略',
+    songModalTitle: 'Rakuten Girls 2026 최신 싱글 《緋紅之夜》',
+    songModalSubtitle: '공식 MV • 백귀야행 콘셉트 • 전체 가사',
     songLyricsTitle: '전체 가사',
     songShareTitle: '이 곡을 SNS에 공유하기',
     songShareFb: 'Facebook 공유',

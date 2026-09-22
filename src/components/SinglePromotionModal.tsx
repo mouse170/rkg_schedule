@@ -37,12 +37,12 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
 
   // 社群宣傳文案
   const promoShareText = useMemo(() => {
-    const title = '🖤🦍 樂天女孩 2026 年度全新單曲《今晚被我攻略》MV 震撼釋出！';
-    const hook = '「百鬼夜的狩獵場，這迷戀無法抵擋～」突破極限的洗腦旋律，趕快來聽！';
+    const title = '🖤🦍 樂天女孩 2026 年度全新單曲《緋紅之夜》MV 震撼釋出！';
+    const hook = '「百鬼夜的狩獵場，這迷戀無法抵擋～」樂天女孩首度挑戰 J-POP 魅惑曲風，今晚被我攻略！立即觀賞 MV 與完整歌詞：';
     const favText = favGirls.length > 0
       ? `✨ 我推的女孩：${favGirls.map(g => `#${g.number} ${g.name}`).join(' ')}`
       : '';
-    const tags = '#RakutenGirls #樂天女孩 #今晚被我攻略 #2026單曲 #全猿主場';
+    const tags = '#RakutenGirls #樂天女孩 #緋紅之夜 #今晚被我攻略 #2026單曲 #全猿主場';
 
     return [title, hook, favText, tags].filter(Boolean).join('\n');
   }, [favGirls]);
@@ -172,6 +172,21 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
               <Repeat className="w-2.5 h-2.5 text-amber-400" />
               <span>循環播放</span>
             </div>
+          </div>
+
+          {/* 官方單曲概念簡介卡（依 YouTube 官方文案編撰） */}
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-rose-950/40 via-neutral-900/60 to-rose-950/40 border border-rose-500/25 text-xs text-rose-100/90 leading-relaxed shadow-sm">
+            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+              <span className="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 font-black text-[10px] border border-rose-500/30">
+                百鬼夜行 ‧ J-POP 魅惑曲風
+              </span>
+              <span className="text-[10px] text-amber-300/80 font-bold">
+                首度打破甜美形象
+              </span>
+            </div>
+            <p className="font-normal text-[11px] sm:text-xs text-rose-100/80">
+              {RAKUTEN_GIRLS_2026_SONG.description}
+            </p>
           </div>
 
           {/* Social Share Toolbar */}
@@ -307,10 +322,10 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
                 <span>2026 全新年度單曲</span>
               </div>
               <h1 className="text-2xl font-black text-white tracking-tight">
-                今晚被我攻略
+                緋紅之夜
               </h1>
               <p className="text-xs text-amber-300 font-bold tracking-widest uppercase mt-0.5">
-                Rakuten Girls Official Single
+                Crimson Night • Rakuten Girls Official Single
               </p>
             </div>
 
@@ -379,7 +394,7 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
                 </span>
               </div>
               <div className="px-2.5 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-[10px] font-black text-amber-300">
-                #今晚被我攻略
+                #緋紅之夜
               </div>
             </div>
           </div>
