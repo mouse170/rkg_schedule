@@ -13,12 +13,17 @@ import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, Cale
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
+import { SinglePromotionBanner } from './components/SinglePromotionBanner';
+
 // Code Splitting via React.lazy for Non-initial View Components (大幅縮減首屏 Bundle 體積)
 const MatrixView = lazy(() =>
   import('./components/MatrixView').then(module => ({ default: module.MatrixView }))
 );
 const ShareScheduleModal = lazy(() =>
   import('./components/ShareScheduleModal').then(module => ({ default: module.ShareScheduleModal }))
+);
+const SinglePromotionModal = lazy(() =>
+  import('./components/SinglePromotionModal').then(module => ({ default: module.SinglePromotionModal }))
 );
 const InstagramDirectory = lazy(() =>
   import('./components/InstagramDirectory').then(module => ({ default: module.InstagramDirectory }))
@@ -37,6 +42,7 @@ const MainApp: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('SCHEDULE');
   const [viewMode, setViewMode] = useState<'CARD' | 'MATRIX'>('CARD');
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [isSongModalOpen, setIsSongModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const showToast = (msg: string) => {
@@ -72,6 +78,7 @@ const MainApp: React.FC = () => {
     const prefetchComponents = () => {
       import('./components/GirlDetailDrawer');
       import('./components/StadiumGuideModal');
+      import('./components/SinglePromotionModal');
     };
 
     if (typeof window !== 'undefined') {
@@ -1059,6 +1066,9 @@ const MainApp: React.FC = () => {
 
         {/* 3. Main Content Container */}
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
+          {/* 樂天女孩 2026 全新年度單曲宣傳 Banner */}
+          <SinglePromotionBanner onOpenModal={() => setIsSongModalOpen(true)} />
+
           {activeTab === 'SCHEDULE' ? (
             upcomingDates.length === 0 ? (
               /* 當期班表更新中 / 無當期賽事專屬引導視圖 */
@@ -1449,6 +1459,19 @@ const MainApp: React.FC = () => {
                 setIsShareModalOpen(false);
                 setActiveTab('INSTAGRAM');
               }}
+            />
+          </Suspense>
+        )}
+
+        {/* 7.5 Single Promotion Modal (Lazy Loaded with Suspense) */}
+        {isSongModalOpen && (
+          <Suspense fallback={null}>
+            <SinglePromotionModal
+              isOpen={isSongModalOpen}
+              onClose={() => setIsSongModalOpen(false)}
+              favorites={favorites}
+              allGirls={OFFICIAL_GIRLS}
+              onShowToast={showToast}
             />
           </Suspense>
         )}

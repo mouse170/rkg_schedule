@@ -31,6 +31,25 @@ export interface Translations {
   updatingSchedule: string;
   lastUpdatedLabel: string;
 
+  // Song Promotion
+  songPromoBadge: string;
+  songPromoTitle: string;
+  songPromoSubtitle: string;
+  songModalTitle: string;
+  songModalSubtitle: string;
+  songLyricsTitle: string;
+  songShareTitle: string;
+  songShareFb: string;
+  songShareThreads: string;
+  songShareX: string;
+  songShareIgStory: string;
+  songDownloadStoryCard: string;
+  songCopyPromoText: string;
+  songToastStoryDownloaded: string;
+  songToastPromoCopied: string;
+  songCloseBanner: string;
+  songWatchMv: string;
+
   // Instagram Directory
   igBannerTitle: string;
   igBannerBadge: string;
@@ -308,6 +327,25 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     updatingSchedule: '當期班表更新中',
     lastUpdatedLabel: '更新：{time}',
 
+    // Song Promotion
+    songPromoBadge: '2026 年度全新單曲',
+    songPromoTitle: '樂天女孩全新單曲 MV 震撼釋出',
+    songPromoSubtitle: '今晚被我攻略 ‧ 點擊觀看 MV 與完整歌詞',
+    songModalTitle: 'Rakuten Girls 2026 年度單曲',
+    songModalSubtitle: '官方 MV • 完整歌詞 • 社群專屬分享',
+    songLyricsTitle: '完整歌詞',
+    songShareTitle: '推廣分享這首單曲',
+    songShareFb: '分享至 Facebook',
+    songShareThreads: '發佈到 Threads',
+    songShareX: '分享至 X',
+    songShareIgStory: 'Instagram 限時動態',
+    songDownloadStoryCard: '下載 9:16 限動海報',
+    songCopyPromoText: '複製宣傳文案',
+    songToastStoryDownloaded: '已成功下載 9:16 單曲限動宣傳海報！',
+    songToastPromoCopied: '已複製單曲宣傳文案與 YouTube 連結！',
+    songCloseBanner: '暫時收合',
+    songWatchMv: '觀賞完整 MV',
+
     igBannerTitle: 'Rakuten Girls 官方 Instagram 目錄',
     igBannerBadge: '官方社群名錄 • 隨時追蹤女孩動態',
     igBannerDesc: '收錄樂天女孩的Instagram 帳號，點擊可直接前往個人頁面或一鍵複製帳號標記限時動態。',
@@ -572,6 +610,25 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     updatingSchedule: 'スケジュール更新中',
     lastUpdatedLabel: '更新：{time}',
 
+    // Song Promotion
+    songPromoBadge: '2026年最新シングル',
+    songPromoTitle: '楽天ガールズ新曲 MV 公開',
+    songPromoSubtitle: '今晚被我攻略 • MV 視聴と歌詞はこちら',
+    songModalTitle: 'Rakuten Girls 2026 最新シングル',
+    songModalSubtitle: '公式 MV • フル歌詞 • SNS シェア',
+    songLyricsTitle: 'フル歌詞',
+    songShareTitle: 'この曲をシェアする',
+    songShareFb: 'Facebook でシェア',
+    songShareThreads: 'Threads に投稿',
+    songShareX: 'X でポスト',
+    songShareIgStory: 'Instagram ストーリーズ',
+    songDownloadStoryCard: '9:16 画像をダウンロード',
+    songCopyPromoText: '紹介文をコピー',
+    songToastStoryDownloaded: '9:16 ストーリーズ画像をダウンロードしました！',
+    songToastPromoCopied: '紹介テキストと YouTube リンクをコピーしました！',
+    songCloseBanner: '閉じる',
+    songWatchMv: 'MV を視聴する',
+
     igBannerTitle: 'Rakuten Girls 公式 Instagram 名鑑',
     igBannerBadge: '公式SNS名鑑 • メンバーの最新動向をチェック',
     igBannerDesc: '楽天ガールズのInstagramアカウントを掲載。タップで個人ページへ直接アクセス、またはアカウントIDを1タップでコピーしてストーリーにタグ付けできます。',
@@ -835,6 +892,25 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     stationsPending: '배치 미발표',
     updatingSchedule: '일정 업데이트 중',
     lastUpdatedLabel: '업데이트：{time}',
+
+    // Song Promotion
+    songPromoBadge: '2026 연도 최신 싱글',
+    songPromoTitle: '라쿠텐 걸스 신곡 MV 공개',
+    songPromoSubtitle: '今晚被我攻略 • MV 감상 및 전체 가사',
+    songModalTitle: 'Rakuten Girls 2026 신곡',
+    songModalSubtitle: '공식 MV • 전체 가사 • SNS 공유',
+    songLyricsTitle: '전체 가사',
+    songShareTitle: '이 곡을 SNS에 공유하기',
+    songShareFb: 'Facebook 공유',
+    songShareThreads: 'Threads 게시',
+    songShareX: 'X 게시',
+    songShareIgStory: 'Instagram 스토리',
+    songDownloadStoryCard: '9:16 스토리 포스터 다운로드',
+    songCopyPromoText: '홍보 문구 복사',
+    songToastStoryDownloaded: '9:16 스토리 포스터가 다운로드되었습니다!',
+    songToastPromoCopied: '홍보 문구와 YouTube 링크가 복사되었습니다!',
+    songCloseBanner: '닫기',
+    songWatchMv: 'MV 감상하기',
 
     igBannerTitle: 'Rakuten Girls 공식 Instagram 디렉토리',
     igBannerBadge: '공식 SNS 명단 • 멤버들의 최신 소식을 확인하세요',
