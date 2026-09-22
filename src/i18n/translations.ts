@@ -261,6 +261,13 @@ export interface Translations {
   switchLanguage: string;
   vibeCodingNotice: string;
   disclaimerCopyright: string;
+
+  // No Schedule Fallback
+  noScheduleTitle: string;
+  noScheduleDesc: string;
+  openOfficialSheet: string;
+  viewGirlsRoster: string;
+  viewStadiumGuide: string;
 }
 
 export const TRANSLATIONS: Record<Language, Translations> = {
@@ -511,7 +518,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     switchLanguage: '語言切換',
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
-    disclaimerCopyright: '本專案由粉絲應援所建立，所有肖像與商標權屬樂天桃猿棒球隊與 Rakuten 所有。班表資料即時連線公開 Google Sheet。'
+    disclaimerCopyright: '本專案由粉絲應援所建立，所有肖像與商標權屬樂天桃猿棒球隊與 Rakuten 所有。班表資料即時連線公開 Google Sheet。',
+
+    noScheduleTitle: '當期班表更新中',
+    noScheduleDesc: '目前 Google 試算表尚無今日或近期已排定之應援賽事。最新排班請以官方試算表為主。',
+    openOfficialSheet: '前往官方 Google 試算表',
+    viewGirlsRoster: '瀏覽成員 IG 目錄',
+    viewStadiumGuide: '查看球場看台指南'
   },
   'ja': {
     appTitle: '楽天ガールズ応援スケジュール',
@@ -760,7 +773,13 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     switchLanguage: '言語切り替え',
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
-    disclaimerCopyright: '本プロジェクトはファンによる応援目的で制作されており、すべての肖像権および商標権は楽天モンキーズおよび Rakuten に帰属します。スケジュールデータは公開 Google スプレッドシートから取得しています。'
+    disclaimerCopyright: '本プロジェクトはファンによる応援目的で制作されており、すべての肖像権および商標権は楽天モンキーズおよび Rakuten に帰属します。スケジュールデータは公開 Google スプレッドシートから取得しています。',
+
+    noScheduleTitle: '最新スケジュール更新中',
+    noScheduleDesc: '現在、Google スプレッドシートには本日以降の予定が登録されていません。最新の出演情報は公式スプレッドシートをご確認ください。',
+    openOfficialSheet: '公式 Google スプレッドシートを開く',
+    viewGirlsRoster: 'メンバー IG 名鑑を見る',
+    viewStadiumGuide: '球場座席ガイドを見る'
   },
   'ko': {
     appTitle: '라쿠텐 걸스 근무 일정표',
@@ -1009,6 +1028,12 @@ export const TRANSLATIONS: Record<Language, Translations> = {
 
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',
-    disclaimerCopyright: '본 프로젝트는 팬 응원 목적으로 제작되었으며 모든 초상권 및 상표권은 라쿠텐 몽키스와 Rakuten에 있습니다. 일정 데이터는 공개 Google 스프레드시트와 실시간 연동됩니다.'
+    disclaimerCopyright: '본 프로젝트는 팬 응원 목적으로 제작되었으며 모든 초상권 및 상표권은 라쿠텐 몽키스와 Rakuten에 있습니다. 일정 데이터는 공개 Google 스프레드시트와 실시간 연동됩니다.',
+
+    noScheduleTitle: '일정표 업데이트 중',
+    noScheduleDesc: '현재 Google 스프레드시트에 오늘 이후 예정된 응원 일정이 없습니다. 최신 일정은 공식 스프레드시트를 확인해 주세요.',
+    openOfficialSheet: '공식 Google 스프레드시트 바로가기',
+    viewGirlsRoster: '멤버 IG 디렉토리 보기',
+    viewStadiumGuide: '야구장 좌석 가이드 보기'
   }
 };

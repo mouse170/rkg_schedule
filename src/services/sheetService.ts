@@ -4,9 +4,55 @@ import { findGirlByName } from '../data/girlsRoster';
 import { enrichDutyWithZone } from '../data/spicyCoolSweetData';
 import { isPastDate } from '../utils/dateUtils';
 
+export const SHEET_HTMLVIEW_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/htmlview';
 export const SHEET_CSV_BASE_URL = 'https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/export?format=csv';
-export const SHEET_GIDS = ['735466597'];
-export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${SHEET_GIDS[0]}`;
+export const DEFAULT_FALLBACK_GIDS = ['735466597', '2095582072', '1259873345'];
+export const SHEET_GIDS = DEFAULT_FALLBACK_GIDS;
+export const SHEET_CSV_URL = `${SHEET_CSV_BASE_URL}&gid=${DEFAULT_FALLBACK_GIDS[0]}`;
+
+export interface SheetTabInfo {
+  name: string;
+  gid: string;
+}
+
+/**
+ * 自動從 Google 試算表公開網頁 htmlview 動態抓取所有分頁與 GID
+ */
+export async function fetchActiveSheetTabs(): Promise<SheetTabInfo[]> {
+  try {
+    const timestamp = Date.now();
+    const res = await fetch(`${SHEET_HTMLVIEW_URL}?t=${timestamp}`, { cache: 'no-store' });
+    if (!res.ok) {
+      throw new Error(`Failed to fetch htmlview: ${res.statusText}`);
+    }
+    const html = await res.text();
+    const regex = /items\.push\(\{\s*name:\s*"([^"]+)",[\s\S]*?gid:\s*"([^"]+)"/g;
+    const tabs: SheetTabInfo[] = [];
+    let match;
+    while ((match = regex.exec(html)) !== null) {
+      const rawName = match[1];
+      const gid = match[2];
+      const name = rawName
+        .replace(/\\u([0-9a-fA-F]{4})/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+        .replace(/\\\//g, '/');
+
+      // 排除無效或空白範本頁籤
+      if (name.includes('範本') || name.trim() === '桃園') {
+        continue;
+      }
+      tabs.push({ name, gid });
+    }
+
+    if (tabs.length > 0) {
+      return tabs;
+    }
+  } catch (err) {
+    console.warn('Failed to parse active tabs from htmlview:', err);
+  }
+
+  // 備援預設 GID 清單
+  return DEFAULT_FALLBACK_GIDS.map(gid => ({ name: '預設頁籤', gid }));
+}
 
 interface TableBlock {
   date: string;
@@ -259,10 +305,13 @@ const FALLBACK_CSV = `"🦈站位由各家女孩粉絲手動更新,僅供參考,
 export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
   try {
     const timestamp = Date.now();
-    // 優先抓取發布之主要活頁簿 CSV，並同步檢索當期 GID
+    // 1. 動態探索所有可用的分頁頁籤
+    const tabs = await fetchActiveSheetTabs();
+
+    // 2. 構建並行請求之 CSV 網址（含動態探索到的 GID 與首頁 CSV）
     const urlsToFetch = [
-      `${SHEET_CSV_BASE_URL}&t=${timestamp}`,
-      ...SHEET_GIDS.map(gid => `${SHEET_CSV_BASE_URL}&gid=${gid}&t=${timestamp}`)
+      ...tabs.map(tab => `${SHEET_CSV_BASE_URL}&gid=${tab.gid}&t=${timestamp}`),
+      `${SHEET_CSV_BASE_URL}&t=${timestamp}`
     ];
 
     const fetchPromises = urlsToFetch.map(async (url) => {
@@ -310,12 +359,12 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
       });
     });
 
-    // 嚴格過濾已過期之歷史賽事，只保留當期有效賽事日期
+    // 嚴格過濾已過期之歷史賽事，只保留今日起之當期有效賽事日期
+    // 若所有頁籤皆無今日或未來賽事，activeDates 即為空陣列 []，代表無當期班表
     const activeDates = combinedDates.filter(d => !isPastDate(d));
-    const finalDates = activeDates.length > 0 ? activeDates : combinedDates;
 
     const liveDataset: ScheduleDataset = {
-      dates: finalDates,
+      dates: activeDates,
       girlsScheduleMap: combinedGirlsScheduleMap,
       dailyRosterMap: combinedDailyRosterMap,
       lastUpdated: new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
@@ -329,12 +378,12 @@ export async function fetchLiveSchedule(): Promise<ScheduleDataset> {
     const cached = getCachedSchedule();
     if (cached) {
       cached.isLive = false;
+      cached.dates = cached.dates.filter(d => !isPastDate(d));
       return cached;
     }
     const fallback = parseSheetCsv(FALLBACK_CSV);
     fallback.isLive = false;
-    const activeDates = fallback.dates.filter(d => !isPastDate(d));
-    fallback.dates = activeDates.length > 0 ? activeDates : fallback.dates;
+    fallback.dates = fallback.dates.filter(d => !isPastDate(d));
     return fallback;
   }
 }
@@ -346,7 +395,7 @@ export function getCachedSchedule(): ScheduleDataset | null {
     const raw = localStorage.getItem(SCHEDULE_CACHE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as ScheduleDataset;
-      if (parsed && Array.isArray(parsed.dates) && parsed.dates.length > 0) {
+      if (parsed && Array.isArray(parsed.dates)) {
         return parsed;
       }
     }
@@ -367,11 +416,11 @@ export function saveCachedSchedule(data: ScheduleDataset): void {
 export function getInitialSchedule(): ScheduleDataset {
   const cached = getCachedSchedule();
   if (cached) {
+    cached.dates = cached.dates.filter(d => !isPastDate(d));
     return cached;
   }
   const fallback = parseSheetCsv(FALLBACK_CSV);
   fallback.isLive = false;
-  const activeDates = fallback.dates.filter(d => !isPastDate(d));
-  fallback.dates = activeDates.length > 0 ? activeDates : fallback.dates;
+  fallback.dates = fallback.dates.filter(d => !isPastDate(d));
   return fallback;
 }

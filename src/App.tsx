@@ -9,9 +9,9 @@ import { GirlCard, PairedInfo } from './components/GirlCard';
 import { MatrixView } from './components/MatrixView';
 import { ShareScheduleModal } from './components/ShareScheduleModal';
 import { OFFICIAL_GIRLS } from './data/girlsRoster';
-import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule } from './services/sheetService';
+import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule, SHEET_HTMLVIEW_URL } from './services/sheetService';
 import { GirlProfile, ScheduleDataset } from './types/schedule';
-import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2 } from 'lucide-react';
+import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, CalendarX2, FileSpreadsheet, ExternalLink, Users, Map } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { ThemeDayBanner } from './components/ThemeDayBanner';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
@@ -1173,6 +1173,74 @@ const MainApp: React.FC = () => {
         {/* 3. Main Content Container */}
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {activeTab === 'SCHEDULE' ? (
+            upcomingDates.length === 0 ? (
+              /* 當期班表更新中 / 無當期賽事專屬引導視圖 */
+              <div className="py-8 sm:py-12 max-w-2xl w-full mx-auto">
+                <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-oled-card border border-pink-100 dark:border-oled-border shadow-xl p-6 sm:p-10 text-center space-y-6">
+                  {/* 背景氛圍光效 */}
+                  <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br from-pink-400/10 to-rose-500/10 blur-2xl pointer-events-none" />
+                  <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-gradient-to-tr from-amber-400/10 to-pink-500/10 blur-2xl pointer-events-none" />
+
+                  {/* 圖標與徽章 */}
+                  <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-50 via-pink-100 to-amber-50 dark:from-rose-950/40 dark:via-pink-900/30 dark:to-amber-950/20 text-rkg-crimson dark:text-pink-400 border border-pink-200/60 dark:border-rose-800/40 shadow-inner">
+                    <CalendarX2 className="w-10 h-10 stroke-[1.75]" />
+                  </div>
+
+                  {/* 標題與說明 */}
+                  <div className="space-y-3">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-pink-100 dark:bg-rose-950/60 text-rkg-crimson dark:text-rose-300 border border-pink-200 dark:border-rose-900/60">
+                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                      <span>{t.noScheduleTitle}</span>
+                    </div>
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight">
+                      {t.noScheduleTitle}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-lg mx-auto leading-relaxed">
+                      {t.noScheduleDesc}
+                    </p>
+                  </div>
+
+                  {/* 核心操作：外連 Google 試算表大按鈕 */}
+                  <div className="pt-2">
+                    <a
+                      href={SHEET_HTMLVIEW_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-sm sm:text-base shadow-lg hover:shadow-xl active:scale-[0.98] transition-all duration-200 ring-2 ring-emerald-400/30"
+                    >
+                      <FileSpreadsheet className="w-5 h-5" />
+                      <span>{t.openOfficialSheet}</span>
+                      <ExternalLink className="w-4 h-4 opacity-80" />
+                    </a>
+                  </div>
+
+                  {/* 周邊功能快捷入口 */}
+                  <div className="pt-4 border-t border-slate-100 dark:border-oled-border/80 flex flex-wrap items-center justify-center gap-3">
+                    <button
+                      onClick={() => setActiveTab('INSTAGRAM')}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-50 dark:bg-oled-elevated hover:bg-pink-100 dark:hover:bg-slate-800 text-xs font-bold text-rkg-crimson dark:text-pink-300 border border-pink-200/70 dark:border-oled-border transition cursor-pointer"
+                    >
+                      <Users className="w-4 h-4" />
+                      <span>{t.viewGirlsRoster}</span>
+                    </button>
+                    <button
+                      onClick={() => setIsStadiumGuideOpen(true)}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-oled-elevated hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-oled-border transition cursor-pointer"
+                    >
+                      <Map className="w-4 h-4" />
+                      <span>{t.viewStadiumGuide}</span>
+                    </button>
+                  </div>
+
+                  {/* 同步時間提示 */}
+                  {schedule.lastUpdated && (
+                    <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                      最後同步檢查：{schedule.lastUpdated}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
             <>
               {/* Banner Card (Theme Day, Today Highlight, or Default) */}
               {(() => {
@@ -1367,6 +1435,7 @@ const MainApp: React.FC = () => {
                 </div>
               )}
             </>
+            )
           ) : (
             /* Instagram Directory View with Suspense */
             <Suspense

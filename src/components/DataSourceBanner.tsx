@@ -123,12 +123,20 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
 
           <span className="text-pink-300 dark:text-amber-500/30">|</span>
 
-          {/* 當日上班人數 */}
+          {/* 當日上班人數或當期狀態 */}
           <div className="inline-flex items-center gap-1 font-medium whitespace-nowrap flex-shrink-0">
-            <span className="text-gray-500 dark:text-gray-400">當日出勤</span>
-            <span className="font-extrabold text-rose-600 dark:text-amber-300">
-              {onDutyCount > 0 ? `${onDutyCount} 位` : '尚無排程'}
-            </span>
+            {schedule.dates.length === 0 ? (
+              <span className="font-bold text-amber-600 dark:text-amber-300">
+                當期班表更新中
+              </span>
+            ) : (
+              <>
+                <span className="text-gray-500 dark:text-gray-400">當日出勤</span>
+                <span className="font-extrabold text-rose-600 dark:text-amber-300">
+                  {onDutyCount > 0 ? `${onDutyCount} 位` : '尚無排程'}
+                </span>
+              </>
+            )}
           </div>
 
           {/* 排位對應統計 */}
