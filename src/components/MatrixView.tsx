@@ -111,6 +111,13 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       subTitle: isTheme ? '個人專屬看台寵粉' : '特殊企劃／專區',
       badgeStyle: 'bg-amber-100/90 dark:bg-gradient-to-r dark:from-amber-500/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400/60 dark:border-amber-400/50 font-black',
       matchFn: (loc, isZone) => isZone || loc.includes('專區') || loc.includes('舞台')
+    },
+    {
+      key: 'UNASSIGNED',
+      title: '待公布',
+      subTitle: '位置排定中',
+      badgeStyle: 'bg-amber-100/80 dark:bg-gradient-to-r dark:from-amber-600/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400 dark:border-amber-500/40 font-black',
+      matchFn: (loc, isZone) => !isZone && (!loc || loc.includes('待公布') || loc.includes('待公佈') || loc.includes('待定') || loc.includes('未安排') || loc === '休息' || loc === '休')
     }
   ];
 
@@ -224,7 +231,15 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
 
       const hasValidStation = duty.innings.some(inn => {
         const loc = (inn.location || '').trim();
-        return loc.length > 0 && !loc.includes('待公布') && !loc.includes('未安排') && loc !== '休息';
+        return (
+          loc.length > 0 &&
+          !loc.includes('待公布') &&
+          !loc.includes('待公佈') &&
+          !loc.includes('待定') &&
+          !loc.includes('未安排') &&
+          loc !== '休息' &&
+          loc !== '休'
+        );
       });
       return !hasValidStation;
     });
@@ -289,7 +304,14 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       }
 
       const loc = getGirlLocationInPeriod(girl, col.key, duty);
-      if (!loc || loc.includes('待公布') || loc.includes('未安排') || loc === '休息') return false;
+
+      // 若為待公布橫列，專門收集該時段站位排定中或待公布之女孩
+      if (row.key === 'UNASSIGNED') {
+        const isPending = !loc || loc.includes('待公布') || loc.includes('待公佈') || loc.includes('待定') || loc.includes('未安排') || loc === '休息' || loc === '休';
+        return isPending;
+      }
+
+      if (!loc || loc.includes('待公布') || loc.includes('待公佈') || loc.includes('待定') || loc.includes('未安排') || loc === '休息' || loc === '休') return false;
 
       return row.matchFn(loc, isZone);
     }).sort((a, b) => {
@@ -314,6 +336,19 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       return (parseInt(a.number, 10) || 999) - (parseInt(b.number, 10) || 999);
     });
   };
+
+  // 動態過濾橫列：若該特殊區域（大樂區 DALE、看台專區 ZONE）或待公布（UNASSIGNED）在當日所有時段都沒有任何女孩，則自動隱藏該列
+  const activeAreaRows = useMemo(() => {
+    return areaRows.filter(row => {
+      // 一壘東區與三壘西區為常態主力應援區，若非被特定單區篩選，預設保留
+      if (row.key === 'EAST' || row.key === 'WEST') {
+        return true;
+      }
+      // 特殊站位（大樂區、看台專區）與待公布：當日所有時段至少要有 1 位女孩才渲染；0 人時自動移除，避免空橫線佔用空間
+      const hasAnyGirlInRow = periodCols.some(col => getCellGirls(row, col).length > 0);
+      return hasAnyGirlInRow;
+    });
+  }, [areaRows, periodCols, allGirls, schedule, date, isTheme, searchQuery, areaFilter, favorites]);
 
   // 看台專區樓層樣式定義
   const getDeckBadgeStyle = (deck: '東下' | '西下' | '東上' | '西上') => {
@@ -415,7 +450,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
 
           {/* Table Body: Rows (Areas & Zones) */}
           <tbody>
-            {areaRows.map((row, rIdx) => (
+            {activeAreaRows.map((row, rIdx) => (
               <tr
                 key={row.key}
                 className={`border-b last:border-b-0 border-rose-100 dark:border-amber-500/20 ${
@@ -577,22 +612,35 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       </div>
 
       {/* Date Footer: Unassigned Notice Bar */}
-      <div className="mt-2.5 pt-2.5 border-t border-rose-200/60 dark:border-amber-500/20 flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div className="mt-2.5 pt-2.5 border-t border-rose-200/60 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
         {unassignedGirls.length > 0 ? (
-          <div className="flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300/80 dark:border-amber-500/30 text-amber-900 dark:text-amber-200">
-            <span className="font-extrabold flex items-center gap-1">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-              <span>{t.matrixUnassignedNotice.replace('{count}', String(unassignedGirls.length))}</span>
-            </span>
-            <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-col gap-2 p-2.5 sm:p-3 rounded-2xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/40 text-amber-900 dark:text-amber-200 shadow-xs w-full sm:w-auto">
+            <div className="flex items-center justify-between gap-2">
+              <span className="font-black flex items-center gap-1.5 text-xs sm:text-sm text-amber-900 dark:text-amber-100">
+                <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                <span>站位待公布名單（{unassignedGirls.length} 位女孩排定中）</span>
+              </span>
+              <span className="text-[10px] text-amber-700/80 dark:text-amber-300/70 font-semibold">
+                點擊可查看女孩資料
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
               {unassignedGirls.map(g => (
                 <button
                   key={g.name}
                   onClick={() => onSelectGirl(g)}
-                  className="px-2 py-0.5 rounded-lg bg-white dark:bg-[#2a050e] border border-amber-300 dark:border-amber-500/40 text-slate-800 dark:text-amber-100 font-black text-[11px] hover:bg-amber-100 dark:hover:bg-[#3a0714] transition shadow-xs"
-                  title={`點擊查看 ${g.name} 詳細資訊`}
+                  className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white dark:bg-[#25040d] border border-amber-300 dark:border-amber-500/40 text-slate-800 dark:text-amber-100 hover:bg-amber-100/60 dark:hover:bg-[#380815] transition shadow-xs active:scale-95 cursor-pointer"
+                  title={`查看 ${g.name} (#${g.number})`}
                 >
-                  #{g.number} {g.name}
+                  <div className="w-5 h-5 rounded-full overflow-hidden border border-amber-400/60 flex-shrink-0 bg-neutral-100">
+                    <img
+                      src={g.localPhoto || g.photo}
+                      alt={g.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="font-extrabold text-xs">#{g.number} {g.name}</span>
                 </button>
               ))}
             </div>
@@ -600,11 +648,11 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
         ) : (
           <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-400 font-bold px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-300/60 dark:border-emerald-500/30">
             <CheckCircle2 className="w-4 h-4" />
-            <span>{t.matrixAllAssignedNotice}</span>
+            <span>{t.matrixAllAssignedNotice} ({dailyGirls.length} 位出勤女孩均已排定)</span>
           </div>
         )}
 
-        <p className="text-[11px] text-slate-500 dark:text-amber-300/60">
+        <p className="text-[11px] text-slate-500 dark:text-amber-300/60 sm:ml-auto">
           {t.matrixScrollTip}
         </p>
       </div>
