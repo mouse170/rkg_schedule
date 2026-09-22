@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo } from 'react';
-import { X, Play, Music, Copy, Check, Share2, Heart, ExternalLink, VolumeX, Repeat } from 'lucide-react';
+import { X, Play, Music, Copy, Check, Share2, Heart, VolumeX, Repeat, Sparkles } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { FacebookIcon, ThreadsIcon, XIcon, YouTubeIcon } from './SocialIcons';
 import { InstagramIcon } from './InstagramIcon';
@@ -127,19 +127,19 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
   const embedSrc = `https://www.youtube-nocookie.com/embed/${RAKUTEN_GIRLS_2026_SONG.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${RAKUTEN_GIRLS_2026_SONG.youtubeId}&enablejsapi=1&rel=0`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-[#140005] border border-rose-500/40 rounded-3xl p-4 sm:p-6 shadow-2xl text-white flex flex-col my-auto max-h-[95vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-[#140005] border border-rose-500/40 rounded-3xl p-3 sm:p-5 shadow-2xl text-white flex flex-col my-auto max-h-[96vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-rose-500/20 flex-shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white shadow-md">
-              <Music className="w-4 h-4" />
+        <div className="flex items-center justify-between pb-2 sm:pb-2.5 border-b border-rose-500/20 flex-shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center text-white shadow-md flex-shrink-0">
+              <Music className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
-            <div>
-              <h2 className="text-base sm:text-lg font-black text-amber-200">
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-base font-black text-amber-200 truncate">
                 {t.songModalTitle}
               </h2>
-              <p className="text-[11px] text-rose-200/70 font-medium">
+              <p className="text-[10px] sm:text-[11px] text-rose-200/70 font-medium truncate">
                 {t.songModalSubtitle}
               </p>
             </div>
@@ -147,16 +147,16 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
           <button
             onClick={onClose}
             aria-label="關閉彈窗"
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition cursor-pointer"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition cursor-pointer flex-shrink-0"
           >
-            <X className="w-4 h-4" />
+            <X className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="overflow-y-auto pr-1 space-y-4 my-3 flex-1 no-scrollbar">
-          {/* YouTube Responsive Video Container (預設靜音、自動循環播放) */}
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-rose-500/30 shadow-lg">
+        <div className="overflow-y-auto pr-1 space-y-2.5 my-2 flex-1 no-scrollbar">
+          {/* YouTube Responsive Video Container (預設靜音、自動循環播放，移除任何可能遮擋控制項的覆蓋標籤) */}
+          <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black border border-rose-500/30 shadow-lg flex-shrink-0">
             <iframe
               src={embedSrc}
               title={RAKUTEN_GIRLS_2026_SONG.title}
@@ -164,123 +164,120 @@ export const SinglePromotionModal: React.FC<SinglePromotionModalProps> = ({
               allowFullScreen
               className="w-full h-full border-0"
             />
-            {/* 播放器提示標籤 */}
-            <div className="absolute top-2 left-2 pointer-events-none flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/75 backdrop-blur-md text-[10px] text-amber-300 font-bold border border-amber-400/40">
-              <VolumeX className="w-3 h-3 text-amber-400" />
-              <span>預設靜音 (可於播放器開啟音效)</span>
+          </div>
+
+          {/* 精簡單行：曲風概念標籤 + 靜音/循環狀態提示 (不遮擋影片) */}
+          <div className="flex items-center justify-between text-[11px] text-rose-200/80 px-1 flex-shrink-0">
+            <div className="flex items-center gap-1.5 text-amber-300 font-bold text-[11px] sm:text-xs truncate">
+              <Sparkles className="w-3 h-3 text-amber-400 flex-shrink-0" />
+              <span className="truncate">百鬼夜行 ‧ J-POP 魅惑曲風</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-rose-300/80 font-medium text-[10px] flex-shrink-0">
+              <span className="inline-flex items-center gap-0.5">
+                <VolumeX className="w-2.5 h-2.5 text-amber-400" />
+                <span>預設靜音</span>
+              </span>
               <span>•</span>
-              <Repeat className="w-2.5 h-2.5 text-amber-400" />
-              <span>循環播放</span>
+              <span className="inline-flex items-center gap-0.5">
+                <Repeat className="w-2.5 h-2.5 text-amber-400" />
+                <span>循環播放</span>
+              </span>
             </div>
           </div>
 
-          {/* 官方單曲概念簡介卡（依 YouTube 官方文案編撰） */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-rose-950/40 via-neutral-900/60 to-rose-950/40 border border-rose-500/25 text-xs text-rose-100/90 leading-relaxed shadow-sm">
-            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-              <span className="px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 font-black text-[10px] border border-rose-500/30">
-                百鬼夜行 ‧ J-POP 魅惑曲風
-              </span>
-              <span className="text-[10px] text-amber-300/80 font-bold">
-                首度打破甜美形象
-              </span>
-            </div>
-            <p className="font-normal text-[11px] sm:text-xs text-rose-100/80">
-              {RAKUTEN_GIRLS_2026_SONG.description}
-            </p>
-          </div>
+          {/* 社群推廣 Icon 列 (精簡縮小為 Icon 橫列，不佔據大段空間) */}
+          <div className="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-r from-[#220008] via-[#2f0411] to-[#1a0006] border border-rose-500/30 flex items-center justify-between gap-1.5 shadow-md flex-shrink-0">
+            <span className="text-[11px] font-black text-amber-200 hidden sm:inline-flex items-center gap-1 flex-shrink-0 pl-1">
+              <Share2 className="w-3.5 h-3.5 text-rose-400" />
+              <span>推廣分享</span>
+            </span>
 
-          {/* Social Share Toolbar */}
-          <div className="p-3 sm:p-4 rounded-2xl bg-gradient-to-br from-[#2a030c] to-[#1c0007] border border-rose-500/30 flex flex-col gap-2.5 shadow-md">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-black text-amber-200 flex items-center gap-1.5">
-                <Share2 className="w-3.5 h-3.5 text-rose-400" />
-                <span>{t.songShareTitle}</span>
-              </span>
-              <span className="text-[10px] text-rose-200/60 font-medium">
-                支援各大社群一鍵跳轉
-              </span>
-            </div>
-
-            {/* 社群分享按鈕網格 */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {/* Facebook */}
+            <div className="flex items-center justify-between w-full sm:w-auto sm:justify-end gap-1.5 sm:gap-2">
+              {/* Facebook Icon */}
               <a
                 href={fbShareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-[#1877F2]/20 hover:bg-[#1877F2]/35 border border-[#1877F2]/40 text-[#4285F4] hover:text-white text-xs font-black transition-all hover:scale-[1.02] cursor-pointer"
+                title="分享至 Facebook"
+                aria-label="分享至 Facebook"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#1877F2]/20 hover:bg-[#1877F2]/40 border border-[#1877F2]/40 text-[#4285F4] hover:text-white flex items-center justify-center transition-all hover:scale-105"
               >
                 <FacebookIcon className="w-4 h-4 fill-current" />
-                <span>Facebook</span>
               </a>
 
-              {/* Threads */}
+              {/* Threads Icon */}
               <a
                 href={threadsShareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white text-xs font-black transition-all hover:scale-[1.02] cursor-pointer"
+                title="發佈到 Threads"
+                aria-label="發佈到 Threads"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white flex items-center justify-center transition-all hover:scale-105"
               >
                 <ThreadsIcon className="w-4 h-4 fill-current" />
-                <span>Threads</span>
               </a>
 
-              {/* X (Twitter) */}
+              {/* X (Twitter) Icon */}
               <a
                 href={xShareUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-black/60 hover:bg-black/90 border border-white/30 text-white text-xs font-black transition-all hover:scale-[1.02] cursor-pointer"
+                title="分享至 X (Twitter)"
+                aria-label="分享至 X"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-black/60 hover:bg-black/90 border border-white/30 text-white flex items-center justify-center transition-all hover:scale-105"
               >
                 <XIcon className="w-3.5 h-3.5 fill-current" />
-                <span>X (Twitter)</span>
               </a>
 
-              {/* Instagram Stories / Download Story Card */}
+              {/* Instagram 限動海報產生鈕 */}
               <button
                 type="button"
                 onClick={handleDownloadStoryCard}
                 disabled={isExporting}
-                className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-gradient-to-r from-[#833AB4]/30 via-[#FD1D1D]/30 to-[#F77737]/30 hover:from-[#833AB4]/50 hover:to-[#F77737]/50 border border-rose-400/40 text-pink-200 hover:text-white text-xs font-black transition-all hover:scale-[1.02] cursor-pointer"
+                title="下載 9:16 IG 限動海報"
+                aria-label="下載 9:16 IG 限動海報"
+                className="h-8 sm:h-9 px-2.5 rounded-xl bg-gradient-to-r from-[#833AB4]/30 via-[#FD1D1D]/30 to-[#F77737]/30 hover:from-[#833AB4]/50 hover:to-[#F77737]/50 border border-rose-400/40 text-pink-200 hover:text-white text-[11px] font-bold flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer"
               >
-                <InstagramIcon className="w-4 h-4" />
-                <span>{isExporting ? '生成中...' : 'IG 限時動態'}</span>
+                <InstagramIcon className="w-3.5 h-3.5" />
+                <span className="text-[10px] sm:text-[11px]">{isExporting ? '生成中' : '限動海報'}</span>
               </button>
-            </div>
 
-            {/* 額外輔助按鈕：複製宣傳文案與前往 YouTube */}
-            <div className="flex items-center gap-2 pt-1 border-t border-rose-500/20">
+              <div className="w-[1px] h-4 bg-rose-500/30 mx-0.5" />
+
+              {/* 複製宣傳文案 Icon */}
               <button
                 type="button"
                 onClick={handleCopyText}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white/90 text-[11px] font-bold transition cursor-pointer"
+                title="複製宣傳文案"
+                aria-label="複製宣傳文案"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white/90 flex items-center justify-center transition-all hover:scale-105 cursor-pointer"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? '已複製！' : t.songCopyPromoText}</span>
               </button>
 
+              {/* 前往 YouTube 官方 MV */}
               <a
                 href={songUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 py-1.5 px-3 rounded-xl bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition cursor-pointer"
+                title="前往 YouTube 觀賞官方 MV"
+                aria-label="前往 YouTube 觀賞官方 MV"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 text-rose-200 flex items-center justify-center transition-all hover:scale-105"
               >
-                <YouTubeIcon className="w-3.5 h-3.5 fill-rose-500" />
-                <span>YouTube 觀看</span>
-                <ExternalLink className="w-2.5 h-2.5 opacity-60" />
+                <YouTubeIcon className="w-4 h-4 fill-rose-500" />
               </a>
             </div>
           </div>
 
-          {/* Lyrics Container (沉浸式可滾動歌詞) */}
-          <div className="p-4 rounded-2xl bg-black/40 border border-rose-500/20">
-            <div className="flex items-center justify-between pb-2 mb-3 border-b border-rose-500/20">
+          {/* Lyrics Container (沉浸式可滾動歌詞，享有充裕展示高度) */}
+          <div className="p-3.5 rounded-2xl bg-black/40 border border-rose-500/20 flex-1 min-h-[180px] flex flex-col">
+            <div className="flex items-center justify-between pb-1.5 mb-2 border-b border-rose-500/20 flex-shrink-0">
               <span className="text-xs font-black text-amber-200 flex items-center gap-1.5">
                 <Music className="w-3.5 h-3.5 text-rose-400" />
                 <span>{t.songLyricsTitle}</span>
               </span>
-              <span className="text-[10px] text-rose-300/60 font-mono">
-                Rakuten Girls 2026 Single
+              <span className="text-[10px] text-rose-300/70 font-mono">
+                《緋紅之夜》完整歌詞
               </span>
             </div>
 
