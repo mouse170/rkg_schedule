@@ -13,7 +13,6 @@ import { fetchLiveSchedule, getInitialSchedule, getCachedSchedule, SHEET_HTMLVIE
 import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, CalendarX2, FileSpreadsheet, ExternalLink, Users, Map } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
-import { ThemeDayBanner } from './components/ThemeDayBanner';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
 // Code Splitting via React.lazy for Non-initial View Components
@@ -722,7 +721,7 @@ const MainApp: React.FC = () => {
         }
       });
 
-      // 如果選定特定日期，但當日無中場表演 (例如 9/2 或辣酷甜主題日)
+      // 如果選定特定日期，但當日無中場表演
       if (midSections.length === 0 && selectedDate) {
         midSections.push({
           key: `MID_${selectedDate}_EMPTY`,
@@ -731,9 +730,7 @@ const MainApp: React.FC = () => {
           girls: [],
           favCount: 0,
           date: selectedDate,
-          emptyNotice: isSpicyCoolSweetDate(selectedDate)
-            ? '本次辣酷甜主題日無安排中場表演。'
-            : t.noMidPerformance
+          emptyNotice: t.noMidPerformance
         });
       }
 
@@ -1242,21 +1239,8 @@ const MainApp: React.FC = () => {
               </div>
             ) : (
             <>
-              {/* Banner Card (Theme Day, Today Highlight, or Default) */}
+              {/* Banner Card (Today Highlight, or Default Makeup Game Week) */}
               {(() => {
-                if (isSpicyCoolSweetDate(selectedDate)) {
-                  return (
-                    <ThemeDayBanner
-                      selectedDate={selectedDate}
-                      onSelectDate={handleSelectDate}
-                      allGirls={OFFICIAL_GIRLS}
-                      favorites={favorites}
-                      onSelectGirl={handleSelectGirl}
-                      onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
-                    />
-                  );
-                }
-
                 const currentRelInfo = selectedDate ? getRelativeDateInfo(selectedDate, language) : null;
                 const isCurrentToday = currentRelInfo?.isToday;
 

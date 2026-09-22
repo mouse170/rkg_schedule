@@ -4,6 +4,7 @@ export interface Translations {
   // Navigation & Header
   appTitle: string;
   appSubtitle: string;
+  headerThemeBadge: string;
   tabInstagram: string;
   tabSchedule: string;
   stadiumGuideBtn: string;
@@ -274,15 +275,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'zh-TW': {
     appTitle: '樂天女孩班表',
     appSubtitle: 'Rakuten Girls Live Schedule • 成員 IG 目錄與即時應援席位',
+    headerThemeBadge: '2026 補賽週',
     tabInstagram: '成員 IG 目錄',
     tabSchedule: '應援班表',
     stadiumGuideBtn: '席位說明',
     refreshBtn: '重新整理',
     themeToggle: '切換主題風格',
 
-    bannerTitle: 'Rakuten Girls 樂天女孩 2026 班表',
-    bannerBadge: '2026 全猿主場 • 應援指南',
-    bannerDesc: '掌握女孩每場賽事的 1-3 局、中場表演與 7-8 局應援站位（一壘東區／三壘西區／假日大樂／R 舞台專區）。點擊卡片可查看個別出勤與 Instagram！',
+    bannerTitle: 'Rakuten Girls 樂天女孩 2026 補賽週班表',
+    bannerBadge: '2026 補賽週 • 勇敢堅強永不放棄',
+    bannerDesc: '每一場補賽都很重要 ٩(๑❛ᴗ❛๑)۶♡ 球季接近尾聲一起勇敢堅強永不放棄 🖤🦍 掌握女孩每場賽事的 1-3 局、中場表演與 7-8 局應援站位。',
 
     dataConnected: '即時連線公開 Google 試算表，掌握女孩最新班表資訊',
     dataConnecting: '班表即時同步中...',
@@ -381,9 +383,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDutyToday: '今日上班',
     locationTBD: '待公布',
     viewSchedule: '查看完整班表 →',
-    todayScheduleBannerTitle: '今日全猿主場 • 樂天女孩即時應援班表',
-    todayScheduleBannerBadge: '今日有比賽 • 即時應援進行中',
-    todayScheduleBannerDesc: '今天為樂天桃猿主場賽事！掌握女孩 1-3 局、中場表演與 7-8 局的最新站位，進場應援不迷路！',
+    todayScheduleBannerTitle: '今日補賽關鍵戰役 • 樂天女孩即時應援班表',
+    todayScheduleBannerBadge: '今日補賽日 • 勇敢堅強永不放棄',
+    todayScheduleBannerDesc: '每一場補賽都很重要 ٩(๑❛ᴗ❛๑)۶♡ 球季接近尾聲一起勇敢堅強永不放棄 🖤🦍 掌握女孩 1-3 局、中場表演與 7-8 局的最新站位，進場應援不迷路！',
     todayScheduleAlertTitle: '今日賽事即時應援中',
 
     guideModalTitle: '樂天桃園棒球場 • 啦啦隊應援席位導覽',
@@ -431,7 +433,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixCornerHeader: '看台區域 / 局數',
     matrixFavTop: '最愛優先置頂',
     matrixSubTitle: '全猿主場各時段站位二維速查 • 點擊女孩頭像即刻開啟詳細抽屜',
-    matrixThemeBadge: '辣酷甜主題日',
+    matrixThemeBadge: '補賽週特區',
     matrixUnassignedNotice: '未安排站位名單（共 {count} 位）：',
     matrixAllAssignedNotice: '當日出勤女孩均已排定站位',
     matrixScrollTip: '左右滑動檢視各局時段 • 點擊女孩頭像即刻開啟詳細抽屜',
@@ -450,7 +452,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareDownloadCard: '下載 9:16 限動圖卡',
     shareGenerating: '生成中...',
     shareAllSeasonTitle: '2026 全猿主場賽季',
-    shareThemeDayHighlight: '辣酷甜主題日 ‧ Highlight',
+    shareThemeDayHighlight: '補賽週 ‧ Highlight',
     shareAllSeasonHighlight: '全猿主場 ‧ Highlight',
     shareStadiumName: '樂天桃園棒球場',
     shareZoneSubtitle: '看台專區寵粉應援',
@@ -490,7 +492,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '賽前活動資訊',
     themeDayStadiumBtn: '看台配置',
-    preMatchModalTitle: '辣酷甜主題日 ‧ 賽前活動與攤位導覽',
+    preMatchModalTitle: '賽前活動與攤位導覽',
     preMatchModalSubtitle: '女孩簽名會規則、兩日攤位出勤行程與外圍位置圖',
     tabPreMatchSchedule: '賽前行程與簽名會',
     tabBoothMap: '攤位分佈與廠商導覽',
@@ -529,15 +531,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'ja': {
     appTitle: '楽天ガールズ応援スケジュール',
     appSubtitle: 'Rakuten Girls Live Schedule • メンバーIG名鑑＆リアルタイム応援座席',
+    headerThemeBadge: '2026 予備日程',
     tabInstagram: 'メンバー IG 名鑑',
     tabSchedule: '応援スケジュール',
     stadiumGuideBtn: '席位説明',
     refreshBtn: '更新',
     themeToggle: 'テーマ切り替え',
 
-    bannerTitle: 'Rakuten Girls 楽天ガールズ 2026 スケジュール',
-    bannerBadge: '2026 全猿主場 • 応援ガイド',
-    bannerDesc: '各試合における 1〜3回、イニング間パフォーマンス、7〜8回の応援立ち位置（1塁側東エリア／3塁側西エリア／休日特別席／Rステージ）をチェック！カードをタップすると個人の出勤状況と公式Instagramを確認できます。',
+    bannerTitle: 'Rakuten Girls 楽天ガールズ 2026 補賽週スケジュール',
+    bannerBadge: '2026 予備日程ウィーク • 勇敢に最後まで諦めない',
+    bannerDesc: 'どの補賽も絶対に負けられない大切な一戦！シーズン終盤も共に勇敢に、強く、決して諦めずに駆け抜けよう！1〜3回、イニング間、7〜8回の立ち位置をチェック。',
 
     dataConnected: '公開 Google スプレッドシートとリアルタイム連携中',
     dataConnecting: 'スケジュール同期中...',
@@ -636,9 +639,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDutyToday: '本日出勤',
     locationTBD: '未発表',
     viewSchedule: '詳細スケジュールを見る →',
-    todayScheduleBannerTitle: '本日のホームゲーム • 楽天ガールズリアルタイム応援シフト',
-    todayScheduleBannerBadge: '本日試合あり • リアルタイム応援中',
-    todayScheduleBannerDesc: '本日は楽天モンキーズの主催試合日です！1〜3回、イニング間、7〜8回の最新立ち位置を確認して応援しましょう！',
+    todayScheduleBannerTitle: '本日の補賽・決戦応援ラインナップ',
+    todayScheduleBannerBadge: '本日補賽日 • 勇敢に最後まで諦めない',
+    todayScheduleBannerDesc: 'どの補賽も絶対に負けられない大切な一戦！シーズン終盤も共に勇敢に、強く、決して諦めずに駆け抜けよう！1〜3回、イニング間、7〜8回の最新立ち位置を確認して応援しましょう！',
     todayScheduleAlertTitle: '本日試合開催中・リアルタイム応援シフト',
 
     guideModalTitle: '楽天桃園野球場 • チア応援シートガイド',
@@ -686,7 +689,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixCornerHeader: 'スタンド席／イニング',
     matrixFavTop: 'お気に入り優先',
     matrixSubTitle: '各回の立ち位置をマトリックスで即座に確認 • タップで詳細表示',
-    matrixThemeBadge: 'スパイシークールスイート',
+    matrixThemeBadge: '予備日程特区',
     matrixUnassignedNotice: '立ち位置未定メンバー（計 {count} 名）：',
     matrixAllAssignedNotice: '本日出勤のメンバーはすべて配置完了',
     matrixScrollTip: '横スクロールで各回を確認 • タップで詳細表示',
@@ -705,7 +708,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareDownloadCard: '9:16ストーリー画像を保存',
     shareGenerating: '生成中...',
     shareAllSeasonTitle: '2026 全猿ホームシーズン',
-    shareThemeDayHighlight: 'スパイシークールスイート ‧ Highlight',
+    shareThemeDayHighlight: '予備日程 ‧ Highlight',
     shareAllSeasonHighlight: '全猿ホーム ‧ Highlight',
     shareStadiumName: '楽天桃園野球場',
     shareZoneSubtitle: '応援特区ファンサ応援',
@@ -745,7 +748,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '試合前イベント情報',
     themeDayStadiumBtn: 'スタンド配置',
-    preMatchModalTitle: 'スパイシークールスウィート ‧ 試合前イベント＆ブース案内',
+    preMatchModalTitle: '試合前イベント＆ブース案内',
     preMatchModalSubtitle: 'ガールズサイン会規定、ブース出演スケジュール、外周ブースマップ',
     tabPreMatchSchedule: '試合前スケジュール＆サイン会',
     tabBoothMap: 'ブース配置＆協賛案内',
@@ -784,15 +787,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'ko': {
     appTitle: '라쿠텐 걸스 근무 일정표',
     appSubtitle: 'Rakuten Girls Live Schedule • 멤버 IG 디렉토리 및 실시간 응원석',
+    headerThemeBadge: '2026 보충 경기',
     tabInstagram: '멤버 IG 디렉토리',
     tabSchedule: '응원 일정표',
     stadiumGuideBtn: '좌석 안내',
     refreshBtn: '새로고침',
     themeToggle: '테마 스타일 변경',
 
-    bannerTitle: 'Rakuten Girls 라쿠텐 걸스 2026 일정표',
-    bannerBadge: '2026 홈경기 • 응원 가이드',
-    bannerDesc: '각 경기별 1~3회, 클리닝 타임 퍼포먼스, 7~8회 응원 위치(1루 동구역 / 3루 서구역 / 주말 특별석 / R 스테이지)를 확인하세요! 카드를 탭하여 개인 출근 기록과 공식 인스타그램을 바로 확인할 수 있습니다.',
+    bannerTitle: 'Rakuten Girls 라쿠텐 걸스 2026 보충 경기 주간 일정표',
+    bannerBadge: '2026 재편성 경기 주간 • 용감하고 강하게 절대 포기하지 않는다',
+    bannerDesc: '모든 재편성 경기가 소중합니다! 시즌 막바지에도 함께 용감하고 굳건하게 끝까지 포기하지 마세요! 1~3회, 클리닝 타임, 7~8회 응원석을 확인하세요.',
 
     dataConnected: '공개 Google 스프레드시트와 실시간 연동 중',
     dataConnecting: '일정 동기화 중...',
@@ -891,9 +895,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     onDutyToday: '오늘 출근',
     locationTBD: '미발표',
     viewSchedule: '상세 일정 보기 →',
-    todayScheduleBannerTitle: '오늘의 홈경기 • 라쿠텐 걸스 실시간 응원 일정',
-    todayScheduleBannerBadge: '오늘 경기 진행 • 실시간 응원 중',
-    todayScheduleBannerDesc: '오늘은 라쿠텐 몽키스의 홈경기 날입니다! 1-3회, 중간 공연, 7-8회의 최신 응원 위치를 확인하세요!',
+    todayScheduleBannerTitle: '오늘의 재편성 결정전 • 라쿠텐 걸스 실시간 응원 일정',
+    todayScheduleBannerBadge: '오늘 보충 경기 • 용감하고 강하게 절대 포기하지 않는다',
+    todayScheduleBannerDesc: '모든 재편성 경기가 소중합니다! 시즌 막바지에도 함께 용감하고 굳건하게 끝까지 포기하지 마세요! 1-3회, 중간 공연, 7-8회의 최신 응원 위치를 확인하세요!',
     todayScheduleAlertTitle: '오늘 경기 진행 중 • 실시간 응원 일정',
 
     guideModalTitle: '라쿠텐 타오위안 야구장 • 치어리더 응원석 안내',
@@ -941,7 +945,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     matrixCornerHeader: '스탠드 구역 / 이닝',
     matrixFavTop: '최애 우선 정렬',
     matrixSubTitle: '이닝별 응원 위치 매트릭스 빠른 확인 • 프로필 클릭 시 상세 정보',
-    matrixThemeBadge: '스파이시 쿨 스위트 테마데이',
+    matrixThemeBadge: '보충 경기 특구',
     matrixUnassignedNotice: '위치 미정 명단 (총 {count}명): ',
     matrixAllAssignedNotice: '당일 출근 걸스 위치 배치 완료',
     matrixScrollTip: '좌우로 스크롤하여 이닝별 위치 확인 • 클릭 시 상세 정보',
@@ -960,7 +964,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareDownloadCard: '9:16 스토리 카드 다운로드',
     shareGenerating: '생성 중...',
     shareAllSeasonTitle: '2026 라쿠텐 홈 시즌',
-    shareThemeDayHighlight: '핫쿨스윗 테마데이 ‧ Highlight',
+    shareThemeDayHighlight: '보충 경기 ‧ Highlight',
     shareAllSeasonHighlight: '전원 홈 ‧ Highlight',
     shareStadiumName: '라쿠텐 타오위안 야구장',
     shareZoneSubtitle: '응원 특구 팬서비스 응원',
@@ -1000,7 +1004,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     // Theme Day & Pre-Match Activities
     themeDayPreMatchBtn: '경기 전 이벤트 정보',
     themeDayStadiumBtn: '관중석 배치',
-    preMatchModalTitle: '스파이시 쿨 스위트 ‧ 경기 전 이벤트 및 부스 안내',
+    preMatchModalTitle: '경기 전 이벤트 및 부스 안내',
     preMatchModalSubtitle: '치어리더 팬사인회 규칙, 부스 출연 스케줄, 야구장 외곽 부스 맵',
     tabPreMatchSchedule: '경기 전 스케줄 & 사인회',
     tabBoothMap: '부스 배치 & 기업 안내',

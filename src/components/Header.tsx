@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
         {/* Brand & Title (左側品牌與標題，加上嚴格 overflow-hidden 與 truncate 防止穿透溢位) */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-rose-50 to-pink-100 dark:from-[#2a040b] dark:to-[#140104] border border-rose-300 dark:border-amber-500/40 p-1 shadow-sm dark:shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 transition-all overflow-hidden" title="Rakuten Girls 樂天女孩 • 辣酷甜主視覺">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-rose-50 to-pink-100 dark:from-[#2a040b] dark:to-[#140104] border border-rose-300 dark:border-amber-500/40 p-1 shadow-sm dark:shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 transition-all overflow-hidden" title="Rakuten Girls 樂天女孩">
             <img
               src="./rkg_badge.png"
               alt="Rakuten Girls Logo"
@@ -44,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400 animate-pulse hidden sm:inline" />
               </h1>
               <span className="text-[10px] font-black px-1.5 sm:px-2 py-0.2 rounded-full bg-rose-100 dark:bg-amber-500/20 text-rose-800 dark:text-amber-300 border border-rose-300/80 dark:border-amber-400/50 whitespace-nowrap flex-shrink-0 shadow-sm">
-                2026 辣酷甜
+                {t.headerThemeBadge}
               </span>
             </div>
             <p className="text-[11px] text-rose-900/70 dark:text-amber-200/70 font-medium truncate hidden md:block">

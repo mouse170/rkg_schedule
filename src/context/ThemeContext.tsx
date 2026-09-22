@@ -10,8 +10,8 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'dark',
-  resolvedTheme: 'dark',
+  theme: 'light',
+  resolvedTheme: 'light',
   setTheme: () => {},
   toggleTheme: () => {}
 });
@@ -21,9 +21,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       const saved = localStorage.getItem('rkg_theme');
       if (saved === 'light' || saved === 'dark') return saved;
-      return 'dark';
+      return 'light';
     } catch {
-      return 'dark';
+      return 'light';
     }
   });
 

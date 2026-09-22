@@ -369,7 +369,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
 
                     {/* 矩陣圖網格：手機 4 欄，平板/電腦 7 欄 */}
                     <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2">
-                      {(currentDayData.autographGirls || []).map((girlName) => {
+                      {(currentDayData.autographGirls || []).map((girlName: string) => {
                         const girl = findGirl(girlName);
                         const isFav = favorites.includes(girl?.name || girlName);
                         const number = girl?.number || '—';
@@ -446,7 +446,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                   </div>
 
                   <div className="space-y-2.5">
-                    {currentDayData.boothEvents.map((evt, idx) => (
+                    {currentDayData.boothEvents.map((evt: any, idx: number) => (
                       <div
                         key={idx}
                         className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-2xl bg-rose-50/50 hover:bg-rose-100/60 dark:bg-rose-950/30 dark:hover:bg-rose-900/30 border border-rose-200/70 dark:border-rose-900/50 transition gap-3"
@@ -467,7 +467,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
 
                         {/* Interactive Girl Chips */}
                         <div className="flex items-center gap-2 flex-wrap">
-                          {evt.girls.map((girlName) => {
+                          {evt.girls.map((girlName: string) => {
                             const profile = findGirl(girlName);
                             const isFav = favorites.includes(profile?.name || girlName);
                             return (
@@ -625,7 +625,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                       <span>{t.boothMapLegendWest}</span>
                     </div>
                     <ul className="space-y-1.5 text-xs">
-                      {preMatchConfig.boothMapLegend[0]?.booths.map(b => (
+                      {preMatchConfig.boothMapLegend[0]?.booths.map((b: any) => (
                         <li key={b.number} className="flex items-center gap-2">
                           <span className="w-5 h-5 rounded-full bg-rose-600 text-white text-[10px] font-black flex items-center justify-center flex-shrink-0">
                             {b.number}
@@ -643,7 +643,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                       <span>{t.boothMapLegendEast}</span>
                     </div>
                     <ul className="space-y-1.5 text-xs">
-                      {preMatchConfig.boothMapLegend[1]?.booths.map(b => (
+                      {preMatchConfig.boothMapLegend[1]?.booths.map((b: any) => (
                         <li key={b.number} className="flex items-center gap-2">
                           <span className="w-5 h-5 rounded-full bg-amber-500 text-[#1a0007] text-[10px] font-black flex items-center justify-center flex-shrink-0">
                             {b.number}
