@@ -13,8 +13,6 @@ import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, Cale
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
 
-import { SinglePromotionBanner } from './components/SinglePromotionBanner';
-
 // Code Splitting via React.lazy for Non-initial View Components (大幅縮減首屏 Bundle 體積)
 const MatrixView = lazy(() =>
   import('./components/MatrixView').then(module => ({ default: module.MatrixView }))
@@ -1062,13 +1060,11 @@ const MainApp: React.FC = () => {
         <DataSourceBanner
           schedule={schedule}
           selectedDate={selectedDate}
+          onOpenSongModal={() => setIsSongModalOpen(true)}
         />
 
         {/* 3. Main Content Container */}
-        <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-4 sm:py-6">
-          {/* 樂天女孩 2026 全新年度單曲宣傳 Banner */}
-          <SinglePromotionBanner onOpenModal={() => setIsSongModalOpen(true)} />
-
+        <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-3 sm:py-5">
           {activeTab === 'SCHEDULE' ? (
             upcomingDates.length === 0 ? (
               /* 當期班表更新中 / 無當期賽事專屬引導視圖 */
@@ -1146,7 +1142,7 @@ const MainApp: React.FC = () => {
 
                 if (isCurrentToday) {
                   return (
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-2.5 px-3.5 sm:py-3 sm:px-4 text-white mb-2.5 sm:mb-3 shadow-md ring-1.5 ring-pink-400/40">
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-2 px-3 sm:py-2.5 sm:px-4 text-white mb-2 sm:mb-2.5 shadow-md ring-1.5 ring-pink-400/40">
                       <div className="relative z-10">
                         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-rose-700 text-[10px] font-black shadow-sm">
@@ -1160,7 +1156,7 @@ const MainApp: React.FC = () => {
                             {t.todayScheduleBannerTitle}
                           </h2>
                         </div>
-                        <p className="text-[10px] sm:text-xs text-pink-100 leading-snug font-normal line-clamp-1 sm:line-clamp-none">
+                        <p className="text-[10px] sm:text-xs text-pink-100 leading-relaxed font-normal break-words">
                           {t.todayScheduleBannerDesc}
                         </p>
                       </div>
@@ -1171,7 +1167,7 @@ const MainApp: React.FC = () => {
                 }
 
                 return (
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-2 px-3.5 sm:py-2.5 sm:px-4 text-white mb-2.5 sm:mb-3 shadow-sm">
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-2 px-3 sm:py-2.5 sm:px-4 text-white mb-2 sm:mb-2.5 shadow-sm">
                     <div className="relative z-10">
                       <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5">
                         <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold">
@@ -1182,7 +1178,7 @@ const MainApp: React.FC = () => {
                           {t.bannerTitle}
                         </span>
                       </div>
-                      <p className="text-[10px] sm:text-xs text-pink-100/90 leading-snug font-normal line-clamp-1 sm:line-clamp-none">
+                      <p className="text-[10px] sm:text-xs text-pink-100/90 leading-relaxed font-normal break-words">
                         {areaFilter.startsWith('SEAT_')
                           ? t.seatViewBannerDesc
                           : t.bannerDesc}

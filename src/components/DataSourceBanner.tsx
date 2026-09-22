@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { ExternalLink, Database, Info, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { ExternalLink, Database, Info, CheckCircle2, AlertCircle, Clock, Music } from 'lucide-react';
 import { InstagramIcon } from './InstagramIcon';
 import { ScheduleDataset } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,11 +7,13 @@ import { useLanguage } from '../context/LanguageContext';
 interface DataSourceBannerProps {
   schedule: ScheduleDataset;
   selectedDate: string;
+  onOpenSongModal?: () => void;
 }
 
 export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
   schedule,
   selectedDate,
+  onOpenSongModal,
 }) => {
   const { t } = useLanguage();
   const isLive = schedule.isLive;
@@ -161,8 +163,20 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
           )}
         </div>
 
-        {/* Right: 外部資料來源微圖示 */}
-        <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0 ml-auto">
+        {/* Right: 外部資料來源與 26 年單曲按鈕 */}
+        <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0 ml-auto flex-wrap">
+          {onOpenSongModal && (
+            <button
+              type="button"
+              onClick={onOpenSongModal}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-black text-rose-900 dark:text-amber-200 bg-gradient-to-r from-amber-300 via-rose-200 to-amber-200 hover:from-amber-400 hover:to-rose-300 dark:from-rose-950/90 dark:to-neutral-900/90 border border-rose-300 dark:border-rose-500/40 transition active:scale-95 shadow-xs cursor-pointer"
+              title="觀看 2026 樂天女孩年度單曲《緋紅之夜》MV 與完整歌詞"
+            >
+              <Music className="w-2.5 h-2.5 text-rose-600 dark:text-amber-400 fill-rose-500/20" />
+              <span>26年單曲緋紅之夜</span>
+            </button>
+          )}
+
           <a
             href="https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/edit?usp=sharing"
             target="_blank"
