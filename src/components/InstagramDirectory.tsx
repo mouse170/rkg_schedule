@@ -9,12 +9,14 @@ interface InstagramDirectoryProps {
   onSelectGirl: (girl: GirlProfile) => void;
   favorites: string[];
   onToggleFavorite: (e: React.MouseEvent | null, name: string) => void;
+  isOffSeason?: boolean;
 }
 
 export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
   onSelectGirl,
   favorites,
-  onToggleFavorite
+  onToggleFavorite,
+  isOffSeason = false,
 }) => {
   const { t } = useLanguage();
   const [search, setSearch] = useState('');
@@ -88,14 +90,14 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
           <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] sm:text-[11px] font-bold">
               <InstagramIcon className="w-3 h-3" />
-              <span>{t.igBannerBadge}</span>
+              <span>{isOffSeason ? t.offSeasonBannerBadge : t.igBannerBadge}</span>
             </span>
             <h2 className="text-sm sm:text-base font-black tracking-tight">
-              {t.igBannerTitle}
+              {isOffSeason ? t.offSeasonBannerTitle : t.igBannerTitle}
             </h2>
           </div>
           <p className="text-[11px] sm:text-xs text-pink-100/90 leading-relaxed font-normal">
-            {t.igBannerDesc}
+            {isOffSeason ? t.offSeasonBannerDesc : t.igBannerDesc}
           </p>
         </div>
         <div className="absolute -right-8 -bottom-8 w-40 h-40 rounded-full bg-white/10 blur-xl pointer-events-none" />

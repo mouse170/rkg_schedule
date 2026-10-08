@@ -290,6 +290,15 @@ export interface Translations {
   vibeCodingNotice: string;
   disclaimerCopyright: string;
 
+  // Off Season (休賽季)
+  offSeasonBadge: string;
+  offSeasonStatus: string;
+  offSeasonStatusDesc: string;
+  offSeasonBannerBadge: string;
+  offSeasonBannerTitle: string;
+  offSeasonBannerDesc: string;
+  offSeasonDrawerNotice: string;
+
   // No Schedule Fallback
   noScheduleTitle: string;
   noScheduleDesc: string;
@@ -302,16 +311,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'zh-TW': {
     appTitle: '樂天女孩班表',
     appSubtitle: 'Rakuten Girls Live Schedule • 成員 IG 目錄與即時應援席位',
-    headerThemeBadge: '2026 補賽週',
+    headerThemeBadge: '2026 休賽季',
     tabInstagram: '成員 IG 目錄',
     tabSchedule: '應援班表',
     stadiumGuideBtn: '席位說明',
     refreshBtn: '重新整理',
     themeToggle: '切換主題風格',
 
-    bannerTitle: 'Rakuten Girls 樂天女孩 2026 補賽週班表',
-    bannerBadge: '2026 補賽週 • 勇敢堅強永不放棄',
-    bannerDesc: '每一場補賽都很重要 ٩(๑❛ᴗ❛๑)۶♡ 球季接近尾聲一起勇敢堅強永不放棄 🖤🦍 掌握女孩每場賽事的 1-3 局、中場表演與 7-8 局應援站位。',
+    bannerTitle: 'Rakuten Girls 樂天女孩成員目錄',
+    bannerBadge: '2026 休賽季 • 轉會期名冊',
+    bannerDesc: '球季結束進入休賽季轉會期，保留完整成員名冊與官方社群連結，掌握女孩最新動態。',
 
     dataConnected: '即時連線公開 Google 試算表，掌握女孩最新班表資訊',
     dataConnecting: '班表即時同步中...',
@@ -576,6 +585,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     vibeCodingNotice: '本站為球迷透過 Vibe Coding 開發之非官方應援專案，多語系採用 AI 輔助翻譯，如有翻譯或資訊未盡完善之處敬請見諒。',
     disclaimerCopyright: '本專案由粉絲應援所建立，所有肖像與商標權屬樂天桃猿棒球隊與 Rakuten 所有。班表資料即時連線公開 Google Sheet。',
 
+    offSeasonBadge: '2026 休賽季',
+    offSeasonStatus: '休賽季轉會期',
+    offSeasonStatusDesc: '賽事班表暫停更新，靜待官方公布新球季陣容',
+    offSeasonBannerBadge: '休賽季轉會期',
+    offSeasonBannerTitle: 'Rakuten Girls 樂天女孩成員目錄',
+    offSeasonBannerDesc: '球季結束進入休賽季轉會期，保留完整成員名冊與官方 Instagram 連結；敬請靜待官方公布新球季成員陣容。',
+    offSeasonDrawerNotice: '休賽季期間暫無賽事排班，敬請靜待轉會期後官方公布新球季陣容。',
+
     noScheduleTitle: '當期班表更新中',
     noScheduleDesc: '目前 Google 試算表尚無今日或近期已排定之應援賽事。最新排班請以官方試算表為主。',
     openOfficialSheet: '前往官方 Google 試算表',
@@ -585,16 +602,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'ja': {
     appTitle: '楽天ガールズ応援スケジュール',
     appSubtitle: 'Rakuten Girls Live Schedule • メンバーIG名鑑＆リアルタイム応援座席',
-    headerThemeBadge: '2026 予備日程',
+    headerThemeBadge: '2026 オフシーズン',
     tabInstagram: 'メンバー IG 名鑑',
     tabSchedule: '応援スケジュール',
     stadiumGuideBtn: '席位説明',
     refreshBtn: '更新',
     themeToggle: 'テーマ切り替え',
 
-    bannerTitle: 'Rakuten Girls 楽天ガールズ 2026 補賽週スケジュール',
-    bannerBadge: '2026 予備日程ウィーク • 勇敢に最後まで諦めない',
-    bannerDesc: 'どの補賽も絶対に負けられない大切な一戦！シーズン終盤も共に勇敢に、強く、決して諦めずに駆け抜けよう！1〜3回、イニング間、7〜8回の立ち位置をチェック。',
+    bannerTitle: 'Rakuten Girls メンバー名鑑',
+    bannerBadge: '2026 オフシーズン • 移籍期間',
+    bannerDesc: 'シーズン終了に伴いオフシーズンへ移行しました。メンバー名鑑と公式SNSを掲載中、新シーズン体制の発表をお待ちください。',
 
     dataConnected: '公開 Google スプレッドシートとリアルタイム連携中',
     dataConnecting: 'スケジュール同期中...',
@@ -859,6 +876,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     vibeCodingNotice: '本サイトはファンが Vibe Coding により作成した非公式応援ツールです。多言語表示には AI 補助翻訳を使用しているため、翻訳の不備や誤りがある場合はご容赦ください。',
     disclaimerCopyright: '本プロジェクトはファンによる応援目的で制作されており、すべての肖像権および商標権は楽天モンキーズおよび Rakuten に帰属します。スケジュールデータは公開 Google スプレッドシートから取得しています。',
 
+    offSeasonBadge: '2026 オフシーズン',
+    offSeasonStatus: '移籍期間中',
+    offSeasonStatusDesc: '試合日程は一時停止中です。新シーズンのメンバー発表をお待ちください',
+    offSeasonBannerBadge: 'オフシーズン移籍期間',
+    offSeasonBannerTitle: 'Rakuten Girls メンバー名鑑',
+    offSeasonBannerDesc: 'シーズン終了に伴いオフシーズンへ移行しました。メンバー名鑑と公式Instagramを掲載中、新シーズン体制の発表をお待ちください。',
+    offSeasonDrawerNotice: 'オフシーズンのため応援スケジュールはありません。新体制の発表をお待ちください。',
+
     noScheduleTitle: '最新スケジュール更新中',
     noScheduleDesc: '現在、Google スプレッドシートには本日以降の予定が登録されていません。最新の出演情報は公式スプレッドシートをご確認ください。',
     openOfficialSheet: '公式 Google スプレッドシートを開く',
@@ -868,16 +893,16 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   'ko': {
     appTitle: '라쿠텐 걸스 근무 일정표',
     appSubtitle: 'Rakuten Girls Live Schedule • 멤버 IG 디렉토리 및 실시간 응원석',
-    headerThemeBadge: '2026 보충 경기',
+    headerThemeBadge: '2026 비시즌',
     tabInstagram: '멤버 IG 디렉토리',
     tabSchedule: '응원 일정표',
     stadiumGuideBtn: '좌석 안내',
     refreshBtn: '새로고침',
     themeToggle: '테마 스타일 변경',
 
-    bannerTitle: 'Rakuten Girls 라쿠텐 걸스 2026 보충 경기 주간 일정표',
-    bannerBadge: '2026 재편성 경기 주간 • 용감하고 강하게 절대 포기하지 않는다',
-    bannerDesc: '모든 재편성 경기가 소중합니다! 시즌 막바지에도 함께 용감하고 굳건하게 끝까지 포기하지 마세요! 1~3회, 클리닝 타임, 7~8회 응원석을 확인하세요.',
+    bannerTitle: 'Rakuten Girls 멤버 디렉토리',
+    bannerBadge: '2026 비시즌 • 이적 시장',
+    bannerDesc: '시즌 종료로 비시즌에 돌입했습니다. 멤버 명단과 공식 SNS를 유지하며, 새 시즌 라인업 발표를 기다려주세요.',
 
     dataConnected: '공개 Google 스프레드시트와 실시간 연동 중',
     dataConnecting: '일정 동기화 중...',
@@ -1141,6 +1166,14 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     switchLanguage: '언어 변경',
     vibeCodingNotice: '본 사이트는 팬이 Vibe Coding으로 개발한 비공식 응원 프로젝트입니다. 다국어는 AI 보조 번역을 적용하였으므로 번역상의 오류가 있을 수 있으니 양해 부탁드립니다.',
     disclaimerCopyright: '본 프로젝트는 팬 응원 목적으로 제작되었으며 모든 초상권 및 상표권은 라쿠텐 몽키스와 Rakuten에 있습니다. 일정 데이터는 공개 Google 스프레드시트와 실시간 연동됩니다.',
+
+    offSeasonBadge: '2026 비시즌',
+    offSeasonStatus: '비시즌 이적 시장',
+    offSeasonStatusDesc: '경기 일정 업데이트 일시 중단, 새 시즌 라인업 발표를 기다려주세요',
+    offSeasonBannerBadge: '비시즌 이적 시장',
+    offSeasonBannerTitle: 'Rakuten Girls 멤버 디렉토리',
+    offSeasonBannerDesc: '시즌 종료로 비시즌에 돌입했습니다. 멤버 명단과 공식 Instagram을 유지하며, 새 시즌 라인업 발표를 기다려주세요.',
+    offSeasonDrawerNotice: '비시즌 기간으로 경기 응원 일정이 없습니다. 새 시즌 라인업 발표를 기다려주세요.',
 
     noScheduleTitle: '일정표 업데이트 중',
     noScheduleDesc: '현재 Google 스프레드시트에 오늘 이후 예정된 응원 일정이 없습니다. 최신 일정은 공식 스프레드시트를 확인해 주세요.',

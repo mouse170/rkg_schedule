@@ -11,6 +11,7 @@ interface GirlDetailDrawerProps {
   isFavorite: boolean;
   onToggleFavorite: (girlName: string) => void;
   onClose: () => void;
+  isOffSeason?: boolean;
 }
 
 export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
@@ -18,7 +19,8 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
   duties,
   isFavorite,
   onToggleFavorite,
-  onClose
+  onClose,
+  isOffSeason = false,
 }) => {
   const [copied, setCopied] = useState(false);
   const { language, setLanguage, t } = useLanguage();
@@ -35,7 +37,9 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
   if (!girl) return null;
 
   const handleShare = () => {
-    const dutySummary = duties.length > 0
+    const dutySummary = isOffSeason
+      ? t.offSeasonDrawerNotice
+      : duties.length > 0
       ? duties.map(d => `${d.date}: ${d.innings.map(i => `${i.period}(${translateLocation(i.location, language)})`).join(' ')}`).join('\n')
       : t.shareTextNoDuty;
     const shareText = `${t.shareTextTitle}\n${t.shareTextGirl}#${girl.number} ${girl.name}\n${girl.instagram ? `IG: ${girl.instagram}\n` : ''}\n${t.shareTextSchedule}\n${dutySummary}\n\n${t.shareTextLearnMore}https://mouse170.github.io/rkg_schedule/`;
@@ -185,11 +189,20 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                   <span>{t.dutyHistory}</span>
                 </h4>
                 <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-pink-100 dark:bg-pink-950/80 text-rkg-pink-deep dark:text-pink-300">
-                  {t.dutyCount.replace('{count}', String(duties.length))}
+                  {isOffSeason ? t.offSeasonBadge : t.dutyCount.replace('{count}', String(duties.length))}
                 </span>
               </div>
 
-              {duties.length > 0 ? (
+              {isOffSeason ? (
+                <div className="p-6 text-center bg-pink-50/50 dark:bg-oled-surface rounded-2xl border border-dashed border-pink-200 dark:border-oled-border space-y-2">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-100 dark:bg-rose-950/60 text-rkg-crimson dark:text-rose-300">
+                    {t.offSeasonStatus}
+                  </span>
+                  <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed font-medium">
+                    {t.offSeasonDrawerNotice}
+                  </p>
+                </div>
+              ) : duties.length > 0 ? (
                 <div className="space-y-3">
                   {duties.map((duty, idx) => (
                     <div

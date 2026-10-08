@@ -11,6 +11,7 @@ interface HeaderProps {
   onRefresh: () => void;
   onOpenStadiumGuide: () => void;
   onOpenShareModal: () => void;
+  isOffSeason?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
   isLoading,
   onRefresh,
   onOpenStadiumGuide,
-  onOpenShareModal
+  onOpenShareModal,
+  isOffSeason = false,
 }) => {
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -55,51 +57,57 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Section: Actions & Desktop Tabs */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-          {/* 電腦版主導覽分頁（sm:flex 顯示，手機端改在下方獨立展示以符合閱讀邏輯） */}
-          <div className="hidden sm:flex items-center bg-pink-100/60 dark:bg-[#130104] p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-pink-200 dark:border-amber-500/30 shadow-inner">
+          {/* 電腦版主導覽分頁（非休賽季時顯示） */}
+          {!isOffSeason && (
+            <div className="hidden sm:flex items-center bg-pink-100/60 dark:bg-[#130104] p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-pink-200 dark:border-amber-500/30 shadow-inner">
+              <button
+                onClick={() => onTabChange('SCHEDULE')}
+                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                  activeTab === 'SCHEDULE'
+                    ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
+                    : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
+                }`}
+              >
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{t.tabSchedule}</span>
+              </button>
+
+              <button
+                onClick={() => onTabChange('INSTAGRAM')}
+                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                  activeTab === 'INSTAGRAM'
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
+                    : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
+                }`}
+              >
+                <InstagramIcon className="w-3.5 h-3.5" />
+                <span>{t.tabInstagram}</span>
+              </button>
+            </div>
+          )}
+
+          {/* Stadium Guide Button (Desktop - 非休賽季顯示) */}
+          {!isOffSeason && (
             <button
-              onClick={() => onTabChange('SCHEDULE')}
-              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
-                activeTab === 'SCHEDULE'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
-                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
-              }`}
+              onClick={onOpenStadiumGuide}
+              className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#24040b] hover:bg-pink-100 dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/30 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
             >
-              <Calendar className="w-3.5 h-3.5" />
-              <span>{t.tabSchedule}</span>
+              <Map className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
+              <span>{t.stadiumGuideBtn}</span>
             </button>
+          )}
 
+          {/* Share Schedule Button (非休賽季顯示) */}
+          {!isOffSeason && (
             <button
-              onClick={() => onTabChange('INSTAGRAM')}
-              className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
-                activeTab === 'INSTAGRAM'
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
-                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
-              }`}
+              onClick={onOpenShareModal}
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#26040c] hover:bg-pink-100 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/40 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
+              title="分享專屬追星班表與 9:16 IG 限動圖卡"
             >
-              <InstagramIcon className="w-3.5 h-3.5" />
-              <span>{t.tabInstagram}</span>
+              <Share2 className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
+              <span className="hidden sm:inline">分享</span>
             </button>
-          </div>
-
-          {/* Stadium Guide Button (Desktop) */}
-          <button
-            onClick={onOpenStadiumGuide}
-            className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#24040b] hover:bg-pink-100 dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/30 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
-          >
-            <Map className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
-            <span>{t.stadiumGuideBtn}</span>
-          </button>
-
-          {/* Share Schedule Button */}
-          <button
-            onClick={onOpenShareModal}
-            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#26040c] hover:bg-pink-100 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/40 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
-            title="分享專屬追星班表與 9:16 IG 限動圖卡"
-          >
-            <Share2 className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
-            <span className="hidden sm:inline">分享</span>
-          </button>
+          )}
 
           {/* Theme Toggle Button (Light / Dark) */}
           <button
@@ -124,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-[#2b050f] text-amber-400/50 cursor-not-allowed border border-amber-500/20'
                 : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20'
             }`}
-            title="手動強制清除快取並同步最新班表"
+            title="手動強制清除快取並同步最新資料"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
             <span className="hidden sm:inline">
@@ -134,34 +142,36 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* 手機版主導覽分段切換列（sm:hidden，符合自然閱讀順序，等寬大觸控區） */}
-      <div className="sm:hidden px-3 pb-2 pt-0.5 max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 p-1 rounded-2xl bg-pink-100/60 dark:bg-[#130104] border border-pink-200 dark:border-amber-500/30 shadow-inner gap-1">
-          <button
-            onClick={() => onTabChange('SCHEDULE')}
-            className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-              activeTab === 'SCHEDULE'
-                ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
-                : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
-            }`}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>{t.tabSchedule}</span>
-          </button>
+      {/* 手機版主導覽分段切換列（非休賽季顯示） */}
+      {!isOffSeason && (
+        <div className="sm:hidden px-3 pb-2 pt-0.5 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-pink-100/60 dark:bg-[#130104] border border-pink-200 dark:border-amber-500/30 shadow-inner gap-1">
+            <button
+              onClick={() => onTabChange('SCHEDULE')}
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                activeTab === 'SCHEDULE'
+                  ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
+                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <Calendar className="w-3.5 h-3.5" />
+              <span>{t.tabSchedule}</span>
+            </button>
 
-          <button
-            onClick={() => onTabChange('INSTAGRAM')}
-            className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-              activeTab === 'INSTAGRAM'
-                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
-                : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
-            }`}
-          >
-            <InstagramIcon className="w-3.5 h-3.5" />
-            <span>{t.tabInstagram}</span>
-          </button>
+            <button
+              onClick={() => onTabChange('INSTAGRAM')}
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+                activeTab === 'INSTAGRAM'
+                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
+                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              <InstagramIcon className="w-3.5 h-3.5" />
+              <span>{t.tabInstagram}</span>
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };

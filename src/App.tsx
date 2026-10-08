@@ -12,6 +12,7 @@ import { GirlProfile, ScheduleDataset } from './types/schedule';
 import { Heart, Sparkles, AlertCircle, Globe, Loader2, Flame, CheckCircle2, CalendarX2, FileSpreadsheet, ExternalLink, Users, Map } from 'lucide-react';
 import { getRelativeDateInfo, isPastDate, compareScheduleDates, getSmartDefaultDate } from './utils/dateUtils';
 import { isSpicyCoolSweetDate, getZoneAssignment } from './data/spicyCoolSweetData';
+import { IS_OFF_SEASON } from './config/seasonConfig';
 
 // Code Splitting via React.lazy for Non-initial View Components (大幅縮減首屏 Bundle 體積)
 const MatrixView = lazy(() =>
@@ -37,7 +38,7 @@ const MainApp: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [, startTransition] = useTransition();
 
-  const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>('SCHEDULE');
+  const [activeTab, setActiveTab] = useState<'SCHEDULE' | 'INSTAGRAM'>(IS_OFF_SEASON ? 'INSTAGRAM' : 'SCHEDULE');
   const [viewMode, setViewMode] = useState<'CARD' | 'MATRIX'>('CARD');
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isSongModalOpen, setIsSongModalOpen] = useState<boolean>(false);
@@ -50,9 +51,9 @@ const MainApp: React.FC = () => {
     }, 3000);
   };
 
-  // SWR 快取即刻繪製，首屏零等待消除 LCP 起跑延遲
+  // SWR 快取即刻繪製，首屏零等待消除 LCP 起跑延遲（休賽季期間不進入載入等待）
   const [schedule, setSchedule] = useState<ScheduleDataset>(getInitialSchedule);
-  const [isLoading, setIsLoading] = useState<boolean>(() => !getCachedSchedule());
+  const [isLoading, setIsLoading] = useState<boolean>(() => !IS_OFF_SEASON && !getCachedSchedule());
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     const init = getInitialSchedule();
     const validUpcoming = init.dates.filter(d => !isPastDate(d)).sort(compareScheduleDates);
@@ -198,8 +199,10 @@ const MainApp: React.FC = () => {
   };
 
   useEffect(() => {
-    // SWR 靜默背景載入，避免觸發全頁面阻塞
-    loadSchedule(schedule.dates.length > 0);
+    // SWR 靜默背景載入（休賽季期間不拉取賽事班表）
+    if (!IS_OFF_SEASON) {
+      loadSchedule(schedule.dates.length > 0);
+    }
   }, []);
 
   // 網址參數同步（URL Query Params Share & Sync）
@@ -1054,6 +1057,7 @@ const MainApp: React.FC = () => {
           onRefresh={handleManualRefresh}
           onOpenStadiumGuide={() => setIsStadiumGuideOpen(true)}
           onOpenShareModal={() => setIsShareModalOpen(true)}
+          isOffSeason={IS_OFF_SEASON}
         />
 
         {/* 2. Data Source Notice & Live Verification Bar */}
@@ -1061,11 +1065,12 @@ const MainApp: React.FC = () => {
           schedule={schedule}
           selectedDate={selectedDate}
           onOpenSongModal={() => setIsSongModalOpen(true)}
+          isOffSeason={IS_OFF_SEASON}
         />
 
         {/* 3. Main Content Container */}
         <main className="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-4 py-3 sm:py-5">
-          {activeTab === 'SCHEDULE' ? (
+          {!IS_OFF_SEASON && activeTab === 'SCHEDULE' ? (
             upcomingDates.length === 0 ? (
               /* 當期班表更新中 / 無當期賽事專屬引導視圖 */
               <div className="py-8 sm:py-12 max-w-2xl w-full mx-auto">
@@ -1339,6 +1344,7 @@ const MainApp: React.FC = () => {
                 onSelectGirl={(g) => setSelectedGirl(g)}
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
+                isOffSeason={IS_OFF_SEASON}
               />
             </Suspense>
           )}
@@ -1421,6 +1427,7 @@ const MainApp: React.FC = () => {
               isFavorite={favorites.includes(selectedGirl.name)}
               onToggleFavorite={(name) => toggleFavorite(null, name)}
               onClose={() => setSelectedGirl(null)}
+              isOffSeason={IS_OFF_SEASON}
             />
           )}
         </Suspense>
