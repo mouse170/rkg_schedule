@@ -9,7 +9,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_00_0_KWuR.jpg",
     "localPhoto": "./photos/girl_94.webp",
     "instagram": "https://www.instagram.com/linda831212/",
-    "instagramHandle": "linda831212"
+    "instagramHandle": "linda831212",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/re7jx9wr7/"
   },
   {
     "id": "465",
@@ -19,7 +20,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_3_0_5aXk.jpg",
     "localPhoto": "./photos/girl_465.webp",
     "instagram": "https://www.instagram.com/chloe_320/",
-    "instagramHandle": "chloe_320"
+    "instagramHandle": "chloe_320",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b60tym6fx/"
   },
   {
     "id": "253",
@@ -29,7 +31,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_6_0_uSXK.jpg",
     "localPhoto": "./photos/girl_253.webp",
     "instagram": "https://www.instagram.com/song_.x/",
-    "instagramHandle": "song_.x"
+    "instagramHandle": "song_.x",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/od3sks88c/"
   },
   {
     "id": "99",
@@ -39,7 +42,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_7_0_sDFm.jpg",
     "localPhoto": "./photos/girl_99.webp",
     "instagram": "https://www.instagram.com/yuhi_0927/",
-    "instagramHandle": "yuhi_0927"
+    "instagramHandle": "yuhi_0927",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/9uqtzy26z/"
   },
   {
     "id": "423",
@@ -49,7 +53,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_8_0_Gsr4.jpg",
     "localPhoto": "./photos/girl_423.webp",
     "instagram": "https://www.instagram.com/llxyblair/",
-    "instagramHandle": "llxyblair"
+    "instagramHandle": "llxyblair",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/f0aolncvj/"
   },
   {
     "id": "428",
@@ -60,7 +65,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_9_0_8vIz.jpg",
     "localPhoto": "./photos/girl_428.webp",
     "instagram": "https://www.instagram.com/kaho_jia1_fan1/",
-    "instagramHandle": "kaho_jia1_fan1"
+    "instagramHandle": "kaho_jia1_fan1",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/5jtrzb4ak/"
   },
   {
     "id": "83",
@@ -70,7 +76,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_10_0_9v9x.jpg",
     "localPhoto": "./photos/girl_83.webp",
     "instagram": "https://www.instagram.com/ninidaniel/",
-    "instagramHandle": "ninidaniel"
+    "instagramHandle": "ninidaniel",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b9nq9kt23/"
   },
   {
     "id": "422",
@@ -80,7 +87,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_12_0_soBn.jpg",
     "localPhoto": "./photos/girl_422.webp",
     "instagram": "https://www.instagram.com/ninalin1231/",
-    "instagramHandle": "ninalin1231"
+    "instagramHandle": "ninalin1231",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/gw89f1f3n/"
   },
   {
     "id": "91",
@@ -90,7 +98,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_15_0_CJox.jpg",
     "localPhoto": "./photos/girl_91.webp",
     "instagram": "https://www.instagram.com/mengj215/",
-    "instagramHandle": "mengj215"
+    "instagramHandle": "mengj215",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/1pwitqe5w/"
   },
   {
     "id": "430",
@@ -100,7 +109,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_17_0_Bao5.jpg",
     "localPhoto": "./photos/girl_430.webp",
     "instagram": "https://www.instagram.com/yuyu__liu/",
-    "instagramHandle": "yuyu__liu"
+    "instagramHandle": "yuyu__liu",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/gsc0q53eo/"
   },
   {
     "id": "200",
@@ -110,7 +120,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_18_0_Y5uJ.jpg",
     "localPhoto": "./photos/girl_200.webp",
     "instagram": "https://www.instagram.com/michelle02_14/",
-    "instagramHandle": "michelle02_14"
+    "instagramHandle": "michelle02_14",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/qmlttppdl/"
   },
   {
     "id": "339",
@@ -120,7 +131,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_19_0_z4V7.jpg",
     "localPhoto": "./photos/girl_339.webp",
     "instagram": "https://www.instagram.com/iamkira_yt/",
-    "instagramHandle": "iamkira_yt"
+    "instagramHandle": "iamkira_yt",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/346m393ya/"
   },
   {
     "id": "385",
@@ -130,7 +142,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_20_0_Jt5O.jpg",
     "localPhoto": "./photos/girl_385.webp",
     "instagram": "https://www.instagram.com/lyud_fly/",
-    "instagramHandle": "lyud_fly"
+    "instagramHandle": "lyud_fly",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/j17risri3/"
   },
   {
     "id": "435",
@@ -142,7 +155,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_22_0_h07s.jpg",
     "localPhoto": "./photos/girl_435.webp",
     "instagram": "https://www.instagram.com/hajiwon.22/",
-    "instagramHandle": "hajiwon.22"
+    "instagramHandle": "hajiwon.22",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b2hkeerep/"
   },
   {
     "id": "432",
@@ -154,7 +168,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_24_0_Jz87.jpg",
     "localPhoto": "./photos/girl_432.webp",
     "instagram": "https://www.instagram.com/beena._s2/",
-    "instagramHandle": "beena._s2"
+    "instagramHandle": "beena._s2",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/jy8mh40r8/"
   },
   {
     "id": "433",
@@ -166,7 +181,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_25_0_K8iX.jpg",
     "localPhoto": "./photos/girl_433.webp",
     "instagram": "https://www.instagram.com/s2uhan/",
-    "instagramHandle": "s2uhan"
+    "instagramHandle": "s2uhan",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/pbj24r4c9/"
   },
   {
     "id": "466",
@@ -178,7 +194,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_26_0_q5kP.jpg",
     "localPhoto": "./photos/girl_466.webp",
     "instagram": "https://www.instagram.com/0_gwlny/",
-    "instagramHandle": "0_gwlny"
+    "instagramHandle": "0_gwlny",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/sf533cdrk/"
   },
   {
     "id": "84",
@@ -188,7 +205,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_27_0_kZ92.jpg",
     "localPhoto": "./photos/girl_84.webp",
     "instagram": "https://www.instagram.com/tanyalee_0927/",
-    "instagramHandle": "tanyalee_0927"
+    "instagramHandle": "tanyalee_0927",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/o728klmg2/"
   },
   {
     "id": "464",
@@ -198,7 +216,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_33_0_qO74.jpg",
     "localPhoto": "./photos/girl_464.webp",
     "instagram": "https://www.instagram.com/nikkiyzxx/",
-    "instagramHandle": "nikkiyzxx"
+    "instagramHandle": "nikkiyzxx",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/xy39ivp5d/"
   },
   {
     "id": "467",
@@ -210,7 +229,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_34_0_k6kX.jpg",
     "localPhoto": "./photos/girl_467.webp",
     "instagram": "https://www.instagram.com/rkouee/",
-    "instagramHandle": "rkouee"
+    "instagramHandle": "rkouee",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/6pqf1mhl6/"
   },
   {
     "id": "331",
@@ -220,7 +240,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_36_0_C453.jpg",
     "localPhoto": "./photos/girl_331.webp",
     "instagram": "https://www.instagram.com/0707yuhan/",
-    "instagramHandle": "0707yuhan"
+    "instagramHandle": "0707yuhan",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/3z8jrmdwk/"
   },
   {
     "id": "244",
@@ -230,7 +251,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_66_0_l4G8.jpg",
     "localPhoto": "./photos/girl_244.webp",
     "instagram": "https://www.instagram.com/daiying0/",
-    "instagramHandle": "daiying0"
+    "instagramHandle": "daiying0",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/9w4ryyfje/"
   },
   {
     "id": "436",
@@ -240,7 +262,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_67_0_SZR6.jpg",
     "localPhoto": "./photos/girl_436.webp",
     "instagram": "https://www.instagram.com/chihchih67.__/",
-    "instagramHandle": "chihchih67.__"
+    "instagramHandle": "chihchih67.__",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/brbv6qrvy/"
   },
   {
     "id": "256",
@@ -250,7 +273,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_77_0_m4S2.jpg",
     "localPhoto": "./photos/girl_256.webp",
     "instagram": "https://www.instagram.com/chuyi_77/",
-    "instagramHandle": "chuyi_77"
+    "instagramHandle": "chuyi_77",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/41vw6cwl2/"
   },
   {
     "id": "431",
@@ -260,7 +284,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_87_0_M6O9.jpg",
     "localPhoto": "./photos/girl_431.webp",
     "instagram": "https://www.instagram.com/ujou.chi/",
-    "instagramHandle": "ujou.chi"
+    "instagramHandle": "ujou.chi",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/yzpb970qs/"
   },
   {
     "id": "425",
@@ -270,7 +295,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_88_0_Qk2a.jpg",
     "localPhoto": "./photos/girl_425.webp",
     "instagram": "https://www.instagram.com/kaii_0421/",
-    "instagramHandle": "kaii_0421"
+    "instagramHandle": "kaii_0421",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/qx4psk85y/"
   },
   {
     "id": "335",
@@ -280,7 +306,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "photo": "https://storage.googleapis.com/hhg-images/players/16/list_97_0_h6fO.jpg",
     "localPhoto": "./photos/girl_335.webp",
     "instagram": "https://www.instagram.com/weni_1107/",
-    "instagramHandle": "weni_1107"
+    "instagramHandle": "weni_1107",
+    "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/d3iczb1pl/"
   }
 ];
 

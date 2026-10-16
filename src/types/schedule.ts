@@ -9,6 +9,7 @@ export interface GirlProfile {
   localPhoto: string;
   instagram: string | null;
   instagramHandle: string | null;
+  calendarUrl?: string | null;
   role?: string;
 }
 

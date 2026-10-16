@@ -69,7 +69,15 @@
 
 ## 改版歷程摘要（近期與重大版本）
 
-* **v0.8.42.0（2026/10 最新版本：TasteSkill v2 反套版美學重構）**：
+* **v0.8.43.0（2026/10 最新版本：2027 RKG 個人桌曆預購整合）**：
+  - **全體 27 位女孩個人桌曆精確對齊**：
+    - 完整收錄樂天市場官方旗艦店 27 位現役女孩 2027 年個人專屬桌曆預購連結，經程式自動化雙向校驗確保 100% 正確對應（琳妲 #00 至溫妮 #97）。
+    - 於成員目錄（InstagramDirectory）實體卡片新增直覺預購按鈕，點擊直達該位女孩專屬商品頁面。
+    - 於女孩檔案抽屜（GirlDetailDrawer）整合個人桌曆捷徑與休賽季專屬推廣區塊。
+    - 成員目錄頂部大看板新增「2027 RKG 桌曆預購全專區」導購按鈕，方便球迷瀏覽全員款式。
+    - 支援繁中、日本語、한국어 三語系國際化翻譯字串。
+
+* **v0.8.42.0（TasteSkill v2 反套版美學重構）**：
   - **實體物件化風格重構（Page is the Object）**：
     - 將樂天女孩成員目錄重構為實體球員寫真卡與主場典藏手冊風格，導入刊物級 Zilla Slab 與 Noto Sans TC 排版字系。
     - 全面清除 AI 套版常見特徵（零漸層背景、零靜態模糊陰影、零未授權細線、零紫色調與零裝飾性 Emoji）。
@@ -86,10 +94,6 @@
     - 資料來源列與成員目錄橫幅切換為休賽季公告狀態，說明球季結束進入轉會期，靜待官方公布新賽季陣容。
     - 抽離模組化賽季配置常數（`src/config/seasonConfig.ts`），新球季開啟時可零成本無縫切回賽事班表系統。
 
-* **v0.8.40.x（單曲推廣與矩陣視圖動態過濾）**：
-  - **2026 年度單曲《緋紅之夜》推廣專區**：內嵌官方 YouTube MV（支援現代瀏覽器自動靜音起播與單曲循環播放），支援四大社群一鍵推廣分享與完整歌詞。
-  - **矩陣視圖（Matrix View）動態過濾與待公布清單**：即時確認 Google 試算表排班，若全場無成員安排在特殊站位，系統自動移除空橫列，並醒目列出當日「站位待公布」成員清單。
-
 * **v0.8.35.0（架構與效能重構里程碑）**：
   - **Core Web Vitals 深度調優**：引入 SWR（Stale-While-Revalidate）本機快取零秒繪製首屏；收斂關鍵資源 Fetch Priority。
   - **INP 卡頓徹底消滅**：利用 `requestIdleCallback` 與 Touch 觸控預載抽屜模組，並透過 React 18 `startTransition` 將主執行緒阻塞由 920ms 降至零延遲。
@@ -101,6 +105,7 @@
 - **即時班表來源**：[Google 試算表（即時更新）](https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/edit?usp=sharing)
 - **女孩名冊與官方肖像**：[樂天桃猿官方網站 Rakuten Monkeys](https://monkeys.rakuten.com.tw/girls)
 - **官方社群**：[Rakuten Girls 官方 Instagram](https://www.instagram.com/rakutengirls/)
+- **2027 年桌曆預購專區**：[Rakuten 樂天市場官方旗艦店](https://www.rakuten.com.tw/shop/monkeyshop/category/x5mcd/)
 
 ---
 
