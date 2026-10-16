@@ -1,0 +1,239 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" fill="none">
+  <defs>
+    <!-- Background subtle radial warmth -->
+    <radialGradient id="bgGrad" cx="50%" cy="46%" r="56%">
+      <stop offset="0%" stop-color="#FFFDF9" />
+      <stop offset="70%" stop-color="#FBF4EE" />
+      <stop offset="100%" stop-color="#F4E9E0" />
+    </radialGradient>
+
+    <!-- Editorial drop shadow for calendar stand -->
+    <filter id="tactileShadow" x="-10%" y="-5%" width="120%" height="130%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#5C1625" flood-opacity="0.14" />
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#1A0A0E" flood-opacity="0.08" />
+    </filter>
+
+    <!-- Page curl / depth shadow -->
+    <filter id="pageShadow" x="-10%" y="-5%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#6E1528" flood-opacity="0.09" />
+    </filter>
+
+    <!-- Metallic champagne gold gradient -->
+    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EED596" />
+      <stop offset="45%" stop-color="#DFBC6F" />
+      <stop offset="70%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#B88A22" />
+    </linearGradient>
+
+    <!-- Wire spiral ring gradient (specular metallic finish) -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F7E7BE" />
+      <stop offset="25%" stop-color="#D4AF37" />
+      <stop offset="60%" stop-color="#8F6B1D" />
+      <stop offset="90%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#FAF0D6" />
+    </linearGradient>
+
+    <!-- Rich crimson gradient -->
+    <linearGradient id="crimsonHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#841126" />
+      <stop offset="60%" stop-color="#A61C34" />
+      <stop offset="100%" stop-color="#890C22" />
+    </linearGradient>
+
+    <!-- Subtle texture pattern for premium stationery feel -->
+    <pattern id="fineGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#E6DACD" stroke-width="0.5" stroke-opacity="0.45" />
+    </pattern>
+  </defs>
+
+  <!-- Canvas Background Badge -->
+  <rect width="512" height="512" rx="108" fill="url(#bgGrad)" />
+  <rect width="512" height="512" rx="108" fill="url(#fineGrid)" opacity="0.6" />
+  <rect x="1.5" y="1.5" width="509" height="509" rx="106.5" fill="none" stroke="#EADCCE" stroke-width="2" />
+
+  <!-- Outer subtle Japanese editorial framing hairlines -->
+  <circle cx="256" cy="256" r="218" stroke="url(#goldAccent)" stroke-width="1.2" stroke-dasharray="3 7" opacity="0.45" />
+  <circle cx="256" cy="256" r="232" stroke="#A61C34" stroke-width="0.75" opacity="0.18" />
+
+  <!-- Tactile Ground Shadow -->
+  <ellipse cx="256" cy="428" rx="172" ry="16" fill="#42131C" opacity="0.12" filter="blur(8px)" />
+  <ellipse cx="256" cy="426" rx="136" ry="7" fill="#2E0A12" opacity="0.18" filter="blur(3px)" />
+
+  <!-- CALENDAR MAIN STAND (Triangular Desk Calendar Structure) -->
+  <g filter="url(#tactileShadow)">
+    <!-- Back triangular easel support (depth board) -->
+    <path d="M 112 396 L 138 128 L 374 128 L 400 396 Z" fill="#2A050D" />
+    
+    <!-- Base shelf / triangular bottom bevel -->
+    <path d="M 96 406 L 114 394 L 398 394 L 416 406 C 418 409 415 414 410 414 L 102 414 C 97 414 94 409 96 406 Z" fill="#6B0F20" />
+    <path d="M 102 412 L 410 412" stroke="url(#goldAccent)" stroke-width="1.8" stroke-linecap="round" opacity="0.9" />
+
+    <!-- Calendar Pages Block (Backing sheet stack for paper thickness) -->
+    <path d="M 124 142 L 388 142 L 394 392 L 118 392 Z" fill="#EDE4D8" />
+    <path d="M 122 138 L 390 138 L 392 390 L 120 390 Z" fill="#F7F1E8" />
+
+    <!-- FRONT ACTIVE CALENDAR SHEET -->
+    <rect x="122" y="132" width="268" height="258" rx="10" fill="#FFFDFB" filter="url(#pageShadow)" />
+
+    <!-- Paper subtle top header zone (Rakuten Crimson) -->
+    <path d="M 122 142 C 122 136.5 126.5 132 132 132 L 380 132 C 385.5 132 390 136.5 390 142 L 390 198 L 122 198 Z" fill="url(#crimsonHeader)" />
+    
+    <!-- Gold dividing foil hairline -->
+    <line x1="122" y1="198" x2="390" y2="198" stroke="url(#goldAccent)" stroke-width="2.5" />
+    
+    <!-- Header typographic detailing: Rakuten Girls RKG editorial monogram & Year -->
+    <g transform="translate(142, 168)">
+      <!-- Tiny stylized Rakuten chevron crest -->
+      <path d="M 0 4 L 9 -7 L 18 4 L 15 7 L 9 0 L 3 7 Z" fill="url(#goldAccent)" />
+      <path d="M 4 8 L 9 2 L 14 8 L 12 10 L 9 6 L 6 10 Z" fill="url(#goldAccent)" opacity="0.75" />
+      <text x="28" y="3" fill="#FFFFFF" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-size="13" font-weight="800" letter-spacing="2.8">RKG 2026</text>
+    </g>
+
+    <g transform="translate(322, 168)">
+      <rect x="-8" y="-13" width="58" height="20" rx="10" fill="#580816" stroke="url(#goldAccent)" stroke-width="1" />
+      <text x="21" y="1" text-anchor="middle" fill="#FDF3DB" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="1.5">CHEER</text>
+    </g>
+
+    <!-- CALENDAR MONTH & DAYS GRID -->
+    <!-- Month Name Label -->
+    <text x="142" y="226" fill="#890022" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="800" letter-spacing="3.2">SEPTEMBER</text>
+    <text x="368" y="226" text-anchor="end" fill="#B39882" font-family="'Plus Jakarta Sans', sans-serif" font-size="10" font-weight="600" letter-spacing="1">NO. 09</text>
+
+    <!-- Minimalist Day of Week Row -->
+    <g transform="translate(142, 246)">
+      <text x="6" y="0" text-anchor="middle" fill="#A61C34" font-family="sans-serif" font-size="9.5" font-weight="700">S</text>
+      <text x="39" y="0" text-anchor="middle" fill="#877569" font-family="sans-serif" font-size="9.5" font-weight="600">M</text>
+      <text x="72" y="0" text-anchor="middle" fill="#877569" font-family="sans-serif" font-size="9.5" font-weight="600">T</text>
+      <text x="105" y="0" text-anchor="middle" fill="#877569" font-family="sans-serif" font-size="9.5" font-weight="600">W</text>
+      <text x="138" y="0" text-anchor="middle" fill="#877569" font-family="sans-serif" font-size="9.5" font-weight="600">T</text>
+      <text x="171" y="0" text-anchor="middle" fill="#877569" font-family="sans-serif" font-size="9.5" font-weight="600">F</text>
+      <text x="204" y="0" text-anchor="middle" fill="#A61C34" font-family="sans-serif" font-size="9.5" font-weight="700">S</text>
+      <line x1="0" y1="8" x2="228" y2="8" stroke="#EFE6DC" stroke-width="1" />
+    </g>
+
+    <!-- Calendar Matrix Numbers -->
+    <!-- Row 1 -->
+    <g fill="#AFA196" font-family="'Plus Jakarta Sans', sans-serif" font-size="10.5" font-weight="500" text-anchor="middle">
+      <text x="148" y="278">31</text>
+      <text x="181" y="278" fill="#382C27" font-weight="600">1</text>
+      <text x="214" y="278" fill="#382C27" font-weight="600">2</text>
+      <text x="247" y="278" fill="#382C27" font-weight="600">3</text>
+      <text x="280" y="278" fill="#382C27" font-weight="600">4</text>
+      <text x="313" y="278" fill="#382C27" font-weight="600">5</text>
+      <text x="346" y="278" fill="#890022" font-weight="700">6</text>
+
+      <!-- Row 2 -->
+      <text x="148" y="306" fill="#890022" font-weight="700">7</text>
+      <text x="181" y="306" fill="#382C27" font-weight="600">8</text>
+      <text x="214" y="306" fill="#382C27" font-weight="600">9</text>
+      <text x="247" y="306" fill="#382C27" font-weight="600">10</text>
+      <text x="280" y="306" fill="#382C27" font-weight="600">11</text>
+      <text x="313" y="306" fill="#382C27" font-weight="600">12</text>
+      <text x="346" y="306" fill="#890022" font-weight="700">13</text>
+
+      <!-- Row 3 with SPECIAL HIGHLIGHT DATE (19: 辣酷甜主題日) -->
+      <text x="148" y="334" fill="#890022" font-weight="700">14</text>
+      <text x="181" y="334" fill="#382C27" font-weight="600">15</text>
+      <text x="214" y="334" fill="#382C27" font-weight="600">16</text>
+      <text x="247" y="334" fill="#382C27" font-weight="600">17</text>
+      <text x="280" y="334" fill="#382C27" font-weight="600">18</text>
+      
+      <!-- Date 19 - Highlighted with sweet Heart Marker Badge -->
+      <!-- Background pill for date 19 -->
+      <g>
+        <circle cx="313" cy="330" r="14" fill="#A61C34" />
+        <circle cx="313" cy="330" r="14" fill="none" stroke="url(#goldAccent)" stroke-width="1.6" />
+        <text x="313" y="334" fill="#FFFFFF" font-weight="800">19</text>
+        
+        <!-- Tiny sweet tactile heart pin / date marker -->
+        <g transform="translate(322, 314) scale(0.85)">
+          <path d="M 0 4 C -3 0, -8 0, -8 5 C -8 10, 0 16, 0 16 C 0 16, 8 10, 8 5 C 8 0, 3 0, 0 4 Z" fill="url(#goldAccent)" stroke="#FFFFFF" stroke-width="1.2" />
+        </g>
+      </g>
+      <text x="346" y="334" fill="#890022" font-weight="700">20</text>
+
+      <!-- Row 4 -->
+      <text x="148" y="362" fill="#890022" font-weight="700">21</text>
+      <text x="181" y="362" fill="#382C27" font-weight="600">22</text>
+      <text x="214" y="362" fill="#382C27" font-weight="600">23</text>
+      <text x="247" y="362" fill="#382C27" font-weight="600">24</text>
+      <text x="280" y="362" fill="#382C27" font-weight="600">25</text>
+      <text x="313" y="362" fill="#382C27" font-weight="600">26</text>
+      <text x="346" y="362" fill="#890022" font-weight="700">27</text>
+    </g>
+
+    <!-- Bottom editorial footer on sheet -->
+    <path d="M 142 376 L 370 376" stroke="#F1E7DD" stroke-width="1" />
+    <circle cx="256" cy="376" r="3" fill="url(#goldAccent)" />
+    <circle cx="244" cy="376" r="1.5" fill="#D8C8B8" />
+    <circle cx="268" cy="376" r="1.5" fill="#D8C8B8" />
+  </g>
+
+  <!-- SPIRAL WIRE BINDING (Golden Twin Loop Wire Rings) -->
+  <!-- Set of 7 double spiral loops punching through the calendar top -->
+  <g filter="url(#pageShadow)">
+    <!-- Loop 1 -->
+    <g transform="translate(156, 126)">
+      <!-- Punch hole on paper -->
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <!-- Wire ring loop -->
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 2 -->
+    <g transform="translate(189, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 3 -->
+    <g transform="translate(222, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 4 (Center) -->
+    <g transform="translate(256, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 5 -->
+    <g transform="translate(289, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 6 -->
+    <g transform="translate(322, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+
+    <!-- Loop 7 -->
+    <g transform="translate(355, 126)">
+      <rect x="-4.5" y="-3" width="9" height="15" rx="4.5" fill="#1F040A" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="url(#ringGrad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+      <path d="M -3.5 12 C -3.5 -8, 3.5 -8, 3.5 12" stroke="#FFF7DE" stroke-width="1" stroke-linecap="round" fill="none" opacity="0.6" />
+    </g>
+  </g>
+
+  <!-- Editorial Stationery Stamp Detail (Bottom Left of Canvas) -->
+  <g transform="translate(48, 458)" opacity="0.8">
+    <circle cx="12" cy="12" r="10" fill="none" stroke="#D4AF37" stroke-width="1" />
+    <path d="M 8 12 L 16 12 M 12 8 L 12 16" stroke="#D4AF37" stroke-width="1" />
+    <text x="28" y="16" fill="#8F7868" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="600" letter-spacing="2">STATIONERY ED.</text>
+  </g>
+
+  <g transform="translate(464, 458)" opacity="0.8">
+    <text x="-12" y="16" text-anchor="end" fill="#A61C34" font-family="'Plus Jakarta Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="1.5">TAOYUAN STADIUM</text>
+  </g>
+</svg>

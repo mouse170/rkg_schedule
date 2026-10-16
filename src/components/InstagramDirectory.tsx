@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { ExternalLink, Copy, Check, Search, Heart, Calendar } from 'lucide-react';
+import { ExternalLink, Copy, Check, Search, Heart } from 'lucide-react';
+import { DeskCalendarIcon } from './DeskCalendarIcon';
 import { OFFICIAL_GIRLS } from '../data/girlsRoster';
 import { GirlProfile } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
@@ -139,7 +140,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
               data-ui="action-link"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#c59b27] hover:bg-[#d8ab32] text-[#1a0007] font-black text-sm transition-transform active:scale-95"
             >
-              <Calendar className="w-4 h-4 shrink-0" />
+              <DeskCalendarIcon className="w-4 h-4 shrink-0" />
               <span>{t.allDeskCalendars}</span>
               <ExternalLink className="w-4 h-4 shrink-0 opacity-80" />
             </a>
@@ -371,7 +372,7 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                     className="w-full inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-sm font-black bg-[#c59b27] hover:bg-[#d8ab32] text-[#1a0007] transition-colors"
                     title={`${girl.name} ${t.deskCalendarPreorder}`}
                   >
-                    <Calendar className="w-3.5 h-3.5 shrink-0" />
+                    <DeskCalendarIcon className="w-3.5 h-3.5 shrink-0" />
                     <span className="truncate">{t.deskCalendarPreorder}</span>
                     <ExternalLink className="w-3.5 h-3.5 shrink-0 opacity-70" />
                   </a>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Heart, ExternalLink, Calendar, MapPin, Share2, Check, Sparkles, Globe } from 'lucide-react';
+import { DeskCalendarIcon } from './DeskCalendarIcon';
 import { GirlProfile, DailyDuty } from '../types/schedule';
 import { useLanguage } from '../context/LanguageContext';
 import { Language } from '../i18n/translations';
@@ -158,7 +159,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#c59b27] hover:bg-[#d8ab32] text-[#1a0007] rounded-full text-xs font-black transition active:scale-95"
                       title={`${girl.name} ${t.deskCalendarPreorder}`}
                     >
-                      <Calendar className="w-3 h-3" />
+                      <DeskCalendarIcon className="w-3.5 h-3.5" />
                       <span>{t.deskCalendarPreorder}</span>
                       <ExternalLink className="w-3 h-3 opacity-70" />
                     </a>
@@ -223,7 +224,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#c59b27] hover:bg-[#d8ab32] text-[#1a0007] rounded-xl text-xs font-black transition active:scale-95"
                       >
-                        <Calendar className="w-3.5 h-3.5" />
+                        <DeskCalendarIcon className="w-4 h-4" />
                         <span>{girl.name} {t.deskCalendarPreorder}</span>
                         <ExternalLink className="w-3.5 h-3.5 opacity-80" />
                       </a>

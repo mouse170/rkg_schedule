@@ -380,8 +380,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: '已複製',
     copyJapaneseName: '日文名',
     copiedJapaneseName: '已複製',
-    deskCalendarPreorder: '2027 桌曆預購',
-    allDeskCalendars: '2027 RKG 桌曆預購全專區',
+    deskCalendarPreorder: '買桌曆',
+    allDeskCalendars: '買 2027 全體桌曆',
     deskCalendarNotice: '2027 RKG 個人專屬桌曆預購進行中',
 
     areaAll: '全部女孩',
@@ -674,8 +674,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: 'コピー済',
     copyJapaneseName: '日本名',
     copiedJapaneseName: 'コピー済',
-    deskCalendarPreorder: '2027年 カレンダー予約',
-    allDeskCalendars: '2027 RKG カレンダー特設会場',
+    deskCalendarPreorder: 'カレンダー購入',
+    allDeskCalendars: '2027 全員カレンダー購入',
     deskCalendarNotice: '2027 RKG 個人卓上カレンダー予約受付中',
 
     areaAll: '全メンバー',
@@ -968,8 +968,8 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: '복사됨',
     copyJapaneseName: '일본 이름',
     copiedJapaneseName: '복사됨',
-    deskCalendarPreorder: '2027 탁상달력 예약',
-    allDeskCalendars: '2027 RKG 탁상달력 특별관',
+    deskCalendarPreorder: '달력 구매',
+    allDeskCalendars: '2027 전체 탁상달력 구매',
     deskCalendarNotice: '2027 RKG 개인 탁상달력 예약 판매 진행 중',
 
     areaAll: '전체 멤버',
