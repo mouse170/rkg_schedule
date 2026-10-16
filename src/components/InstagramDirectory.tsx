@@ -95,12 +95,16 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
         </div>
 
         <div className="max-w-4xl">
+          <div className="inline-block px-3.5 py-1 rounded-full bg-[#890022] text-[#fff5f7] text-xs font-black tracking-wider mb-4">
+            {isOffSeason ? t.offSeasonBannerBadge : t.igBannerBadge}
+          </div>
+
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none text-white mb-4">
             {isOffSeason ? t.offSeasonBannerTitle : t.igBannerTitle}
           </h1>
 
           <p className="text-base sm:text-lg text-rose-100/90 leading-relaxed font-normal mb-8 max-w-[55ch]">
-            {isOffSeason ? `${t.offSeasonBannerBadge}：${t.offSeasonBannerDesc}` : t.igBannerDesc}
+            {isOffSeason ? t.offSeasonBannerDesc : t.igBannerDesc}
           </p>
 
           {/* Facts Row: 3 項實體登錄數據 */}
@@ -236,15 +240,19 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
               {/* Top Photo Component is First Child (消滅 icon-cards 判定，圖片容器置頂) */}
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#f3dbe1] dark:bg-[#27060e] mb-3">
                 <img
-                  src={girl.localPhoto}
+                  src={girl.localCalendarCover || girl.calendarCover || girl.localPhoto}
                   alt={girl.name}
                   loading={isPriority ? 'eager' : 'lazy'}
                   fetchPriority={isPriority ? 'high' : 'auto'}
                   decoding="async"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (target.src.endsWith('.webp')) {
-                      target.src = target.src.replace('.webp', '.jpg');
+                    if (girl.calendarCover && target.src !== girl.calendarCover && !target.src.includes('r10s.com')) {
+                      target.src = girl.calendarCover;
+                      return;
+                    }
+                    if (target.src !== girl.localPhoto && !target.src.includes('girl_')) {
+                      target.src = girl.localPhoto;
                       return;
                     }
                     if (target.src !== girl.photo) {

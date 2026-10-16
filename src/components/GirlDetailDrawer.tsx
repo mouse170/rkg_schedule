@@ -97,10 +97,19 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
             <div className="flex items-center gap-4 bg-[#fff0f3] dark:bg-[#1f0208] p-4 rounded-3xl">
               <div className="w-24 h-28 rounded-2xl overflow-hidden bg-white dark:bg-oled-surface flex-shrink-0">
                 <img
-                  src={girl.localPhoto}
+                  src={girl.localCalendarCover || girl.calendarCover || girl.localPhoto}
                   alt={girl.name}
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = girl.photo;
+                    const target = e.target as HTMLImageElement;
+                    if (girl.calendarCover && target.src !== girl.calendarCover && !target.src.includes('r10s.com')) {
+                      target.src = girl.calendarCover;
+                      return;
+                    }
+                    if (target.src !== girl.localPhoto && !target.src.includes('girl_')) {
+                      target.src = girl.localPhoto;
+                      return;
+                    }
+                    target.src = girl.photo;
                   }}
                   className="w-full h-full object-cover object-top"
                 />

@@ -7,6 +7,8 @@ export interface GirlProfile {
   koreanName?: string;
   photo: string;
   localPhoto: string;
+  calendarCover?: string;
+  localCalendarCover?: string;
   instagram: string | null;
   instagramHandle: string | null;
   calendarUrl?: string | null;
