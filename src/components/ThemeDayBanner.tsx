@@ -54,7 +54,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
   return (
     <>
       {/* 1. Theatrical Velvet Crimson & Gold Banner with Light/Dark Adaptive Colors */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#fff0f4] via-[#ffe8ec] to-[#fff3e8] dark:from-[#1a0007] dark:via-[#4d0913] dark:to-[#7f0d1b] p-4 sm:p-5 text-slate-800 dark:text-white mb-3 sm:mb-4 shadow-lg shadow-rose-900/5 dark:shadow-xl border border-rose-300/80 dark:border-amber-500/40 ring-1 ring-rose-200 dark:ring-amber-400/20 transition-colors duration-300">
+      <div className="relative overflow-hidden rounded-3xl bg-[#fff0f4] dark:bg-[#1a0007] p-4 sm:p-5 text-slate-800 dark:text-white mb-3 sm:mb-4 transition-colors duration-300">
         {/* Decorative Gold Inlay Accents */}
         <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-amber-400/15 dark:bg-amber-500/10 blur-2xl pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full bg-rose-500/15 dark:bg-rose-600/20 blur-2xl pointer-events-none" />
@@ -63,7 +63,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
           <div className="space-y-1.5 flex-1">
             {/* Top Badges */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] text-[11px] font-black shadow-sm tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400 text-[#1a0007] text-[11px] font-black tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-[#1a0007] fill-[#1a0007]" />
                 <span>辣酷甜 THEME DAY</span>
               </span>
@@ -85,12 +85,12 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
           </div>
 
           {/* Action Trigger Buttons in ONE unified row & Visual Badge Thumbnail */}
-          <div className="flex items-center gap-1.5 sm:gap-2 w-full xl:w-auto overflow-x-auto no-scrollbar pt-2.5 xl:pt-0 border-t xl:border-t-0 border-rose-200/80 dark:border-amber-500/20">
+          <div className="flex items-center gap-1.5 sm:gap-2 w-full xl:w-auto overflow-x-auto no-scrollbar pt-2.5 xl:pt-0">
             {/* 1. 席位說明 (Stadium Guide) */}
             {onOpenStadiumGuide && (
               <button
                 onClick={onOpenStadiumGuide}
-                className="flex-1 sm:flex-initial px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white/90 hover:bg-white dark:bg-[#25030a] dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-rose-200/80 dark:border-amber-500/30 shadow-sm active:scale-95 whitespace-nowrap flex-shrink-0 cursor-pointer"
+                className="flex-1 sm:flex-initial px-2.5 sm:px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 bg-white hover:bg-zinc-50 dark:bg-[#25030a] dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-rose-200/80 dark:border-amber-500/30 active:scale-95 whitespace-nowrap flex-shrink-0 cursor-pointer"
                 title={t.stadiumGuideBtn}
               >
                 <HelpCircle className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
@@ -106,7 +106,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               }}
               onMouseEnter={handlePreloadModalImages}
               onFocus={handlePreloadModalImages}
-              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white shadow-md active:scale-95 whitespace-nowrap ring-1 ring-rose-400/40 flex-shrink-0 cursor-pointer"
+              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-rose-700 hover:bg-rose-800 text-white active:scale-95 whitespace-nowrap flex-shrink-0 cursor-pointer"
               title={t.themeDayPreMatchBtn}
             >
               <Store className="w-3.5 h-3.5 text-white" />
@@ -121,7 +121,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               }}
               onMouseEnter={handlePreloadModalImages}
               onFocus={handlePreloadModalImages}
-              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-md active:scale-95 whitespace-nowrap ring-1 ring-amber-400/40 flex-shrink-0 cursor-pointer"
+              className="flex-1 sm:flex-initial px-3 sm:px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 bg-amber-400 hover:bg-amber-300 text-[#1a0007] active:scale-95 whitespace-nowrap flex-shrink-0 cursor-pointer"
               title={t.themeDayStadiumBtn}
             >
               <Layers className="w-3.5 h-3.5 text-[#1a0007]" />
@@ -129,7 +129,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
             </button>
 
             {/* Single Visual Badge Thumbnail */}
-            <div className="relative w-9 h-9 rounded-xl overflow-hidden border-2 border-rose-300 dark:border-amber-400/50 shadow-md flex-shrink-0 hidden md:block ml-0.5">
+            <div className="relative w-9 h-9 rounded-xl overflow-hidden border border-rose-300 dark:border-amber-400/50 flex-shrink-0 hidden md:block ml-0.5">
               <picture>
                 <source srcSet="./theme/spicy_cool_sweet_key_visual.webp" type="image/webp" />
                 <img
@@ -156,11 +156,11 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
           />
 
           <div className="flex min-h-full items-center justify-center p-3 sm:p-4">
-            <div className="relative w-full max-w-2xl bg-white dark:bg-[#1f030a] text-slate-800 dark:text-white rounded-3xl p-4 sm:p-6 shadow-2xl border border-rose-200 dark:border-amber-500/50 overflow-hidden transition-colors">
+            <div className="relative w-full max-w-2xl bg-white dark:bg-[#1f030a] text-slate-800 dark:text-white rounded-3xl p-4 sm:p-6 border border-rose-200 dark:border-amber-500/50 overflow-hidden transition-colors" data-ui="modal">
               {/* Modal Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-rose-200 dark:border-amber-500/30">
+              <div className="flex items-center justify-between pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-[#1a0007]">
+                  <div className="p-2 rounded-xl bg-amber-400 text-[#1a0007]">
                     <Sparkles className="w-5 h-5 fill-[#1a0007]" />
                   </div>
                   <div>
@@ -181,7 +181,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               </div>
 
               {/* 27-Girl Panoramic Key Visual Banner in Modal */}
-              <div className="mt-3 rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/50 shadow-lg bg-black/5 dark:bg-black/60 relative aspect-[1024/409]">
+              <div className="mt-3 rounded-2xl overflow-hidden border border-rose-200 dark:border-amber-500/50 bg-black/5 dark:bg-black/60 relative aspect-[1024/409]">
                 <picture>
                   <source srcSet="./theme/spicy_cool_sweet_banner.webp" type="image/webp" />
                   <img
@@ -206,7 +206,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
                   }}
                   className={`flex-1 py-1.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 ${
                     modalDate === '9/19'
-                      ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] shadow-md'
+                      ? 'bg-amber-400 text-[#1a0007]'
                       : 'bg-rose-50 hover:bg-rose-100 dark:bg-red-950/60 dark:hover:bg-red-900/40 text-slate-700 dark:text-amber-200/70 border border-rose-200 dark:border-amber-500/30'
                   }`}
                 >
@@ -219,7 +219,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
                   }}
                   className={`flex-1 py-1.5 rounded-xl text-xs font-black transition flex items-center justify-center gap-1.5 ${
                     modalDate === '9/20'
-                      ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] shadow-md'
+                      ? 'bg-amber-400 text-[#1a0007]'
                       : 'bg-rose-50 hover:bg-rose-100 dark:bg-red-950/60 dark:hover:bg-red-900/40 text-slate-700 dark:text-amber-200/70 border border-rose-200 dark:border-amber-500/30'
                   }`}
                 >
@@ -259,7 +259,7 @@ export const ThemeDayBanner: React.FC<ThemeDayBannerProps> = ({
               {/* Close Button */}
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="w-full py-2.5 rounded-xl font-extrabold text-xs sm:text-sm bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] hover:brightness-110 transition active:scale-95 shadow-md"
+                className="w-full py-2.5 rounded-xl font-extrabold text-xs sm:text-sm bg-amber-400 text-[#1a0007] hover:brightness-105 transition active:scale-95"
               >
                 關閉主題日說明
               </button>

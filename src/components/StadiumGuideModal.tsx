@@ -21,9 +21,9 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
       />
 
       <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative w-full max-w-lg bg-white dark:bg-oled-surface rounded-3xl p-6 shadow-2xl border border-pink-100 dark:border-oled-border overflow-hidden">
+        <div className="relative w-full max-w-lg bg-white dark:bg-oled-surface rounded-3xl p-6 overflow-hidden" data-ui="modal">
           {/* Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-pink-100 dark:border-oled-border">
+          <div className="flex items-center justify-between pb-4">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-xl bg-pink-50 dark:bg-oled-card text-rkg-crimson dark:text-pink-400">
                 <Map className="w-5 h-5" />
@@ -46,13 +46,13 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
           </div>
 
           {/* Stadium Layout Diagram */}
-          <div className="my-5 p-4 bg-gradient-to-b from-gray-50 to-pink-50/40 dark:from-oled-card dark:to-oled-bg rounded-2xl border border-pink-100/80 dark:border-oled-border">
+          <div className="my-5 p-4 bg-zinc-100 dark:bg-oled-card rounded-2xl">
             <div className="text-center font-bold text-xs text-gray-500 dark:text-gray-400 mb-3 tracking-wider">
               {t.outfieldDirection}
             </div>
 
             {/* Stadium Representation Box */}
-            <div className="relative border-2 border-dashed border-pink-200 dark:border-oled-border rounded-2xl p-4 bg-white dark:bg-oled-bg shadow-inner">
+            <div className="relative border-2 border-dashed border-pink-200 dark:border-oled-border rounded-2xl p-4 bg-white dark:bg-oled-bg">
               <div className="grid grid-cols-2 gap-3 mb-4">
                 {/* West Wing */}
                 <button
@@ -124,7 +124,7 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
               <span><strong>{t.rStageRuleTitle}</strong>：{t.rStageRuleContent}</span>
             </div>
             <div className="flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5" />
+              <CheckCircle2 className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
               <span><strong>{t.daLeRuleTitle}</strong>：{t.daLeRuleContent}</span>
             </div>
           </div>
@@ -132,7 +132,7 @@ export const StadiumGuideModal: React.FC<StadiumGuideModalProps> = ({ isOpen, on
           {/* Button */}
           <button
             onClick={onClose}
-            className="w-full py-2.5 rounded-xl font-bold text-sm bg-gray-900 hover:bg-black dark:bg-pink-600 dark:hover:bg-pink-500 text-white transition active:scale-95 shadow-sm"
+            className="w-full py-2.5 rounded-xl font-bold text-sm bg-gray-900 hover:bg-black dark:bg-pink-600 dark:hover:bg-pink-500 text-white transition active:scale-95"
           >
             {t.closeGuide}
           </button>

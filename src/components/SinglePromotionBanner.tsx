@@ -38,12 +38,8 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
   return (
     <aside
       aria-label="2026 年度全新單曲宣傳"
-      className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#200008] via-[#3a0614] to-[#1a0006] text-white p-3 sm:p-4 mb-3 sm:mb-4 border border-rose-500/40 shadow-xl group transition-all duration-300 hover:border-amber-400/60"
+      className="relative overflow-hidden rounded-3xl bg-[#24040c] text-white p-3.5 sm:p-4 mb-3 sm:mb-4 group"
     >
-      {/* Background Ambient Glows */}
-      <div className="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-rose-600/25 blur-3xl pointer-events-none" />
-      <div className="absolute right-1/3 -bottom-10 w-40 h-40 rounded-full bg-amber-500/15 blur-2xl pointer-events-none" />
-
       <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
         {/* Left: Thumbnail & Song Info */}
         <div
@@ -51,7 +47,7 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
           className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto cursor-pointer flex-1 min-w-0"
         >
           {/* YouTube Thumbnail with Play Overlay */}
-          <div className="relative w-20 h-14 sm:w-28 sm:h-18 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg border border-rose-400/30 group-hover:scale-105 transition-transform duration-300 bg-neutral-900">
+          <div className="relative w-20 h-14 sm:w-28 sm:h-18 rounded-2xl overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform duration-300 bg-neutral-900">
             <img
               src={youtubeThumb}
               alt={RAKUTEN_GIRLS_2026_SONG.title}
@@ -59,11 +55,11 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
               loading="lazy"
             />
             <div className="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 text-white flex items-center justify-center shadow-md">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#890022] text-white flex items-center justify-center">
                 <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white ml-0.5" />
               </div>
             </div>
-            <span className="absolute bottom-1 right-1 bg-black/80 text-[8px] font-mono font-bold px-1 rounded text-white/90">
+            <span className="absolute bottom-1 right-1 bg-black/80 text-[8px] font-bold px-1 rounded text-white/90">
               MV
             </span>
           </div>
@@ -71,11 +67,11 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
           {/* Texts */}
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-[#1a0007] text-[10px] font-black shadow-xs tracking-wider uppercase">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#c59b27] text-[#1a0007] text-[10px] font-black tracking-wider uppercase">
                 <Music className="w-2.5 h-2.5" />
                 <span>{t.songPromoBadge}</span>
               </span>
-              <span className="text-[10px] text-amber-300/80 font-bold hidden sm:inline flex items-center gap-1">
+              <span className="text-[10px] text-amber-200 font-bold hidden sm:inline flex items-center gap-1">
                 <Sparkles className="w-2.5 h-2.5 text-amber-400" />
                 <span>Rakuten Girls</span>
               </span>
@@ -84,7 +80,7 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
             <h3 className="text-sm sm:text-base font-black text-white tracking-tight truncate group-hover:text-amber-200 transition-colors">
               {RAKUTEN_GIRLS_2026_SONG.title}
             </h3>
-            <p className="text-[11px] text-rose-200/80 font-medium truncate">
+            <p className="text-[11px] text-rose-200/90 font-medium truncate">
               {t.songPromoSubtitle}
             </p>
           </div>
@@ -95,7 +91,7 @@ export const SinglePromotionBanner: React.FC<SinglePromotionBannerProps> = ({ on
           <button
             type="button"
             onClick={onOpenModal}
-            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-black bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white shadow-md shadow-rose-600/30 transition-all hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-black bg-[#890022] hover:bg-[#a5002b] text-white transition-colors cursor-pointer"
           >
             <span>{t.songWatchMv}</span>
             <ChevronRight className="w-3.5 h-3.5" />

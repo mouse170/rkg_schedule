@@ -187,16 +187,16 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
       />
 
       <div className="flex min-h-full items-center justify-center p-3 sm:p-5">
-        <div className="relative w-full max-w-3xl bg-white dark:bg-[#140104] text-slate-800 dark:text-rose-50 rounded-3xl p-4 sm:p-6 shadow-2xl border border-rose-300 dark:border-rose-900/60 overflow-hidden transition-colors">
+        <div className="relative w-full max-w-3xl bg-white dark:bg-[#140104] text-slate-800 dark:text-rose-50 rounded-3xl p-4 sm:p-6 overflow-hidden transition-colors" data-ui="modal">
           
           {/* Decorative Glow Accents */}
           <div className="absolute -top-24 -right-24 w-60 h-60 rounded-full bg-rose-500/10 dark:bg-rose-500/15 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -left-24 w-60 h-60 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
 
           {/* Modal Header */}
-          <div className="relative z-10 flex items-center justify-between pb-4 border-b border-rose-200/80 dark:border-rose-900/50">
+          <div className="relative z-10 flex items-center justify-between pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-700 text-white shadow-md shadow-rose-900/20">
+              <div className="p-2.5 rounded-2xl bg-rose-700 text-white">
                 <Sparkles className="w-5 h-5 text-amber-300 fill-amber-300" />
               </div>
               <div>
@@ -226,7 +226,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                 onClick={() => onSelectDate('9/19')}
                 className={`py-2 px-3 rounded-2xl text-xs sm:text-sm font-black transition flex items-center justify-center gap-2 ${
                   selectedDate === '9/19'
-                    ? 'bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 text-white shadow-md shadow-rose-900/20 ring-1 ring-rose-400/40'
+                    ? 'bg-rose-700 text-white ring-1 ring-rose-400/40'
                     : 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-slate-700 dark:text-rose-200/80 border border-rose-200/80 dark:border-rose-900/50'
                 }`}
               >
@@ -238,7 +238,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                 onClick={() => onSelectDate('9/20')}
                 className={`py-2 px-3 rounded-2xl text-xs sm:text-sm font-black transition flex items-center justify-center gap-2 ${
                   selectedDate === '9/20'
-                    ? 'bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 text-white shadow-md shadow-rose-900/20 ring-1 ring-rose-400/40'
+                    ? 'bg-rose-700 text-white ring-1 ring-rose-400/40'
                     : 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-slate-700 dark:text-rose-200/80 border border-rose-200/80 dark:border-rose-900/50'
                 }`}
               >
@@ -248,7 +248,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
             </div>
 
             {/* 2. Content Tabs (Schedule vs Booth Map) */}
-            <div className="flex border-b border-rose-200/70 dark:border-rose-900/50">
+            <div className="flex">
               <button
                 onClick={() => setActiveTab('SCHEDULE')}
                 className={`flex-1 pb-2.5 text-xs sm:text-sm font-extrabold text-center transition border-b-2 flex items-center justify-center gap-2 ${
@@ -281,7 +281,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
               <>
                 {/* 1. Key Timetable Card */}
                 <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-                  <div className="rounded-2xl p-3.5 bg-gradient-to-br from-rose-50 to-pink-50/60 dark:from-rose-950/40 dark:to-rose-900/20 border border-rose-200/80 dark:border-rose-900/50">
+                  <div className="rounded-2xl p-3.5 bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50">
                     <div className="flex items-center gap-2 text-rose-800 dark:text-rose-300 font-bold text-xs mb-1">
                       <Clock className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                       <span>{t.ticketAdmissionTime}</span>
@@ -294,7 +294,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                     </p>
                   </div>
 
-                  <div className="rounded-2xl p-3.5 bg-gradient-to-br from-amber-50 to-rose-50/60 dark:from-amber-950/30 dark:to-rose-950/20 border border-amber-200/80 dark:border-amber-500/30">
+                  <div className="rounded-2xl p-3.5 bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-500/30">
                     <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold text-xs mb-1">
                       <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                       <span>{t.gameStartTimeLabel}</span>
@@ -309,10 +309,10 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                 </div>
 
                 {/* 2. Autograph Session Rules & Lineup Matrix Card */}
-                <div className="rounded-2xl p-4 bg-gradient-to-br from-[#fff7f9] to-[#fff0f4] dark:from-[#21050a] dark:to-[#170105] border border-rose-300/80 dark:border-rose-800/60 shadow-sm space-y-3.5">
+                <div className="rounded-2xl p-4 bg-[#fff0f4] dark:bg-[#170105] space-y-3.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="p-1.5 rounded-lg bg-rose-600 text-white shadow-sm">
+                      <div className="p-1.5 rounded-lg bg-rose-700 text-white">
                         <FileCheck className="w-4 h-4" />
                       </div>
                       <h4 className="text-sm sm:text-base font-black text-[#890022] dark:text-rose-200">
@@ -354,10 +354,10 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                   </div>
 
                   {/* 簽名會出席女孩矩陣圖視圖 (Autograph Lineup Matrix View) */}
-                  <div className="pt-2.5 border-t border-rose-200/80 dark:border-rose-900/40">
+                  <div className="pt-2">
                     <div className="flex flex-wrap items-center justify-between gap-1 mb-2.5">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-rose-500" />
                         <span className="text-xs sm:text-sm font-black text-rose-900 dark:text-rose-100">
                           {t.autographLineupTitle.replace('{count}', String(currentDayData.autographGirls?.length || 0))}
                         </span>
@@ -382,8 +382,8 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                             onClick={() => girl && onSelectGirl && onSelectGirl(girl)}
                             className={`group relative flex flex-col items-center justify-center p-1.5 sm:p-2 rounded-xl transition text-center active:scale-95 border cursor-pointer ${
                               isFav
-                                ? 'bg-gradient-to-b from-rose-100 via-pink-50 to-amber-50 dark:from-rose-950/80 dark:to-[#2e0510] border-rose-400 dark:border-amber-400/80 shadow-md ring-2 ring-rose-400/50 dark:ring-amber-400/40'
-                                : 'bg-white/90 hover:bg-rose-50 dark:bg-[#1f0207]/90 dark:hover:bg-[#2d050f] border-rose-200/80 dark:border-rose-900/50 shadow-2xs hover:border-rose-300'
+                                ? 'bg-rose-100 dark:bg-rose-950 border-rose-400 dark:border-amber-400/80 ring-2 ring-rose-400/50 dark:ring-amber-400/40'
+                                : 'bg-white hover:bg-rose-50 dark:bg-[#1f0207] dark:hover:bg-[#2d050f] border-rose-200/80 dark:border-rose-900/50 hover:border-rose-300'
                             }`}
                             title={`${girlName} (#${number}) - 點擊查看個人檔案與出勤班表`}
                           >
@@ -420,7 +420,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
 
                             {/* 外援標籤 (KR / JP) */}
                             {girl?.nationality && girl.nationality !== 'TW' && (
-                              <span className="absolute top-1 right-1 px-1 py-0.2 rounded text-[8px] font-black leading-none uppercase bg-amber-400 text-black shadow-xs">
+                              <span className="absolute top-1 right-1 px-1 py-0.2 rounded text-[8px] font-black leading-none uppercase bg-amber-400 text-black">
                                 {girl.nationality}
                               </span>
                             )}
@@ -432,7 +432,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                 </div>
 
                 {/* 3. Pre-Match Booth Girls Schedule */}
-                <div className="rounded-2xl p-4 bg-white dark:bg-[#1a0206] border border-rose-200 dark:border-rose-900/60 shadow-sm space-y-3">
+                <div className="rounded-2xl p-4 bg-white dark:bg-[#1a0206] space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-rose-600 dark:text-rose-400" />
@@ -452,7 +452,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                         className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-2xl bg-rose-50/50 hover:bg-rose-100/60 dark:bg-rose-950/30 dark:hover:bg-rose-900/30 border border-rose-200/70 dark:border-rose-900/50 transition gap-3"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 text-white text-xs font-black tracking-wide shadow-sm flex-shrink-0">
+                          <span className="px-2.5 py-1 rounded-xl bg-rose-700 text-white text-xs font-black tracking-wide flex-shrink-0">
                             {evt.timeSlot}
                           </span>
                           <div>
@@ -478,7 +478,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                                     onSelectGirl(profile);
                                   }
                                 }}
-                                className="group inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white dark:bg-black/50 border border-rose-200 dark:border-rose-800/80 hover:border-rose-400 dark:hover:border-rose-500 shadow-sm transition active:scale-95"
+                                className="group inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white dark:bg-black/50 border border-rose-200 dark:border-rose-800/80 hover:border-rose-400 dark:hover:border-rose-500 transition active:scale-95"
                                 title="查看女孩出勤與個人檔案"
                               >
                                 {profile?.localPhoto ? (
@@ -517,9 +517,9 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
               /* Tab 2: Booth Map & Exhibitor Directory */
               <div className="space-y-4">
                 {/* Visual Map Frame with Pinch-to-Zoom & Pan */}
-                <div className="relative rounded-2xl overflow-hidden border border-rose-200 dark:border-rose-900/60 bg-white dark:bg-black/60 shadow-inner">
+                <div className="relative rounded-2xl overflow-hidden border border-rose-200 dark:border-rose-900/60 bg-white dark:bg-black/60">
                   {/* Floating Zoom Control Toolbar */}
-                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2 py-1.5 rounded-xl border border-white/20 text-white shadow-lg">
+                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-black/80 px-2 py-1.5 rounded-xl border border-white/20 text-white">
                     <button
                       type="button"
                       onClick={() => setZoomScale(s => Math.min(s + 0.5, 3.5))}
@@ -555,7 +555,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                         <span>{t.boothZoomReset}</span>
                       </button>
                     )}
-                    <span className="text-[10px] font-extrabold text-white/80 px-1 border-l border-white/20">
+                    <span className="text-[10px] font-extrabold text-white/80 px-1">
                       {Math.round(zoomScale * 100)}%
                     </span>
                   </div>
@@ -603,7 +603,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                     {/* Hint overlay for first-time viewers */}
                     {zoomScale === 1 && (
                       <div className="absolute bottom-2.5 inset-x-3 pointer-events-none flex items-center justify-center">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/65 backdrop-blur-md text-[11px] font-semibold text-rose-100 border border-white/15 shadow-md animate-fade-in">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/85 text-[11px] font-semibold text-rose-100 border border-white/15 animate-fade-in">
                           <Move className="w-3.5 h-3.5 text-amber-300" />
                           <span>{t.boothZoomTip}</span>
                         </div>
@@ -611,7 +611,7 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
                     )}
                   </div>
 
-                  <p className="text-center text-[11px] text-rose-950/60 dark:text-rose-300/60 py-2 font-medium bg-rose-50/50 dark:bg-black/40 border-t border-rose-100 dark:border-rose-950">
+                  <p className="text-center text-[11px] text-rose-950/60 dark:text-rose-300/60 py-2 font-medium bg-rose-50/50 dark:bg-black/40">
                     三壘側 GATE W 旁設有女孩簽名會帳篷 ‧ 1 至 11 號外圍廠商攤位一覽
                   </p>
                 </div>
@@ -665,10 +665,10 @@ export const PreMatchActivityModal: React.FC<PreMatchActivityModalProps> = ({
           </div>
 
           {/* Modal Footer */}
-          <div className="relative z-10 pt-4 mt-4 border-t border-rose-200/80 dark:border-rose-900/50">
+          <div className="relative z-10 pt-4 mt-4">
             <button
               onClick={onClose}
-              className="w-full py-2.5 rounded-xl font-black text-xs sm:text-sm bg-gradient-to-r from-rose-600 via-rose-500 to-pink-600 text-white hover:brightness-110 transition active:scale-95 shadow-md shadow-rose-900/20"
+              className="w-full py-2.5 rounded-xl font-black text-xs sm:text-sm bg-rose-700 hover:bg-rose-800 text-white transition active:scale-95"
             >
               {t.closePreMatchModal}
             </button>

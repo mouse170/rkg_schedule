@@ -27,12 +27,12 @@ export const Header: React.FC<HeaderProps> = ({
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="sticky top-0 z-30 bg-[#fff8fa]/95 dark:bg-[#160105]/95 backdrop-blur-md gpu-layer border-b border-pink-200 dark:border-amber-500/30 shadow-md shadow-pink-950/5 dark:shadow-black/40 transition-colors duration-300">
+    <header className="sticky top-0 z-30 bg-[#fff8fa] dark:bg-[#160105] gpu-layer transition-colors duration-300">
       {/* Main App Navigation Bar */}
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-2.5 flex items-center justify-between gap-2">
-        {/* Brand & Title (左側品牌與標題，加上嚴格 overflow-hidden 與 truncate 防止穿透溢位) */}
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2.5 flex items-center justify-between gap-2">
+        {/* Brand & Title */}
         <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial">
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-rose-50 to-pink-100 dark:from-[#2a040b] dark:to-[#140104] border border-rose-300 dark:border-amber-500/40 p-1 shadow-sm dark:shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 transition-all overflow-hidden" title="Rakuten Girls 樂天女孩">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-pink-100 dark:bg-[#2a040b] p-1 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform overflow-hidden" title="Rakuten Girls 樂天女孩">
             <img
               src="./rkg_badge.png"
               alt="Rakuten Girls Logo"
@@ -43,13 +43,13 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex items-center gap-1.5 flex-nowrap overflow-hidden">
               <h1 className="font-extrabold text-sm sm:text-base md:text-lg text-rose-950 dark:text-amber-100 tracking-tight whitespace-nowrap truncate flex items-center gap-1.5">
                 <span>{t.appTitle}</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400 animate-pulse hidden sm:inline" />
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400 hidden sm:inline" />
               </h1>
-              <span className="text-[10px] font-black px-1.5 sm:px-2 py-0.2 rounded-full bg-rose-100 dark:bg-amber-500/20 text-rose-800 dark:text-amber-300 border border-rose-300/80 dark:border-amber-400/50 whitespace-nowrap flex-shrink-0 shadow-sm">
+              <span className="text-[13px] font-black px-2 py-0.5 rounded-full bg-rose-100 dark:bg-amber-500/20 text-rose-800 dark:text-amber-300 whitespace-nowrap flex-shrink-0">
                 {t.headerThemeBadge}
               </span>
             </div>
-            <p className="text-[11px] text-rose-900/70 dark:text-amber-200/70 font-medium truncate hidden md:block">
+            <p className="text-[13px] text-rose-900/80 dark:text-amber-200/80 font-medium truncate hidden md:block">
               {t.appSubtitle}
             </p>
           </div>
@@ -59,13 +59,13 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           {/* 電腦版主導覽分頁（非休賽季時顯示） */}
           {!isOffSeason && (
-            <div className="hidden sm:flex items-center bg-pink-100/60 dark:bg-[#130104] p-0.5 sm:p-1 rounded-xl sm:rounded-2xl border border-pink-200 dark:border-amber-500/30 shadow-inner">
+            <div className="hidden sm:flex items-center bg-pink-100/70 dark:bg-[#130104] p-0.5 sm:p-1 rounded-xl sm:rounded-2xl">
               <button
                 onClick={() => onTabChange('SCHEDULE')}
-                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'SCHEDULE'
-                    ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
-                    : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
+                    ? 'bg-[#c59b27] text-[#1a0007] font-black'
+                    : 'text-gray-700 dark:text-amber-200/80 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
                 }`}
               >
                 <Calendar className="w-3.5 h-3.5" />
@@ -74,10 +74,10 @@ export const Header: React.FC<HeaderProps> = ({
 
               <button
                 onClick={() => onTabChange('INSTAGRAM')}
-                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                className={`inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg sm:rounded-xl text-xs font-bold transition-colors whitespace-nowrap cursor-pointer ${
                   activeTab === 'INSTAGRAM'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
-                    : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
+                    ? 'bg-[#890022] text-white font-black'
+                    : 'text-gray-700 dark:text-amber-200/80 hover:text-gray-900 dark:hover:text-white hover:bg-white/40 dark:hover:bg-white/5'
                 }`}
               >
                 <InstagramIcon className="w-3.5 h-3.5" />
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({
           {!isOffSeason && (
             <button
               onClick={onOpenStadiumGuide}
-              className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#24040b] hover:bg-pink-100 dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/30 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
+              className="hidden md:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-100/80 dark:bg-[#24040b] hover:bg-pink-200/80 dark:hover:bg-[#380611] text-rose-900 dark:text-amber-200 transition-colors active:scale-95 whitespace-nowrap cursor-pointer"
             >
               <Map className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
               <span>{t.stadiumGuideBtn}</span>
@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
           {!isOffSeason && (
             <button
               onClick={onOpenShareModal}
-              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#26040c] hover:bg-pink-100 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/40 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-pink-100/80 dark:bg-[#26040c] hover:bg-pink-200/80 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 transition-colors active:scale-95 whitespace-nowrap cursor-pointer"
               title="分享專屬追星班表與 9:16 IG 限動圖卡"
             >
               <Share2 className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400" />
@@ -112,7 +112,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Theme Toggle Button (Light / Dark) */}
           <button
             onClick={toggleTheme}
-            className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-50 dark:bg-[#26040c] hover:bg-pink-100 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 border border-pink-200 dark:border-amber-500/40 shadow-sm transition active:scale-95 whitespace-nowrap cursor-pointer"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl text-xs font-bold bg-pink-100/80 dark:bg-[#26040c] hover:bg-pink-200/80 dark:hover:bg-[#3d0714] text-rose-900 dark:text-amber-200 transition-colors active:scale-95 whitespace-nowrap cursor-pointer"
             title={theme === 'dark' ? '切換為亮色粉金主題' : '切換為暗色黑金主題'}
           >
             {theme === 'dark' ? (
@@ -127,10 +127,10 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onRefresh}
             disabled={isLoading}
-            className={`inline-flex items-center justify-center gap-1.5 h-8 sm:h-auto px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-extrabold transition shadow-md active:scale-95 whitespace-nowrap cursor-pointer ${
+            className={`inline-flex items-center justify-center gap-1.5 h-8 sm:h-auto px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-extrabold transition-colors active:scale-95 whitespace-nowrap cursor-pointer ${
               isLoading
-                ? 'bg-[#2b050f] text-amber-400/50 cursor-not-allowed border border-amber-500/20'
-                : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20'
+                ? 'bg-[#2b050f] text-amber-400/50 cursor-not-allowed'
+                : 'bg-[#c59b27] hover:bg-[#d8ab2e] text-[#1a0007]'
             }`}
             title="手動強制清除快取並同步最新資料"
           >
@@ -145,13 +145,13 @@ export const Header: React.FC<HeaderProps> = ({
       {/* 手機版主導覽分段切換列（非休賽季顯示） */}
       {!isOffSeason && (
         <div className="sm:hidden px-3 pb-2 pt-0.5 max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 p-1 rounded-2xl bg-pink-100/60 dark:bg-[#130104] border border-pink-200 dark:border-amber-500/30 shadow-inner gap-1">
+          <div className="grid grid-cols-2 p-1 rounded-2xl bg-pink-100/70 dark:bg-[#130104] gap-1">
             <button
               onClick={() => onTabChange('SCHEDULE')}
-              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                 activeTab === 'SCHEDULE'
-                  ? 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] shadow-md font-black ring-1 ring-amber-300/50'
-                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-[#c59b27] text-[#1a0007] font-black'
+                  : 'text-gray-700 dark:text-amber-200/80 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
@@ -160,10 +160,10 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={() => onTabChange('INSTAGRAM')}
-              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer ${
                 activeTab === 'INSTAGRAM'
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-sm font-black'
-                  : 'text-gray-600 dark:text-amber-200/70 hover:text-gray-900 dark:hover:text-white'
+                  ? 'bg-[#890022] text-white font-black'
+                  : 'text-gray-700 dark:text-amber-200/80 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <InstagramIcon className="w-3.5 h-3.5" />

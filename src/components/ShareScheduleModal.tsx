@@ -97,13 +97,13 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   // 組裝多語系推文內文與標籤
   const shareText = useMemo(() => {
     const headline = t.shareTweetHeadline;
-    const dateText = exportDate ? `📅 ${formattedDateFull}` : `📅 ${t.shareAllSeasonTitle}`;
+    const dateText = exportDate ? `日期：${formattedDateFull}` : `賽程：${t.shareAllSeasonTitle}`;
     
     // 最愛女孩清單文字
     let girlsText = '';
     if (favGirls.length > 0) {
-      const favNames = favGirls.map(g => `#${g.number} ${g.name}`).join(', ');
-      girlsText = `✨ ${favNames}`;
+      const favNames = favGirls.map(g => `背號 ${g.number} ${g.name}`).join(', ');
+      girlsText = `我推的女孩：${favNames}`;
     }
 
     // 依語系與特定日韓成員追加專屬標籤
@@ -178,12 +178,12 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-lg bg-white dark:bg-[#180206] border border-rose-200 dark:border-amber-500/40 rounded-3xl p-4 sm:p-6 shadow-2xl text-slate-800 dark:text-amber-100 flex flex-col my-auto max-h-[95vh] overflow-hidden transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 overflow-y-auto">
+      <div data-ui="modal" className="relative w-full max-w-lg bg-white dark:bg-[#180206] border border-rose-200 dark:border-amber-500/40 rounded-3xl p-4 sm:p-6 text-slate-800 dark:text-amber-100 flex flex-col my-auto max-h-[95vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-rose-200/70 dark:border-amber-500/20 flex-shrink-0">
+        <div className="flex items-center justify-between pb-3 flex-shrink-0">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-[#1a0007] shadow-md">
+            <div className="w-8 h-8 rounded-xl bg-amber-500 flex items-center justify-center text-[#1a0007]">
               <Share2 className="w-4 h-4" />
             </div>
             <div>
@@ -224,7 +224,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 onClick={() => setExportDate('')}
                 className={`px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1 flex-shrink-0 border cursor-pointer ${
                   exportDate === ''
-                    ? 'bg-gradient-to-r from-rose-500 to-amber-500 text-white border-transparent shadow-xs font-black'
+                    ? 'bg-rose-600 text-white border-transparent font-black'
                     : 'bg-white dark:bg-[#120104] text-slate-700 dark:text-amber-200/80 border-rose-200 dark:border-amber-500/30 hover:bg-rose-50 dark:hover:bg-amber-500/10'
                 }`}
               >
@@ -244,7 +244,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                     onClick={() => setExportDate(d)}
                     className={`px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1 flex-shrink-0 border cursor-pointer ${
                       isSelected
-                        ? 'bg-gradient-to-r from-rose-500 to-amber-500 text-white border-transparent shadow-xs font-black'
+                        ? 'bg-rose-600 text-white border-transparent font-black'
                         : 'bg-white dark:bg-[#120104] text-slate-700 dark:text-amber-200/80 border-rose-200 dark:border-amber-500/30 hover:bg-rose-50 dark:hover:bg-amber-500/10'
                     }`}
                   >
@@ -266,7 +266,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 onClick={() => setCardTheme('light')}
                 className={`py-1 px-3 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                   cardTheme === 'light'
-                    ? 'bg-gradient-to-r from-rose-500 to-amber-500 text-white shadow-sm font-black'
+                    ? 'bg-rose-600 text-white font-black'
                     : 'text-slate-600 dark:text-amber-200/70 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -278,7 +278,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 onClick={() => setCardTheme('dark')}
                 className={`py-1 px-3 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                   cardTheme === 'dark'
-                    ? 'bg-gradient-to-r from-amber-400 to-amber-600 text-[#1a0007] shadow-sm font-black'
+                    ? 'bg-amber-400 text-[#1a0007] font-black'
                     : 'text-slate-600 dark:text-amber-200/70 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -291,7 +291,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
         {/* 尚未加入最愛女孩提示引導橫幅 */}
         {!hasFavorites && (
-          <div className="mt-3 p-3.5 sm:p-4 rounded-2xl bg-rose-50/90 dark:bg-rose-950/40 border-2 border-rose-300 dark:border-rose-500/50 text-slate-800 dark:text-rose-100 shadow-sm flex flex-col gap-2.5 flex-shrink-0">
+          <div className="mt-3 p-3.5 sm:p-4 rounded-2xl bg-rose-50/90 dark:bg-rose-950/40 border-2 border-rose-300 dark:border-rose-500/50 text-slate-800 dark:text-rose-100 flex flex-col gap-2.5 flex-shrink-0">
             <div className="flex items-start gap-2.5">
               <div className="w-8 h-8 rounded-full bg-rose-500/20 border border-rose-400 flex items-center justify-center text-rose-600 dark:text-rose-300 flex-shrink-0 mt-0.5">
                 <HeartOff className="w-4 h-4" />
@@ -309,7 +309,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               <button
                 type="button"
                 onClick={onNavigateToInstagram}
-                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white text-xs font-black shadow-md shadow-rose-500/20 transition active:scale-[0.98] cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black transition active:scale-[0.98] cursor-pointer"
               >
                 <InstagramIcon className="w-3.5 h-3.5" />
                 <span>{t.shareGoToIgDirectory}</span>
@@ -321,7 +321,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
         {/* 超額警示提示欄（支援手機版與電腦版響應式字級） */}
         {isOverLimit && (
-          <div className="mt-3 p-3 sm:p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400/80 dark:border-amber-500/50 text-amber-950 dark:text-amber-100 shadow-sm flex items-start gap-2.5 sm:gap-3 flex-shrink-0">
+          <div className="mt-3 p-3 sm:p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400/80 dark:border-amber-500/50 text-amber-950 dark:text-amber-100 flex items-start gap-2.5 sm:gap-3 flex-shrink-0">
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-700 dark:text-amber-300 flex-shrink-0 mt-0.5">
               <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
@@ -341,10 +341,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
         {/* 最愛名單即時調整區（超過門檻時顯示，提供成員姓名與背號標籤點擊即除） */}
         {isOverLimit && (
-          <div className="mt-2.5 p-3 sm:p-4 rounded-2xl bg-white/95 dark:bg-[#1a0106]/95 border-2 border-amber-400/80 dark:border-amber-500/50 shadow-md flex-shrink-0 transition-all">
-            <div className="flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-rose-200/60 dark:border-amber-500/20">
+          <div className="mt-2.5 p-3 sm:p-4 rounded-2xl bg-white/95 dark:bg-[#1a0106]/95 border-2 border-amber-400/80 dark:border-amber-500/50 flex-shrink-0">
+            <div className="flex items-center justify-between gap-2 mb-2 pb-1.5">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-rose-500" />
                 <span className="text-xs sm:text-sm font-black text-slate-900 dark:text-amber-200">
                   {t.shareAdjustFavTitle}
                 </span>
@@ -365,7 +365,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   key={girl.name}
                   type="button"
                   onClick={() => onToggleFavorite && onToggleFavorite(girl.name)}
-                  className="group flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-rose-50/90 hover:bg-rose-100/90 dark:bg-black/50 dark:hover:bg-rose-950/60 border border-rose-200 dark:border-amber-500/30 text-slate-800 dark:text-amber-100 text-xs font-bold transition active:scale-95 shadow-2xs hover:border-rose-400 dark:hover:border-rose-500 cursor-pointer"
+                  className="group flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-rose-50/90 hover:bg-rose-100/90 dark:bg-black/50 dark:hover:bg-rose-950/60 border border-rose-200 dark:border-amber-500/30 text-slate-800 dark:text-amber-100 text-xs font-bold transition active:scale-95 hover:border-rose-400 dark:hover:border-rose-500 cursor-pointer"
                   title={`點擊移除 #${girl.number} ${girl.name}`}
                 >
                   <span className="text-[10px] sm:text-xs font-black text-amber-600 dark:text-amber-400">
@@ -386,7 +386,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
           <button
             type="button"
             onClick={handleCopyLink}
-            className="flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 border border-rose-300 dark:border-amber-400/50 text-rose-800 dark:text-amber-200 text-xs font-bold transition active:scale-95 shadow-xs cursor-pointer"
+            className="flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-amber-500/20 dark:hover:bg-amber-500/30 border border-rose-300 dark:border-amber-400/50 text-rose-800 dark:text-amber-200 text-xs font-bold transition active:scale-95 cursor-pointer"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> : <Copy className="w-3.5 h-3.5 text-rose-600 dark:text-amber-400 shrink-0" />}
             <span className="truncate">{copied ? t.shareCopiedLink : t.shareCopyLink}</span>
@@ -403,10 +403,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 ? t.shareLimitBtnDisabled.replace('{max}', String(currentMaxLimit))
                 : ''
             }
-            className={`flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-black transition active:scale-95 shadow-md ${
+            className={`flex-1 min-w-0 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-black transition active:scale-95 ${
               !hasFavorites || isOverLimit
                 ? 'bg-neutral-300 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-700 cursor-not-allowed opacity-75'
-                : 'bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-[#1a0007] shadow-amber-500/20 disabled:opacity-50 cursor-pointer'
+                : 'bg-amber-400 hover:bg-amber-300 text-[#1a0007] disabled:opacity-50 cursor-pointer'
             }`}
           >
             <Download className="w-3.5 h-3.5 shrink-0" />
@@ -426,7 +426,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             rel="noopener noreferrer"
             title={t.shareToX}
             aria-label={t.shareToX}
-            className="flex-shrink-0 p-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
+            className="flex-shrink-0 p-2.5 rounded-xl bg-black hover:bg-neutral-800 text-white border border-neutral-700/80 hover:border-neutral-600 transition active:scale-95 cursor-pointer flex items-center justify-center"
           >
             <XIcon className="w-4 h-4 text-white" />
           </a>
@@ -438,7 +438,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             rel="noopener noreferrer"
             title={t.shareToThreads}
             aria-label={t.shareToThreads}
-            className="flex-shrink-0 p-2.5 rounded-xl bg-neutral-900 hover:bg-black text-white border border-neutral-700/80 hover:border-neutral-600 shadow-md hover:shadow-lg transition active:scale-95 cursor-pointer flex items-center justify-center"
+            className="flex-shrink-0 p-2.5 rounded-xl bg-neutral-900 hover:bg-black text-white border border-neutral-700/80 hover:border-neutral-600 transition active:scale-95 cursor-pointer flex items-center justify-center"
           >
             <ThreadsIcon className="w-4 h-4 text-white" />
           </a>
@@ -448,8 +448,8 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
         <div className="flex-1 overflow-y-auto rounded-2xl border border-rose-200 dark:border-amber-500/30 bg-slate-50 dark:bg-[#120104] p-3 flex justify-center items-start no-scrollbar transition-colors">
           {!hasFavorites ? (
             /* 未設定最愛女孩時的空狀態導引卡片 */
-            <div className="w-[320px] min-h-[420px] sm:w-[340px] sm:min-h-[480px] rounded-2xl border-2 border-dashed border-rose-300 dark:border-amber-500/40 p-6 flex flex-col items-center justify-center text-center bg-white/70 dark:bg-[#1c0208]/60 backdrop-blur-sm shadow-sm my-auto">
-              <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-rose-500/20 via-pink-500/20 to-amber-500/20 border border-rose-300 dark:border-amber-500/40 flex items-center justify-center text-rose-500 dark:text-amber-400 mb-4 shadow-inner">
+            <div className="w-[320px] min-h-[420px] sm:w-[340px] sm:min-h-[480px] rounded-2xl border-2 border-dashed border-rose-300 dark:border-amber-500/40 p-6 flex flex-col items-center justify-center text-center bg-white/70 dark:bg-[#1c0208]/60 my-auto">
+              <div className="w-16 h-16 rounded-3xl bg-rose-500/10 border border-rose-300 dark:border-amber-500/40 flex items-center justify-center text-rose-500 dark:text-amber-400 mb-4">
                 <HeartOff className="w-8 h-8" />
               </div>
               <h3 className="text-base font-black text-slate-900 dark:text-amber-200 mb-2">
@@ -462,7 +462,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                 <button
                   type="button"
                   onClick={onNavigateToInstagram}
-                  className="flex items-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white text-xs font-black shadow-lg shadow-rose-500/20 transition active:scale-95 cursor-pointer"
+                  className="flex items-center gap-2 py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-black transition active:scale-95 cursor-pointer"
                 >
                   <InstagramIcon className="w-4 h-4" />
                   <span>{t.shareGoToIgDirectory}</span>
@@ -474,10 +474,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
             /* Capture Area: 9:16 Aspect Ratio Card */
             <div
               ref={cardRef}
-              className={`w-[320px] min-h-[568px] sm:w-[340px] sm:min-h-[604px] rounded-2xl border-2 p-4 shadow-2xl flex flex-col justify-between relative overflow-hidden transition-all ${
+              className={`w-[320px] min-h-[568px] sm:w-[340px] sm:min-h-[604px] rounded-2xl border-2 p-4 flex flex-col justify-between relative overflow-hidden ${
                 cardTheme === 'light'
-                  ? 'bg-gradient-to-b from-[#fffbfc] via-[#fff3f5] to-[#faeef1] border-amber-400/80 text-slate-800'
-                  : 'bg-gradient-to-b from-[#1c0208] via-[#24040b] to-[#140104] border-amber-500/50 text-amber-100'
+                  ? 'bg-[#fff8f9] border-amber-400/80 text-slate-800'
+                  : 'bg-[#180206] border-amber-500/50 text-amber-100'
               }`}
             >
               {/* Background Decorative Accents */}
@@ -489,9 +489,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               }`} />
 
               {/* Card Header */}
-              <div className={`relative z-10 text-center pb-2.5 border-b ${
-                cardTheme === 'light' ? 'border-rose-200' : 'border-amber-500/30'
-              }`}>
+              <div className="relative z-10 text-center pb-2.5">
                 <div className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider uppercase mb-1 border ${
                   cardTheme === 'light'
                     ? 'bg-rose-100 border-rose-300 text-rose-800'
@@ -503,10 +501,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
                 {/* 明顯日期標籤 */}
                 <div className="flex justify-center my-1.5">
-                  <div className={`inline-flex items-center gap-1.5 px-4 py-1 rounded-full font-black text-sm tracking-wide shadow-md border ${
+                  <div className={`inline-flex items-center gap-1.5 px-4 py-1 rounded-full font-black text-sm tracking-wide border ${
                     cardTheme === 'light'
-                      ? 'bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 text-white border-rose-300 shadow-rose-500/20'
-                      : 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] border-amber-300 shadow-amber-500/20'
+                      ? 'bg-rose-600 text-white border-rose-700'
+                      : 'bg-amber-400 text-[#1a0007] border-amber-300'
                   }`}>
                     <Calendar className="w-4 h-4 flex-shrink-0" />
                     <span>{formattedDateFull}</span>
@@ -515,8 +513,8 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
 
                 <h3 className={`text-base font-black ${
                   cardTheme === 'light'
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#890022] via-[#af1b33] to-[#890022]'
-                    : 'text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-100 to-amber-300'
+                    ? 'text-[#890022]'
+                    : 'text-amber-200'
                 }`}>
                   {isTheme ? t.shareThemeDayHighlight : t.shareAllSeasonHighlight}
                 </h3>
@@ -562,14 +560,14 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                       key={g.name}
                       className={`flex flex-col items-center rounded-xl p-1.5 border ${
                         cardTheme === 'light'
-                          ? 'bg-white/95 border-rose-200/80 shadow-xs'
+                          ? 'bg-white/95 border-rose-200/80'
                           : 'bg-black/30 border-amber-500/20'
                       }`}
                     >
                       <div className={`relative w-12 h-12 rounded-full overflow-hidden border mb-1 ${
                         cardTheme === 'light'
-                          ? 'border-amber-400 shadow-sm bg-rose-50'
-                          : 'border-amber-400/60 shadow-sm bg-neutral-900'
+                          ? 'border-amber-400 bg-rose-50'
+                          : 'border-amber-400/60 bg-neutral-900'
                       }`}>
                         <img src={g.localPhoto || g.photo} alt={g.name} className="w-full h-full object-cover" />
                         <span className="absolute bottom-0 right-0 bg-amber-500 text-[#1a0007] text-[8px] font-black px-1 rounded-full leading-none py-0.5">
@@ -613,7 +611,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                           key={girl.name}
                           className={`rounded-xl p-2 border flex items-center justify-between text-[11px] ${
                             cardTheme === 'light'
-                              ? 'bg-white/95 border-rose-200/90 shadow-xs text-slate-800'
+                              ? 'bg-white/95 border-rose-200/90 text-slate-800'
                               : 'bg-[#2a050e]/80 border-amber-500/20 text-white'
                           }`}
                         >
@@ -670,8 +668,8 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                               </span>
                               <span className={`px-1.5 py-0.5 rounded border ${
                                 cardTheme === 'light'
-                                  ? 'bg-purple-50 text-purple-800 border-purple-300 font-bold'
-                                  : 'bg-purple-950/70 text-purple-200 border-purple-600/30'
+                                  ? 'bg-rose-50 text-rose-800 border-rose-300 font-bold'
+                                  : 'bg-rose-950/70 text-rose-200 border-rose-600/30'
                               }`}>
                                 {t.sharePeriod78}{p78}
                               </span>
@@ -699,12 +697,12 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                           key={girl.name}
                           className={`rounded-xl p-2 border flex flex-col gap-1.5 text-[11px] ${
                             cardTheme === 'light'
-                              ? 'bg-white/95 border-rose-200/90 shadow-xs text-slate-800'
+                              ? 'bg-white/95 border-rose-200/90 text-slate-800'
                               : 'bg-[#2a050e]/80 border-amber-500/20 text-white'
                           }`}
                         >
                           {/* 女孩背號與姓名 */}
-                          <div className="flex items-center justify-between border-b border-dashed border-rose-200/60 dark:border-amber-500/20 pb-1">
+                          <div className="flex items-center justify-between pb-1">
                             <div className="flex items-center gap-1.5">
                               <span className={`font-black text-[10px] ${
                                 cardTheme === 'light' ? 'text-rose-600' : 'text-amber-400'
@@ -718,7 +716,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                               </span>
                             </div>
                             {girl.instagramHandle && (
-                              <span className="text-[9px] font-mono text-slate-400 dark:text-amber-400/50">
+                              <span className="text-[9px] text-slate-400 dark:text-amber-400/50">
                                 @{girl.instagramHandle}
                               </span>
                             )}
@@ -794,8 +792,8 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                                       </span>
                                       <span className={`px-1 py-0.5 rounded border ${
                                         cardTheme === 'light'
-                                          ? 'bg-purple-50 text-purple-800 border-purple-300 font-bold'
-                                          : 'bg-purple-950/70 text-purple-200 border-purple-600/30'
+                                          ? 'bg-rose-50 text-rose-800 border-rose-300 font-bold'
+                                          : 'bg-rose-950/70 text-rose-200 border-rose-600/30'
                                       }`}>
                                         {t.sharePeriod78}{p78}
                                       </span>
@@ -822,10 +820,10 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
               </div>
 
               {/* Card Footer: Stadium Info (Clean without QR Code) */}
-              <div className={`relative z-10 pt-2 border-t flex items-center justify-between text-[10px] ${
+              <div className={`relative z-10 pt-2 flex items-center justify-between text-[10px] ${
                 cardTheme === 'light'
-                  ? 'border-rose-200 text-slate-600'
-                  : 'border-amber-500/30 text-amber-300/70'
+                  ? 'text-slate-600'
+                  : 'text-amber-300/70'
               }`}>
                 <div className="flex flex-col">
                   <span className={`font-black ${cardTheme === 'light' ? 'text-rose-900' : 'text-amber-200'}`}>
@@ -833,16 +831,16 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                   </span>
                   <span className="text-[9px]">{t.shareFooterSubtitle}</span>
                 </div>
-                <span className={`text-[9px] font-mono ${cardTheme === 'light' ? 'text-slate-400' : 'text-amber-400/50'}`}>
+                <span className={`text-[9px] ${cardTheme === 'light' ? 'text-slate-400' : 'text-amber-400/50'}`}>
                   mouse170.github.io/rkg_schedule
                 </span>
               </div>
 
               {/* 若人數超額，於卡片上方提供防破版警示覆蓋層（響應式手機版與電腦版） */}
               {isOverLimit && (
-                <div className="absolute inset-0 z-20 bg-black/75 backdrop-blur-[3px] rounded-2xl flex flex-col items-center justify-center p-3 sm:p-5 text-center">
-                  <div className="w-[92%] max-w-[290px] sm:max-w-[310px] p-4 sm:p-5 rounded-2xl bg-[#1a0006]/95 border-2 border-amber-400/80 shadow-2xl backdrop-blur-md flex flex-col items-center text-center">
-                    <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-amber-500/25 border border-amber-400/80 flex items-center justify-center text-amber-400 mb-2.5 sm:mb-3 shadow-lg shadow-amber-500/20">
+                <div data-ui="overlay" className="absolute inset-0 z-20 bg-black/75 rounded-2xl flex flex-col items-center justify-center p-3 sm:p-5 text-center">
+                  <div className="w-[92%] max-w-[290px] sm:max-w-[310px] p-4 sm:p-5 rounded-2xl bg-[#1a0006]/95 border-2 border-amber-400/80 flex flex-col items-center text-center">
+                    <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-amber-500/25 border border-amber-400/80 flex items-center justify-center text-amber-400 mb-2.5 sm:mb-3">
                       <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <h4 className="text-sm sm:text-base font-black text-amber-300 tracking-wide mb-1.5 sm:mb-2">
@@ -861,7 +859,7 @@ export const ShareScheduleModal: React.FC<ShareScheduleModalProps> = ({
                           key={girl.name}
                           type="button"
                           onClick={() => onToggleFavorite && onToggleFavorite(girl.name)}
-                          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black/60 hover:bg-rose-900/60 border border-amber-400/50 hover:border-rose-400 text-amber-100 text-[11px] sm:text-xs font-bold transition active:scale-95 cursor-pointer shadow-xs"
+                          className="flex items-center gap-1 px-2 py-1 rounded-lg bg-black/60 hover:bg-rose-900/60 border border-amber-400/50 hover:border-rose-400 text-amber-100 text-[11px] sm:text-xs font-bold transition active:scale-95 cursor-pointer"
                           title={`點擊移除 #${girl.number} ${girl.name}`}
                         >
                           <span className="text-amber-400 font-black">#{girl.number}</span>

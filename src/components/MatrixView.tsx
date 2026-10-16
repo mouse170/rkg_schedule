@@ -88,35 +88,35 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       key: 'EAST',
       title: t.areaEast,
       subTitle: '內野 1B 一般應援',
-      badgeStyle: 'bg-blue-100/80 dark:bg-gradient-to-r dark:from-blue-600/30 dark:to-indigo-600/30 text-blue-800 dark:text-blue-200 border-blue-300 dark:border-blue-500/40',
+      badgeStyle: 'bg-blue-100 dark:bg-blue-950 text-blue-900 dark:text-blue-200 border-blue-300 dark:border-blue-700',
       matchFn: (loc, isZone) => !isZone && !loc.includes('專區') && loc.includes('東') && !loc.includes('東R')
     },
     {
       key: 'WEST',
       title: t.areaWest,
       subTitle: '內野 3B 一般應援',
-      badgeStyle: 'bg-emerald-100/80 dark:bg-gradient-to-r dark:from-emerald-600/30 dark:to-teal-600/30 text-emerald-800 dark:text-emerald-200 border-emerald-300 dark:border-emerald-500/40',
+      badgeStyle: 'bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700',
       matchFn: (loc, isZone) => !isZone && !loc.includes('專區') && loc.includes('西') && !loc.includes('西R')
     },
     {
       key: 'DALE',
       title: t.zoneDaLe + '區',
       subTitle: '特殊外野熱舞台',
-      badgeStyle: 'bg-purple-100/80 dark:bg-gradient-to-r dark:from-purple-600/30 dark:to-pink-600/30 text-purple-800 dark:text-purple-200 border-purple-300 dark:border-purple-500/40',
+      badgeStyle: 'bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700',
       matchFn: (loc, isZone) => !isZone && (loc.includes('大樂') || loc.includes('東R') || loc.includes('西R'))
     },
     {
       key: 'ZONE',
       title: '看台專區',
       subTitle: isTheme ? '個人專屬看台寵粉' : '特殊企劃／專區',
-      badgeStyle: 'bg-amber-100/90 dark:bg-gradient-to-r dark:from-amber-500/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400/60 dark:border-amber-400/50 font-black',
+      badgeStyle: 'bg-rose-100 dark:bg-rose-950 text-rose-900 dark:text-rose-200 border-rose-300 dark:border-rose-700 font-black',
       matchFn: (loc, isZone) => isZone || loc.includes('專區') || loc.includes('舞台')
     },
     {
       key: 'UNASSIGNED',
       title: '待公布',
       subTitle: '位置排定中',
-      badgeStyle: 'bg-amber-100/80 dark:bg-gradient-to-r dark:from-amber-600/30 dark:to-rose-600/30 text-amber-900 dark:text-amber-200 border-amber-400 dark:border-amber-500/40 font-black',
+      badgeStyle: 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-200 border-zinc-300 dark:border-zinc-700 font-black',
       matchFn: (loc, isZone) => !isZone && (!loc || loc.includes('待公布') || loc.includes('待公佈') || loc.includes('待定') || loc.includes('未安排') || loc === '休息' || loc === '休')
     }
   ];
@@ -134,7 +134,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
           key: 'P78',
           title: '7-8 局',
           subTitle: '後段換側熱舞',
-          badgeStyle: 'text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/40'
+          badgeStyle: 'text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-950/40'
         },
         {
           key: 'POST',
@@ -160,7 +160,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
           key: 'P78',
           title: '7-8 局',
           subTitle: '後段換側熱舞',
-          badgeStyle: 'text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-500/30 bg-purple-50 dark:bg-purple-950/40'
+          badgeStyle: 'text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-950/40'
         }
       ];
 
@@ -371,7 +371,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       case '西上':
         return {
           title: t.deckWestUpper + ' (B~D區)',
-          pill: 'bg-purple-100 dark:bg-purple-950/70 text-purple-800 dark:text-purple-300 border-purple-300/80 dark:border-purple-800/60'
+          pill: 'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-300/80 dark:border-amber-800/60'
         };
     }
   };
@@ -379,12 +379,13 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
   return (
     <div
       id={`matrix-date-${date.replace('/', '-')}`}
-      className="w-full bg-white dark:bg-[#180206] rounded-2xl border border-rose-200/80 dark:border-amber-500/30 shadow-lg p-3 sm:p-4 mb-4 transition-colors"
+      className="w-full bg-white dark:bg-[#180206] rounded-2xl border border-rose-200/80 dark:border-amber-500/30 p-3 sm:p-4 mb-4 transition-colors"
+      data-ui="matrix-card"
     >
       {/* Date Matrix Card Header */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 pb-3 mb-3 border-b border-rose-200/60 dark:border-amber-500/20">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 pb-3 mb-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-rose-500 via-rose-600 to-amber-500 text-white flex items-center justify-center font-black text-xs shadow-sm flex-shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-rose-700 text-white flex items-center justify-center font-black text-xs flex-shrink-0">
             <Calendar className="w-4 h-4" />
           </div>
 
@@ -421,17 +422,18 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       </div>
 
       {/* 2D Scrollable Matrix Table Wrapper */}
-      <div className="relative overflow-x-auto no-scrollbar rounded-xl border border-rose-200 dark:border-amber-500/20 bg-[#fffbfc] dark:bg-[#120104]">
+      <div className="relative overflow-x-auto no-scrollbar rounded-xl border border-rose-200 dark:border-amber-500/20 bg-[#fffbfc] dark:bg-[#120104]" data-ui="matrix-table">
         <table className="w-full text-left border-collapse min-w-[580px] sm:min-w-[680px]">
           {/* Table Header: Columns (Periods) */}
           <thead>
-            <tr className="border-b border-rose-200 dark:border-amber-500/30 bg-rose-50/70 dark:bg-[#1e0209]">
+            <tr data-ui="row" className="border-b border-rose-200 dark:border-amber-500/30 bg-rose-50/70 dark:bg-[#1e0209]">
               {/* Sticky Top-Left Corner Cell */}
-              <th className="sticky left-0 z-20 w-28 sm:w-36 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#24040b] backdrop-blur-md border-r border-rose-200 dark:border-amber-500/30 text-[11px] sm:text-xs font-black text-rose-900 dark:text-amber-300 uppercase tracking-wider">
+              <th data-ui="cell" className="sticky left-0 z-20 w-28 sm:w-36 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#24040b] border-r border-rose-200 dark:border-amber-500/30 text-xs sm:text-sm font-bold text-rose-900 dark:text-amber-300">
                 {t.matrixCornerHeader}
               </th>
               {periodCols.map(col => (
                 <th
+                  data-ui="cell"
                   key={col.key}
                   className="p-2.5 sm:p-3 text-center border-r last:border-r-0 border-rose-200/80 dark:border-amber-500/20 min-w-[160px] sm:min-w-[190px]"
                 >
@@ -451,14 +453,9 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
           {/* Table Body: Rows (Areas & Zones) */}
           <tbody>
             {activeAreaRows.map((row, rIdx) => (
-              <tr
-                key={row.key}
-                className={`border-b last:border-b-0 border-rose-100 dark:border-amber-500/20 ${
-                  rIdx % 2 === 0 ? 'bg-white dark:bg-[#150105]/70' : 'bg-[#fffafb] dark:bg-[#1b0208]/70'
-                }`}
-              >
+              <tr key={row.key} data-ui="row" className={`border-b last:border-b-0 border-rose-100 dark:border-amber-500/20 ${rIdx % 2 === 0 ? 'bg-white dark:bg-[#150105]/70' : 'bg-[#fffafb] dark:bg-[#1b0208]/70'}`}>
                 {/* Sticky Left Column Cell: Area Label */}
-                <th className="sticky left-0 z-10 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#1e030a] backdrop-blur-md border-r border-rose-200 dark:border-amber-500/30 align-top">
+                <th data-ui="cell" className="sticky left-0 z-10 p-2.5 sm:p-3 bg-[#fff0f3] dark:bg-[#1e030a] border-r border-rose-200 dark:border-amber-500/30 align-top">
                   <div className="flex flex-col">
                     <span className={`inline-block px-2 py-0.5 rounded-lg text-xs font-black border ${row.badgeStyle} mb-0.5 w-max`}>
                       {row.title}
@@ -478,6 +475,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
 
                   return (
                     <td
+                      data-ui="cell"
                       key={col.key}
                       className="p-2 sm:p-2.5 border-r last:border-r-0 border-rose-100 dark:border-amber-500/10 align-top"
                     >
@@ -518,8 +516,8 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                                         onClick={() => onSelectGirl(girl)}
                                         className={`group flex items-center gap-1.5 p-1 rounded-xl transition text-left active:scale-95 border ${
                                           isFav
-                                            ? 'bg-rose-50 hover:bg-rose-100 dark:bg-gradient-to-r dark:from-rose-950/80 dark:to-pink-950/80 border-rose-300 dark:border-amber-400/60 shadow-sm ring-1 ring-rose-300 dark:ring-amber-400/30'
-                                            : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20 shadow-xs'
+                                            ? 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950 border-rose-300 dark:border-amber-400/60 ring-1 ring-rose-300 dark:ring-amber-400/30'
+                                            : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20'
                                         }`}
                                         title={`${girl.name} (#${girl.number}) - ${assign?.zoneCode || '專區'}`}
                                       >
@@ -568,8 +566,8 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                                 onClick={() => onSelectGirl(girl)}
                                 className={`group flex items-center gap-1.5 p-1 rounded-xl transition text-left active:scale-95 border ${
                                   isFav
-                                    ? 'bg-rose-50 hover:bg-rose-100 dark:bg-gradient-to-r dark:from-rose-950/80 dark:to-pink-950/80 border-rose-300 dark:border-amber-400/60 shadow-sm ring-1 ring-rose-300 dark:ring-amber-400/30'
-                                    : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20 shadow-xs'
+                                    ? 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950 border-rose-300 dark:border-amber-400/60 ring-1 ring-rose-300 dark:ring-amber-400/30'
+                                    : 'bg-white hover:bg-rose-50/60 dark:bg-[#26050e]/60 dark:hover:bg-[#380815] border-rose-200/80 dark:border-amber-500/20'
                                 }`}
                                 title={`${girl.name} (#${girl.number})${assign ? ` - ${assign.zoneCode}` : ''}`}
                               >
@@ -612,9 +610,9 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
       </div>
 
       {/* Date Footer: Unassigned Notice Bar */}
-      <div className="mt-2.5 pt-2.5 border-t border-rose-200/60 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+      <div className="mt-2.5 pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
         {unassignedGirls.length > 0 ? (
-          <div className="flex flex-col gap-2 p-2.5 sm:p-3 rounded-2xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/40 text-amber-900 dark:text-amber-200 shadow-xs w-full sm:w-auto">
+          <div className="flex flex-col gap-2 p-2.5 sm:p-3 rounded-2xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/40 text-amber-900 dark:text-amber-200 w-full sm:w-auto">
             <div className="flex items-center justify-between gap-2">
               <span className="font-black flex items-center gap-1.5 text-xs sm:text-sm text-amber-900 dark:text-amber-100">
                 <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
@@ -629,7 +627,7 @@ const SingleDateMatrix: React.FC<DateMatrixTableProps> = ({
                 <button
                   key={g.name}
                   onClick={() => onSelectGirl(g)}
-                  className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white dark:bg-[#25040d] border border-amber-300 dark:border-amber-500/40 text-slate-800 dark:text-amber-100 hover:bg-amber-100/60 dark:hover:bg-[#380815] transition shadow-xs active:scale-95 cursor-pointer"
+                  className="flex items-center gap-1.5 px-2 py-1 rounded-xl bg-white dark:bg-[#25040d] border border-amber-300 dark:border-amber-500/40 text-slate-800 dark:text-amber-100 hover:bg-amber-100/60 dark:hover:bg-[#380815] transition active:scale-95 cursor-pointer"
                   title={`查看 ${g.name} (#${g.number})`}
                 >
                   <div className="w-5 h-5 rounded-full overflow-hidden border border-amber-400/60 flex-shrink-0 bg-neutral-100">
@@ -702,10 +700,10 @@ export const MatrixView: React.FC<MatrixViewProps> = ({
     <div className="w-full space-y-4">
       {/* 全部日期總覽頂部導覽 Banner */}
       {isMultiDate && (
-        <div className="bg-gradient-to-r from-rose-500/10 via-pink-500/10 to-amber-500/10 dark:from-rose-950/30 dark:via-pink-950/30 dark:to-amber-950/30 border border-rose-300/60 dark:border-amber-500/30 rounded-2xl p-3 sm:p-4 shadow-sm">
+        <div className="bg-[#fff0f3] dark:bg-[#24040b] rounded-2xl p-3 sm:p-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-[#1a0007] flex items-center justify-center font-black text-sm shadow-md flex-shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-amber-400 text-[#1a0007] flex items-center justify-center font-black text-sm flex-shrink-0">
                 <Compass className="w-5 h-5" />
               </div>
               <div>

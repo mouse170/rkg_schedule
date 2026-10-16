@@ -448,7 +448,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     viewSchedule: '查看完整班表 →',
     todayScheduleBannerTitle: '今日補賽關鍵戰役 • 樂天女孩即時應援班表',
     todayScheduleBannerBadge: '今日補賽日 • 勇敢堅強永不放棄',
-    todayScheduleBannerDesc: '每一場補賽都很重要 ٩(๑❛ᴗ❛๑)۶♡ 球季接近尾聲一起勇敢堅強永不放棄 🖤🦍 掌握女孩 1-3 局、中場表演與 7-8 局的最新站位，進場應援不迷路！',
+    todayScheduleBannerDesc: '每一場補賽都很重要，球季接近尾聲一起勇敢堅強永不放棄。掌握女孩 1-3 局、中場表演與 7-8 局的最新站位，進場應援不迷路！',
     todayScheduleAlertTitle: '今日賽事即時應援中',
 
     guideModalTitle: '樂天桃園棒球場 • 啦啦隊應援席位導覽',
@@ -486,7 +486,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextNoDuty: '近期尚無排班紀錄',
     shareTextLearnMore: '掌握更多女孩班表：',
 
-    pairedStageBadge: '✨ {location} 同台配對',
+    pairedStageBadge: '{location} 同台配對',
     pairedPartnerHint: '與最愛 {partner} 同時段應援',
 
     matrixViewTitle: '看台輪替矩陣視圖',
@@ -528,7 +528,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     sharePeriodMid: '中場：',
     shareFooterTitle: '樂天女孩即時看台班表',
     shareFooterSubtitle: '全猿主場應援席位即時查詢',
-    shareLimitWarning: '⚠️ 超過 9:16 限動圖卡上限：目前已選 {count} 位女孩（{mode}最多支援 {max} 位）。為避免圖片超出限制，圖卡下載功能已暫時關閉，請調整最愛名單。',
+    shareLimitWarning: '超過 9:16 限動圖卡上限：目前已選 {count} 位女孩（{mode}最多支援 {max} 位）。為避免圖片超出限制，圖卡下載功能已暫時關閉，請調整最愛名單。',
     shareLimitBtnDisabled: '超過人數上限 (最多 {max} 位)',
     shareModeSingle: '單日',
     shareModeAll: '全賽季跨日',
@@ -539,7 +539,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTitle: '快速調整最愛名單（點擊直接移除）：',
     shareAdjustFavTip: '點擊女孩可直接移出最愛，名單符合上限後即可啟用圖卡下載',
     shareAdjustCurrentCount: '目前已選 {count} 位 / 上限 {max} 位',
-    shareAdjustSuccess: '✓ 已符合圖卡人數限制（{count}/{max} 位），現已可生成 9:16 限動圖卡',
+    shareAdjustSuccess: '已符合圖卡人數限制（{count}/{max} 位），現已可生成 9:16 限動圖卡',
     shareDateScope: '匯出範圍：',
     shareExportCurrentPeriod: '當期一次匯出',
     shareExportSpecificDate: '特定日期',
@@ -549,7 +549,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '請先加入最愛女孩',
     shareToX: '分享至 X (Twitter)',
     shareToThreads: '分享至 Threads',
-    shareTweetHeadline: '⚾ 樂天女孩 Rakuten Girls 2026 即時應援班表！我的專屬追星行程表',
+    shareTweetHeadline: '樂天女孩 Rakuten Girls 2026 即時應援班表！我的專屬追星行程表',
     shareTweetHashtags: '#RakutenGirls #樂天女孩 #全猿主場',
 
     // Theme Day & Pre-Match Activities
@@ -777,7 +777,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextNoDuty: '直近のシフト情報はありません',
     shareTextLearnMore: 'より詳細なスケジュールはこちら：',
 
-    pairedStageBadge: '✨ {location} 同時出演ペア',
+    pairedStageBadge: '{location} 同時出演ペア',
     pairedPartnerHint: 'お気に入り {partner} と同じ回に応援',
 
     matrixViewTitle: 'スタンド交代マトリックス',
@@ -819,7 +819,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     sharePeriodMid: 'ハーフタイム：',
     shareFooterTitle: '楽天ガールズ応援スタンドスケジュール',
     shareFooterSubtitle: '全猿ホーム応援席リアルタイム検索',
-    shareLimitWarning: '⚠️ 9:16画像の上限超過：現在{count}名を選択中（{mode}上限{max}名）。レイアウト崩れを防ぐため画像保存は無効化されています。',
+    shareLimitWarning: '9:16画像の上限超過：現在{count}名を選択中（{mode}上限{max}名）。レイアウト崩れを防ぐため画像保存は無効化されています。',
     shareLimitBtnDisabled: '人数制限超過 (最大{max}名)',
     shareModeSingle: '単日',
     shareModeAll: '全シーズン複数日',
@@ -830,7 +830,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTitle: 'お気に入りメンバーのクイック調整（タップして解除）：',
     shareAdjustFavTip: 'タップするとお気に入りから解除され、上限以下になると画像保存が可能になります',
     shareAdjustCurrentCount: '現在 {count}名 / 上限 {max}名',
-    shareAdjustSuccess: '✓ 人数制限を満たしました（{count}/{max}名）。9:16画像の生成が可能です',
+    shareAdjustSuccess: '人数制限を満たしました（{count}/{max}名）。9:16画像の生成が可能です',
     shareDateScope: '出力範囲：',
     shareExportCurrentPeriod: '当期一括出力',
     shareExportSpecificDate: '特定日程',
@@ -840,7 +840,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '先にお気に入りを追加',
     shareToX: 'X でポスト',
     shareToThreads: 'Threads でシェア',
-    shareTweetHeadline: '⚾ Rakuten Girls（楽天ガールズ）応援スケジュール！推しメン日程＆席位配置表',
+    shareTweetHeadline: 'Rakuten Girls（楽天ガールズ）応援スケジュール！推しメン日程＆席位配置表',
     shareTweetHashtags: '#RakutenGirls #楽天ガールズ #台湾チア #台湾プロ野球 #CPBL',
 
     // Theme Day & Pre-Match Activities
@@ -1068,7 +1068,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareTextNoDuty: '최근 예정된 출근 일정이 없습니다',
     shareTextLearnMore: '더 많은 멤버 일정 확인하기: ',
 
-    pairedStageBadge: '✨ {location} 동시간 무대 매칭',
+    pairedStageBadge: '{location} 동시간 무대 매칭',
     pairedPartnerHint: '최애 {partner}와 같은 시간대 응원',
 
     matrixViewTitle: '스탠드 로테이션 매트릭스',
@@ -1110,7 +1110,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     sharePeriodMid: '하프타임:',
     shareFooterTitle: '라쿠텐 걸스 실시간 응원단 스케줄',
     shareFooterSubtitle: '전원 홈 응원석 실시간 조회',
-    shareLimitWarning: '⚠️ 9:16 카드 용량 초과: 현재 {count}명 선택됨 ({mode} 최대 {max}명 지원). 레이아웃 깨짐을 방지하기 위해 다운로드가 비활성화되었습니다.',
+    shareLimitWarning: '9:16 카드 용량 초과: 현재 {count}명 선택됨 ({mode} 최대 {max}명 지원). 레이아웃 깨짐을 방지하기 위해 다운로드가 비활성화되었습니다.',
     shareLimitBtnDisabled: '인원 초과 (최대 {max}명)',
     shareModeSingle: '단일 경기',
     shareModeAll: '전 시즌 다일 경기',
@@ -1121,7 +1121,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareAdjustFavTitle: '최애 멤버 빠른 조정 (탭하여 제외):',
     shareAdjustFavTip: '멤버를 탭하여 즐겨찾기에서 제외하면, 상한 충족 시 카드 다운로드가 활성화됩니다',
     shareAdjustCurrentCount: '현재 {count}명 / 상한 {max}명',
-    shareAdjustSuccess: '✓ 인원 제한을 충족했습니다 ({count}/{max}명). 이제 9:16 카드 다운로드가 가능합니다',
+    shareAdjustSuccess: '인원 제한을 충족했습니다 ({count}/{max}명). 이제 9:16 카드 다운로드가 가능합니다',
     shareDateScope: '내보내기 범위:',
     shareExportCurrentPeriod: '당기 일괄 내보내기',
     shareExportSpecificDate: '특정 날짜',
@@ -1131,7 +1131,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     shareNoFavoritesBtn: '최애 멤버를 먼저 추가하세요',
     shareToX: 'X에 공유',
     shareToThreads: 'Threads에 공유',
-    shareTweetHeadline: '⚾ 라쿠텐 걸스（Rakuten Girls）2026 응원 일정표! 나의 최애 멤버 출근 스케줄',
+    shareTweetHeadline: '라쿠텐 걸스（Rakuten Girls）2026 응원 일정표! 나의 최애 멤버 출근 스케줄',
     shareTweetHashtags: '#RakutenGirls #라쿠텐걸스 #대만치어리더 #치어리더 #CPBL',
 
     // Theme Day & Pre-Match Activities

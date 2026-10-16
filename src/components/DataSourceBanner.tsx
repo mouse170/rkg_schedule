@@ -70,42 +70,39 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
   }, [selectedDate, roster, onDutyCount]);
 
   return (
-    <div className="bg-pink-50/95 dark:bg-[#120104]/95 border-b border-pink-200/80 dark:border-amber-500/20 px-3 sm:px-4 py-1.5 text-xs text-gray-700 dark:text-amber-200/90 transition-colors shadow-xs">
-      <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+    <div className="bg-pink-100/60 dark:bg-[#120104] px-3 sm:px-4 py-2 text-sm text-gray-800 dark:text-amber-200 transition-colors overflow-x-hidden">
+      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2 overflow-x-hidden">
         {/* Left: 連線指示燈與數據驗證指標（休賽季呈現轉會期公告） */}
         {isOffSeason ? (
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 min-w-0 text-[11px] sm:text-xs">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 min-w-0 text-[13px] sm:text-sm">
             <div className="inline-flex items-center gap-1.5 font-bold flex-shrink-0">
-              <span className="h-2 w-2 rounded-full bg-rose-500 dark:bg-amber-400 flex-shrink-0" />
-              <span className="text-rose-700 dark:text-amber-300 font-extrabold whitespace-nowrap">
+              <span className="h-2 w-2 rounded-full bg-rose-600 dark:bg-amber-400 flex-shrink-0" />
+              <span className="text-rose-800 dark:text-amber-300 font-extrabold whitespace-nowrap">
                 {t.offSeasonStatus}
               </span>
             </div>
 
             <span className="text-pink-300 dark:text-amber-500/30">|</span>
 
-            <div className="inline-flex items-center gap-1 font-medium text-gray-600 dark:text-amber-200/90 whitespace-nowrap flex-shrink-0">
-              <span>{t.offSeasonStatusDesc}</span>
+            <div className="inline-flex items-center gap-1 font-medium text-gray-700 dark:text-amber-100 min-w-0">
+              <span className="truncate">{t.offSeasonStatusDesc}</span>
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 min-w-0 text-[11px] sm:text-xs">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 min-w-0 text-[13px] sm:text-sm">
             {/* 連線狀態 */}
             <div className="inline-flex items-center gap-1.5 font-bold flex-shrink-0">
               {isLive ? (
                 <>
-                  <span className="flex h-2 w-2 relative flex-shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-bold whitespace-nowrap">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 flex-shrink-0" />
+                  <span className="text-emerald-700 dark:text-emerald-400 font-bold whitespace-nowrap">
                     {t.liveOnline}
                   </span>
                 </>
               ) : (
                 <>
                   <span className="h-2 w-2 rounded-full bg-amber-500 flex-shrink-0" />
-                  <span className="text-amber-600 dark:text-amber-400 font-bold whitespace-nowrap">
+                  <span className="text-amber-700 dark:text-amber-400 font-bold whitespace-nowrap">
                     {t.offlineCache}
                   </span>
                 </>
@@ -117,13 +114,13 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
             {/* 當日上班人數或當期狀態 */}
             <div className="inline-flex items-center gap-1 font-medium whitespace-nowrap flex-shrink-0">
               {schedule.dates.length === 0 ? (
-                <span className="font-bold text-amber-600 dark:text-amber-300">
+                <span className="font-bold text-amber-700 dark:text-amber-300">
                   {t.updatingSchedule}
                 </span>
               ) : (
                 <>
-                  <span className="text-gray-500 dark:text-gray-400">當日出勤</span>
-                  <span className="font-extrabold text-rose-600 dark:text-amber-300">
+                  <span className="text-gray-600 dark:text-gray-400">當日出勤</span>
+                  <span className="font-extrabold text-rose-700 dark:text-amber-300">
                     {onDutyCount > 0 ? `${onDutyCount} 位` : '尚無排程'}
                   </span>
                 </>
@@ -137,32 +134,32 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
                 <div className="inline-flex items-center whitespace-nowrap flex-shrink-0">
                   {stats.allAssigned ? (
                     <div
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800/60 text-emerald-700 dark:text-emerald-300 font-bold text-[10px] sm:text-[11px]"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-bold text-[13px]"
                       title={`全數女孩均已完成排班 (${stats.assignedCount}/${stats.onDutyCount})`}
                     >
-                      <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" />
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600 flex-shrink-0" />
                       <span>{t.allStationsAssigned}</span>
                     </div>
                   ) : stats.assignedCount > 0 ? (
                     <div
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 border border-amber-200/80 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 font-bold text-[10px] sm:text-[11px] cursor-help"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 font-bold text-[13px] cursor-help"
                       title={`待公布名單：${stats.pendingGirls.join('、')}`}
                     >
-                      <AlertCircle className="w-3 h-3 text-amber-500 flex-shrink-0" />
+                      <AlertCircle className="w-3 h-3 text-amber-600 flex-shrink-0" />
                       <span>
-                        已排定 <strong className="text-emerald-600 dark:text-emerald-400 font-extrabold">{stats.assignedCount}</strong> 位
+                        已排定 <strong className="text-emerald-700 dark:text-emerald-400 font-extrabold">{stats.assignedCount}</strong> 位
                       </span>
                       <span className="text-amber-400 dark:text-amber-600">‧</span>
                       <span>
-                        待公布 <strong className="text-rose-600 dark:text-rose-400 font-extrabold">{stats.pendingCount}</strong> 位
+                        待公布 <strong className="text-rose-700 dark:text-rose-400 font-extrabold">{stats.pendingCount}</strong> 位
                       </span>
                     </div>
                   ) : (
                     <div
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 font-bold text-[10px] sm:text-[11px] cursor-help"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-800 dark:text-rose-200 font-bold text-[13px] cursor-help"
                       title={`尚未公布站位名單：${stats.pendingGirls.join('、')}`}
                     >
-                      <Clock className="w-3 h-3 text-rose-500 dark:text-rose-400 flex-shrink-0" />
+                      <Clock className="w-3 h-3 text-rose-600 dark:text-rose-400 flex-shrink-0" />
                       <span>{t.stationsPending}</span>
                     </div>
                   )}
@@ -174,7 +171,7 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
             {lastUpdated && (
               <>
                 <span className="text-pink-300 dark:text-amber-500/30 hidden md:inline">|</span>
-                <span className="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 whitespace-nowrap hidden md:inline">
+                <span className="text-[13px] text-gray-600 dark:text-gray-400 whitespace-nowrap hidden md:inline">
                   {t.lastUpdatedLabel.replace('{time}', lastUpdated)}
                 </span>
               </>
@@ -183,15 +180,15 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
         )}
 
         {/* Right: 外部資料來源與 26 年單曲按鈕 */}
-        <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0 ml-auto flex-wrap">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap sm:ml-auto">
           {onOpenSongModal && (
             <button
               type="button"
               onClick={onOpenSongModal}
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-black text-rose-900 dark:text-amber-200 bg-gradient-to-r from-amber-300 via-rose-200 to-amber-200 hover:from-amber-400 hover:to-rose-300 dark:from-rose-950/90 dark:to-neutral-900/90 border border-rose-300 dark:border-rose-500/40 transition active:scale-95 shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[13px] font-black text-[#1a0007] bg-[#c59b27] hover:bg-[#d8ab2e] transition-colors active:scale-95 cursor-pointer"
               title="觀看 2026 樂天女孩年度單曲《緋紅之夜》MV 與完整歌詞"
             >
-              <Music className="w-2.5 h-2.5 text-rose-600 dark:text-amber-400 fill-rose-500/20" />
+              <Music className="w-3 h-3 text-[#1a0007] fill-[#1a0007]" />
               <span>26年單曲緋紅之夜</span>
             </button>
           )}
@@ -200,36 +197,36 @@ export const DataSourceBanner: React.FC<DataSourceBannerProps> = ({
             href="https://docs.google.com/spreadsheets/d/110lr6vJ48T8_IdnUhJPI-aMk4O_-0fvvrmZmwPhu8fo/edit?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-semibold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100/60 dark:hover:bg-emerald-950/50 bg-white/70 dark:bg-[#1f030a] border border-emerald-200/80 dark:border-emerald-500/30 transition shadow-xs"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[13px] font-semibold text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-950/50 bg-white/80 dark:bg-[#1f030a] transition-colors"
             title={t.googleSheetLink}
           >
-            <Database className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400" />
+            <Database className="w-3 h-3 text-emerald-700 dark:text-emerald-400" />
             <span>試算表</span>
-            <ExternalLink className="w-2 h-2 opacity-50" />
+            <ExternalLink className="w-2.5 h-2.5 opacity-50" />
           </a>
 
           <a
             href="https://monkeys.rakuten.com.tw/girls"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-semibold text-rose-700 dark:text-pink-300 hover:bg-rose-100/60 dark:hover:bg-rose-950/50 bg-white/70 dark:bg-[#1f030a] border border-rose-200/80 dark:border-rose-500/30 transition shadow-xs"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[13px] font-semibold text-rose-800 dark:text-pink-300 hover:bg-rose-100 dark:hover:bg-rose-950/50 bg-white/80 dark:bg-[#1f030a] transition-colors"
             title={t.officialRosterLink}
           >
-            <Info className="w-2.5 h-2.5 text-rose-600 dark:text-pink-400" />
+            <Info className="w-3 h-3 text-rose-700 dark:text-pink-400" />
             <span>官方名冊</span>
-            <ExternalLink className="w-2 h-2 opacity-50" />
+            <ExternalLink className="w-2.5 h-2.5 opacity-50" />
           </a>
 
           <a
             href="https://www.instagram.com/rakutengirls/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-semibold text-purple-700 dark:text-purple-300 hover:bg-purple-100/60 dark:hover:bg-purple-950/50 bg-white/70 dark:bg-[#1f030a] border border-purple-200/80 dark:border-purple-500/30 transition shadow-xs"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[13px] font-semibold text-slate-800 dark:text-amber-200 hover:bg-pink-100 dark:hover:bg-[#2e050e] bg-white/80 dark:bg-[#1f030a] transition-colors"
             title={t.officialIgLink}
           >
-            <InstagramIcon className="w-2.5 h-2.5 text-purple-600 dark:text-purple-400" />
+            <InstagramIcon className="w-3 h-3 text-rose-600 dark:text-amber-400" />
             <span>官方 IG</span>
-            <ExternalLink className="w-2 h-2 opacity-50" />
+            <ExternalLink className="w-2.5 h-2.5 opacity-50" />
           </a>
         </div>
       </div>

@@ -637,7 +637,7 @@ const MainApp: React.FC = () => {
           postSections.push({
             key: `POST_${date}_EAST`,
             title: `${date} ${t.groupTitlePostEast} (${eastGirls.length} 位)`,
-            badgeStyle: 'from-rose-600 via-pink-600 to-rose-700 text-white shadow-md font-bold',
+            badgeStyle: 'bg-rose-700 text-white font-bold',
             girls: eastGirls,
             favCount: countFavs(eastGirls),
             date
@@ -648,7 +648,7 @@ const MainApp: React.FC = () => {
           postSections.push({
             key: `POST_${date}_WEST`,
             title: `${date} ${t.groupTitlePostWest} (${westGirls.length} 位)`,
-            badgeStyle: 'from-zinc-800 via-zinc-900 to-black text-amber-200 shadow-md border border-zinc-700 font-bold',
+            badgeStyle: 'bg-zinc-900 text-amber-200 font-bold',
             girls: westGirls,
             favCount: countFavs(westGirls),
             date
@@ -699,7 +699,7 @@ const MainApp: React.FC = () => {
           midSections.push({
             key: `MID_${date}_EAST`,
             title: `${date} ${t.groupTitleMidEast} (${eastGirls.length} 位)`,
-            badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
+            badgeStyle: 'bg-blue-800 text-white font-bold',
             girls: eastGirls,
             favCount: countFavs(eastGirls),
             date
@@ -711,7 +711,7 @@ const MainApp: React.FC = () => {
           midSections.push({
             key: `MID_${date}_WEST`,
             title: `${date} ${t.groupTitleMidWest} (${westGirls.length} 位)`,
-            badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
+            badgeStyle: 'bg-emerald-800 text-white font-bold',
             girls: westGirls,
             favCount: countFavs(westGirls),
             date
@@ -725,7 +725,7 @@ const MainApp: React.FC = () => {
           midSections.push({
             key: `MID_${date}_STAGE`,
             title: stageTitle,
-            badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+            badgeStyle: 'bg-amber-600 text-white font-bold',
             girls: stageGirls,
             favCount: countFavs(stageGirls),
             date
@@ -738,7 +738,7 @@ const MainApp: React.FC = () => {
         midSections.push({
           key: `MID_${selectedDate}_EMPTY`,
           title: `${selectedDate} ${t.groupTitleMid}`,
-          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          badgeStyle: 'bg-gray-700 text-white font-bold',
           girls: [],
           favCount: 0,
           date: selectedDate,
@@ -788,7 +788,7 @@ const MainApp: React.FC = () => {
         favSections.push({
           key: 'FAV_ON_DUTY',
           title: t.groupTitleFavOnDuty,
-          badgeStyle: 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-sm',
+          badgeStyle: 'bg-rose-700 text-white',
           girls: onDutyFavs,
           favCount: onDutyFavs.length
         });
@@ -797,7 +797,7 @@ const MainApp: React.FC = () => {
         favSections.push({
           key: 'FAV_OFF_DUTY',
           title: t.groupTitleFavOffDuty,
-          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          badgeStyle: 'bg-zinc-700 text-white',
           girls: offDutyFavs,
           favCount: offDutyFavs.length
         });
@@ -813,7 +813,7 @@ const MainApp: React.FC = () => {
         {
           key: 'ALL_FLAT',
           title: t.areaAll,
-          badgeStyle: 'from-gray-800 to-gray-900 text-white',
+          badgeStyle: 'bg-zinc-800 text-white',
           girls: allGirls,
           favCount: countFavs(allGirls),
           hideHeader: true
@@ -845,8 +845,8 @@ const MainApp: React.FC = () => {
         : `${selectedDate} (${relInfo.badgeText}) • ${t.groupTitleOnDutySection}`;
 
       const onDutyBadgeStyle = relInfo.isToday
-        ? 'from-rose-600 via-pink-600 to-rkg-crimson text-white shadow-md ring-1 ring-white/40 animate-pulse'
-        : 'from-rkg-pink-deep to-rkg-crimson text-white shadow-sm';
+        ? 'bg-rose-700 text-white ring-1 ring-white/40'
+        : 'bg-rose-800 text-white';
 
       const daySections: GroupSection[] = [];
       if (onDutyGirls.length > 0) {
@@ -863,7 +863,7 @@ const MainApp: React.FC = () => {
         daySections.push({
           key: `DAY_${selectedDate}_OFF_DUTY`,
           title: `${selectedDate} ${t.groupTitleOffDuty}`,
-          badgeStyle: 'from-gray-500 to-gray-600 text-white shadow-sm',
+          badgeStyle: 'bg-zinc-700 text-white',
           girls: offDutyGirls,
           favCount: countFavs(offDutyGirls),
           date: selectedDate
@@ -926,8 +926,8 @@ const MainApp: React.FC = () => {
           key: 'SEAT_CONTINUOUS',
           title: areaFilter === 'SEAT_ZONE' ? t.seatSpecialZone : t.groupTitleSeatAllMatch,
           badgeStyle: areaFilter === 'SEAT_ZONE'
-            ? 'from-amber-500 via-rose-600 to-amber-600 text-white shadow-md ring-1 ring-amber-300/60 font-black'
-            : 'from-fuchsia-600 to-pink-600 text-white shadow-sm',
+            ? 'bg-[#c59b27] text-[#1a0007] font-black'
+            : 'bg-rose-700 text-white font-bold',
           girls: continuousGirls,
           favCount: countFavs(continuousGirls),
           date: selectedDate
@@ -939,7 +939,7 @@ const MainApp: React.FC = () => {
         seatSections.push({
           key: 'SEAT_PERIOD_13',
           title: t.groupTitleSeat13,
-          badgeStyle: 'from-sky-600 to-indigo-600 text-white shadow-sm',
+          badgeStyle: 'bg-blue-800 text-white font-bold',
           girls: p13Girls,
           favCount: countFavs(p13Girls),
           date: selectedDate
@@ -951,7 +951,7 @@ const MainApp: React.FC = () => {
         seatSections.push({
           key: 'SEAT_PERIOD_MID',
           title: t.groupTitleSeatMid,
-          badgeStyle: 'from-amber-500 to-orange-500 text-white shadow-sm',
+          badgeStyle: 'bg-amber-600 text-white font-bold',
           girls: midGirls,
           favCount: countFavs(midGirls),
           date: selectedDate
@@ -963,7 +963,7 @@ const MainApp: React.FC = () => {
         seatSections.push({
           key: 'SEAT_PERIOD_78',
           title: t.groupTitleSeat78,
-          badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
+          badgeStyle: 'bg-rose-800 text-white font-bold',
           girls: p78Girls,
           favCount: countFavs(p78Girls),
           date: selectedDate
@@ -997,7 +997,7 @@ const MainApp: React.FC = () => {
       {
         key: 'ZONE',
         title: `看台專區應援女孩 (${groups.ZONE.length} 位)`,
-        badgeStyle: 'from-amber-500 via-amber-400 to-amber-600 text-[#1a0007] shadow-md ring-1 ring-amber-400/40 font-black',
+        badgeStyle: 'bg-[#c59b27] text-[#1a0007] font-black',
         girls: groups.ZONE,
         favCount: countFavs(groups.ZONE),
         date: selectedDate
@@ -1007,7 +1007,7 @@ const MainApp: React.FC = () => {
         title: selectedDate
           ? `${selectedDate} 一壘東區應援 (${groups.EAST.length} 位)`
           : `${t.groupTitleEast} (${groups.EAST.length} 位)`,
-        badgeStyle: 'from-blue-600 to-indigo-600 text-white shadow-sm',
+        badgeStyle: 'bg-blue-800 text-white font-bold',
         girls: groups.EAST,
         favCount: countFavs(groups.EAST),
         date: selectedDate
@@ -1017,7 +1017,7 @@ const MainApp: React.FC = () => {
         title: selectedDate
           ? `${selectedDate} 三壘西區應援 (${groups.WEST.length} 位)`
           : `${t.groupTitleWest} (${groups.WEST.length} 位)`,
-        badgeStyle: 'from-emerald-600 to-teal-600 text-white shadow-sm',
+        badgeStyle: 'bg-emerald-800 text-white font-bold',
         girls: groups.WEST,
         favCount: countFavs(groups.WEST),
         date: selectedDate
@@ -1027,7 +1027,7 @@ const MainApp: React.FC = () => {
         title: selectedDate
           ? `${selectedDate} 特殊區域（東R／西R／大樂） (${groups.SPECIAL.length} 位)`
           : `${t.groupTitleSpecial} (${groups.SPECIAL.length} 位)`,
-        badgeStyle: 'from-purple-600 to-pink-600 text-white shadow-sm',
+        badgeStyle: 'bg-rose-800 text-white font-bold',
         girls: groups.SPECIAL,
         favCount: countFavs(groups.SPECIAL),
         date: selectedDate
@@ -1035,7 +1035,7 @@ const MainApp: React.FC = () => {
       {
         key: 'UNASSIGNED',
         title: `${selectedDate ? `${selectedDate} ` : ''}未安排站位／待公布 (${groups.UNASSIGNED.length} 位)`,
-        badgeStyle: 'from-gray-600 to-gray-700 text-white shadow-sm',
+        badgeStyle: 'bg-gray-700 text-white font-bold',
         girls: groups.UNASSIGNED,
         favCount: countFavs(groups.UNASSIGNED),
         date: selectedDate
@@ -1048,7 +1048,7 @@ const MainApp: React.FC = () => {
   }, [filteredGirls, favorites, selectedDate, areaFilter, schedule, t]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fff8f9] dark:bg-gradient-to-b dark:from-[#140104] dark:via-[#1c0208] dark:to-[#140104] text-slate-800 dark:text-[#fff5f5] transition-colors duration-300">
+    <div className="min-h-[100dvh] flex flex-col bg-[#fff8fa] dark:bg-[#120104] text-slate-800 dark:text-[#fff5f5] transition-colors duration-300 overflow-x-hidden">
         {/* 1. Header */}
         <Header
           activeTab={activeTab}
@@ -1074,20 +1074,16 @@ const MainApp: React.FC = () => {
             upcomingDates.length === 0 ? (
               /* 當期班表更新中 / 無當期賽事專屬引導視圖 */
               <div className="py-8 sm:py-12 max-w-2xl w-full mx-auto">
-                <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-oled-card border border-pink-100 dark:border-oled-border shadow-xl p-6 sm:p-10 text-center space-y-6">
-                  {/* 背景氛圍光效 */}
-                  <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-gradient-to-br from-pink-400/10 to-rose-500/10 blur-2xl pointer-events-none" />
-                  <div className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full bg-gradient-to-tr from-amber-400/10 to-pink-500/10 blur-2xl pointer-events-none" />
-
+                <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-[#1f050b] p-6 sm:p-10 text-center space-y-6">
                   {/* 圖標與徽章 */}
-                  <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-50 via-pink-100 to-amber-50 dark:from-rose-950/40 dark:via-pink-900/30 dark:to-amber-950/20 text-rkg-crimson dark:text-pink-400 border border-pink-200/60 dark:border-rose-800/40 shadow-inner">
+                  <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-pink-100 dark:bg-[#2e0710] text-[#890022] dark:text-pink-300">
                     <CalendarX2 className="w-10 h-10 stroke-[1.75]" />
                   </div>
 
                   {/* 標題與說明 */}
                   <div className="space-y-3">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-pink-100 dark:bg-rose-950/60 text-rkg-crimson dark:text-rose-300 border border-pink-200 dark:border-rose-900/60">
-                      <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-pink-100 dark:bg-rose-950/60 text-[#890022] dark:text-rose-300">
+                      <span className="w-2 h-2 rounded-full bg-amber-500" />
                       <span>{t.noScheduleTitle}</span>
                     </div>
                     <h2 className="text-xl sm:text-2xl font-black text-slate-800 dark:text-white tracking-tight">
@@ -1104,7 +1100,7 @@ const MainApp: React.FC = () => {
                       href={SHEET_HTMLVIEW_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-sm sm:text-base shadow-lg hover:shadow-xl active:scale-[0.98] transition-all duration-200 ring-2 ring-emerald-400/30"
+                      className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-sm sm:text-base active:scale-[0.98] transition-colors duration-200"
                     >
                       <FileSpreadsheet className="w-5 h-5" />
                       <span>{t.openOfficialSheet}</span>
@@ -1113,17 +1109,17 @@ const MainApp: React.FC = () => {
                   </div>
 
                   {/* 周邊功能快捷入口 */}
-                  <div className="pt-4 border-t border-slate-100 dark:border-oled-border/80 flex flex-wrap items-center justify-center gap-3">
+                  <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
                     <button
                       onClick={() => setActiveTab('INSTAGRAM')}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-50 dark:bg-oled-elevated hover:bg-pink-100 dark:hover:bg-slate-800 text-xs font-bold text-rkg-crimson dark:text-pink-300 border border-pink-200/70 dark:border-oled-border transition cursor-pointer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-pink-100 dark:bg-[#28070f] hover:bg-pink-200 text-xs font-bold text-[#890022] dark:text-pink-300 transition-colors cursor-pointer"
                     >
                       <Users className="w-4 h-4" />
                       <span>{t.viewGirlsRoster}</span>
                     </button>
                     <button
                       onClick={() => setIsStadiumGuideOpen(true)}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-oled-elevated hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-oled-border transition cursor-pointer"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-[#28070f] hover:bg-slate-200 text-xs font-bold text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
                     >
                       <Map className="w-4 h-4" />
                       <span>{t.viewStadiumGuide}</span>
@@ -1132,7 +1128,7 @@ const MainApp: React.FC = () => {
 
                   {/* 同步時間提示 */}
                   {schedule.lastUpdated && (
-                    <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
                       最後同步檢查：{schedule.lastUpdated}
                     </div>
                   )}
@@ -1147,10 +1143,10 @@ const MainApp: React.FC = () => {
 
                 if (isCurrentToday) {
                   return (
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rose-600 via-pink-600 to-rkg-crimson py-2 px-3 sm:py-2.5 sm:px-4 text-white mb-2 sm:mb-2.5 shadow-md ring-1.5 ring-pink-400/40">
+                    <div className="relative overflow-hidden rounded-2xl bg-[#890022] py-2.5 px-3 sm:px-4 text-white mb-2 sm:mb-2.5">
                       <div className="relative z-10">
                         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1">
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-rose-700 text-[10px] font-black shadow-sm">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-rose-800 text-[10px] font-black">
                             <Flame className="w-3 h-3 text-amber-500 fill-amber-500" />
                             <span>{t.todayScheduleBannerBadge}</span>
                           </span>
@@ -1165,21 +1161,19 @@ const MainApp: React.FC = () => {
                           {t.todayScheduleBannerDesc}
                         </p>
                       </div>
-                      <div className="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                      <div className="absolute right-16 -top-8 w-28 h-28 rounded-full bg-amber-400/20 blur-lg pointer-events-none" />
                     </div>
                   );
                 }
 
                 return (
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-rkg-crimson via-rkg-crimson-light to-rkg-pink py-2 px-3 sm:py-2.5 sm:px-4 text-white mb-2 sm:mb-2.5 shadow-sm">
+                  <div className="relative overflow-hidden rounded-2xl bg-[#24040c] py-2.5 px-3 sm:px-4 text-white mb-2 sm:mb-2.5">
                     <div className="relative z-10">
                       <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5">
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-[10px] font-bold text-amber-200">
                           <Sparkles className="w-2.5 h-2.5 text-amber-300" />
                           <span>{t.bannerBadge}</span>
                         </span>
-                        <span className="text-xs font-bold tracking-tight">
+                        <span className="text-xs font-bold tracking-tight text-white">
                           {t.bannerTitle}
                         </span>
                       </div>
@@ -1189,8 +1183,6 @@ const MainApp: React.FC = () => {
                           : t.bannerDesc}
                       </p>
                     </div>
-                    <div className="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-white/10 blur-xl pointer-events-none" />
-                    <div className="absolute right-16 -top-8 w-24 h-24 rounded-full bg-pink-300/20 blur-lg pointer-events-none" />
                   </div>
                 );
               })()}
@@ -1244,19 +1236,19 @@ const MainApp: React.FC = () => {
                     <section key={sec.key} className="space-y-3.5">
                       {/* Section Header (若 hideHeader 為 true 則不渲染) */}
                       {!sec.hideHeader && (
-                        <div className="flex items-center justify-between px-1 border-b border-pink-100/70 dark:border-oled-border pb-2">
+                        <div className="flex items-center justify-between px-1 pb-2">
                           <div className="flex items-center gap-2">
-                            <span className={`px-2.5 py-1 rounded-full text-xs font-black bg-gradient-to-r ${sec.badgeStyle}`}>
+                            <span className={`px-3 py-1 rounded-full text-xs font-black ${sec.badgeStyle}`}>
                               {sec.title}
                             </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">
+                            <span className="text-xs text-gray-600 dark:text-gray-300 font-semibold">
                               {sec.girls.length} 位
                             </span>
                           </div>
 
                           {sec.favCount > 0 && (
-                            <div className="flex items-center gap-1 text-[11px] font-bold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full border border-rose-200/80 dark:border-rose-800/60">
-                              <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
+                            <div className="flex items-center gap-1 text-xs font-bold text-rose-700 dark:text-rose-300 bg-pink-100 dark:bg-rose-950/40 px-2.5 py-0.5 rounded-full">
+                              <Heart className="w-3.5 h-3.5 fill-rose-500 text-rose-500" />
                               <span>{sec.favCount} 位最愛</span>
                             </div>
                           )}
@@ -1308,7 +1300,7 @@ const MainApp: React.FC = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-16 bg-white/80 dark:bg-oled-surface rounded-3xl border border-dashed border-pink-200 dark:border-oled-border p-8 shadow-sm">
+                <div className="text-center py-16 bg-white dark:bg-oled-surface rounded-3xl p-8">
                   <AlertCircle className="w-10 h-10 text-pink-300 dark:text-pink-500 mx-auto mb-3" />
                   <h4 className="text-base font-bold text-gray-700 dark:text-gray-200 mb-1">
                     {areaFilter === 'PERIOD_MID' ? t.noMidPerformance : t.noMatchTitle}
@@ -1350,24 +1342,24 @@ const MainApp: React.FC = () => {
           )}
         </main>
 
-        {/* 4. Footer */}
-        <footer className="mt-12 bg-white dark:bg-oled-surface border-t border-pink-100 dark:border-oled-border text-center py-8 text-xs text-gray-500 dark:text-gray-400">
-          <div className="max-w-4xl mx-auto px-4 space-y-4">
+        {/* 4. Footer (The back of the card 實體典藏卡背面風格) */}
+        <footer className="mt-14 bg-[#fceef1] dark:bg-[#160105] text-center py-10 text-sm text-gray-700 dark:text-gray-300">
+          <div className="max-w-4xl mx-auto px-4 space-y-5">
             {/* Language Switcher in Footer */}
             <div className="flex items-center justify-center gap-2">
-              <span className="text-xs font-semibold text-gray-600 dark:text-gray-300 flex items-center gap-1">
-                <Globe className="w-3.5 h-3.5 text-rkg-pink" />
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-1">
+                <Globe className="w-4 h-4 text-[#890022] dark:text-amber-400" />
                 <span>{t.switchLanguage}：</span>
               </span>
-              <div className="inline-flex items-center gap-1 bg-pink-50/80 dark:bg-oled-card p-1 rounded-2xl border border-pink-100 dark:border-oled-border shadow-sm">
+              <div className="inline-flex items-center gap-1 bg-white/80 dark:bg-[#25050c] p-1 rounded-2xl">
                 {(['zh-TW', 'ja', 'ko'] as Language[]).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold transition active:scale-95 ${
+                    className={`px-3 py-1 rounded-xl text-sm font-bold transition-colors cursor-pointer ${
                       language === lang
-                        ? 'bg-gradient-to-r from-rkg-pink-deep to-rkg-crimson text-white shadow-sm'
-                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                        ? 'bg-[#890022] text-white'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >
                     {lang === 'zh-TW' ? '繁體中文' : lang === 'ja' ? '日本語' : '한국어'}
@@ -1377,12 +1369,12 @@ const MainApp: React.FC = () => {
             </div>
 
             {/* Links */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
+            <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-semibold text-gray-700 dark:text-gray-300">
               <a
                 href="https://docs.google.com/spreadsheets/d/1w6j9q349x-5bK2K2v1e_0U6T20vB_o_8-pY5c7rQ4oM/htmlview"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-rkg-pink-deep dark:hover:text-pink-400 transition"
+                className="hover:text-[#890022] dark:hover:text-pink-300 transition-colors"
               >
                 {t.googleSheetLink}
               </a>
@@ -1391,7 +1383,7 @@ const MainApp: React.FC = () => {
                 href="https://monkeys.rakuten.com.tw/girls"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-rkg-pink-deep dark:hover:text-pink-400 transition"
+                className="hover:text-[#890022] dark:hover:text-pink-300 transition-colors"
               >
                 {t.officialRosterLink}
               </a>
@@ -1400,19 +1392,19 @@ const MainApp: React.FC = () => {
                 href="https://www.instagram.com/rakutengirls/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-rkg-pink-deep dark:hover:text-pink-400 transition"
+                className="hover:text-[#890022] dark:hover:text-pink-300 transition-colors"
               >
                 {t.officialIgLink}
               </a>
             </div>
 
             {/* Vibe Coding Notice */}
-            <div className="p-3 rounded-2xl bg-pink-50/50 dark:bg-oled-card/60 border border-pink-100/70 dark:border-oled-border text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
+            <div className="p-4 rounded-2xl bg-white/60 dark:bg-[#20050a] text-base text-gray-700 dark:text-gray-300 leading-relaxed max-w-[55ch] mx-auto">
               {t.vibeCodingNotice}
             </div>
 
             {/* Disclaimer Copyright */}
-            <p className="text-[11px] text-gray-400 dark:text-gray-500">
+            <p className="text-base text-gray-600 dark:text-gray-400 max-w-[55ch] mx-auto">
               {t.disclaimerCopyright}
             </p>
           </div>
@@ -1481,7 +1473,7 @@ const MainApp: React.FC = () => {
 
         {/* 8. Light Toast Notification */}
         {toastMessage && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-[#1a0007] font-black text-xs sm:text-sm shadow-2xl border border-amber-300 ring-2 ring-amber-400/40 animate-bounce">
+          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-[#c59b27] text-[#1a0007] font-black text-xs sm:text-sm">
             <CheckCircle2 className="w-4 h-4 text-[#1a0007] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
