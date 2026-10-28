@@ -38,19 +38,23 @@ function toBase64(relPath) {
   return '';
 }
 
-// 8 featured avatars for bottom strip
+// Target main girls: 貝佳頤 (id: 423, #8) & Kira (id: 339, #19)
+const beijiayi = girls.find(g => g.id === '423') || { name: '貝佳頤', number: '8' };
+const kira = girls.find(g => g.id === '339') || { name: 'Kira', number: '19' };
+
+// Avatars for bottom strip: Prioritize 貝佳頤 & Kira, then others
 const stripGirls = [
-  girls.find(g => g.id === '94') || girls[0],  // 琳妲
-  girls.find(g => g.id === '253') || girls[1], // 宋宋
-  girls.find(g => g.id === '431') || girls[2], // 河智媛
-  girls.find(g => g.id === '331') || girls[3], // 高橋佳帆
-  girls.find(g => g.id === '422') || girls[4], // 岱縈
-  girls.find(g => g.id === '244') || girls[5], // 若潼
-  girls.find(g => g.id === '335') || girls[6], // 嘎琳
-  girls.find(g => g.id === '91') || girls[7],  // 孟潔
-  girls.find(g => g.id === '385') || girls[8], // Mika
-  girls.find(g => g.id === '465') || girls[9], // 穆又甯
-];
+  beijiayi,
+  kira,
+  girls.find(g => g.id === '253'), // 宋宋
+  girls.find(g => g.id === '431'), // 河智媛
+  girls.find(g => g.id === '94'),  // 琳妲
+  girls.find(g => g.id === '331'), // 高橋佳帆
+  girls.find(g => g.id === '422'), // 岱縈
+  girls.find(g => g.id === '244'), // 若潼
+  girls.find(g => g.id === '335'), // 嘎琳
+  girls.find(g => g.id === '91'),  // 孟潔
+].filter(Boolean);
 
 const deskCalendarSvg = `
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,12 +66,12 @@ const deskCalendarSvg = `
 </svg>
 `;
 
-// HTML template with true 2027 RKG Calendar aesthetic
+// HTML template centered around 貝佳頤 & Kira
 const html = `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="utf-8">
-  <title>2027 RKG Calendar OG</title>
+  <title>2027 RKG Calendar OG - 貝佳頤 & Kira 特輯</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
@@ -83,8 +87,8 @@ const html = `<!DOCTYPE html>
       overflow: hidden;
       background-color: #170105;
       background-image: 
-        radial-gradient(circle at 78% 42%, #520214 0%, #30020c 45%, #150105 100%),
-        radial-gradient(circle at 15% 85%, rgba(137, 0, 34, 0.4) 0%, transparent 55%);
+        radial-gradient(circle at 80% 40%, #540316 0%, #2f020b 48%, #140105 100%),
+        radial-gradient(circle at 12% 85%, rgba(137, 0, 34, 0.45) 0%, transparent 55%);
       font-family: 'Noto Sans TC', sans-serif;
       position: relative;
       color: #fff;
@@ -127,11 +131,11 @@ const html = `<!DOCTYPE html>
     /* Background Ambient Rays & Soft Glow */
     .bg-glow-right {
       position: absolute;
-      right: 60px;
-      top: 60px;
-      width: 580px;
-      height: 500px;
-      background: radial-gradient(ellipse at center, rgba(255, 182, 193, 0.12) 0%, rgba(137, 0, 34, 0.35) 45%, transparent 75%);
+      right: 50px;
+      top: 50px;
+      width: 600px;
+      height: 520px;
+      background: radial-gradient(ellipse at center, rgba(255, 192, 203, 0.14) 0%, rgba(137, 0, 34, 0.38) 45%, transparent 75%);
       filter: blur(40px);
       pointer-events: none;
     }
@@ -209,13 +213,14 @@ const html = `<!DOCTYPE html>
 
     .lead-tagline {
       margin-top: 14px;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 600;
       color: #f7d070;
-      letter-spacing: 1.2px;
+      letter-spacing: 0.8px;
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
     }
 
     .pills-bar {
@@ -283,8 +288,8 @@ const html = `<!DOCTYPE html>
       align-items: center;
     }
     .stack-img {
-      width: 29px;
-      height: 29px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1.5px solid #e5c07b;
       margin-left: -9px;
@@ -294,32 +299,40 @@ const html = `<!DOCTYPE html>
     }
     .stack-img:first-child {
       margin-left: 0;
+      border: 2px solid #f7d070;
+      transform: scale(1.1);
+      z-index: 2;
+    }
+    .stack-img:nth-child(2) {
+      border: 2px solid #f7d070;
+      transform: scale(1.08);
+      z-index: 1;
     }
 
-    /* Right Showcase: Real Physical Desk Calendars */
+    /* Right Showcase Stage: 貝佳頤 & Kira 雙主視覺展演 */
     .right-stage {
       position: absolute;
       top: 0;
       right: 0;
-      width: 610px;
+      width: 620px;
       height: 630px;
     }
 
-    /* Desk Calendar Container 1: River 河智媛 (Top/Back, Inner Double-Page Display) */
+    /* Desk Calendar Container 1: Kira No.19 (Top/Back, 官方 2027 睡衣草莓封面) */
     .stage-item-back {
       position: absolute;
       top: 36px;
-      right: 48px;
-      width: 440px;
-      height: 255px;
-      border-radius: 14px;
+      right: 42px;
+      width: 470px;
+      height: 275px;
+      border-radius: 16px;
       overflow: hidden;
       background: #ffffff;
       box-shadow: 
-        0 20px 45px rgba(0,0,0,0.85),
+        0 24px 50px rgba(0,0,0,0.85),
         0 0 0 1.5px rgba(255, 255, 255, 0.25);
-      transform: rotate(5deg);
-      filter: brightness(0.92);
+      transform: rotate(4.5deg);
+      filter: brightness(0.95);
       z-index: 2;
     }
 
@@ -330,44 +343,48 @@ const html = `<!DOCTYPE html>
       position: relative;
     }
 
-    /* Crop the real physical calendar from inner image (Top calendar: River white knitwear) */
+    /* Crop Kira's 2027 physical desk calendar (focusing on Kira + Neon Pink 2027) */
     .stage-item-back img {
       position: absolute;
       width: 100%;
-      top: -8%;
+      top: -30%;
       left: 0;
     }
 
     .tag-back {
       position: absolute;
-      bottom: 8px;
-      left: 14px;
-      background: rgba(137, 0, 34, 0.9);
-      color: #fff;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      letter-spacing: 0.8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      top: 12px;
+      right: 14px;
+      background: linear-gradient(135deg, #890022 0%, #4a0013 100%);
+      color: #fce38a;
+      border: 1.5px solid rgba(247, 208, 112, 0.85);
+      font-size: 12.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
       z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
-    /* Desk Calendar Container 2: Song 宋宋 (Front/Main, Official 2027 Cover) */
+    /* Desk Calendar Container 2: 貝佳頤 No.08 (Front/Main, 官方 2027 泳裝碧綠封面) */
     .stage-item-front {
       position: absolute;
-      top: 215px;
+      top: 220px;
       right: 55px;
-      width: 490px;
-      height: 290px;
+      width: 495px;
+      height: 295px;
       border-radius: 16px;
       overflow: hidden;
       background: #ffffff;
       box-shadow: 
-        0 30px 65px -10px rgba(0,0,0,0.95),
-        0 0 0 2px rgba(247, 208, 112, 0.8),
-        0 0 45px rgba(137, 0, 34, 0.55);
-      transform: rotate(-3deg);
+        0 32px 70px -10px rgba(0,0,0,0.95),
+        0 0 0 2px rgba(247, 208, 112, 0.85),
+        0 0 50px rgba(137, 0, 34, 0.6);
+      transform: rotate(-3.5deg);
       z-index: 4;
     }
 
@@ -378,7 +395,7 @@ const html = `<!DOCTYPE html>
       position: relative;
     }
 
-    /* Crop the real physical calendar from cover image (Song #6) */
+    /* Crop 貝佳頤's 2027 physical desk calendar */
     .stage-item-front img {
       position: absolute;
       width: 100%;
@@ -390,36 +407,36 @@ const html = `<!DOCTYPE html>
       position: absolute;
       bottom: 10px;
       right: 14px;
-      background: linear-gradient(135deg, #890022 0%, #540015 100%);
+      background: linear-gradient(135deg, #890022 0%, #4a0013 100%);
       color: #fce38a;
-      border: 1px solid rgba(247, 208, 112, 0.7);
-      font-size: 12px;
-      font-weight: 800;
-      padding: 4px 10px;
+      border: 1.5px solid rgba(247, 208, 112, 0.85);
+      font-size: 13px;
+      font-weight: 900;
+      padding: 5px 12px;
       border-radius: 6px;
       letter-spacing: 1px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
       z-index: 5;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
 
-    /* Desk Calendar Container 3: Linda 琳妲 (Left Wing Accent) */
+    /* Desk Calendar Container 3: 貝佳頤 No.08 內頁寫真 (Left Wing Accent) */
     .stage-item-left {
       position: absolute;
-      top: 135px;
-      right: 370px;
-      width: 200px;
-      height: 240px;
-      border-radius: 12px;
+      top: 130px;
+      right: 380px;
+      width: 215px;
+      height: 250px;
+      border-radius: 14px;
       overflow: hidden;
       background: #ffffff;
       box-shadow: 
-        0 18px 40px rgba(0,0,0,0.8),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-      transform: rotate(-9deg);
-      filter: brightness(0.88);
+        0 20px 42px rgba(0,0,0,0.8),
+        0 0 0 1px rgba(255, 255, 255, 0.22);
+      transform: rotate(-10deg);
+      filter: brightness(0.9);
       z-index: 3;
     }
     .stage-item-left .cropper {
@@ -430,19 +447,19 @@ const html = `<!DOCTYPE html>
     }
     .stage-item-left img {
       position: absolute;
-      width: 160%;
-      top: -24%;
-      left: -30%;
+      width: 175%;
+      top: -14%;
+      left: -20%;
     }
     .tag-left {
       position: absolute;
-      bottom: 6px;
-      left: 8px;
-      background: rgba(40, 4, 10, 0.9);
+      bottom: 8px;
+      left: 10px;
+      background: rgba(40, 4, 10, 0.92);
       color: #fce38a;
-      font-size: 10.5px;
-      font-weight: 700;
-      padding: 2px 6px;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
       border-radius: 4px;
       z-index: 5;
     }
@@ -452,9 +469,9 @@ const html = `<!DOCTYPE html>
       position: absolute;
       bottom: 40px;
       right: 30px;
-      width: 540px;
+      width: 550px;
       height: 40px;
-      background: radial-gradient(ellipse at center, rgba(247, 208, 112, 0.3) 0%, rgba(137, 0, 34, 0.4) 45%, transparent 75%);
+      background: radial-gradient(ellipse at center, rgba(247, 208, 112, 0.35) 0%, rgba(137, 0, 34, 0.45) 45%, transparent 75%);
       filter: blur(16px);
       z-index: 1;
       pointer-events: none;
@@ -483,7 +500,7 @@ const html = `<!DOCTYPE html>
 
     <div class="lead-tagline">
       <span>❖</span>
-      <span>全系列 27 位女孩個人專屬典藏・熱烈預購中</span>
+      <span>貝佳頤、Kira 等全系列 27 位女孩專屬典藏・熱烈預購中</span>
     </div>
 
     <div class="pills-bar">
@@ -511,34 +528,37 @@ const html = `<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- Right Showcase Stage -->
+  <!-- Right Showcase Stage: 貝佳頤 & Kira 雙主視覺 -->
   <div class="right-stage">
     <div class="stage-ground"></div>
 
-    <!-- 1. Left Wing: Linda #00 -->
+    <!-- 1. Left Wing: 貝佳頤 #08 (私服內頁寫真) -->
     <div class="stage-item-left">
       <div class="cropper">
-        <img src="${toBase64('photos/calendar_94.jpg')}" alt="琳妲 2027 桌曆">
+        <img src="${toBase64('photos/calendar_inner_423.jpg')}" alt="貝佳頤 2027 桌曆內頁寫真">
       </div>
-      <div class="tag-left">#00 琳妲</div>
+      <div class="tag-left">#8 貝佳頤・寫真內頁</div>
     </div>
 
-    <!-- 2. Back Top: River 河智媛 (寫真桌曆) -->
+    <!-- 2. Back Top: Kira #19 (官方封面桌曆) -->
     <div class="stage-item-back">
       <div class="cropper">
-        <img src="${toBase64('photos/calendar_inner_431.jpg')}" alt="河智媛 2027 桌曆內頁寫真">
+        <img src="${toBase64('photos/calendar_339.jpg')}" alt="Kira 2027 官方寫真桌曆">
       </div>
-      <div class="tag-back">#22 河智媛・個人寫真桌曆</div>
+      <div class="tag-back">
+        <span>★</span>
+        <span>#19 Kira・官方寫真桌曆</span>
+      </div>
     </div>
 
-    <!-- 3. Front Main: Song 宋宋 (2027 官方封面) -->
+    <!-- 3. Front Main: 貝佳頤 #08 (官方封面桌曆) -->
     <div class="stage-item-front">
       <div class="cropper">
-        <img src="${toBase64('photos/calendar_253.jpg')}" alt="宋宋 2027 桌曆封面">
+        <img src="${toBase64('photos/calendar_423.jpg')}" alt="貝佳頤 2027 官方寫真桌曆">
       </div>
       <div class="tag-front">
         <span>★</span>
-        <span>#6 宋宋・官方寫真桌曆</span>
+        <span>#8 貝佳頤・官方寫真桌曆</span>
       </div>
     </div>
   </div>
@@ -546,7 +566,7 @@ const html = `<!DOCTYPE html>
 </html>
 `;
 
-const tempHtml = path.resolve('temp_og_calendar_v2.html');
+const tempHtml = path.resolve('temp_og_calendar_beijiayi_kira.html');
 const outPng = path.resolve('public/og-image.png');
 
 fs.writeFileSync(tempHtml, html, 'utf-8');
@@ -555,11 +575,11 @@ const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.
 const fileUrl = `file:///${tempHtml.replace(/\\/g, '/')}`;
 const cmd = `"${edgePath}" --headless --disable-gpu --window-size=1200,630 --screenshot="${outPng}" "${fileUrl}"`;
 
-console.log('Rendering upgraded 2027 Calendar OG image with Edge...');
+console.log('Rendering 2027 Calendar OG image (貝佳頤 & Kira) with Edge...');
 execSync(cmd, { stdio: 'inherit' });
 
 if (fs.existsSync(outPng)) {
   const stat = fs.statSync(outPng);
-  console.log(`Success! Upgraded OG Image created. Size: ${stat.size} bytes`);
+  console.log(`Success! OG Image created. Size: ${stat.size} bytes`);
   fs.unlinkSync(tempHtml);
 }
