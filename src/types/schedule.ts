@@ -9,6 +9,8 @@ export interface GirlProfile {
   localPhoto: string;
   calendarCover?: string;
   localCalendarCover?: string;
+  calendarInner?: string;
+  localCalendarInner?: string;
   instagram: string | null;
   instagramHandle: string | null;
   calendarUrl?: string | null;

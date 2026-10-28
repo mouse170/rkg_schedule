@@ -76,6 +76,18 @@ export interface Translations {
   deskCalendarPreorder: string;
   allDeskCalendars: string;
   deskCalendarNotice: string;
+  photoViewCover: string;
+  photoViewInner: string;
+  calendarGalleryTitle: string;
+  calendarSpecTitle: string;
+  calendarSpecSize: string;
+  calendarSpecPages: string;
+  calendarSpecPrice: string;
+  calendarSpecShipping: string;
+  photoCoverBadge: string;
+  photoInnerBadge: string;
+  viewCoverPhoto: string;
+  viewInnerPhoto: string;
 
   // FilterBar & Areas
   areaAll: string;
@@ -383,6 +395,18 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deskCalendarPreorder: '買桌曆',
     allDeskCalendars: '立即預購 2027 全體桌曆',
     deskCalendarNotice: '2027 RKG 個人專屬桌曆熱烈預購中，立即選購心儀女孩桌曆！',
+    photoViewCover: '封面寫真',
+    photoViewInner: '內頁展開',
+    calendarGalleryTitle: '2027 桌曆雙面寫真鑑賞',
+    calendarSpecTitle: '桌曆規格與預購資訊',
+    calendarSpecSize: '總尺寸 W 24 × H 19 cm',
+    calendarSpecPages: '左側月曆（16.5 × 12 cm）＋ 右側明信片（7.5 × 12 cm）',
+    calendarSpecPrice: '官方預購價 NT$ 699',
+    calendarSpecShipping: '12/15 起依訂單序陸續出貨',
+    photoCoverBadge: '桌曆封面',
+    photoInnerBadge: '月曆與明信片',
+    viewCoverPhoto: '封面',
+    viewInnerPhoto: '內頁',
 
     areaAll: '全部女孩',
     areaEast: '一壘東區',
@@ -677,6 +701,18 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deskCalendarPreorder: '買桌曆',
     allDeskCalendars: '2027 全員カレンダーを今すぐ予約',
     deskCalendarNotice: '2027 RKG 個人卓上カレンダー好評予約受付中！',
+    photoViewCover: '表紙写真',
+    photoViewInner: '中面プレビュー',
+    calendarGalleryTitle: '2027 カレンダー写真ギャラリー',
+    calendarSpecTitle: 'カレンダー仕様・予約情報',
+    calendarSpecSize: 'サイズ W 24 × H 19 cm',
+    calendarSpecPages: '左側カレンダー（16.5 × 12 cm）＋ 右側ポストカード（7.5 × 12 cm）',
+    calendarSpecPrice: '公式予約価格 NT$ 699',
+    calendarSpecShipping: '12/15 より順次発送開始',
+    photoCoverBadge: '表紙',
+    photoInnerBadge: '月暦＆ポストカード',
+    viewCoverPhoto: '表紙',
+    viewInnerPhoto: '中面',
 
     areaAll: '全メンバー',
     areaEast: '1塁側 東エリア',
@@ -971,6 +1007,18 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     deskCalendarPreorder: '買桌曆',
     allDeskCalendars: '2027 전체 탁상달력 지금 구매하기',
     deskCalendarNotice: '2027 RKG 개인 탁상달력 절찬 예약 판매 진행 중!',
+    photoViewCover: '커버 화보',
+    photoViewInner: '내지 펼침면',
+    calendarGalleryTitle: '2027 탁상달력 화보 갤러리',
+    calendarSpecTitle: '달력 규격 및 예약 정보',
+    calendarSpecSize: '전체 크기 W 24 × H 19 cm',
+    calendarSpecPages: '좌측 달력 (16.5 × 12 cm) ＋ 우측 엽서 (7.5 × 12 cm)',
+    calendarSpecPrice: '공식 예약가 NT$ 699',
+    calendarSpecShipping: '12/15 부터 순차 배송 예정',
+    photoCoverBadge: '커버',
+    photoInnerBadge: '달력 & 엽서',
+    viewCoverPhoto: '커버',
+    viewInnerPhoto: '내지',
 
     areaAll: '전체 멤버',
     areaEast: '1루 동구역',

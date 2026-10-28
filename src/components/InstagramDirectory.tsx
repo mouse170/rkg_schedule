@@ -21,7 +21,17 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
   const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'TAIWAN' | 'FOREIGN' | 'FAVORITES'>('ALL');
+  const [photoPerspective, setPhotoPerspective] = useState<'COVER' | 'INNER'>('COVER');
+  const [cardPhotoOverrides, setCardPhotoOverrides] = useState<Record<string, 'COVER' | 'INNER'>>({});
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  const toggleCardPhoto = (e: React.MouseEvent, girlId: string, mode: 'COVER' | 'INNER') => {
+    e.stopPropagation();
+    setCardPhotoOverrides(prev => ({
+      ...prev,
+      [girlId]: mode
+    }));
+  };
 
   const handleCopy = (e: React.MouseEvent, text: string, key: string) => {
     e.stopPropagation();
@@ -153,21 +163,55 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
       </section>
 
       {/* 2. Search & Filter Bar (純色扁平控制列) */}
-      <section className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={t.searchPlaceholder}
-            className="w-full pl-10 pr-4 py-2.5 bg-[#fceef1] dark:bg-[#1f050b] hover:bg-[#fae2e7] dark:hover:bg-[#28070f] focus:bg-white dark:focus:bg-[#1a0308] text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#890022] transition-colors"
-          />
+      <section className="space-y-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          {/* Search */}
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t.searchPlaceholder}
+              className="w-full pl-10 pr-4 py-2.5 bg-[#fceef1] dark:bg-[#1f050b] hover:bg-[#fae2e7] dark:hover:bg-[#28070f] focus:bg-white dark:focus:bg-[#1a0308] text-sm text-gray-900 dark:text-gray-100 placeholder-gray-500 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#890022] transition-colors"
+            />
+          </div>
+
+          {/* Perspective View Switcher: 封面寫真 / 內頁展開 */}
+          <div className="flex items-center gap-1.5 bg-[#fceef1] dark:bg-[#1f050b] p-1 rounded-2xl shrink-0 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => {
+                setPhotoPerspective('COVER');
+                setCardPhotoOverrides({});
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer ${
+                photoPerspective === 'COVER'
+                  ? 'bg-[#890022] text-white font-black'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              {t.photoViewCover}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPhotoPerspective('INNER');
+                setCardPhotoOverrides({});
+              }}
+              className={`px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-colors cursor-pointer ${
+                photoPerspective === 'INNER'
+                  ? 'bg-[#c59b27] text-[#1a0007] font-black'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              {t.photoViewInner}
+            </button>
+          </div>
         </div>
 
         {/* Filters: 全部 / 台籍 / 外援 / 最愛 */}
-        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-start sm:justify-end">
+        <div className="flex flex-wrap items-center gap-2 w-full justify-start sm:justify-end">
           {/* 全部 */}
           <button
             onClick={() => setRoleFilter('ALL')}
@@ -229,6 +273,10 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
           const isJapanese = girl.nationality === 'JP';
           const isTaiwan = !girl.nationality || girl.nationality === 'TW';
           const isPriority = index < 8;
+          const cardMode = cardPhotoOverrides[girl.id] || photoPerspective;
+          const displayPhoto = cardMode === 'INNER'
+            ? (girl.localCalendarInner || girl.calendarInner || girl.localCalendarCover || girl.calendarCover)
+            : (girl.localCalendarCover || girl.calendarCover || girl.localPhoto);
 
           return (
             <div
@@ -240,13 +288,17 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
               {/* Top Photo Component is First Child (消滅 icon-cards 判定，圖片容器置頂) */}
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#f3dbe1] dark:bg-[#27060e] mb-3">
                 <img
-                  src={girl.localCalendarCover || girl.calendarCover || girl.localPhoto}
-                  alt={girl.name}
+                  src={displayPhoto}
+                  alt={`${girl.name} ${cardMode === 'INNER' ? t.photoInnerBadge : t.photoCoverBadge}`}
                   loading={isPriority ? 'eager' : 'lazy'}
                   fetchPriority={isPriority ? 'high' : 'auto'}
                   decoding="async"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
+                    if (cardMode === 'INNER' && girl.calendarInner && target.src !== girl.calendarInner && !target.src.includes('r10s.com')) {
+                      target.src = girl.calendarInner;
+                      return;
+                    }
                     if (girl.calendarCover && target.src !== girl.calendarCover && !target.src.includes('r10s.com')) {
                       target.src = girl.calendarCover;
                       return;
@@ -282,6 +334,13 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                   背號 {girl.number}
                 </div>
 
+                {/* 球團職務標籤 */}
+                {girl.role && (
+                  <div className="absolute top-2.5 left-20 px-2 py-0.5 rounded-full bg-[#c59b27] text-[#1a0007] text-[12px] font-black">
+                    {girl.role}
+                  </div>
+                )}
+
                 {/* 1. 台籍成員標籤 */}
                 {isTaiwan && (
                   <div className="absolute bottom-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#1e40af] text-white text-[13px] font-black tracking-wide">
@@ -303,10 +362,36 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                   </div>
                 )}
 
-                {/* 球團職務標籤 */}
-                {girl.role && (
-                  <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-md bg-[#c59b27] text-[#1a0007] text-[13px] font-black">
-                    {girl.role}
+                {/* Micro Photo Switcher: 封面 / 內頁 */}
+                {girl.localCalendarInner && (
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="absolute bottom-2.5 right-2.5 z-10 flex items-center bg-black/60 rounded-full p-0.5"
+                  >
+                    <button
+                      type="button"
+                      onClick={(e) => toggleCardPhoto(e, girl.id, 'COVER')}
+                      className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+                        cardMode === 'COVER'
+                          ? 'bg-[#890022] text-white font-black'
+                          : 'text-white/70 hover:text-white'
+                      }`}
+                      title={t.viewCoverPhoto}
+                    >
+                      {t.viewCoverPhoto}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => toggleCardPhoto(e, girl.id, 'INNER')}
+                      className={`px-2 py-0.5 rounded-full text-[11px] font-bold transition-colors cursor-pointer ${
+                        cardMode === 'INNER'
+                          ? 'bg-[#c59b27] text-[#1a0007] font-black'
+                          : 'text-white/70 hover:text-white'
+                      }`}
+                      title={t.viewInnerPhoto}
+                    >
+                      {t.viewInnerPhoto}
+                    </button>
                   </div>
                 )}
               </div>

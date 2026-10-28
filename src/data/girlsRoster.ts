@@ -10,6 +10,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_94.webp",
     "calendarCover": "https://tshop.r10s.com/0b8/e5d/40c8/656b/2522/0b6b/53bf/4c7ac28f6ec6136c60837f.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_94.jpg",
+    "calendarInner": "https://tshop.r10s.com/d1a/bcc/2564/dcc0/d7f9/23f4/72ca/442433905d9be360219293.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_94.jpg",
     "instagram": "https://www.instagram.com/linda831212/",
     "instagramHandle": "linda831212",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/re7jx9wr7/"
@@ -23,6 +25,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_465.webp",
     "calendarCover": "https://tshop.r10s.com/1da/e67/142d/c45f/4a27/a669/c041/446ab19259f18abef911e3.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_465.jpg",
+    "calendarInner": "https://tshop.r10s.com/677/d03/03a7/0c0b/ac86/5dcc/6b4d/4b873daee7b9baff5236be.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_465.jpg",
     "instagram": "https://www.instagram.com/chloe_320/",
     "instagramHandle": "chloe_320",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b60tym6fx/"
@@ -36,6 +40,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_253.webp",
     "calendarCover": "https://tshop.r10s.com/458/b1a/6868/2d84/1602/173f/8ce8/423843a57fe43fb849a4a0.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_253.jpg",
+    "calendarInner": "https://tshop.r10s.com/a26/680/e6a9/4a41/8e3c/63d2/1d0b/4137aaa11ac8e3abd50cb5.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_253.jpg",
     "instagram": "https://www.instagram.com/song_.x/",
     "instagramHandle": "song_.x",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/od3sks88c/"
@@ -49,6 +55,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_99.webp",
     "calendarCover": "https://tshop.r10s.com/985/bea/e366/6905/ff69/20e0/2d7f/48e68aac43a236e28faec3.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_99.jpg",
+    "calendarInner": "https://tshop.r10s.com/766/b46/bb71/e36d/0890/930b/06d1/467df3b70124d1a06cac47.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_99.jpg",
     "instagram": "https://www.instagram.com/yuhi_0927/",
     "instagramHandle": "yuhi_0927",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/9uqtzy26z/"
@@ -62,6 +70,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_423.webp",
     "calendarCover": "https://tshop.r10s.com/afc/87c/586e/0bf3/87ac/9ad3/9e28/441bdd9cecb3e9336944f3.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_423.jpg",
+    "calendarInner": "https://tshop.r10s.com/526/e87/55b4/cdb5/1f68/2943/9b09/481938b628cec7c10ebe9c.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_423.jpg",
     "instagram": "https://www.instagram.com/llxyblair/",
     "instagramHandle": "llxyblair",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/f0aolncvj/"
@@ -76,6 +86,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_428.webp",
     "calendarCover": "https://tshop.r10s.com/8b7/457/43a8/3b8c/4088/1451/ad80/4821fcb2a6450aaf9c5f2e.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_428.jpg",
+    "calendarInner": "https://tshop.r10s.com/8e1/082/fa0d/9d1b/7770/aef0/a13d/482afd91bb71f2af5b89b3.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_428.jpg",
     "instagram": "https://www.instagram.com/kaho_jia1_fan1/",
     "instagramHandle": "kaho_jia1_fan1",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/5jtrzb4ak/"
@@ -89,6 +101,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_83.webp",
     "calendarCover": "https://tshop.r10s.com/b50/3b9/3165/b76b/1fad/9f38/de01/42662682f9bde392fff88c.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_83.jpg",
+    "calendarInner": "https://tshop.r10s.com/1c5/ac4/123e/ebe4/dd3f/fb35/ab98/4450a5864f7e63b3494888.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_83.jpg",
     "instagram": "https://www.instagram.com/ninidaniel/",
     "instagramHandle": "ninidaniel",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b9nq9kt23/"
@@ -102,6 +116,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_422.webp",
     "calendarCover": "https://tshop.r10s.com/471/518/227c/425c/3db4/5463/72d0/4ab1f8a75b0d7fab3e9a08.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_422.jpg",
+    "calendarInner": "https://tshop.r10s.com/9bb/108/3a1f/a36c/5a96/608e/ea9c/46753697a67f26a24bd956.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_422.jpg",
     "instagram": "https://www.instagram.com/ninalin1231/",
     "instagramHandle": "ninalin1231",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/gw89f1f3n/"
@@ -115,6 +131,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_91.webp",
     "calendarCover": "https://tshop.r10s.com/c94/975/1e55/f847/f102/a448/b40e/44eb55a6508945eb60128d.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_91.jpg",
+    "calendarInner": "https://tshop.r10s.com/0fd/0f0/eada/e44e/b815/417b/582d/4d57739672932a2f42718b.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_91.jpg",
     "instagram": "https://www.instagram.com/mengj215/",
     "instagramHandle": "mengj215",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/1pwitqe5w/"
@@ -128,6 +146,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_430.webp",
     "calendarCover": "https://tshop.r10s.com/1e1/e42/6e37/b650/a912/49f6/29a1/4ca31cabc02e11c503c7f7.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_430.jpg",
+    "calendarInner": "https://tshop.r10s.com/6e8/e4a/bcbe/1704/e0b3/fffd/3235/4a56f48d7680a2f3821353.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_430.jpg",
     "instagram": "https://www.instagram.com/yuyu__liu/",
     "instagramHandle": "yuyu__liu",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/gsc0q53eo/"
@@ -141,6 +161,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_200.webp",
     "calendarCover": "https://tshop.r10s.com/aed/a86/df62/b4fa/7506/a897/ad01/441cf3bbea7265751aea1a.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_200.jpg",
+    "calendarInner": "https://tshop.r10s.com/953/9e0/2c1e/3cc0/c277/bffc/9cae/4bf3c0a4df369d34356db4.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_200.jpg",
     "instagram": "https://www.instagram.com/michelle02_14/",
     "instagramHandle": "michelle02_14",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/qmlttppdl/"
@@ -154,6 +176,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_339.webp",
     "calendarCover": "https://tshop.r10s.com/118/933/d275/1a16/0d0b/7559/75e0/40d1a69e7530e37e64a3ce.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_339.jpg",
+    "calendarInner": "https://tshop.r10s.com/488/7fa/3b8a/4ef3/cb91/1dc5/79a6/46e7c993fd3499f73a070c.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_339.jpg",
     "instagram": "https://www.instagram.com/iamkira_yt/",
     "instagramHandle": "iamkira_yt",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/346m393ya/"
@@ -167,6 +191,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_385.webp",
     "calendarCover": "https://tshop.r10s.com/c5a/bee/e1f1/63f6/049a/3fe4/18ec/490b2fb604ec7ee0146125.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_385.jpg",
+    "calendarInner": "https://tshop.r10s.com/ea9/93b/872c/4c7d/3d13/ecd8/281b/41648e8757299617f55fdf.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_385.jpg",
     "instagram": "https://www.instagram.com/lyud_fly/",
     "instagramHandle": "lyud_fly",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/j17risri3/"
@@ -182,6 +208,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_435.webp",
     "calendarCover": "https://tshop.r10s.com/f26/731/772f/18aa/dd6f/15f2/3e63/41e0ba8cc12499cf9312f2.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_435.jpg",
+    "calendarInner": "https://tshop.r10s.com/25e/d8c/540e/805f/1b58/c2c3/5fbd/445406b80ae033f2af8fc6.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_435.jpg",
     "instagram": "https://www.instagram.com/hajiwon.22/",
     "instagramHandle": "hajiwon.22",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/b2hkeerep/"
@@ -197,6 +225,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_432.webp",
     "calendarCover": "https://tshop.r10s.com/8a9/77d/8cf2/7897/c7ed/2a96/c311/469d58aff68946f36387e3.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_432.jpg",
+    "calendarInner": "https://tshop.r10s.com/9b1/883/73d9/a496/02ee/7d5f/b219/47528d84795befe9ab1253.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_432.jpg",
     "instagram": "https://www.instagram.com/beena._s2/",
     "instagramHandle": "beena._s2",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/jy8mh40r8/"
@@ -212,6 +242,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_433.webp",
     "calendarCover": "https://tshop.r10s.com/182/9cc/05e7/dddc/148c/0e55/42cb/40b67bb837ed4a78d35743.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_433.jpg",
+    "calendarInner": "https://tshop.r10s.com/280/067/3b4a/6763/bc2c/7975/cbe5/4f233a93ef13300bd4980b.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_433.jpg",
     "instagram": "https://www.instagram.com/s2uhan/",
     "instagramHandle": "s2uhan",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/pbj24r4c9/"
@@ -227,6 +259,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_466.webp",
     "calendarCover": "https://tshop.r10s.com/159/c30/ea9a/f96e/5c90/4c9c/ac57/42e73d8c6cb0f461364709.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_466.jpg",
+    "calendarInner": "https://tshop.r10s.com/43a/a65/3bbd/6fbe/e351/3fbf/7f41/4bc520856eb4481c9f3283.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_466.jpg",
     "instagram": "https://www.instagram.com/0_gwlny/",
     "instagramHandle": "0_gwlny",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/sf533cdrk/"
@@ -240,6 +274,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_84.webp",
     "calendarCover": "https://tshop.r10s.com/ff2/425/c55e/ad49/9693/b988/1c65/4651d29dca1c27c46b36d9.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_84.jpg",
+    "calendarInner": "https://tshop.r10s.com/e52/254/9795/1a3f/7836/a570/1065/444ef6aa3261ed8f7e0e9a.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_84.jpg",
     "instagram": "https://www.instagram.com/tanyalee_0927/",
     "instagramHandle": "tanyalee_0927",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/o728klmg2/"
@@ -253,6 +289,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_464.webp",
     "calendarCover": "https://tshop.r10s.com/5da/4d7/6864/e6c6/1427/dbd4/5800/4870b8a0192f419071d248.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_464.jpg",
+    "calendarInner": "https://tshop.r10s.com/0ff/b91/09ca/391c/fa61/4758/bcfa/4d3e8891f1f2b229455c6f.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_464.jpg",
     "instagram": "https://www.instagram.com/nikkiyzxx/",
     "instagramHandle": "nikkiyzxx",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/xy39ivp5d/"
@@ -268,6 +306,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_467.webp",
     "calendarCover": "https://tshop.r10s.com/a64/2e4/e056/7c17/3819/4145/5b4d/49da019257485cb41b241d.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_467.jpg",
+    "calendarInner": "https://tshop.r10s.com/b69/2c3/a745/c9a5/d090/0a20/c646/446893bbe5d3f87d908913.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_467.jpg",
     "instagram": "https://www.instagram.com/rkouee/",
     "instagramHandle": "rkouee",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/6pqf1mhl6/"
@@ -281,6 +321,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_331.webp",
     "calendarCover": "https://tshop.r10s.com/02f/48f/b886/504b/3205/3ba8/b8e6/4eb07bbd2aed26e625fd86.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_331.jpg",
+    "calendarInner": "https://tshop.r10s.com/d3f/2c7/ff09/2797/bdbf/c8d2/9d3e/42ce3fbc282c0fdfefbe61.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_331.jpg",
     "instagram": "https://www.instagram.com/0707yuhan/",
     "instagramHandle": "0707yuhan",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/3z8jrmdwk/"
@@ -294,6 +336,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_244.webp",
     "calendarCover": "https://tshop.r10s.com/b32/dd6/ae57/286f/0a52/7bb9/1b2f/48fb17af3d6712a144c066.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_244.jpg",
+    "calendarInner": "https://tshop.r10s.com/ad8/28b/3621/666b/8331/b5e1/0278/4325a9a42db9a7c27c0082.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_244.jpg",
     "instagram": "https://www.instagram.com/daiying0/",
     "instagramHandle": "daiying0",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/9w4ryyfje/"
@@ -307,6 +351,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_436.webp",
     "calendarCover": "https://tshop.r10s.com/287/3f7/4a86/0696/7143/ae84/24cd/407fa2b9cd4f668015aa11.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_436.jpg",
+    "calendarInner": "https://tshop.r10s.com/7c2/16e/c13c/97d8/c675/a05d/66b7/440f1c883f6c0d26fc9e81.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_436.jpg",
     "instagram": "https://www.instagram.com/chihchih67.__/",
     "instagramHandle": "chihchih67.__",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/brbv6qrvy/"
@@ -320,6 +366,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_256.webp",
     "calendarCover": "https://tshop.r10s.com/db2/008/0ae5/6a40/7f4c/9cc1/a37b/4f750d85b69d98c859e687.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_256.jpg",
+    "calendarInner": "https://tshop.r10s.com/663/99b/b662/856d/8187/6753/9c71/4562efa970eb123146c150.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_256.jpg",
     "instagram": "https://www.instagram.com/chuyi_77/",
     "instagramHandle": "chuyi_77",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/41vw6cwl2/"
@@ -333,6 +381,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_431.webp",
     "calendarCover": "https://tshop.r10s.com/83c/3b6/6078/2b57/706e/aec3/af66/467685bd83728692779f7c.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_431.jpg",
+    "calendarInner": "https://tshop.r10s.com/bf9/f79/014e/b7b5/f485/54de/c6ec/4bfc018f1998c5ecb695d0.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_431.jpg",
     "instagram": "https://www.instagram.com/ujou.chi/",
     "instagramHandle": "ujou.chi",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/yzpb970qs/"
@@ -346,6 +396,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_425.webp",
     "calendarCover": "https://tshop.r10s.com/f22/b77/ece2/9ed2/8868/383c/5a24/4cc41db7041959f30fcb26.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_425.jpg",
+    "calendarInner": "https://tshop.r10s.com/983/272/8eff/d34f/eda3/5673/8763/4e2429a8079be8d54e59fa.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_425.jpg",
     "instagram": "https://www.instagram.com/kaii_0421/",
     "instagramHandle": "kaii_0421",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/qx4psk85y/"
@@ -359,6 +411,8 @@ export const OFFICIAL_GIRLS: GirlProfile[] = [
     "localPhoto": "./photos/girl_335.webp",
     "calendarCover": "https://tshop.r10s.com/427/7c7/d84b/3bfa/465b/fad8/2e63/440f3fb2f59bef6c63ef92.jpg?_ex=600x600",
     "localCalendarCover": "./photos/calendar_335.jpg",
+    "calendarInner": "https://tshop.r10s.com/bf2/f28/98d0/e3be/38e2/1a05/7ce0/4e5338ad370de7b2162f30.jpg?_ex=600x600",
+    "localCalendarInner": "./photos/calendar_inner_335.jpg",
     "instagram": "https://www.instagram.com/weni_1107/",
     "instagramHandle": "weni_1107",
     "calendarUrl": "https://www.rakuten.com.tw/shop/monkeyshop/product/d3iczb1pl/"
