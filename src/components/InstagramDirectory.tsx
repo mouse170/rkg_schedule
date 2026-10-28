@@ -274,9 +274,13 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
           const isTaiwan = !girl.nationality || girl.nationality === 'TW';
           const isPriority = index < 8;
           const cardMode = cardPhotoOverrides[girl.id] || photoPerspective;
-          const displayPhoto = cardMode === 'INNER'
+          const isInnerMode = cardMode === 'INNER';
+          const basePhoto = isInnerMode
             ? (girl.localCalendarInner || girl.calendarInner || girl.localCalendarCover || girl.calendarCover)
             : (girl.localCalendarCover || girl.calendarCover || girl.localPhoto);
+          const hoverPhoto = isInnerMode
+            ? (girl.localCalendarCover || girl.calendarCover || girl.localPhoto)
+            : (girl.localCalendarInner || girl.calendarInner);
 
           return (
             <div
@@ -287,15 +291,16 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
             >
               {/* Top Photo Component is First Child (消滅 icon-cards 判定，圖片容器置頂) */}
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#f3dbe1] dark:bg-[#27060e] mb-3">
+                {/* 1. Base / Primary Photo */}
                 <img
-                  src={displayPhoto}
-                  alt={`${girl.name} ${cardMode === 'INNER' ? t.photoInnerBadge : t.photoCoverBadge}`}
+                  src={basePhoto}
+                  alt={`${girl.name} ${isInnerMode ? t.photoInnerBadge : t.photoCoverBadge}`}
                   loading={isPriority ? 'eager' : 'lazy'}
                   fetchPriority={isPriority ? 'high' : 'auto'}
                   decoding="async"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (cardMode === 'INNER' && girl.calendarInner && target.src !== girl.calendarInner && !target.src.includes('r10s.com')) {
+                    if (isInnerMode && girl.calendarInner && target.src !== girl.calendarInner && !target.src.includes('r10s.com')) {
                       target.src = girl.calendarInner;
                       return;
                     }
@@ -311,8 +316,37 @@ export const InstagramDirectory: React.FC<InstagramDirectoryProps> = ({
                       target.src = girl.photo;
                     }
                   }}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  className={`w-full h-full ${
+                    isInnerMode ? 'object-contain p-1.5' : 'object-cover object-top'
+                  } transition-opacity duration-300 ${
+                    hoverPhoto ? 'group-hover:opacity-0' : ''
+                  }`}
                 />
+
+                {/* 2. Hover Photo (滑鼠移動到的成員顯示新的圖片，以 object-contain 確保完整呈現零裁切) */}
+                {hoverPhoto && (
+                  <img
+                    src={hoverPhoto}
+                    alt={`${girl.name} ${!isInnerMode ? t.photoInnerBadge : t.photoCoverBadge}`}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (!isInnerMode && girl.calendarInner && target.src !== girl.calendarInner && !target.src.includes('r10s.com')) {
+                        target.src = girl.calendarInner;
+                        return;
+                      }
+                      if (girl.calendarCover && target.src !== girl.calendarCover && !target.src.includes('r10s.com')) {
+                        target.src = girl.calendarCover;
+                        return;
+                      }
+                      target.src = girl.localPhoto || girl.photo;
+                    }}
+                    className={`absolute inset-0 w-full h-full ${
+                      !isInnerMode ? 'object-contain p-1.5' : 'object-cover object-top'
+                    } opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`}
+                  />
+                )}
 
                 {/* Favorite Heart Button (位於相片右上角) */}
                 <button

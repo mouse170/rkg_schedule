@@ -212,8 +212,8 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                 </div>
               </div>
 
-              {/* Main Photo Showcase Container */}
-              <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-[#fceef1] dark:bg-[#1f050b]">
+              {/* Main Photo Showcase Container (以 aspect-[3/4] 與 object-contain 確保桌曆封面與內頁明信片零裁切) */}
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full rounded-2xl overflow-hidden bg-[#fceef1] dark:bg-[#1f050b] flex items-center justify-center p-2">
                 <img
                   src={
                     photoTab === 'INNER'
@@ -221,7 +221,7 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       : (girl.localCalendarCover || girl.calendarCover || girl.localPhoto)
                   }
                   alt={`${girl.name} ${photoTab === 'INNER' ? t.photoInnerBadge : t.photoCoverBadge}`}
-                  className="w-full h-full object-cover object-top transition-opacity duration-300"
+                  className="w-full h-full object-contain transition-opacity duration-300"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     if (photoTab === 'INNER' && girl.calendarInner && target.src !== girl.calendarInner && !target.src.includes('r10s.com')) {
@@ -281,11 +281,11 @@ export const GirlDetailDrawer: React.FC<GirlDetailDrawerProps> = ({
                       : 'bg-[#fdf4f6] dark:bg-[#1c040a] text-gray-700 dark:text-gray-300 hover:bg-[#fae2e7] dark:hover:bg-[#28070f]'
                   }`}
                 >
-                  <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[#fceef1]">
+                  <div className="w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-[#fceef1] flex items-center justify-center p-0.5">
                     <img
                       src={girl.localCalendarInner || girl.calendarInner || girl.localCalendarCover}
                       alt={girl.name}
-                      className="w-full h-full object-cover object-top"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                   <div className="min-w-0">
