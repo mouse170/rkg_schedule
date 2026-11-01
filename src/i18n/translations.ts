@@ -73,21 +73,6 @@ export interface Translations {
   copiedKoreanName: string;
   copyJapaneseName: string;
   copiedJapaneseName: string;
-  deskCalendarPreorder: string;
-  allDeskCalendars: string;
-  deskCalendarNotice: string;
-  photoViewCover: string;
-  photoViewInner: string;
-  calendarGalleryTitle: string;
-  calendarSpecTitle: string;
-  calendarSpecSize: string;
-  calendarSpecPages: string;
-  calendarSpecPrice: string;
-  calendarSpecShipping: string;
-  photoCoverBadge: string;
-  photoInnerBadge: string;
-  viewCoverPhoto: string;
-  viewInnerPhoto: string;
 
   // FilterBar & Areas
   areaAll: string;
@@ -370,9 +355,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     songCloseBanner: '暫時收合',
     songWatchMv: '觀賞完整 MV',
 
-    igBannerTitle: '2027 Rakuten Girls 寫真桌曆預購特輯',
-    igBannerBadge: '2027 全新桌曆熱烈預購中',
-    igBannerDesc: '2027 年樂天女孩個人專屬桌曆火熱登場！全系列 27 位女孩專屬寫真封面全面亮相，每一頁都收錄滿滿應援元氣與甜美笑容。現在就點擊「買桌曆」搶先預購，整年都有心儀女孩陪伴身邊，一起為新球季熱情應援！',
+    igBannerTitle: 'Rakuten Girls 官方 Instagram 目錄',
+    igBannerBadge: '官方社群名錄 • 隨時追蹤女孩動態',
+    igBannerDesc: '收錄樂天女孩的Instagram 帳號，點擊可直接前往個人頁面或一鍵複製帳號標記限時動態。',
     followTeamIg: '追蹤球團官方 IG',
     searchPlaceholder: '搜尋姓名、背號或 IG 帳號...',
     filterAll: '全部',
@@ -392,21 +377,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: '已複製',
     copyJapaneseName: '日文名',
     copiedJapaneseName: '已複製',
-    deskCalendarPreorder: '買桌曆',
-    allDeskCalendars: '立即預購 2027 全體桌曆',
-    deskCalendarNotice: '2027 RKG 個人專屬桌曆熱烈預購中，立即選購心儀女孩桌曆！',
-    photoViewCover: '封面寫真',
-    photoViewInner: '內頁展開',
-    calendarGalleryTitle: '2027 桌曆雙面寫真鑑賞',
-    calendarSpecTitle: '桌曆規格與預購資訊',
-    calendarSpecSize: '總尺寸 W 24 × H 19 cm',
-    calendarSpecPages: '左側月曆（16.5 × 12 cm）＋ 右側明信片（7.5 × 12 cm）',
-    calendarSpecPrice: '官方預購價 NT$ 699',
-    calendarSpecShipping: '12/15 起依訂單序陸續出貨',
-    photoCoverBadge: '桌曆封面',
-    photoInnerBadge: '月曆與明信片',
-    viewCoverPhoto: '封面',
-    viewInnerPhoto: '內頁',
 
     areaAll: '全部女孩',
     areaEast: '一壘東區',
@@ -618,10 +588,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offSeasonBadge: '2026 休賽季',
     offSeasonStatus: '休賽季轉會期',
     offSeasonStatusDesc: '賽事班表暫停更新，靜待官方公布新球季陣容',
-    offSeasonBannerBadge: '2027 全新桌曆熱烈預購中',
-    offSeasonBannerTitle: '2027 Rakuten Girls 寫真桌曆預購特輯',
-    offSeasonBannerDesc: '2027 年樂天女孩個人專屬桌曆火熱登場！全系列 27 位女孩專屬寫真封面全面亮相，每一頁都收錄滿滿應援元氣與甜美笑容。現在就點擊「買桌曆」搶先預購，整年都有心儀女孩陪伴身邊，一起為新球季熱情應援！',
-    offSeasonDrawerNotice: '休賽季期間暫無賽事排班，敬請選購 2027 年女孩專屬桌曆支持女孩，並靜待轉會期後官方公布新球季陣容。',
+    offSeasonBannerBadge: '休賽季轉會期',
+    offSeasonBannerTitle: 'Rakuten Girls 樂天女孩成員目錄',
+    offSeasonBannerDesc: '球季結束進入休賽季轉會期，保留完整成員名冊與官方 Instagram 連結；敬請靜待官方公布新球季成員陣容。',
+    offSeasonDrawerNotice: '休賽季期間暫無賽事排班，敬請靜待轉會期後官方公布新球季陣容。',
 
     noScheduleTitle: '當期班表更新中',
     noScheduleDesc: '目前 Google 試算表尚無今日或近期已排定之應援賽事。最新排班請以官方試算表為主。',
@@ -676,9 +646,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     songCloseBanner: '閉じる',
     songWatchMv: 'MV を視聴する',
 
-    igBannerTitle: '2027 Rakuten Girls デスクカレンダー特集',
-    igBannerBadge: '2027 カレンダー好評予約受付中',
-    igBannerDesc: '2027 年楽天ガールズ個人デスクカレンダーの予約受付がスタート！全 27 名の撮り下ろし表紙を大公開。お気に入りのガールズの限定カレンダーを手に入れて、2027 年も一緒に熱く応援しましょう！',
+    igBannerTitle: 'Rakuten Girls 公式 Instagram 名鑑',
+    igBannerBadge: '公式SNS名鑑 • メンバーの最新動向をチェック',
+    igBannerDesc: '楽天ガールズのInstagramアカウントを掲載。タップで個人ページへ直接アクセス、またはアカウントIDを1タップでコピーしてストーリーにタグ付けできます。',
     followTeamIg: '球団公式 IG をフォロー',
     searchPlaceholder: '名前、背番号、または IG アカウントで検索...',
     filterAll: 'すべて',
@@ -698,21 +668,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: 'コピー済',
     copyJapaneseName: '日本名',
     copiedJapaneseName: 'コピー済',
-    deskCalendarPreorder: '買桌曆',
-    allDeskCalendars: '2027 全員カレンダーを今すぐ予約',
-    deskCalendarNotice: '2027 RKG 個人卓上カレンダー好評予約受付中！',
-    photoViewCover: '表紙写真',
-    photoViewInner: '中面プレビュー',
-    calendarGalleryTitle: '2027 カレンダー写真ギャラリー',
-    calendarSpecTitle: 'カレンダー仕様・予約情報',
-    calendarSpecSize: 'サイズ W 24 × H 19 cm',
-    calendarSpecPages: '左側カレンダー（16.5 × 12 cm）＋ 右側ポストカード（7.5 × 12 cm）',
-    calendarSpecPrice: '公式予約価格 NT$ 699',
-    calendarSpecShipping: '12/15 より順次発送開始',
-    photoCoverBadge: '表紙',
-    photoInnerBadge: '月暦＆ポストカード',
-    viewCoverPhoto: '表紙',
-    viewInnerPhoto: '中面',
 
     areaAll: '全メンバー',
     areaEast: '1塁側 東エリア',
@@ -924,10 +879,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offSeasonBadge: '2026 オフシーズン',
     offSeasonStatus: '移籍期間中',
     offSeasonStatusDesc: '試合日程は一時停止中です。新シーズンのメンバー発表をお待ちください',
-    offSeasonBannerBadge: '2027 カレンダー好評予約受付中',
-    offSeasonBannerTitle: '2027 Rakuten Girls デスクカレンダー特集',
-    offSeasonBannerDesc: '2027 年楽天ガールズ個人デスクカレンダーの予約受付がスタート！全 27 名の撮り下ろし表紙を大公開。お気に入りのガールズの限定カレンダーを手に入れて、2027 年も一緒に熱く応援しましょう！',
-    offSeasonDrawerNotice: 'オフシーズンのため応援スケジュールはありません。2027 年限定デスクカレンダーでガールズを応援しましょう！',
+    offSeasonBannerBadge: 'オフシーズン移籍期間',
+    offSeasonBannerTitle: 'Rakuten Girls メンバー名鑑',
+    offSeasonBannerDesc: 'シーズン終了に伴いオフシーズンへ移行しました。メンバー名鑑と公式Instagramを掲載中、新シーズン体制の発表をお待ちください。',
+    offSeasonDrawerNotice: 'オフシーズンのため応援スケジュールはありません。新体制の発表をお待ちください。',
 
     noScheduleTitle: '最新スケジュール更新中',
     noScheduleDesc: '現在、Google スプレッドシートには本日以降の予定が登録されていません。最新の出演情報は公式スプレッドシートをご確認ください。',
@@ -982,9 +937,9 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     songCloseBanner: '닫기',
     songWatchMv: 'MV 감상하기',
 
-    igBannerTitle: '2027 Rakuten Girls 탁상달력 특별전',
-    igBannerBadge: '2027 캘린더 절찬 예약 판매 중',
-    igBannerDesc: '2027 년 라쿠텐 걸스 개인 탁상달력 예약 판매가 시작되었습니다! 27 명 전원의 스페셜 화보 커버를 지금 확인하세요. 좋아하는 치어리더의 한정판 달력을 구매하고 2027 년 한 해를 활기차게 함께 응원해 보세요!',
+    igBannerTitle: 'Rakuten Girls 공식 Instagram 디렉토리',
+    igBannerBadge: '공식 SNS 명단 • 멤버들의 최신 소식을 확인하세요',
+    igBannerDesc: '라쿠텐 걸스의 인스타그램 계정을 제공합니다. 탭하여 개인 페이지로 이동하거나 원클릭으로 계정 ID를 복사하여 스토리에 태그할 수 있습니다.',
     followTeamIg: '구단 공식 IG 팔로우',
     searchPlaceholder: '이름, 등번호 또는 IG 계정 검색...',
     filterAll: '전체',
@@ -1004,21 +959,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     copiedKoreanName: '복사됨',
     copyJapaneseName: '일본 이름',
     copiedJapaneseName: '복사됨',
-    deskCalendarPreorder: '買桌曆',
-    allDeskCalendars: '2027 전체 탁상달력 지금 구매하기',
-    deskCalendarNotice: '2027 RKG 개인 탁상달력 절찬 예약 판매 진행 중!',
-    photoViewCover: '커버 화보',
-    photoViewInner: '내지 펼침면',
-    calendarGalleryTitle: '2027 탁상달력 화보 갤러리',
-    calendarSpecTitle: '달력 규격 및 예약 정보',
-    calendarSpecSize: '전체 크기 W 24 × H 19 cm',
-    calendarSpecPages: '좌측 달력 (16.5 × 12 cm) ＋ 우측 엽서 (7.5 × 12 cm)',
-    calendarSpecPrice: '공식 예약가 NT$ 699',
-    calendarSpecShipping: '12/15 부터 순차 배송 예정',
-    photoCoverBadge: '커버',
-    photoInnerBadge: '달력 & 엽서',
-    viewCoverPhoto: '커버',
-    viewInnerPhoto: '내지',
 
     areaAll: '전체 멤버',
     areaEast: '1루 동구역',
@@ -1230,10 +1170,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     offSeasonBadge: '2026 비시즌',
     offSeasonStatus: '비시즌 이적 시장',
     offSeasonStatusDesc: '경기 일정 업데이트 일시 중단, 새 시즌 라인업 발표를 기다려주세요',
-    offSeasonBannerBadge: '2027 캘린더 절찬 예약 판매 중',
-    offSeasonBannerTitle: '2027 Rakuten Girls 탁상달력 특별전',
-    offSeasonBannerDesc: '2027 년 라쿠텐 걸스 개인 탁상달력 예약 판매가 시작되었습니다! 27 명 전원의 스페셜 화보 커버를 지금 확인하세요. 좋아하는 치어리더의 한정판 달력을 구매하고 2027 년 한 해를 활기차게 함께 응원해 보세요!',
-    offSeasonDrawerNotice: '비시즌 기간으로 경기 응원 일정이 없습니다. 2027 년 한정 탁상달력으로 치어리더를 응원해 보세요!',
+    offSeasonBannerBadge: '비시즌 이적 시장',
+    offSeasonBannerTitle: 'Rakuten Girls 멤버 디렉토리',
+    offSeasonBannerDesc: '시즌 종료로 비시즌에 돌입했습니다. 멤버 명단과 공식 Instagram을 유지하며, 새 시즌 라인업 발표를 기다려주세요.',
+    offSeasonDrawerNotice: '비시즌 기간으로 경기 응원 일정이 없습니다. 새 시즌 라인업 발표를 기다려주세요.',
 
     noScheduleTitle: '일정표 업데이트 중',
     noScheduleDesc: '현재 Google 스프레드시트에 오늘 이후 예정된 응원 일정이 없습니다. 최신 일정은 공식 스프레드시트를 확인해 주세요.',
